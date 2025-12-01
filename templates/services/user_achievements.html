@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Minhas Conquistas - Job Finder{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'profile' %}">Meu Perfil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Conquistas</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1><i class="fas fa-trophy"></i> Minhas Conquistas</h1>
+            <p class="lead">Veja suas conquistas e progrida para desbloquear novas recompensas</p>
+        </div>
+    </div>
+    
+    <!-- Total Points -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h2 class="display-4 mb-0">{{ total_points }}</h2>
+                    <p class="mb-0">Pontos Totais</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Achievements -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3><i class="fas fa-medal"></i> Conquistas Desbloqueadas</h3>
+        </div>
+        
+        {% if user_achievements %}
+            {% for user_achievement in user_achievements %}
+                {% if user_achievement.is_earned %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 achievement-card earned">
+                        <div class="card-body text-center">
+                            <div class="achievement-icon mb-3">
+                                <i class="{{ user_achievement.achievement.icon }} fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">{{ user_achievement.achievement.name }}</h5>
+                            <p class="card-text">{{ user_achievement.achievement.description }}</p>
+                            <div class="badge bg-success">
+                                <i class="fas fa-check"></i> Desbloqueada
+                            </div>
+                            <div class="mt-2">
+                                <span class="badge bg-primary">
+                                    {{ user_achievement.achievement.points }} pontos
+                                </span>
+                            </div>
+                            <div class="text-muted small mt-2">
+                                Conquistada em {{ user_achievement.earned_at|date:"d/m/Y" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Você ainda não desbloqueou nenhuma conquista.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Progress Toward Next Achievements -->
+    {% if next_achievements %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3><i class="fas fa-chart-line"></i> Próximas Conquistas</h3>
+        </div>
+        
+        {% for next_achievement in next_achievements %}
+            {% if not next_achievement.is_earned %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 achievement-card">
+                    <div class="card-body text-center">
+                        <div class="achievement-icon mb-3">
+                            <i class="{{ next_achievement.achievement.icon }} fa-3x text-muted"></i>
+                        </div>
+                        <h5 class="card-title">{{ next_achievement.achievement.name }}</h5>
+                        <p class="card-text">{{ next_achievement.achievement.description }}</p>
+                        <div class="progress mt-3">
+                            <div class="progress-bar" role="progressbar" 
+                                style="width: {{ next_achievement.percentage_complete }}%" 
+                                aria-valuenow="{{ next_achievement.percentage_complete }}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                {{ next_achievement.percentage_complete }}%
+                            </div>
+                        </div>
+                        <div class="mt-2 small">
+                            Progresso: {{ next_achievement.progress }} / {{ next_achievement.target }}
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge bg-primary">
+                                {{ next_achievement.achievement.points }} pontos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Achievement Categories -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3><i class="fas fa-tags"></i> Categorias de Conquistas</h3>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-toolbox fa-2x text-primary mb-2"></i>
+                    <h5>Serviços</h5>
+                    <p class="text-muted">Conquistas relacionadas a serviços</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-users fa-2x text-success mb-2"></i>
+                    <h5>Comunidade</h5>
+                    <p class="text-muted">Conquistas relacionadas à comunidade</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-heart fa-2x text-danger mb-2"></i>
+                    <h5>Engajamento</h5>
+                    <p class="text-muted">Conquistas de engajamento</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-flag-checkered fa-2x text-warning mb-2"></i>
+                    <h5>Marcos</h5>
+                    <p class="text-muted">Conquistas de marcos importantes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.achievement-card.earned {
+    border: 2px solid #ffc107;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+}
+
+.achievement-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+</style>
+{% endblock %}

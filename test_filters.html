@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Teste de Filtros</title>
+    <script>
+        // Simular o script dos filtros
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Filter system initializing...');
+
+            let debounceTimeout = null;
+
+            // Function to apply filters
+            function applyFilters() {
+                console.log('Applying filters...');
+
+                // Get filter values
+                const searchInput = document.getElementById('search-filter');
+                const categoryRadio = document.querySelector('input[name="category"]:checked');
+
+                const searchValue = searchInput ? searchInput.value : '';
+                const categoryValue = categoryRadio ? categoryRadio.value : '';
+
+                console.log('Search:', searchValue);
+                console.log('Category:', categoryValue);
+
+                // Build URL parameters
+                const params = new URLSearchParams();
+
+                if (searchValue.trim()) params.append('search', searchValue.trim());
+                if (categoryValue) params.append('category', categoryValue);
+
+                // Simulate redirect
+                console.log('Would redirect to:', window.location.pathname + '?' + params.toString());
+            }
+
+            // Debounce function
+            function debounceApply(delay = 500) {
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(applyFilters, delay);
+            }
+
+            // Add event listeners
+            const searchInput = document.getElementById('search-filter');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    console.log('Search input changed');
+                    debounceApply(500);
+                });
+            }
+
+            const radioInputs = document.querySelectorAll('input[type="radio"]');
+            radioInputs.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    console.log('Radio changed:', radio.name, radio.value);
+                    applyFilters();
+                });
+            });
+
+            console.log('Filter system initialized successfully');
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Teste de Filtros</h1>
+
+    <input type="text" id="search-filter" placeholder="Buscar...">
+
+    <div>
+        <input type="radio" name="category" value="" id="all" checked>
+        <label for="all">Todas</label>
+
+        <input type="radio" name="category" value="repair" id="repair">
+        <label for="repair">Reparo</label>
+
+        <input type="radio" name="category" value="cleaning" id="cleaning">
+        <label for="cleaning">Limpeza</label>
+    </div>
+
+    <p>Abra o console do navegador para ver os logs.</p>
+</body>
+
+</html>

@@ -1,0 +1,855 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalhes da Solicitação - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --card-hover-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--card-shadow);
+        animation: slideDown 0.6s ease-out;
+    }
+
+    .page-header h2 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .btn-back {
+        background: white;
+        border: 2px solid #667eea;
+        color: #667eea;
+        border-radius: 50px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    }
+
+    .btn-back:hover {
+        background: var(--primary-gradient);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .status-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+        animation: fadeInUp 0.6s ease-out 0.1s both;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .status-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--primary-gradient);
+    }
+
+    .status-badge-large {
+        display: inline-block;
+        padding: 1rem 3rem;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: pulse 2s ease-in-out infinite;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .status-badge-large.status-pending {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .status-badge-large.status-contacted {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .status-badge-large.status-scheduled {
+        background: var(--info-gradient);
+        color: white;
+    }
+
+    .status-badge-large.status-completed {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .status-badge-large.status-cancelled {
+        background: linear-gradient(135deg, #868f96 0%, #596164 100%);
+        color: white;
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        height: 100%;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.6s ease-out both;
+        border-top: 4px solid transparent;
+    }
+
+    .info-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .info-card.card-primary {
+        border-top-color: #667eea;
+    }
+
+    .info-card.card-primary:hover {
+        border-top-color: #764ba2;
+    }
+
+    .info-card.card-info {
+        border-top-color: #4facfe;
+    }
+
+    .info-card.card-info:hover {
+        border-top-color: #00f2fe;
+    }
+
+    .info-card.card-success {
+        border-top-color: #11998e;
+    }
+
+    .info-card.card-success:hover {
+        border-top-color: #38ef7d;
+    }
+
+    .info-card.card-warning {
+        border-top-color: #f093fb;
+    }
+
+    .info-card.card-warning:hover {
+        border-top-color: #f5576c;
+    }
+
+    .info-card.card-secondary {
+        border-top-color: #868f96;
+    }
+
+    .info-card.card-dark {
+        border-top-color: #2c3e50;
+    }
+
+    .card-header-custom {
+        background: transparent;
+        border: none;
+        padding: 0 0 1.5rem 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .card-header-custom h5 {
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .card-header-custom i {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 1.2rem;
+    }
+
+    .card-primary .card-header-custom i {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .card-info .card-header-custom i {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .card-success .card-header-custom i {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+    }
+
+    .card-warning .card-header-custom i {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .card-secondary .card-header-custom i {
+        background: linear-gradient(135deg, #868f96 0%, #596164 100%);
+        color: white;
+    }
+
+    .card-dark .card-header-custom i {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+    }
+
+    .info-item {
+        margin-bottom: 1.5rem;
+        padding-left: 1rem;
+        border-left: 3px solid #e0e0e0;
+        transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+        border-left-color: #667eea;
+        padding-left: 1.5rem;
+    }
+
+    .info-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .info-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #999;
+        margin-bottom: 0.3rem;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+
+    .info-value a {
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .info-value a:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+
+    .timeline-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.5s both;
+    }
+
+    .timeline {
+        position: relative;
+        padding-left: 50px;
+        margin-top: 2rem;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2.5rem;
+        animation: slideInLeft 0.6s ease-out both;
+    }
+
+    .timeline-item:nth-child(1) {
+        animation-delay: 0.6s;
+    }
+
+    .timeline-item:nth-child(2) {
+        animation-delay: 0.7s;
+    }
+
+    .timeline-item:nth-child(3) {
+        animation-delay: 0.8s;
+    }
+
+    .timeline-item:nth-child(4) {
+        animation-delay: 0.9s;
+    }
+
+    .timeline-item:nth-child(5) {
+        animation-delay: 1s;
+    }
+
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: -34px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-marker {
+        transform: scale(1.3);
+        box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.3), 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-content {
+        background: #e8eaf6;
+        transform: translateX(5px);
+    }
+
+    .timeline-content p {
+        margin: 0;
+    }
+
+    .timeline-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-date {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .alert-custom {
+        border: none;
+        border-radius: 15px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .alert-custom i {
+        font-size: 2rem;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .col-lg-6:nth-child(1) .info-card {
+        animation-delay: 0.1s;
+    }
+
+    .col-lg-6:nth-child(2) .info-card {
+        animation-delay: 0.2s;
+    }
+
+    .col-lg-6:nth-child(3) .info-card {
+        animation-delay: 0.3s;
+    }
+
+    .col-lg-6:nth-child(4) .info-card {
+        animation-delay: 0.4s;
+    }
+
+    .col-lg-6:nth-child(5) .info-card {
+        animation-delay: 0.5s;
+    }
+
+    .col-lg-6:nth-child(6) .info-card {
+        animation-delay: 0.6s;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+        }
+
+        .page-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .status-badge-large {
+            font-size: 1rem;
+            padding: 0.8rem 2rem;
+        }
+
+        .info-card {
+            margin-bottom: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <h2>
+                        <i class="fas fa-file-alt me-2"></i>
+                        Detalhes da Solicitação
+                    </h2>
+                    <a href="{% url 'meus_pedidos' %}" class="btn-back">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Voltar para Meus Pedidos
+                    </a>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <h4 class="mb-4" style="color: #666; font-weight: 600;">Status Atual</h4>
+                <span class="status-badge-large 
+                        {% if request_obj.status == 'pending' %}status-pending
+                        {% elif request_obj.status == 'contacted' %}status-contacted
+                        {% elif request_obj.status == 'scheduled' %}status-scheduled
+                        {% elif request_obj.status == 'completed' %}status-completed
+                        {% elif request_obj.status == 'cancelled' %}status-cancelled
+                        {% else %}status-contacted{% endif %}">
+                    <i class="fas fa-circle-notch me-2"></i>
+                    {{ request_obj.get_status_display }}
+                </span>
+                <div class="mt-4">
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-calendar-plus me-2"></i>
+                        <strong>Solicitado em:</strong> {{ request_obj.created_at|date:"d/m/Y" }} às {{ request_obj.created_at|time:"H:i" }}
+                    </p>
+                    {% if request_obj.updated_at != request_obj.created_at %}
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-sync-alt me-2"></i>
+                        <strong>Última atualização:</strong> {{ request_obj.updated_at|date:"d/m/Y" }} às {{ request_obj.updated_at|time:"H:i" }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-primary">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-briefcase"></i> Informações do Serviço</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="info-item">
+                                <div class="info-label">Serviço</div>
+                                <p class="info-value">{{ request_obj.service_name }}</p>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Descrição</div>
+                                <p class="info-value">{{ request_obj.service_description }}</p>
+                            </div>
+
+                            {% if request_obj.estimated_price > 0 %}
+                            <div class="info-item">
+                                <div class="info-label">Preço Estimado</div>
+                                <p class="info-value" style="color: #11998e;">R$ {{ request_obj.estimated_price|floatformat:2 }}</p>
+                            </div>
+                            {% endif %}
+                            {% if request_obj.notes %}
+                            <div class="info-item">
+                                <div class="info-label">Observações</div>
+                                <p class="info-value">{{ request_obj.notes }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-info">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-user-tie"></i> Prestador de Serviço</h5>
+                        </div>
+
+                        <div class="card-body p-0">
+                            {% if request_obj.provider %}
+                            <div class="info-item">
+                                <div class="info-label">Nome</div>
+                                <p class="info-value">
+                                    {% if request_obj.provider.first_name %}
+                                    {{ request_obj.provider.first_name }} {{ request_obj.provider.last_name }}
+                                    {% else %}
+                                    {{ request_obj.provider.username }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            {% if request_obj.provider.email %}
+                            <div class="info-item">
+                                <div class="info-label">E-mail</div>
+                                <p class="info-value">
+                                    <a href="mailto:{{ request_obj.provider.email }}">{{ request_obj.provider.email }}</a>
+                                </p>
+                            </div>
+                            {% endif %}
+                            {% if request_obj.provider.profile.phone %}
+                            <div class="info-item">
+                                <div class="info-label">Telefone</div>
+                                <p class="info-value">
+                                    <a href="tel:{{ request_obj.provider.profile.phone }}">{{ request_obj.provider.profile.phone }}</a>
+                                </p>
+                            </div>
+                            {% endif %}
+                            {% else %}
+                            <div class="alert-custom alert-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <strong>Prestador não atribuído</strong>
+                                    <p class="mb-0">Aguarde o contato em breve.</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-success">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-address-book"></i> Seus Dados de Contato</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="info-item">
+                                <div class="info-label">Nome</div>
+                                <p class="info-value">{{ request_obj.contact_name }}</p>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Telefone</div>
+                                <p class="info-value">
+                                    <a href="tel:{{ request_obj.contact_phone }}">{{ request_obj.contact_phone }}</a>
+                                </p>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-label">E-mail</div>
+                                <p class="info-value">
+                                    <a href="mailto:{{ request_obj.contact_email }}">{{ request_obj.contact_email }}</a>
+                                </p>
+                            </div>
+                            {% if request_obj.contact_cpf %}
+                            <div class="info-item">
+                                <div class="info-label">CPF</div>
+                                <p class="info-value">{{ request_obj.contact_cpf }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-warning">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-map-marker-alt"></i> Endereço do Serviço</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            {% if request_obj.address_cep %}
+                            <div class="info-item">
+                                <div class="info-label">CEP</div>
+                                <p class="info-value">{{ request_obj.address_cep }}</p>
+                            </div>
+                            {% endif %}
+                            <div class="info-item">
+                                <div class="info-label">Endereço</div>
+                                <p class="info-value">
+                                    {{ request_obj.address_street }}{% if request_obj.address_number %}, {{ request_obj.address_number }}{% endif %}
+                                </p>
+                            </div>
+                            {% if request_obj.address_complement %}
+                            <div class="info-item">
+                                <div class="info-label">Complemento</div>
+                                <p class="info-value">{{ request_obj.address_complement }}</p>
+                            </div>
+                            {% endif %}
+                            <div class="info-item">
+                                <div class="info-label">Bairro</div>
+                                <p class="info-value">{{ request_obj.address_neighborhood }}</p>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cidade/Estado</div>
+                                <p class="info-value">{{ request_obj.address_city }}/{{ request_obj.address_state }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ""
+
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-secondary">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-calendar-alt"></i> Agendamento</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            {% if request_obj.preferred_date %}
+                            <div class="info-item">
+                                <div class="info-label">Data Preferencial</div>
+                                <p class="info-value">{{ request_obj.preferred_date|date:"d/m/Y" }}</p>
+                            </div>
+                            {% endif %}
+                            {% if request_obj.preferred_time %}
+                            <div class="info-item">
+                                <div class="info-label">Horário Preferencial</div>
+                                <p class="info-value">{{ request_obj.preferred_time|time:"H:i" }}</p>
+                            </div>
+                            {% elif request_obj.preferred_period %}
+                            <div class="info-item">
+                                <div class="info-label">Período Preferencial</div>
+                                <p class="info-value">{{ request_obj.get_preferred_period_display }}</p>
+                            </div>
+                            {% endif %}
+                            {% if request_obj.schedule_notes %}
+                            <div class="info-item">
+                                <div class="info-label">Observações</div>
+                                <p class="info-value">{{ request_obj.schedule_notes }}</p>
+                            </div>
+                            {% endif %}
+                            {% if not request_obj.preferred_date and not request_obj.preferred_time and not request_obj.preferred_period %}
+                            <div class="alert-custom alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <p class="mb-0">Nenhuma preferência de agendamento especificada.</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card card-dark">
+                        <div class="card-header-custom">
+                            <h5><i class="fas fa-credit-card"></i> Informações de Pagamento</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            {% if request_obj.payment_method %}
+                            <div class="info-item">
+                                <div class="info-label">Método de Pagamento</div>
+                                <p class="info-value">{{ request_obj.get_payment_method_display }}</p>
+                            </div>
+
+                            {% if request_obj.payment_method == 'cartao' and request_obj.card_type %}
+                            <div class="info-item">
+                                <div class="info-label">Tipo de Cartão</div>
+                                <p class="info-value">{{ request_obj.get_card_type_display }}</p>
+                            </div>
+                            {% if request_obj.card_installments > 1 %}
+                            <div class="info-item">
+                                <div class="info-label">Parcelamento</div>
+                                <p class="info-value">{{ request_obj.card_installments }}x</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                            {% if request_obj.payment_method == 'dinheiro' %}
+                            <div class="info-item">
+                                <div class="info-label">Precisa de Troco</div>
+                                <p class="info-value">{% if request_obj.needs_change %}Sim{% else %}Não{% endif %}</p>
+                            </div>
+                            {% if request_obj.needs_change and request_obj.client_money_amount %}
+                            <div class="info-item">
+                                <div class="info-label">Valor que o Cliente Possui</div>
+                                <p class="info-value">R$ {{ request_obj.client_money_amount|floatformat:2 }}</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                            {% if request_obj.payment_method == 'pix' and request_obj.pix_identifier %}
+                            <div class="info-item">
+                                <div class="info-label">Chave PIX</div>
+                                <p class="info-value">{{ request_obj.pix_identifier }}</p>
+                            </div>
+                            {% endif %}
+                            {% if request_obj.payment_notes %}
+                            <div class="info-item">
+                                <div class="info-label">Observações</div>
+                                <p class="info-value">{{ request_obj.payment_notes }}</p>
+                            </div>
+                            {% endif %}
+                            {% else %}
+                            <div class="alert-custom alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <p class="mb-0">Método de pagamento não especificado.</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if request_obj.status != 'pending' %}
+            <div class="timeline-card">
+                <div class="card-header-custom">
+                    <h5><i class="fas fa-history"></i> Histórico da Solicitação</h5>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-primary"></div>
+                        <div class="timeline-content">
+                            <p class="timeline-title">Solicitação Criada</p>
+                            <p class="timeline-date">
+                                {{ request_obj.created_at|date:"d/m/Y" }} às {{ request_obj.created_at|time:"H:i" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    {% if request_obj.status == 'contacted' or request_obj.status == 'scheduled' or request_obj.status == 'completed' %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-primary"></div>
+                        <div class="timeline-content">
+                            <p class="timeline-title">Prestador Contatado</p>
+                            <p class="timeline-date">Status atualizado</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if request_obj.status == 'scheduled' or request_obj.status == 'completed' %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-info"></div>
+                        <div class="timeline-content">
+                            <p class="timeline-title">Serviço Agendado</p>
+                            <p class="timeline-date">Status atualizado</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if request_obj.status == 'completed' %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-success"></div>
+                        <div class="timeline-content">
+                            <p class="timeline-title">Serviço Concluído</p>
+                            <p class="timeline-date">
+                                {{ request_obj.updated_at|date:"d/m/Y" }} às {{ request_obj.updated_at|time:"H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if request_obj.status == 'cancelled' %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-secondary"></div>
+                        <div class="timeline-content">
+                            <p class="timeline-title">Solicitação Cancelada</p>
+                            <p class="timeline-date">
+                                {{ request_obj.updated_at|date:"d/m/Y" }} às {{ request_obj.updated_at|time:"H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="text-center my-5">
+                <a href="{% url 'meus_pedidos' %}" class="btn-back" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar para Meus Pedidos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Erro de Autenticação{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="mb-3">Erro de Autenticação</h2>
+                    <p class="text-muted mb-4">
+                        Ocorreu um erro ao tentar fazer login com a rede social.
+                        Por favor, tente novamente.
+                    </p>
+
+                    {% if exception %}
+                    <div class="alert alert-warning">
+                        <small>{{ exception }}</small>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'login' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Voltar para Login
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-home me-2"></i>
+                            Ir para Página Inicial
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

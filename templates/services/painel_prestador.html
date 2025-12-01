@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Painel do Prestador - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-briefcase me-2"></i>
+                Solicitações Recebidas
+            </h2>
+
+            <!-- Estatísticas -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-primary">{{ total }}</h3>
+                            <p class="mb-0">Total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-warning">{{ pendentes }}</h3>
+                            <p class="mb-0">Pendentes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-info">{{ agendadas }}</h3>
+                            <p class="mb-0">Agendadas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-success">{{ concluidas }}</h3>
+                            <p class="mb-0">Concluídas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'painel_prestador' %}?status=all" class="btn {% if status_filter == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                            Todos
+                        </a>
+                        <a href="{% url 'painel_prestador' %}?status=pending" class="btn {% if status_filter == 'pending' or not status_filter %}btn-warning{% else %}btn-outline-warning{% endif %}">
+                            Pendentes
+                        </a>
+                        <a href="{% url 'painel_prestador' %}?status=scheduled" class="btn {% if status_filter == 'scheduled' %}btn-info{% else %}btn-outline-info{% endif %}">
+                            Agendadas
+                        </a>
+                        <a href="{% url 'painel_prestador' %}?status=completed" class="btn {% if status_filter == 'completed' %}btn-success{% else %}btn-outline-success{% endif %}">
+                            Concluídas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Solicitações -->
+            {% if solicitacoes %}
+            <div class="row">
+                {% for solicitacao in solicitacoes %}
+                <div class="col-12 mb-3">
+                    <div class="card {% if solicitacao.status == 'pending' %}border-warning{% endif %}">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        {{ solicitacao.service_name }}
+                                        <span class="badge 
+                                                {% if solicitacao.status == 'pending' %}bg-warning
+                                                {% elif solicitacao.status == 'scheduled' %}bg-info
+                                                {% elif solicitacao.status == 'completed' %}bg-success
+                                                {% elif solicitacao.status == 'cancelled' %}bg-secondary
+                                                {% else %}bg-primary{% endif %}">
+                                            {{ solicitacao.get_status_display }}
+                                        </span>
+                                    </h5>
+
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Dados do Cliente:</h6>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-user me-2"></i>Nome:</strong>
+                                            {{ solicitacao.contact_name }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-phone me-2"></i>Telefone:</strong>
+                                            <a href="tel:{{ solicitacao.contact_phone }}">{{ solicitacao.contact_phone }}</a>
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-envelope me-2"></i>Email:</strong>
+                                            <a href="mailto:{{ solicitacao.contact_email }}">{{ solicitacao.contact_email }}</a>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Detalhes do Serviço:</h6>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-calendar me-2"></i>Data:</strong>
+                                            {{ solicitacao.preferred_date|date:"d/m/Y" }}
+                                            {% if solicitacao.preferred_time %}
+                                            às {{ solicitacao.preferred_time|time:"H:i" }}
+                                            {% elif solicitacao.preferred_period %}
+                                            - {{ solicitacao.get_preferred_period_display }}
+                                            {% endif %}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-map-marker-alt me-2"></i>Endereço:</strong>
+                                            {{ solicitacao.address_street }}, {{ solicitacao.address_number }}
+                                            {% if solicitacao.address_complement %}- {{ solicitacao.address_complement }}{% endif %}
+                                            <br>
+                                            {{ solicitacao.address_neighborhood }}, {{ solicitacao.address_city }}/{{ solicitacao.address_state }}
+                                            - CEP: {{ solicitacao.address_cep }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong><i class="fas fa-credit-card me-2"></i>Pagamento:</strong>
+                                            {{ solicitacao.get_payment_method_display }}
+                                        </p>
+                                    </div>
+
+                                    {% if solicitacao.service_description %}
+                                    <div class="mb-2">
+                                        <h6 class="text-muted">Descrição:</h6>
+                                        <p class="mb-0">{{ solicitacao.service_description }}</p>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if solicitacao.notes %}
+                                    <div class="mb-2">
+                                        <h6 class="text-muted">Observações:</h6>
+                                        <p class="mb-0">{{ solicitacao.notes }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="d-flex flex-column h-100">
+                                        <p class="text-muted small mb-3">
+                                            <i class="fas fa-clock me-1"></i>
+                                            Recebido em {{ solicitacao.created_at|date:"d/m/Y H:i" }}
+                                        </p>
+
+                                        {% if solicitacao.estimated_price %}
+                                        <div class="alert alert-success mb-3">
+                                            <strong><i class="fas fa-dollar-sign me-1"></i>Valor Estimado:</strong>
+                                            <h4 class="mb-0">R$ {{ solicitacao.estimated_price }}</h4>
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="mt-auto">
+                                            {% if solicitacao.status == 'pending' %}
+                                            <div class="d-grid gap-2">
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmarModal{{ solicitacao.id }}" title="Aceitar esta solicitação e confirmar o agendamento" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-check me-1"></i>
+                                                    Aceitar Solicitação
+                                                </button>
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejeitarModal{{ solicitacao.id }}" title="Recusar esta solicitação" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-times me-1"></i>
+                                                    Recusar
+                                                </button>
+                                                <a href="tel:{{ solicitacao.contact_phone }}" class="btn btn-outline-primary" title="Ligar para {{ solicitacao.contact_name }}" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-phone me-1"></i>
+                                                    Ligar para Cliente
+                                                </a>
+                                                <a href="https://wa.me/55{{ solicitacao.contact_phone|cut:' '|cut:'-'|cut:'('|cut:')' }}" target="_blank" class="btn btn-outline-success" title="Enviar mensagem via WhatsApp" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fab fa-whatsapp me-1"></i>
+                                                    WhatsApp
+                                                </a>
+                                            </div>
+                                            {% elif solicitacao.status == 'scheduled' %}
+                                            <div class="d-grid gap-2">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#iniciarModal{{ solicitacao.id }}" title="Marcar serviço como iniciado" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-play me-1"></i>
+                                                    Iniciar Serviço
+                                                </button>
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#concluirModal{{ solicitacao.id }}" title="Marcar serviço como concluído" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-check-circle me-1"></i>
+                                                    Concluir Serviço
+                                                </button>
+                                                <a href="tel:{{ solicitacao.contact_phone }}" class="btn btn-outline-primary" title="Ligar para {{ solicitacao.contact_name }}" data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-phone me-1"></i>
+                                                    Ligar para Cliente
+                                                </a>
+                                            </div>
+                                            {% elif solicitacao.status == 'completed' %}
+                                            <div class="alert alert-success text-center">
+                                                <i class="fas fa-check-circle fa-2x mb-2"></i>
+                                                <p class="mb-0"><strong>Serviço Concluído</strong></p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>Nenhuma solicitação encontrada</h4>
+                <p>
+                    {% if status_filter == 'pending' %}
+                    Você não tem solicitações pendentes no momento.
+                    {% elif status_filter == 'scheduled' %}
+                    Você não tem solicitações agendadas no momento.
+                    {% elif status_filter == 'completed' %}
+                    Você ainda não concluiu nenhum serviço.
+                    {% else %}
+                    Você ainda não recebeu nenhuma solicitação de serviço.
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modais para cada solicitação -->
+{% for solicitacao in solicitacoes %}
+<!-- Modal Confirmar -->
+<div class="modal fade" id="confirmarModal{{ solicitacao.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Aceitar Solicitação
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Serviço:</strong> {{ solicitacao.service_name }}</p>
+                <p><strong>Cliente:</strong> {{ solicitacao.contact_name }}</p>
+                <p><strong>Data:</strong> {{ solicitacao.preferred_date|date:"d/m/Y" }}</p>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Ao aceitar, o cliente será notificado e você se compromete a realizar o serviço na data agendada.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="{% url 'confirmar_solicitacao' solicitacao.id %}" class="btn btn-success">
+                    <i class="fas fa-check me-1"></i>
+                    Confirmar Aceitação
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Rejeitar -->
+<div class="modal fade" id="rejeitarModal{{ solicitacao.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-times-circle me-2"></i>
+                    Recusar Solicitação
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'rejeitar_solicitacao' solicitacao.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p><strong>Serviço:</strong> {{ solicitacao.service_name }}</p>
+                    <p><strong>Cliente:</strong> {{ solicitacao.contact_name }}</p>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Motivo da recusa:</strong></label>
+                        <select class="form-select" name="motivo_rejeicao" required>
+                            <option value="">Selecione um motivo...</option>
+                            <option value="agenda_cheia">Agenda cheia</option>
+                            <option value="fora_area">Fora da minha área de atendimento</option>
+                            <option value="nao_realizo">Não realizo este tipo de serviço</option>
+                            <option value="valor_baixo">Valor não compatível</option>
+                            <option value="outro">Outro motivo</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Observações (opcional):</label>
+                        <textarea class="form-control" name="observacoes" rows="3" placeholder="Adicione detalhes se necessário..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times me-1"></i>
+                        Confirmar Recusa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Iniciar Serviço -->
+<div class="modal fade" id="iniciarModal{{ solicitacao.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-play-circle me-2"></i>
+                    Iniciar Serviço
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Serviço:</strong> {{ solicitacao.service_name }}</p>
+                <p><strong>Cliente:</strong> {{ solicitacao.contact_name }}</p>
+
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Marque como "Em andamento" quando chegar no local e iniciar o serviço.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="novo_status" value="contacted">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-play me-1"></i>
+                        Iniciar Agora
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Concluir Serviço -->
+<div class="modal fade" id="concluirModal{{ solicitacao.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Concluir Serviço
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="novo_status" value="completed">
+                <div class="modal-body">
+                    <p><strong>Serviço:</strong> {{ solicitacao.service_name }}</p>
+                    <p><strong>Cliente:</strong> {{ solicitacao.contact_name }}</p>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Valor final cobrado:</strong></label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" name="valor_final" step="0.01" value="{{ solicitacao.estimated_price }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Observações sobre o serviço:</label>
+                        <textarea class="form-control" name="observacoes_conclusao" rows="3" placeholder="Descreva o que foi realizado..."></textarea>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-star me-2"></i>
+                        O cliente poderá avaliar seu serviço após a conclusão.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check me-1"></i>
+                        Marcar como Concluído
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Ativar tooltips do Bootstrap
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Serviços de {{ provider.get_full_name|default:provider.username }} - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
+        <div>
+            <h2 class="mb-0 fw-bold">Serviços de {{ provider.get_full_name|default:provider.username }}</h2>
+            <p class="text-muted mb-0">Gerencie os serviços oferecidos por este prestador</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary rounded-pill px-4" id="refreshServices">
+                <i class="fas fa-sync-alt me-1"></i> Atualizar
+            </button>
+            <a href="{% url 'admin_providers_list' %}" class="btn btn-outline-primary rounded-pill px-4">
+                <i class="fas fa-arrow-left me-1"></i> Voltar
+            </a>
+        </div>
+    </div>
+    
+    <!-- Provider Info -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 80px; height: 80px; color: white; font-weight: bold; font-size: 2rem;">
+                            {{ provider.first_name|first|upper }}{{ provider.last_name|first|upper }}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="mb-1">{{ provider.get_full_name|default:provider.username }}</h4>
+                            <p class="text-muted mb-2">@{{ provider.username }} | {{ provider.email }}</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-star text-warning me-1"></i>
+                                <span class="fw-bold">{{ provider_profile.rating|floatformat:1 }}</span>
+                                <span class="text-muted ms-1">({{ provider_profile.review_count }} avaliações)</span>
+                                <span class="mx-3">•</span>
+                                <i class="fas fa-map-marker-alt text-primary me-1"></i>
+                                <span>{{ provider_profile.city|default:'Cidade não informada' }}, {{ provider_profile.state|default:'Estado não informado' }}</span>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-{% if provider_profile.user_type == 'professional' %}success{% else %}secondary{% endif %} rounded-pill px-3 py-2">
+                                {{ provider_profile.get_user_type_display }}
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Membro desde {{ provider.date_joined|date:"d/m/Y" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-body">
+                    <form id="serviceFilterForm">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="serviceSearchInput" class="form-label">Buscar Serviço</label>
+                                <input type="text" class="form-control" id="serviceSearchInput" placeholder="Nome ou descrição do serviço">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="categoryFilter" class="form-label">Categoria</label>
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="">Todas</option>
+                                    <option value="cleaning">Limpeza</option>
+                                    <option value="repair">Reparos</option>
+                                    <option value="installation">Instalação</option>
+                                    <option value="maintenance">Manutenção</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="statusFilter" class="form-label">Status</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">Todos</option>
+                                    <option value="active">Ativo</option>
+                                    <option value="inactive">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-primary w-100" id="applyServiceFilters">
+                                    <i class="fas fa-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Total de Serviços</h5>
+                            <h2 class="mb-2 count-up fw-bold" data-target="{{ custom_services|length }}">0</h2>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-concierge-bell fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(76, 201, 240, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Serviços Ativos</h5>
+                            <h2 class="mb-2 count-up fw-bold" data-target="{{ active_services|length }}">0</h2>
+                        </div>
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Média de Preço</h5>
+                            <h2 class="mb-2 fw-bold">R$ 150</h2>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-dollar-sign fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Avaliação Média</h5>
+                            <h2 class="mb-2 fw-bold">4.5</h2>
+                        </div>
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-star fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Services Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold">Serviços Personalizados</h5>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm rounded-pill me-2" id="exportServices">
+                            <i class="fas fa-file-export me-1"></i> Exportar
+                        </button>
+                        <a href="{% url 'add_custom_service' %}?provider={{ provider.id }}" class="btn btn-primary rounded-pill">
+                            <i class="fas fa-plus me-1"></i> Adicionar Serviço
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if custom_services %}
+                    <div class="row">
+                        {% for service in custom_services %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden position-relative service-item" data-service-id="{{ service.id }}">
+                                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.03) 0%, rgba(114, 9, 183, 0.02) 100%);"></div>
+                                <div class="card-body position-relative z-1">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h6 class="card-title fw-bold mb-0">{{ service.name }}</h6>
+                                        {% if service.is_active %}
+                                            <span class="badge bg-success rounded-pill">Ativo</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary rounded-pill">Inativo</span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="card-text text-muted small">{{ service.description|truncatewords:15 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="fw-bold fs-5 text-primary">R$ {{ service.estimated_price|floatformat:2|default:"0.00" }}</span>
+                                        <span class="badge bg-primary rounded-pill">{{ service.get_category_display }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                                        <span>
+                                            <i class="fas fa-clock me-1"></i>
+                                            {{ service.estimated_duration|default:'Não especificada' }}
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            4.5 (12)
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-top position-relative z-1">
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-sm btn-outline-info rounded-pill view-service-btn" data-service-id="{{ service.id }}" data-bs-toggle="modal" data-bs-target="#serviceModal">
+                                            <i class="fas fa-eye me-1"></i> Ver
+                                        </button>
+                                        <a href="{% url 'edit_custom_service' service.id %}?admin=true&provider={{ provider.id }}" class="btn btn-sm btn-outline-primary rounded-pill">
+                                            <i class="fas fa-edit me-1"></i> Editar
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill delete-service-btn" data-service-id="{{ service.id }}" onclick="confirmAction('Excluir serviço', 'Tem certeza que deseja excluir o serviço {{ service.name }}?', function() { /* Implement deletion */ })">
+                                            <i class="fas fa-trash me-1"></i> Excluir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Navegação da lista de serviços">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <div class="mb-4">
+                            <i class="fas fa-star fa-3x text-muted"></i>
+                        </div>
+                        <h5 class="mb-3">Nenhum serviço cadastrado</h5>
+                        <p class="text-muted mb-4">Este prestador ainda não cadastrou nenhum serviço personalizado.</p>
+                        <a href="{% url 'add_custom_service' %}?provider={{ provider.id }}" class="btn btn-primary rounded-pill">
+                            <i class="fas fa-plus me-1"></i> Adicionar primeiro serviço
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Detail Modal -->
+<div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceModalLabel">Detalhes do Serviço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Informações Básicas</h6>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Nome:</strong></td>
+                                    <td id="modalServiceName">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Descrição:</strong></td>
+                                    <td id="modalServiceDescription">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Categoria:</strong></td>
+                                    <td id="modalServiceCategory">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td id="modalServiceStatus">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <h6 class="mt-4">Detalhes Comerciais</h6>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Preço Estimado:</strong></td>
+                                    <td id="modalServicePrice" class="fw-bold text-primary">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duração Estimada:</strong></td>
+                                    <td id="modalServiceDuration">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Avaliação Média:</strong></td>
+                                    <td>
+                                        <i class="fas fa-star text-warning me-1"></i>
+                                        <span id="modalServiceRating">-</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <h6 class="mt-4">Estatísticas</h6>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Total de Pedidos:</strong></td>
+                                    <td id="modalServiceOrders">-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Receita Gerada:</strong></td>
+                                    <td id="modalServiceRevenue" class="fw-bold">-</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="editServiceFromModalBtn">Editar Serviço</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.animate-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.animate-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.count-up {
+    display: inline-block;
+}
+
+.service-item {
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Refresh button animation */
+#refreshServices i {
+    transition: transform 0.3s ease;
+}
+
+#refreshServices i.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Refresh services
+    document.getElementById('refreshServices').addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        icon.classList.add('fa-spin');
+        setTimeout(() => {
+            icon.classList.remove('fa-spin');
+            // In a real application, you would refresh the data here
+            location.reload();
+        }, 1000);
+    });
+    
+    // View service button click
+    document.querySelectorAll('.view-service-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const serviceId = this.getAttribute('data-service-id');
+            const serviceCard = this.closest('.service-item');
+            const serviceName = serviceCard.querySelector('.card-title').textContent;
+            const serviceDescription = serviceCard.querySelector('.card-text').textContent;
+            const serviceCategory = serviceCard.querySelector('.badge.bg-primary').textContent;
+            const servicePrice = serviceCard.querySelector('.text-primary').textContent;
+            const serviceDuration = serviceCard.querySelector('.fa-clock').nextSibling.textContent.trim();
+            const serviceStatus = serviceCard.querySelector('.badge.bg-success, .badge.bg-secondary').textContent;
+            
+            // Populate modal with service data
+            document.getElementById('serviceModalLabel').textContent = 'Detalhes do Serviço: ' + serviceName;
+            document.getElementById('modalServiceName').textContent = serviceName;
+            document.getElementById('modalServiceDescription').textContent = serviceDescription;
+            document.getElementById('modalServiceCategory').textContent = serviceCategory;
+            document.getElementById('modalServicePrice').textContent = servicePrice;
+            document.getElementById('modalServiceDuration').textContent = serviceDuration;
+            document.getElementById('modalServiceStatus').textContent = serviceStatus;
+            document.getElementById('modalServiceRating').textContent = '4.5 (12 avaliações)';
+            document.getElementById('modalServiceOrders').textContent = '25 pedidos';
+            document.getElementById('modalServiceRevenue').textContent = 'R$ 3.750,00';
+        });
+    });
+    
+    // Edit service from modal button click
+    document.getElementById('editServiceFromModalBtn').addEventListener('click', function() {
+        const serviceName = document.getElementById('modalServiceName').textContent;
+        // In a real application, you would redirect to the edit page
+        alert('Redirecionando para edição do serviço: ' + serviceName);
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('serviceModal'));
+        modal.hide();
+    });
+    
+    // Count up animation
+    const countUpElements = document.querySelectorAll('.count-up');
+    countUpElements.forEach(element => {
+        const target = parseInt(element.getAttribute('data-target'));
+        let count = 0;
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        
+        const timer = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+                count = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(count);
+        }, 16);
+    });
+    
+    // Add animation classes with delay
+    const animateCards = document.querySelectorAll('.animate-card');
+    animateCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('visible');
+        }, index * 150);
+    });
+});
+
+// Confirm action function
+function confirmAction(title, message, callback) {
+    if (confirm(`${title}\n\n${message}`)) {
+        callback();
+    }
+}
+</script>
+{% endblock %}

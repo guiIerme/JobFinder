@@ -1,0 +1,48 @@
+{% if custom_services %}
+{% for service in custom_services %}
+<div class="col-md-6 col-xl-4 animate-item">
+    <div class="service-card shadow border-0 h-100 overflow-hidden modern-hover-lift position-relative">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.02) 0%, rgba(114, 9, 183, 0.01) 100%);"></div>
+        <div class="card-body position-relative z-1">
+            <div class="d-flex align-items-center mb-3">
+                {% if service.provider.userprofile.avatar %}
+                <img src="{{ service.provider.userprofile.avatar.url }}" alt="Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                {% else %}
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-weight: bold;">
+                    {{ service.provider.first_name|slice:":1"|default:"U" }}{{ service.provider.last_name|slice:":1"|default:"U" }}
+                </div>
+                {% endif %}
+                <div>
+                    <h5 class="mb-0 fw-bold">{{ service.provider.get_full_name|default:service.provider.username }}</h5>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-star star-rating-full me-1"></i>
+                        <span>{{ service.provider.userprofile.rating|floatformat:1 }} ({{ service.provider.userprofile.review_count }})</span>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="fw-bold mb-2">{{ service.name }}</h6>
+            <p class="text-muted small mb-3">{{ service.description|truncatewords:15 }}</p>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold text-primary">R$ {{ service.estimated_price|floatformat:2 }}</span>
+                <span class="badge badge-category rounded-pill">{{ service.get_category_display }}</span>
+            </div>
+
+            <a href="/solicitar-servico-completo/?id={{ service.id }}&nome={{ service.name|urlencode }}&descricao={{ service.description|urlencode }}&preco={{ service.estimated_price }}" class="btn btn-primary w-100 rounded-pill">
+                <i class="fas fa-concierge-bell me-2"></i>
+                Solicitar
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="col-12">
+    <div class="text-center py-5">
+        <i class="fas fa-user-tie fa-3x text-muted mb-3"></i>
+        <h4 class="mb-2">Nenhum profissional encontrado</h4>
+        <p class="text-muted">Tente ajustar seus filtros ou buscar por outra categoria.</p>
+    </div>
+</div>
+{% endif %}

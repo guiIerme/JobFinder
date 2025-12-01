@@ -1,0 +1,469 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perguntas Frequentes - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold mb-4">Perguntas Frequentes</h1>
+            <p class="lead text-muted">Encontre respostas para as dúvidas mais comuns sobre nossa plataforma</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Categories Sidebar -->
+        <div class="col-lg-3 mb-5 mb-lg-0">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-list me-2"></i>
+                        <span>Categorias</span>
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#clientes" class="list-group-item list-group-item-action active d-flex align-items-center">
+                        <i class="fas fa-users me-2 text-primary"></i>Para Clientes
+                    </a>
+                    <a href="#profissionais" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-user-tie me-2 text-primary"></i>Para Profissionais
+                    </a>
+                    <a href="#pagamentos" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-credit-card me-2 text-primary"></i>Pagamentos
+                    </a>
+                    <a href="#seguranca" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-shield-alt me-2 text-primary"></i>Segurança
+                    </a>
+                    <a href="#servicos" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-concierge-bell me-2 text-primary"></i>Serviços
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Content -->
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <!-- For Clients -->
+                    <div id="clientes" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-users fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">Para Clientes</h2>
+                        </div>
+                        
+                        <div class="accordion" id="clientesAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#clientes1">
+                                        Como faço para contratar um serviço?
+                                    </button>
+                                </h2>
+                                <div id="clientes1" class="accordion-collapse collapse show" data-bs-parent="#clientesAccordion">
+                                    <div class="accordion-body">
+                                        <ol>
+                                            <li>Cadastre-se na nossa plataforma (é gratuito)</li>
+                                            <li>Procure pelo serviço desejado usando a barra de busca ou navegando pelas categorias</li>
+                                            <li>Escolha o profissional que melhor atende suas necessidades</li>
+                                            <li>Agende a data e horário do serviço</li>
+                                            <li>Realize o pagamento através da nossa plataforma segura</li>
+                                            <li>Aguarde a confirmação e a realização do serviço</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientes2">
+                                        Posso cancelar um serviço após contratado?
+                                    </button>
+                                </h2>
+                                <div id="clientes2" class="accordion-collapse collapse" data-bs-parent="#clientesAccordion">
+                                    <div class="accordion-body">
+                                        <p>Sim, você pode cancelar um serviço contratado seguindo nossa política de cancelamento:</p>
+                                        <ul>
+                                            <li><strong>Mais de 48h antes:</strong> Reembolso integral</li>
+                                            <li><strong>Entre 24h e 48h antes:</strong> Reembolso de 50%</li>
+                                            <li><strong>Menos de 24h antes:</strong> Sem reembolso</li>
+                                        </ul>
+                                        <p>Para cancelar, acesse "Meus Serviços" no seu perfil e selecione a opção de cancelamento.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientes3">
+                                        Como posso avaliar um profissional?
+                                    </button>
+                                </h2>
+                                <div id="clientes3" class="accordion-collapse collapse" data-bs-parent="#clientesAccordion">
+                                    <div class="accordion-body">
+                                        <p>Após a conclusão do serviço, você receberá um e-mail solicitando a avaliação do profissional. 
+                                        Você também pode acessar a seção "Meus Serviços" no seu perfil e avaliar os serviços concluídos.</p>
+                                        <p>A avaliação consiste em:</p>
+                                        <ul>
+                                            <li>Nota de 1 a 5 estrelas</li>
+                                            <li>Comentário detalhado sobre o serviço</li>
+                                            <li>Avaliação específica sobre pontualidade, qualidade e profissionalismo</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientes4">
+                                        O que fazer se não estiver satisfeito com o serviço?
+                                    </button>
+                                </h2>
+                                <div id="clientes4" class="accordion-collapse collapse" data-bs-parent="#clientesAccordion">
+                                    <div class="accordion-body">
+                                        <p>Se você não estiver satisfeito com o serviço prestado, entre em contato com nosso suporte imediatamente. 
+                                        Nossa equipe investigará o caso e tomará as medidas necessárias para resolver a situação, 
+                                        que podem incluir:</p>
+                                        <ul>
+                                            <li>Mediação entre as partes</li>
+                                            <li>Reembolso parcial ou total</li>
+                                            <li>Desconto em serviços futuros</li>
+                                            <li>Outras soluções adequadas</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- For Professionals -->
+                    <div id="profissionais" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-user-tie fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">Para Profissionais</h2>
+                        </div>
+                        
+                        <div class="accordion" id="profissionaisAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#profissionais1">
+                                        Como me inscrevo como profissional?
+                                    </button>
+                                </h2>
+                                <div id="profissionais1" class="accordion-collapse collapse show" data-bs-parent="#profissionaisAccordion">
+                                    <div class="accordion-body">
+                                        <ol>
+                                            <li>Crie uma conta como cliente na nossa plataforma</li>
+                                            <li>Acesse seu perfil e clique em "Tornar-se Profissional"</li>
+                                            <li>Preencha suas informações profissionais e de contato</li>
+                                            <li>Adicione os serviços que você oferece com descrições detalhadas</li>
+                                            <li>Envie documentos necessários para verificação</li>
+                                            <li>Aguarde a aprovação da nossa equipe (até 3 dias úteis)</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#profissionais2">
+                                        Como recebo os pagamentos pelos serviços?
+                                    </button>
+                                </h2>
+                                <div id="profissionais2" class="accordion-collapse collapse" data-bs-parent="#profissionaisAccordion">
+                                    <div class="accordion-body">
+                                        <p>Os pagamentos são processados através da nossa plataforma segura:</p>
+                                        <ol>
+                                            <li>O cliente realiza o pagamento na hora da contratação</li>
+                                            <li>O valor fica retido na plataforma até a confirmação da conclusão do serviço</li>
+                                            <li>Após a confirmação, o valor é transferido para sua conta bancária cadastrada</li>
+                                            <li>Transferências são feitas mensalmente, até o 5º dia útil do mês seguinte</li>
+                                        </ol>
+                                        <p>Taxa de serviço: 15% sobre o valor total do serviço (cobrada no momento do pagamento).</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#profissionais3">
+                                        Posso recusar um serviço solicitado?
+                                    </button>
+                                </h2>
+                                <div id="profissionais3" class="accordion-collapse collapse" data-bs-parent="#profissionaisAccordion">
+                                    <div class="accordion-body">
+                                        <p>Sim, você pode recusar um serviço solicitado, mas recomendamos que faça isso o quanto antes:</p>
+                                        <ul>
+                                            <li><strong>Mais de 48h antes:</strong> Sem penalidades</li>
+                                            <li><strong>Entre 24h e 48h antes:</strong> Cobrança de 50% do valor do serviço</li>
+                                            <li><strong>Menos de 24h antes:</strong> Cobrança de 100% do valor do serviço</li>
+                                        </ul>
+                                        <p>Para recusar um serviço, acesse seu painel de profissional e clique em "Recusar" na solicitação.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#profissionais4">
+                                        Como posso melhorar minha classificação?
+                                    </button>
+                                </h2>
+                                <div id="profissionais4" class="accordion-collapse collapse" data-bs-parent="#profissionaisAccordion">
+                                    <div class="accordion-body">
+                                        <p>Para melhorar sua classificação na plataforma, siga estas dicas:</p>
+                                        <ul>
+                                            <li><strong>Pontualidade:</strong> Chegue no horário combinado</li>
+                                            <li><strong>Qualidade:</strong> Execute o serviço com excelência</li>
+                                            <li><strong>Profissionalismo:</strong> Mantenha uma comunicação clara e respeitosa</li>
+                                            <li><strong>Equipamentos:</strong> Trabalhe com ferramentas adequadas</li>
+                                            <li><strong>Feedback:</strong> Peça avaliações após concluir os serviços</li>
+                                        </ul>
+                                        <p>Quanto melhor sua classificação, mais visibilidade você terá na plataforma.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payments -->
+                    <div id="pagamentos" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">Pagamentos</h2>
+                        </div>
+                        
+                        <div class="accordion" id="pagamentosAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pagamentos1">
+                                        Quais formas de pagamento aceitam?
+                                    </button>
+                                </h2>
+                                <div id="pagamentos1" class="accordion-collapse collapse show" data-bs-parent="#pagamentosAccordion">
+                                    <div class="accordion-body">
+                                        <p>Aceitamos diversas formas de pagamento para sua conveniência:</p>
+                                        <ul>
+                                            <li><i class="fab fa-cc-visa text-primary me-1"></i> Cartão de crédito (Visa, Mastercard, etc.)</li>
+                                            <li><i class="fab fa-cc-mastercard text-primary me-1"></i> Cartão de débito</li>
+                                            <li><i class="fab fa-pix text-primary me-1"></i> PIX</li>
+                                            <li><i class="fas fa-university text-primary me-1"></i> Transferência bancária</li>
+                                        </ul>
+                                        <p>Todos os pagamentos são processados através de uma plataforma segura que protege seus dados financeiros.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pagamentos2">
+                                        Como funciona a política de reembolso?
+                                    </button>
+                                </h2>
+                                <div id="pagamentos2" class="accordion-collapse collapse" data-bs-parent="#pagamentosAccordion">
+                                    <div class="accordion-body">
+                                        <p>Nossa política de reembolso varia conforme a situação:</p>
+                                        <h5>Para Clientes:</h5>
+                                        <ul>
+                                            <li><strong>Mais de 48h antes:</strong> Reembolso integral</li>
+                                            <li><strong>Entre 24h e 48h antes:</strong> Reembolso de 50%</li>
+                                            <li><strong>Menos de 24h antes:</strong> Sem reembolso</li>
+                                        </ul>
+                                        <h5>Para Profissionais:</h5>
+                                        <ul>
+                                            <li><strong>Mais de 48h antes:</strong> Sem penalidades</li>
+                                            <li><strong>Entre 24h e 48h antes:</strong> Cobrança de 50% do valor</li>
+                                            <li><strong>Menos de 24h antes:</strong> Cobrança de 100% do valor</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security -->
+                    <div id="seguranca" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-shield-alt fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">Segurança</h2>
+                        </div>
+                        
+                        <div class="accordion" id="segurancaAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#seguranca1">
+                                        Como protegem minhas informações pessoais?
+                                    </button>
+                                </h2>
+                                <div id="seguranca1" class="accordion-collapse collapse show" data-bs-parent="#segurancaAccordion">
+                                    <div class="accordion-body">
+                                        <p>Levamos a privacidade e segurança dos seus dados muito a sério:</p>
+                                        <ul>
+                                            <li><strong>Criptografia:</strong> Todos os dados são transmitidos e armazenados com criptografia de ponta a ponta</li>
+                                            <li><strong>Conformidade:</strong> Estamos em conformidade com as leis de proteção de dados</li>
+                                            <li><strong>Acesso restrito:</strong> Apenas pessoal autorizado tem acesso aos seus dados</li>
+                                            <li><strong>Auditorias:</strong> Realizamos auditorias regulares de segurança</li>
+                                        </ul>
+                                        <p>Para mais detalhes, consulte nossa <a href="{% url 'privacy' %}" class="text-decoration-none">Política de Privacidade</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#seguranca2">
+                                        O que fazer se suspeitar de fraude?
+                                    </button>
+                                </h2>
+                                <div id="seguranca2" class="accordion-collapse collapse" data-bs-parent="#segurancaAccordion">
+                                    <div class="accordion-body">
+                                        <p>Se você suspeitar de qualquer atividade fraudulenta na plataforma:</p>
+                                        <ol>
+                                            <li><strong>Não interaja:</strong> Não clique em links suspeitos ou forneça informações pessoais</li>
+                                            <li><strong>Denuncie:</strong> Use o botão "Denunciar" no perfil do usuário suspeito</li>
+                                            <li><strong>Contate-nos:</strong> Envie um e-mail para segurança@jobfinder.com.br</li>
+                                            <li><strong>Bloqueie:</strong> Utilize a função de bloqueio para evitar contato futuro</li>
+                                        </ol>
+                                        <p>Nossa equipe de segurança investigará todas as denúncias e tomará as medidas apropriadas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Services -->
+                    <div id="servicos">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-concierge-bell fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">Serviços</h2>
+                        </div>
+                        
+                        <div class="accordion" id="servicosAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#servicos1">
+                                        Quais tipos de serviços estão disponíveis?
+                                    </button>
+                                </h2>
+                                <div id="servicos1" class="accordion-collapse collapse show" data-bs-parent="#servicosAccordion">
+                                    <div class="accordion-body">
+                                        <p>Oferecemos uma ampla variedade de serviços domésticos:</p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li><i class="fas fa-wrench text-primary me-1"></i> Reparos gerais</li>
+                                                    <li><i class="fas fa-tools text-primary me-1"></i> Montagem de móveis</li>
+                                                    <li><i class="fas fa-faucet text-primary me-1"></i> Encanamento</li>
+                                                    <li><i class="fas fa-bolt text-primary me-1"></i> Elétrica</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li><i class="fas fa-broom text-primary me-1"></i> Limpeza</li>
+                                                    <li><i class="fas fa-paint-roller text-primary me-1"></i> Pintura</li>
+                                                    <li><i class="fas fa-couch text-primary me-1"></i> Manutenção de móveis</li>
+                                                    <li><i class="fas fa-plus text-primary me-1"></i> Serviços personalizados</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>Se não encontrar o serviço que precisa, utilize a opção "Serviço Personalizado" para solicitar algo específico.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#servicos2">
+                                        Como posso solicitar um serviço personalizado?
+                                    </button>
+                                </h2>
+                                <div id="servicos2" class="accordion-collapse collapse" data-bs-parent="#servicosAccordion">
+                                    <div class="accordion-body">
+                                        <p>Para solicitar um serviço personalizado:</p>
+                                        <ol>
+                                            <li>Acesse a página inicial da plataforma</li>
+                                            <li>Clique em "Serviço Personalizado" na seção inferior</li>
+                                            <li>Descreva detalhadamente o serviço que precisa</li>
+                                            <li>Informe seu orçamento estimado (se souber)</li>
+                                            <li>Envie sua solicitação</li>
+                                            <li>Aguarde o contato de profissionais interessados</li>
+                                        </ol>
+                                        <p>Nossa equipe também pode ajudar a encontrar o profissional ideal para seu projeto específico.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Still Need Help -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body py-5">
+                    <h3 class="mb-4">Ainda precisa de ajuda?</h3>
+                    <p class="lead mb-4">Nossa equipe de suporte está pronta para ajudar você</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Entrar em Contato
+                        </a>
+                        <a href="tel:61981961144" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-phone me-2"></i>Ligar Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+                
+                // Update active class in sidebar
+                document.querySelectorAll('.list-group-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            }
+        });
+    });
+    
+    // Update active category on scroll
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('#clientes, #profissionais, #pagamentos, #seguranca, #servicos');
+        const scrollPosition = window.scrollY + 200;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                document.querySelectorAll('.list-group-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

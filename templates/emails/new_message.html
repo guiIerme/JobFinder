@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Nova Mensagem no Chat</title>
+</head>
+<body>
+    <h2>Olá {{ recipient.username }},</h2>
+    
+    <p>Você tem uma nova mensagem de {{ sender.get_full_name|default:sender.username }} no chat.</p>
+    
+    <p>Você pode responder a mensagem <a href="{{ request.build_absolute_uri }}">clicando aqui</a>.</p>
+    
+    <p>Atenciosamente,<br>
+    Equipe Job Finder</p>
+</body>
+</html>

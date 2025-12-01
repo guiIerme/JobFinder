@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Dashboard - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-4 fw-bold mb-3">AI Dashboard</h1>
+            <p class="lead text-muted">Inteligência Artificial para otimização contínua do site</p>
+        </div>
+    </div>
+    
+    <!-- Key Metrics -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <div class="display-6 mb-1" id="total-users">0</div>
+                    <p class="text-muted mb-0">Usuários Ativos</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-percentage fa-2x"></i>
+                    </div>
+                    <div class="display-6 mb-1" id="conversion-rate">0%</div>
+                    <p class="text-muted mb-0">Taxa de Conversão</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-clock fa-2x"></i>
+                    </div>
+                    <div class="display-6 mb-1" id="avg-time">0s</div>
+                    <p class="text-muted mb-0">Tempo Médio</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="stat-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-lightbulb fa-2x"></i>
+                    </div>
+                    <div class="display-6 mb-1" id="suggestions-count">0</div>
+                    <p class="text-muted mb-0">Sugestões AI</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Insights -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-brain me-2"></i>
+                        <span>Insights da Inteligência Artificial</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h6 class="mb-0">Sugestões de Melhoria</h6>
+                        <button class="btn btn-primary btn-sm" id="refresh-suggestions">
+                            <i class="fas fa-sync-alt me-1"></i>Atualizar
+                        </button>
+                    </div>
+                    
+                    <div id="ai-suggestions">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Carregando sugestões da inteligência artificial...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Performance Charts -->
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-success text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-chart-line me-2"></i>
+                        <span>Conversão ao Longo do Tempo</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="conversion-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-info text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-map me-2"></i>
+                        <span>Páginas Mais Visitadas</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="pages-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- A/B Testing -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-flask me-2"></i>
+                        <span>Testes A/B Ativos</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Teste</th>
+                                    <th>Variação A</th>
+                                    <th>Variação B</th>
+                                    <th>Performance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Botão CTA Página Inicial</td>
+                                    <td>Azul (#7c3aed)</td>
+                                    <td>Verde (#27ae60)</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">A: 4.2%</span>
+                                            <span>B: 5.1%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-success">Em Progresso</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Posição do Formulário</td>
+                                    <td>Topo da página</td>
+                                    <td>Meio da página</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2">A: 3.8%</span>
+                                            <span>B: 3.9%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-warning">Coletando Dados</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Personalization Insights -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-user-cog me-2"></i>
+                        <span>Insights de Personalização</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">Perfis de Usuário</h6>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Novos Usuários
+                                            <span class="badge bg-primary rounded-pill">24%</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Usuários Regulares
+                                            <span class="badge bg-success rounded-pill">52%</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Usuários Engajados
+                                            <span class="badge bg-warning rounded-pill">24%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">Categorias Populares</h6>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Elétrica
+                                            <span class="badge bg-primary rounded-pill">32%</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Encanamento
+                                            <span class="badge bg-success rounded-pill">28%</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Limpeza
+                                            <span class="badge bg-info rounded-pill">18%</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">Recomendações AI</h6>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Personalizar CTA</span>
+                                                <span class="text-success">+12%</span>
+                                            </div>
+                                            <small class="text-muted">para usuários engajados</small>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Otimizar busca</span>
+                                                <span class="text-success">+8%</span>
+                                            </div>
+                                            <small class="text-muted">para novos usuários</small>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Destacar avaliações</span>
+                                                <span class="text-success">+5%</span>
+                                            </div>
+                                            <small class="text-muted">para todas as páginas</small>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize charts
+    const conversionCtx = document.getElementById('conversion-chart').getContext('2d');
+    const pagesCtx = document.getElementById('pages-chart').getContext('2d');
+    
+    // Sample data for charts
+    const conversionChart = new Chart(conversionCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Taxa de Conversão',
+                data: [3.2, 3.8, 4.1, 4.5, 4.8, 5.1],
+                borderColor: '#7c3aed',
+                backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    const pagesChart = new Chart(pagesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Página Inicial', 'Busca', 'Perfil', 'Agendamento', 'Outros'],
+            datasets: [{
+                data: [35, 25, 15, 15, 10],
+                backgroundColor: [
+                    '#7c3aed',
+                    '#8b5cf6',
+                    '#a78bfa',
+                    '#c4b5fd',
+                    '#ddd6fe'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    
+    // Load AI suggestions
+    loadAISuggestions();
+    
+    // Refresh suggestions button
+    document.getElementById('refresh-suggestions').addEventListener('click', function() {
+        loadAISuggestions();
+    });
+    
+    // Simulate loading data
+    loadDashboardData();
+});
+
+function loadAISuggestions() {
+    const suggestionsContainer = document.getElementById('ai-suggestions');
+    
+    // Show loading state
+    suggestionsContainer.innerHTML = `
+        <div class="alert alert-info">
+            <i class="fas fa-sync-alt fa-spin me-2"></i>
+            Analisando dados com inteligência artificial...
+        </div>
+    `;
+    
+    // Simulate AI processing delay
+    setTimeout(function() {
+        const suggestions = [
+            "Adicione mais depoimentos de clientes na página inicial para aumentar a confiança - potencial aumento de 8% na conversão",
+            "O botão CTA 'Buscar Profissionais' está subaproveitado - recomenda-se aumentar o tamanho em 20%",
+            "A página de busca tem taxa de rejeição alta (72%) - sugerimos adicionar filtros mais visíveis",
+            "Profissionais de elétrica têm 15% mais conversões que a média - promova mais esse serviço",
+            "Usuários mobile abandonam 35% mais cedo - otimize o formulário de contato para mobile"
+        ];
+        
+        let suggestionsHTML = '';
+        suggestions.forEach(function(suggestion, index) {
+            suggestionsHTML += `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Sugestão ${index + 1}:</strong> ${suggestion}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+        });
+        
+        suggestionsContainer.innerHTML = suggestionsHTML;
+    }, 1500);
+}
+
+function loadDashboardData() {
+    // Simulate loading dashboard data
+    document.getElementById('total-users').textContent = '1,248';
+    document.getElementById('conversion-rate').textContent = '5.1%';
+    document.getElementById('avg-time').textContent = '2m 34s';
+    document.getElementById('suggestions-count').textContent = '5';
+}
+</script>
+{% endblock %}

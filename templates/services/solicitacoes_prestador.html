@@ -1,0 +1,962 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitações Recebidas - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #6f42c1;
+        --primary-light: #8a6ece;
+        --primary-dark: #5a32a3;
+        --success-color: #28a745;
+        --info-color: #17a2b8;
+        --warning-color: #ffc107;
+        --danger-color: #dc3545;
+        --border-radius: 16px;
+        --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        --box-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
+        --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --gradient-primary: linear-gradient(135deg, #6f42c1, #8a6ece);
+        --gradient-success: linear-gradient(135deg, #28a745, #20c997);
+        --gradient-info: linear-gradient(135deg, #17a2b8, #20c997);
+        --gradient-warning: linear-gradient(135deg, #ffc107, #fd7e14);
+        --gradient-danger: linear-gradient(135deg, #dc3545, #e83e8c);
+    }
+
+    /* Background Pattern */
+    body {
+        background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+
+    .container {
+        position: relative;
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        left: -50px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(111, 66, 193, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+    .container::after {
+        content: '';
+        position: absolute;
+        bottom: -100px;
+        right: -100px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(40, 167, 69, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+    /* Enhanced Cards */
+    .card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        overflow: hidden;
+        position: relative;
+        background: white;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--box-shadow-hover);
+    }
+
+    .card:hover::before {
+        opacity: 1;
+    }
+
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        background: linear-gradient(135deg, #f8f9fc, #ffffff);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.6s;
+    }
+
+    .card:hover .card-header::before {
+        left: 100%;
+    }
+
+    .card-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        background: linear-gradient(135deg, #ffffff, #f8f9fc);
+    }
+
+    /* Statistics Cards */
+    .stats-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .stats-card:hover {
+        transform: translateY(-5px) rotate(1deg);
+        box-shadow: var(--box-shadow-hover);
+    }
+
+    .stats-card:hover::before {
+        opacity: 1;
+    }
+
+    .stats-card .card-body {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Enhanced Buttons */
+    .btn {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:hover::before {
+        left: 100%;
+    }
+
+    .btn-success {
+        background: var(--gradient-success);
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        background: transparent;
+    }
+
+    .btn-outline-secondary:hover {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+        border-color: transparent;
+    }
+
+    /* Enhanced Badges */
+    .badge {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .badge::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .badge:hover::before {
+        opacity: 1;
+    }
+
+    .bg-warning {
+        background: var(--gradient-warning) !important;
+    }
+
+    .bg-info {
+        background: var(--gradient-info) !important;
+    }
+
+    .bg-primary {
+        background: var(--gradient-primary) !important;
+    }
+
+    .bg-success {
+        background: var(--gradient-success) !important;
+    }
+
+    /* Enhanced Header */
+    .page-header {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+    }
+
+    .header-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.3);
+    }
+
+    .header-icon i {
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .header-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    .header-subtitle {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    /* Modern Select */
+    .modern-select {
+        border-radius: 12px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        transition: var(--transition);
+        background: white;
+        min-width: 200px;
+    }
+
+    .modern-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+
+    /* Enhanced Dropdown Menu */
+    .dropdown-menu {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow-hover);
+        padding: 0.5rem;
+    }
+
+    .dropdown-item {
+        border-radius: 8px;
+        margin-bottom: 0.25rem;
+        transition: var(--transition);
+        font-weight: 500;
+    }
+
+    .dropdown-item:hover {
+        background: var(--gradient-primary);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    /* Enhanced Form Buttons */
+    .dropdown-item button {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 0;
+        color: inherit;
+        font-weight: inherit;
+    }
+
+    .dropdown-item:hover button {
+        color: white;
+    }
+
+    /* Enhanced Stats Section */
+    .stats-section {
+        margin-bottom: 3rem;
+    }
+
+    .stats-icon-large {
+        opacity: 0.8;
+    }
+
+    .stats-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .stats-detail {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        display: inline-block;
+        backdrop-filter: blur(10px);
+    }
+
+    .stats-decoration {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+    /* Filter Container */
+    .filter-container {
+        text-align: center;
+    }
+
+    .filter-container .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Action Buttons */
+    .action-buttons .modern-btn {
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .action-buttons .modern-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Enhanced Cards Animation */
+    .card {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Staggered Animation */
+    .stats-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .stats-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .stats-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .stats-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .card:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+
+    .alert {
+        border-radius: var(--border-radius);
+        border: none;
+    }
+
+    .dropdown-menu {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+    }
+
+    .form-select {
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        transition: var(--transition);
+    }
+
+    .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+
+    /* Status specific styles */
+    .border-warning {
+        border-color: var(--warning-color) !important;
+    }
+
+    .border-info {
+        border-color: var(--info-color) !important;
+    }
+
+    .border-primary {
+        border-color: var(--primary-color) !important;
+    }
+
+    .border-success {
+        border-color: var(--success-color) !important;
+    }
+
+    .border-secondary {
+        border-color: #6c757d !important;
+    }
+
+    /* Animation for new requests */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+        }
+    }
+
+    .new-request {
+        animation: pulse 2s infinite;
+    }
+
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+        .card-body .row {
+            margin: 0;
+        }
+
+        .btn-group {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .btn-group .btn {
+            margin-bottom: 0.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <!-- Enhanced Header -->
+            <div class="page-header mb-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="header-content">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="header-icon">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <div>
+                                <h1 class="header-title mb-0">Solicitações Recebidas</h1>
+                                <p class="header-subtitle mb-0">Gerencie suas solicitações de serviço</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 align-items-center">
+                        <div class="filter-container">
+                            <label class="form-label fw-bold text-muted small mb-1">
+                                <i class="fas fa-filter me-1"></i>Filtrar por Status
+                            </label>
+                            <select class="form-select modern-select" id="filtroStatus" onchange="filtrarPorStatus()">
+                                <option value="">🔍 Todos os Status</option>
+                                <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>⏰ Pendente</option>
+                                <option value="contacted" {% if request.GET.status == 'contacted' %}selected{% endif %}>📞 Contatado</option>
+                                <option value="scheduled" {% if request.GET.status == 'scheduled' %}selected{% endif %}>📅 Agendado</option>
+                                <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>✅ Concluído</option>
+                                <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>❌ Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="{% url 'provider_dashboard' %}" class="btn btn-outline-secondary modern-btn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Voltar ao Painel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Estatísticas Melhoradas -->
+            <div class="stats-section mt-4">
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card border-0 shadow-sm h-100" style="background: var(--gradient-warning);">
+                            <div class="card-body text-white text-center position-relative">
+                                <div class="stats-icon-large mb-3">
+                                    <i class="fas fa-clock fa-3x opacity-75"></i>
+                                </div>
+                                <div class="stats-content">
+                                    <h1 class="display-4 fw-bold mb-2">{{ stats.pending }}</h1>
+                                    <h5 class="fw-bold mb-2">Pendentes</h5>
+                                    <div class="stats-detail">
+                                        <i class="fas fa-exclamation-circle me-1"></i>
+                                        <span class="small">Aguardando sua resposta</span>
+                                    </div>
+                                </div>
+                                <div class="stats-decoration">
+                                    <i class="fas fa-clock position-absolute" style="top: 10px; right: 15px; opacity: 0.2; font-size: 2rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card border-0 shadow-sm h-100" style="background: var(--gradient-info);">
+                            <div class="card-body text-white text-center position-relative">
+                                <div class="stats-icon-large mb-3">
+                                    <i class="fas fa-phone fa-3x opacity-75"></i>
+                                </div>
+                                <div class="stats-content">
+                                    <h1 class="display-4 fw-bold mb-2">{{ stats.contacted }}</h1>
+                                    <h5 class="fw-bold mb-2">Contatados</h5>
+                                    <div class="stats-detail">
+                                        <i class="fas fa-phone-alt me-1"></i>
+                                        <span class="small">Cliente já contatado</span>
+                                    </div>
+                                </div>
+                                <div class="stats-decoration">
+                                    <i class="fas fa-phone position-absolute" style="top: 10px; right: 15px; opacity: 0.2; font-size: 2rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card border-0 shadow-sm h-100" style="background: var(--gradient-primary);">
+                            <div class="card-body text-white text-center position-relative">
+                                <div class="stats-icon-large mb-3">
+                                    <i class="fas fa-calendar-check fa-3x opacity-75"></i>
+                                </div>
+                                <div class="stats-content">
+                                    <h1 class="display-4 fw-bold mb-2">{{ stats.scheduled }}</h1>
+                                    <h5 class="fw-bold mb-2">Agendados</h5>
+                                    <div class="stats-detail">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        <span class="small">Serviços marcados</span>
+                                    </div>
+                                </div>
+                                <div class="stats-decoration">
+                                    <i class="fas fa-calendar-check position-absolute" style="top: 10px; right: 15px; opacity: 0.2; font-size: 2rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card border-0 shadow-sm h-100" style="background: var(--gradient-success);">
+                            <div class="card-body text-white text-center position-relative">
+                                <div class="stats-icon-large mb-3">
+                                    <i class="fas fa-trophy fa-3x opacity-75"></i>
+                                </div>
+                                <div class="stats-content">
+                                    <h1 class="display-4 fw-bold mb-2">{{ stats.completed }}</h1>
+                                    <h5 class="fw-bold mb-2">Concluídos</h5>
+                                    <div class="stats-detail">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        <span class="small">Trabalhos finalizados</span>
+                                    </div>
+                                </div>
+                                <div class="stats-decoration">
+                                    <i class="fas fa-trophy position-absolute" style="top: 10px; right: 15px; opacity: 0.2; font-size: 2rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if solicitacoes %}
+            <div class="row">
+                {% for solicitacao in solicitacoes %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 shadow-sm border-start border-4 
+                            {% if solicitacao.status == 'pending' %}border-warning
+                            {% elif solicitacao.status == 'contacted' %}border-info
+                            {% elif solicitacao.status == 'scheduled' %}border-primary
+                            {% elif solicitacao.status == 'completed' %}border-success
+                            {% else %}border-secondary{% endif %}">
+
+                        <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-tools text-primary me-2"></i>
+                                    <h6 class="mb-0 fw-bold">{{ solicitacao.service_name }}</h6>
+                                </div>
+                                <div class="d-flex align-items-center text-muted">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    <small>{{ solicitacao.created_at|date:"d/m/Y H:i" }}</small>
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-hashtag me-1"></i>
+                                    <small>ID: {{ solicitacao.id }}</small>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown">
+                                    <span class="badge fs-6 px-3 py-2
+                                            {% if solicitacao.status == 'pending' %}bg-warning text-dark
+                                            {% elif solicitacao.status == 'contacted' %}bg-info
+                                            {% elif solicitacao.status == 'scheduled' %}bg-primary
+                                            {% elif solicitacao.status == 'completed' %}bg-success
+                                            {% else %}bg-secondary{% endif %}">
+                                        <i class="fas 
+                                            {% if solicitacao.status == 'pending' %}fa-clock
+                                            {% elif solicitacao.status == 'contacted' %}fa-phone
+                                            {% elif solicitacao.status == 'scheduled' %}fa-calendar-check
+                                            {% elif solicitacao.status == 'completed' %}fa-check-circle
+                                            {% else %}fa-times{% endif %} me-1"></i>
+                                        {{ solicitacao.get_status_display }}
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if solicitacao.status == 'pending' %}
+                                    <li>
+                                        <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="status" value="contacted">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Marcar como Contatado?')">
+                                                <i class="fas fa-phone text-info me-2"></i>Marcar como Contatado
+                                            </button>
+                                        </form>
+                                    </li>
+                                    {% endif %}
+                                    {% if solicitacao.status == 'contacted' %}
+                                    <li>
+                                        <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="status" value="scheduled">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Marcar como Agendado?')">
+                                                <i class="fas fa-calendar-check text-primary me-2"></i>Marcar como Agendado
+                                            </button>
+                                        </form>
+                                    </li>
+                                    {% endif %}
+                                    {% if solicitacao.status == 'scheduled' %}
+                                    <li>
+                                        <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Marcar como Concluído?')">
+                                                <i class="fas fa-check-circle text-success me-2"></i>Marcar como Concluído
+                                            </button>
+                                        </form>
+                                    </li>
+                                    {% endif %}
+                                    {% if solicitacao.status != 'cancelled' and solicitacao.status != 'completed' %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form method="post" action="{% url 'alterar_status_solicitacao' solicitacao.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="status" value="cancelled">
+                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Tem certeza que deseja cancelar?')">
+                                                <i class="fas fa-times me-2"></i>Cancelar
+                                            </button>
+                                        </form>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Informações Principais -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3 h-100" style="background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.02));">
+                                        <h6 class="text-primary mb-3 d-flex align-items-center">
+                                            <i class="fas fa-user-circle me-2"></i>
+                                            Dados do Cliente
+                                        </h6>
+                                        <div class="mb-2 d-flex align-items-center">
+                                            <i class="fas fa-user text-muted me-2" style="width: 16px;"></i>
+                                            <span class="fw-medium">{{ solicitacao.contact_name }}</span>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center">
+                                            <i class="fas fa-phone text-success me-2" style="width: 16px;"></i>
+                                            <a href="tel:{{ solicitacao.contact_phone }}" class="text-decoration-none text-success fw-medium">
+                                                {{ solicitacao.contact_phone }}
+                                            </a>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-envelope text-primary me-2" style="width: 16px;"></i>
+                                            <a href="mailto:{{ solicitacao.contact_email }}" class="text-decoration-none small">
+                                                {{ solicitacao.contact_email }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3 h-100" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.05), rgba(40, 167, 69, 0.02));">
+                                        <h6 class="text-success mb-3 d-flex align-items-center">
+                                            <i class="fas fa-cogs me-2"></i>
+                                            Detalhes do Serviço
+                                        </h6>
+                                        <div class="mb-2 d-flex align-items-center">
+                                            <i class="fas fa-dollar-sign text-success me-2" style="width: 16px;"></i>
+                                            <span class="fw-bold text-success fs-5">R$ {{ solicitacao.estimated_price|floatformat:2 }}</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-info-circle text-muted me-2 mt-1" style="width: 16px;"></i>
+                                                <div>
+                                                    <small class="text-muted d-block">Descrição:</small>
+                                                    <p class="small mb-0">{{ solicitacao.service_description|truncatechars:80 }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Observações do Cliente -->
+                            {% if solicitacao.notes %}
+                            <div class="alert alert-light border-start border-warning border-4 mb-3">
+                                <h6 class="alert-heading d-flex align-items-center mb-2">
+                                    <i class="fas fa-sticky-note text-warning me-2"></i>
+                                    Observações do Cliente
+                                </h6>
+                                <p class="mb-0 small">{{ solicitacao.notes }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Informações de Agendamento -->
+                            {% if solicitacao.preferred_date or solicitacao.preferred_time %}
+                            <div class="alert alert-info border-start border-info border-4 mb-3">
+                                <h6 class="alert-heading d-flex align-items-center mb-2">
+                                    <i class="fas fa-calendar-alt text-info me-2"></i>
+                                    Preferências de Agendamento
+                                </h6>
+                                <div class="row">
+                                    {% if solicitacao.preferred_date %}
+                                    <div class="col-md-6">
+                                        <small class="text-muted">Data preferida:</small>
+                                        <div class="fw-medium">{{ solicitacao.preferred_date|date:"d/m/Y" }}</div>
+                                    </div>
+                                    {% endif %}
+                                    {% if solicitacao.preferred_time %}
+                                    <div class="col-md-6">
+                                        <small class="text-muted">Horário preferido:</small>
+                                        <div class="fw-medium">{{ solicitacao.preferred_time|time:"H:i" }}</div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="card-footer bg-white border-top">
+                            <div class="row g-2">
+                                <div class="col-md-8">
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a href="tel:{{ solicitacao.contact_phone }}" class="btn btn-success btn-sm flex-fill">
+                                            <i class="fas fa-phone me-1"></i>
+                                            Ligar
+                                        </a>
+                                        <a href="https://wa.me/55{{ solicitacao.contact_phone|cut:' '|cut:'('|cut:')'|cut:'-' }}" target="_blank" class="btn btn-success btn-sm flex-fill">
+                                            <i class="fab fa-whatsapp me-1"></i>
+                                            WhatsApp
+                                        </a>
+                                        <a href="mailto:{{ solicitacao.contact_email }}" class="btn btn-outline-primary btn-sm flex-fill">
+                                            <i class="fas fa-envelope me-1"></i>
+                                            Email
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="d-flex align-items-center justify-content-end h-100">
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            {{ solicitacao.created_at|timesince }} atrás
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Paginação -->
+            {% if is_paginated %}
+            <nav aria-label="Paginação">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-inbox fa-4x text-muted"></i>
+                </div>
+                <h4 class="text-muted">Nenhuma solicitação encontrada</h4>
+                <p class="text-muted mb-4">
+                    {% if request.GET.status %}
+                    Não há solicitações com o status "{{ request.GET.status|title }}".
+                    {% else %}
+                    Você ainda não recebeu nenhuma solicitação para seus serviços.
+                    {% endif %}
+                </p>
+                <a href="{% url 'provider_dashboard' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar ao Painel
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function filtrarPorStatus() {
+        const status = document.getElementById('filtroStatus').value;
+        const url = new URL(window.location);
+
+        if (status) {
+            url.searchParams.set('status', status);
+        } else {
+            url.searchParams.delete('status');
+        }
+
+        window.location.href = url.toString();
+    }
+</script>
+{% endblock %}

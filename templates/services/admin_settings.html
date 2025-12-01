@@ -1,0 +1,255 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title_admin %}Configurações do Sistema{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h2><i class="fas fa-cog me-2"></i> Configurações do Sistema</h2>
+    <p class="text-muted">Gerencie as configurações globais da plataforma Job Finder</p>
+</div>
+
+<!-- Settings Sections -->
+<div class="row">
+    <!-- System Settings -->
+    <div class="col-md-6 mb-4">
+        <div class="card admin-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-desktop me-2"></i> Configurações do Sistema</h5>
+            </div>
+            <div class="card-body">
+                <form id="systemSettingsForm">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Modo de Manutenção</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="maintenanceMode" name="maintenance_mode">
+                            <label class="form-check-label" for="maintenanceMode">Ativar modo de manutenção</label>
+                        </div>
+                        <div class="form-text">Quando ativado, o site ficará indisponível para usuários, exceto administradores.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Registro de Usuários</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="userRegistration" name="user_registration" checked>
+                            <label class="form-check-label" for="userRegistration">Permitir novos registros</label>
+                        </div>
+                        <div class="form-text">Controle se novos usuários podem se registrar na plataforma.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Verificação de E-mail</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="emailVerification" name="email_verification" checked>
+                            <label class="form-check-label" for="emailVerification">Exigir verificação de e-mail</label>
+                        </div>
+                        <div class="form-text">Exige que novos usuários verifiquem seus endereços de e-mail antes de usar a plataforma.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn admin-btn admin-btn-primary">
+                        <i class="fas fa-save me-2"></i> Salvar Configurações
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Settings -->
+    <div class="col-md-6 mb-4">
+        <div class="card admin-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-bell me-2"></i> Configurações de Notificação</h5>
+            </div>
+            <div class="card-body">
+                <form id="notificationSettingsForm">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Notificações por E-mail</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" name="email_notifications" checked>
+                            <label class="form-check-label" for="emailNotifications">Enviar notificações por e-mail</label>
+                        </div>
+                        <div class="form-text">Envia notificações importantes por e-mail aos usuários.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Notificações Push</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="pushNotifications" name="push_notifications" checked>
+                            <label class="form-check-label" for="pushNotifications">Enviar notificações push</label>
+                        </div>
+                        <div class="form-text">Envia notificações push para usuários com dispositivos compatíveis.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Alertas de Segurança</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="securityAlerts" name="security_alerts" checked>
+                            <label class="form-check-label" for="securityAlerts">Enviar alertas de segurança</label>
+                        </div>
+                        <div class="form-text">Envia alertas de segurança para administradores quando eventos importantes ocorrerem.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn admin-btn admin-btn-primary">
+                        <i class="fas fa-save me-2"></i> Salvar Configurações
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Appearance Settings -->
+    <div class="col-md-6 mb-4">
+        <div class="card admin-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-palette me-2"></i> Configurações de Aparência</h5>
+            </div>
+            <div class="card-body">
+                <form id="appearanceSettingsForm">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tema Padrão</label>
+                        <select class="form-select" name="default_theme">
+                            <option value="light">Claro</option>
+                            <option value="dark" selected>Escuro</option>
+                            <option value="auto">Automático</option>
+                        </select>
+                        <div class="form-text">Tema padrão para novos usuários.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Idioma Padrão</label>
+                        <select class="form-select" name="default_language">
+                            <option value="pt-br" selected>Português (Brasil)</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                        <div class="form-text">Idioma padrão do sistema.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn admin-btn admin-btn-primary">
+                        <i class="fas fa-save me-2"></i> Salvar Configurações
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Performance Settings -->
+    <div class="col-md-6 mb-4">
+        <div class="card admin-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i> Configurações de Desempenho</h5>
+            </div>
+            <div class="card-body">
+                <form id="performanceSettingsForm">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cache de Páginas</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="pageCache" name="page_cache" checked>
+                            <label class="form-check-label" for="pageCache">Ativar cache de páginas</label>
+                        </div>
+                        <div class="form-text">Melhora o desempenho armazenando em cache páginas frequentemente acessadas.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Compressão de Imagens</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="imageCompression" name="image_compression" checked>
+                            <label class="form-check-label" for="imageCompression">Comprimir imagens automaticamente</label>
+                        </div>
+                        <div class="form-text">Reduz o tamanho das imagens enviadas para economizar largura de banda.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Limite de Conexões</label>
+                        <input type="number" class="form-control" name="connection_limit" value="100" min="10" max="1000">
+                        <div class="form-text">Número máximo de conexões simultâneas permitidas.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn admin-btn admin-btn-primary">
+                        <i class="fas fa-save me-2"></i> Salvar Configurações
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Information -->
+<div class="row">
+    <div class="col-12">
+        <div class="card admin-card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> Informações do Sistema</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-primary fs-4 fw-bold">Django 5.2.6</div>
+                            <div class="text-muted">Versão do Framework</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-primary fs-4 fw-bold">Python 3.12</div>
+                            <div class="text-muted">Versão do Python</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-primary fs-4 fw-bold">PostgreSQL</div>
+                            <div class="text-muted">Banco de Dados</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="border rounded p-3 text-center">
+                            <div class="text-primary fs-4 fw-bold">2.4 GB</div>
+                            <div class="text-muted">Uso de Memória</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle form submissions
+    const forms = document.querySelectorAll('form[id$="SettingsForm"]');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real implementation, this would send data to the server
+            const formData = new FormData(this);
+            const settings = {};
+            for (const [key, value] of formData.entries()) {
+                settings[key] = value;
+            }
+            
+            console.log('Saving settings:', settings);
+            
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                Configurações salvas com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            // Insert alert before the form
+            this.parentNode.insertBefore(alertDiv, this);
+            
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        });
+    });
+});
+</script>
+{% endblock %}

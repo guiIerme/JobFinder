@@ -1,0 +1,714 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ajuda e Suporte - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --card-hover-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    .hero-section {
+        background: white;
+        border-radius: 25px;
+        padding: 4rem 2rem;
+        margin-bottom: 3rem;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: slideDown 0.6s ease-out;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--primary-gradient);
+    }
+
+    .hero-title {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.2s both;
+        margin-bottom: 3rem;
+    }
+
+    .search-input {
+        border-radius: 50px;
+        border: 2px solid #e0e0e0;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .category-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.6s ease-out both;
+        border-top: 4px solid transparent;
+        text-decoration: none;
+        display: block;
+        height: 100%;
+    }
+
+    .category-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--card-hover-shadow);
+        text-decoration: none;
+    }
+
+    .category-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .ca tegory-card:hover .category-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .category-card.card-primary {
+        border-top-color: #667eea;
+    }
+
+    .category-card.card-primary .category-icon {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        color: #667eea;
+    }
+
+    .category-card.card-warning {
+        border-top-color: #f093fb;
+    }
+
+    .category-card.card-warning .category-icon {
+        background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+        color: #f093fb;
+    }
+
+    .category-card.card-success {
+        border-top-color: #11998e;
+    }
+
+    .category-card.card-success .category-icon {
+        background: linear-gradient(135deg, rgba(17, 153, 142, 0.1) 0%, rgba(56, 239, 125, 0.1) 100%);
+        color: #11998e;
+    }
+
+    .category-card.card-info {
+        border-top-color: #4facfe;
+    }
+
+    .category-card.card-info .category-icon {
+        background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+        color: #4facfe;
+    }
+
+    .category-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.8rem;
+    }
+
+    .category-desc {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .faq-section {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.4s both;
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .section-title i {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .accordion-item {
+        border: none;
+        background: #f8f9fa;
+        border-radius: 15px !important;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .accordion-button {
+        background: white;
+        border: none;
+        border-radius: 15px !important;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 1.5rem;
+        color: #333;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    .accordion-button:focus,
+    .accordion-button:active,
+    .accordion-button:hover {
+        box-shadow: none !important;
+        border: none;
+        outline: none;
+        transition: none !important;
+    }
+
+    .accordion-button::after {
+        background-image: none;
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        transition: none !important;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        transform: rotate(180deg);
+        transition: none !important;
+    }
+
+    .accordion-collapse {
+        transition: none !important;
+    }
+
+    .accordion-item {
+        transition: none !important;
+    }
+
+    .accordion-body {
+        padding: 1.5rem;
+        background: white;
+        border-radius: 0 0 15px 15px;
+    }
+
+    .contact-cta {
+        background: white;
+        border-radius: 25px;
+        padding: 3rem 2rem;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.6s both;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-cta::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--primary-gradient);
+        opacity: 0.05;
+    }
+
+    .contact-btn {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 2.5rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        cursor: pointer;
+        position: relative;
+        z-index: 10;
+        pointer-events: auto;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .contact-btn-outline {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+    }
+
+    .contact-btn-outline:hover {
+        background: var(--primary-gradient);
+        color: white;
+        border-color: transparent;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .col-md-6:nth-child(1) .category-card {
+        animation-delay: 0.1s;
+    }
+
+    .col-md-6:nth-child(2) .category-card {
+        animation-delay: 0.2s;
+    }
+
+    .col-md-6:nth-child(3) .category-card {
+        animation-delay: 0.3s;
+    }
+
+    .col-md-6:nth-child(4) .category-card {
+        animation-delay: 0.4s;
+    }
+
+    .col-md-6:nth-child(5) .category-card {
+        animation-delay: 0.5s;
+    }
+
+    .col-md-6:nth-child(6) .category-card {
+        animation-delay: 0.6s;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-section {
+            padding: 2rem 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">
+            <i class="fas fa-headset me-3"></i>
+            Ajuda e Suporte
+        </h1>
+        <p class="lead text-muted mb-0">Estamos aqui para ajudar você 24 horas por dia, 7 dias por semana</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-card">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0" style="border-radius: 50px 0 0 50px;">
+                        <i class="fas fa-search text-primary"></i>
+                    </span>
+                    <input type="text" class="search-input form-control border-start-0" placeholder="Pesquise por tópicos, perguntas ou palavras-chave..." style="border-radius: 0 50px 50px 0;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <div class="section-title">
+                <i class="fas fa-th-large"></i>
+                <span>Categorias de Ajuda</span>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#account-help" class="category-card card-primary">
+                <div class="category-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h5 class="category-title">Conta e Perfil</h5>
+                <p class="category-desc">Gerencie suas informações pessoais e configurações</p>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#service-help" class="category-card card-warning">
+                <div class="category-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <h5 class="category-title">Serviços</h5>
+                <p class="category-desc">Encontre profissionais e gerencie seus pedidos</p>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#payment-help" class="category-card card-success">
+                <div class="category-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h5 class="category-title">Pagamentos</h5>
+                <p class="category-desc">Métodos de pagamento e questões financeiras</p>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#professional-help" class="category-card card-info">
+                <div class="category-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h5 class="category-title">Para Profissionais</h5>
+                <p class="category-desc">Torne-se um profissional e ganhe mais clientes</p>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#review-help" class="category-card card-warning">
+                <div class="category-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h5 class="category-title">Avaliações</h5>
+                <p class="category-desc">Como avaliar serviços e gerenciar avaliações</p>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="#technical-help" class="category-card card-success">
+                <div class="category-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h5 class="category-title">Problemas Técnicos</h5>
+                <p class="category-desc">Resolução de problemas e erros do sistema</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section" id="account-help">
+        <div class="section-title">
+            <i class="fas fa-question-circle"></i>
+            <span>Perguntas Frequentes</span>
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Como faço para me cadastrar no Job Finder?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Para se cadastrar:</strong></p>
+                        <ol>
+                            <li>Clique em "Cadastrar" no canto superior direito</li>
+                            <li>Preencha seus dados pessoais (nome, e-mail e senha)</li>
+                            <li>Escolha se é cliente ou profissional</li>
+                            <li>Verifique seu e-mail</li>
+                            <li>Faça login e comece a usar!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Como posso agendar um serviço?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Para agendar um serviço:</strong></p>
+                        <ol>
+                            <li>Busque o serviço desejado ou profissional</li>
+                            <li>Clique em "Solicitar Serviço"</li>
+                            <li>Preencha data, hora e endereço</li>
+                            <li>Revise os detalhes</li>
+                            <li>Confirme e realize o pagamento</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Quais métodos de pagamento são aceitos?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Aceitamos:</strong></p>
+                        <ul>
+                            <li>Cartões de crédito (Visa, Mastercard, Amex)</li>
+                            <li>Cartões de débito</li>
+                            <li>PIX</li>
+                            <li>Transferência bancária</li>
+                            <li>Boleto (acima de R$ 50)</li>
+                        </ul>
+                        <p class="mb-0">Todos os pagamentos são seguros e criptografados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Como me tornar um profissional?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Para se tornar profissional:</strong></p>
+                        <ol>
+                            <li>Crie uma conta (se ainda não tiver)</li>
+                            <li>Acesse seu perfil</li>
+                            <li>Clique em "Tornar-se Profissional"</li>
+                            <li>Preencha suas informações profissionais</li>
+                            <li>Envie documentos para verificação</li>
+                            <li>Aguarde aprovação e comece a receber pedidos!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        O que fazer se tiver problema com o serviço?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Se tiver algum problema:</strong></p>
+                        <ol>
+                            <li>Entre em contato com o profissional pelo chat</li>
+                            <li>Tente resolver amigavelmente</li>
+                            <li>Se não resolver, contate nosso suporte:
+                                <ul>
+                                    <li>Telefone: (61) 98196-1144</li>
+                                    <li>E-mail: suporte@jobfinder.com.br</li>
+                                </ul>
+                            </li>
+                            <li>Forneça detalhes do problema</li>
+                            <li>Nossa equipe investigará e resolverá</li>
+                        </ol>
+                        <p class="mb-0"><strong>Temos política de satisfação garantida!</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="contact-cta">
+        <h3 class="mb-3" style="font-weight: 700; color: #333;">Ainda precisa de ajuda?</h3>
+        <p class="lead text-muted mb-4">Nossa equipe está pronta para ajudar você</p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{% url 'contact' %}" class="contact-btn" id="btn-enviar-email">
+                <i class="fas fa-envelope"></i>
+                Enviar E-mail
+            </a>
+            <a href="tel:+5561981961144" class="contact-btn contact-btn-outline" id="btn-ligar-agora">
+                <i class="fas fa-phone"></i>
+                Ligar Agora
+            </a>
+            <button type="button" class="contact-btn contact-btn-outline" id="btn-abrir-chat" onclick="abrirChatSophie()">
+                <i class="fas fa-comments"></i>
+                Chat ao Vivo
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Debug dos botões
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Inicializando botões de suporte...');
+
+            // Botão Enviar E-mail
+            const btnEmail = document.getElementById('btn-enviar-email');
+            if (btnEmail) {
+                console.log('✅ Botão E-mail encontrado:', btnEmail.href);
+                console.log('   - Display:', window.getComputedStyle(btnEmail).display);
+                console.log('   - Pointer-events:', window.getComputedStyle(btnEmail).pointerEvents);
+                console.log('   - Z-index:', window.getComputedStyle(btnEmail).zIndex);
+
+                btnEmail.addEventListener('click', function(e) {
+                    console.log('📧 Botão E-mail clicado!');
+                    console.log('Redirecionando para:', this.href);
+                    // Não prevenir default, deixar navegação acontecer
+                });
+            } else {
+                console.error('❌ Botão E-mail não encontrado!');
+            }
+
+            // Botão Ligar Agora
+            const btnLigar = document.getElementById('btn-ligar-agora');
+            if (btnLigar) {
+                console.log('✅ Botão Ligar encontrado:', btnLigar.href);
+                console.log('   - Display:', window.getComputedStyle(btnLigar).display);
+                console.log('   - Pointer-events:', window.getComputedStyle(btnLigar).pointerEvents);
+
+                btnLigar.addEventListener('click', function(e) {
+                    console.log('📞 Botão Ligar clicado!');
+                    console.log('Iniciando chamada para:', this.href);
+                    // Não prevenir default, deixar chamada acontecer
+                });
+            } else {
+                console.error('❌ Botão Ligar não encontrado!');
+            }
+
+            // Botão Chat
+            const btnChat = document.getElementById('btn-abrir-chat');
+            if (btnChat) {
+                console.log('✅ Botão Chat encontrado');
+                console.log('   - Display:', window.getComputedStyle(btnChat).display);
+                console.log('   - Pointer-events:', window.getComputedStyle(btnChat).pointerEvents);
+
+                // Adicionar listener adicional para garantir que funcione
+                btnChat.addEventListener('click', function(e) {
+                    console.log('💬 Botão Chat clicado via event listener!');
+                    e.preventDefault();
+                    abrirChatSophie();
+                });
+            } else {
+                console.error('❌ Botão Chat não encontrado!');
+            }
+
+            console.log('✅ Botões de suporte inicializados com sucesso!');
+
+            // Teste de clicabilidade
+            setTimeout(() => {
+                console.log('🧪 Testando clicabilidade dos botões...');
+                const allButtons = document.querySelectorAll('.contact-btn');
+                allButtons.forEach((btn, index) => {
+                    const rect = btn.getBoundingClientRect();
+                    console.log(`Botão ${index + 1}:`, {
+                        visível: rect.width > 0 && rect.height > 0,
+                        posição: {
+                            top: rect.top,
+                            left: rect.left
+                        },
+                        tamanho: {
+                            width: rect.width,
+                            height: rect.height
+                        }
+                    });
+                });
+            }, 1000);
+        });
+
+        // Função para abrir o chat com Sophie
+        function abrirChatSophie() {
+            console.log('💬 Abrindo chat com Sophie...');
+
+            // Verificar se o chat widget existe
+            const chatToggle = document.getElementById('chat-widget-toggle');
+            if (chatToggle) {
+                console.log('✅ Chat widget encontrado, abrindo...');
+                chatToggle.click();
+            } else {
+                console.error('❌ Chat widget não encontrado!');
+
+                // Tentar abrir de outra forma
+                if (typeof window.chatWindow !== 'undefined' && window.chatWindow) {
+                    console.log('🔄 Tentando abrir via window.chatWindow...');
+                    window.chatWindow.open();
+                } else {
+                    console.error('❌ Nenhum método de abertura do chat disponível!');
+                    alert('Chat não disponível no momento. Por favor, use o e-mail ou telefone.');
+                }
+            }
+        }
+    </script>
+</div>
+{% endblock %}

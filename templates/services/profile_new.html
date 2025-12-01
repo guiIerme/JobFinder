@@ -1,0 +1,3735 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meu Perfil - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Modern Profile Page - Complete Redesign */
+    :root {
+        --primary-purple: #6f42c1;
+        --secondary-purple: #5a32a3;
+        --accent-purple: #8b5cf6;
+        --light-purple: #f3f0ff;
+        --gradient-primary: linear-gradient(135deg, #6f42c1 0%, #8b5cf6 50%, #a855f7 100%);
+        --gradient-secondary: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        --shadow-sm: 0 2px 8px rgba(111, 66, 193, 0.08);
+        --shadow-md: 0 8px 25px rgba(111, 66, 193, 0.12);
+        --shadow-lg: 0 20px 40px rgba(111, 66, 193, 0.15);
+        --border-radius: 16px;
+        --border-radius-lg: 24px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Page Layout */
+    .profile-page {
+        background: var(--gradient-secondary);
+        min-height: 100vh;
+        padding: 3rem 0;
+    }
+
+    .profile-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 4rem;
+    }
+
+    @media (max-width: 1600px) {
+        .profile-container {
+            max-width: 1300px;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        .profile-container {
+            max-width: 1200px;
+        }
+    }
+
+    /* Fix margins and spacing */
+    .row {
+        margin-left: -1rem;
+        margin-right: -1rem;
+    }
+
+    .col-lg-3,
+    .col-lg-6,
+    .col-lg-9,
+    .col-lg-4,
+    .col-lg-2,
+    .col-md-3,
+    .col-md-6,
+    .col-md-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Hero Section */
+    .profile-hero {
+        background: var(--gradient-primary);
+        border-radius: var(--border-radius-lg);
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 3rem;
+        box-shadow: var(--shadow-lg);
+        padding: 3rem 2rem;
+    }
+
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        animation: heroFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+
+        0%,
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        33% {
+            transform: translateY(-10px) rotate(1deg);
+        }
+
+        66% {
+            transform: translateY(5px) rotate(-1deg);
+        }
+    }
+
+    /* Cards */
+    .modern-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        position: relative;
+        overflow: visible;
+        margin-bottom: 2rem;
+    }
+
+    .modern-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+        transform: scaleX(0);
+        transition: var(--transition);
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .modern-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(111, 66, 193, 0.2);
+    }
+
+    .modern-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    /* Avatar */
+    .profile-avatar-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-avatar {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        object-fit: cover;
+        transition: var(--transition);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-avatar:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .avatar-placeholder {
+        width: 140px;
+        height: 140px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: 700;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-avatar-btn {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        width: 48px;
+        height: 48px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        transition: var(--transition);
+        border: none;
+        z-index: 10;
+    }
+
+    .edit-avatar-btn:hover {
+        transform: scale(1.1);
+        background: var(--light-purple);
+    }
+
+    /* Stats Cards */
+    .stats-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        text-align: center;
+        transition: var(--transition);
+        border: 1px solid rgba(111, 66, 193, 0.1);
+        position: relative;
+        overflow: visible;
+        height: 100%;
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-primary);
+        transform: scaleX(0);
+        transition: var(--transition);
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stats-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .stats-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        margin: 0 auto 1.5rem;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stats-icon:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        line-height: 1;
+    }
+
+    .stats-label {
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Forms */
+    .modern-form {
+        padding: 2.5rem;
+    }
+
+    .form-floating {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+
+    .form-floating>.form-control {
+        background: rgba(248, 250, 252, 0.8);
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.2rem 1rem;
+        height: auto;
+        transition: var(--transition);
+        font-size: 1rem;
+    }
+
+    .form-floating>.form-control:focus {
+        border-color: var(--primary-purple);
+        box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.1);
+        background: white;
+        transform: translateY(-2px);
+    }
+
+    .form-floating>label {
+        color: #64748b;
+        font-weight: 600;
+        padding: 1.2rem 1rem;
+    }
+
+    .form-floating>.form-control:focus~label,
+    .form-floating>.form-control:not(:placeholder-shown)~label {
+        color: var(--primary-purple);
+    }
+
+    /* Buttons */
+    .btn-modern {
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        border: none;
+        position: relative;
+        overflow: hidden;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
+    }
+
+    .btn-primary-modern {
+        background: var(--gradient-primary);
+        color: white;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: white;
+    }
+
+    .btn-outline-modern {
+        background: transparent;
+        border: 2px solid var(--primary-purple);
+        color: var(--primary-purple);
+    }
+
+    .btn-outline-modern:hover {
+        background: var(--primary-purple);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Section Headers */
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .section-header h4 {
+        color: var(--primary-purple);
+        font-weight: 700;
+        margin: 0;
+        font-size: 1.4rem;
+    }
+
+    .section-header i {
+        margin-right: 0.75rem;
+        color: var(--primary-purple);
+        font-size: 1.5rem;
+    }
+
+    /* Badges */
+    .badge-modern {
+        padding: 0.6rem 1.25rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0.25rem;
+    }
+
+    .badge-primary {
+        background: var(--gradient-primary);
+        color: white;
+    }
+
+    .badge-light {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(10px);
+    }
+
+    /* Quick Actions */
+    .quick-action-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        text-align: center;
+        transition: var(--transition);
+        border: 2px solid rgba(111, 66, 193, 0.1);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
+    }
+
+    .quick-action-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--primary-purple);
+        box-shadow: var(--shadow-md);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin: 0 auto 1rem;
+        transition: var(--transition);
+    }
+
+    .quick-action-card:hover .quick-action-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .profile-container {
+            max-width: 100%;
+            padding: 0 3rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .profile-page {
+            padding: 2rem 0;
+        }
+
+        .profile-container {
+            padding: 0 2rem;
+        }
+
+        .profile-hero {
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar,
+        .avatar-placeholder {
+            width: 120px;
+            height: 120px;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+
+        .modern-form {
+            padding: 2rem;
+        }
+
+        .quick-action-card {
+            padding: 1.5rem;
+        }
+
+        .row {
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
+        }
+
+        .col-lg-3,
+        .col-lg-6,
+        .col-lg-9,
+        .col-lg-4,
+        .col-lg-2,
+        .col-md-3,
+        .col-md-6,
+        .col-md-4 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .profile-container {
+            padding: 0 1.5rem;
+        }
+
+        .profile-hero {
+            border-radius: var(--border-radius);
+            padding: 2rem 1.5rem !important;
+        }
+
+        .modern-card {
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .modern-form {
+            padding: 1.5rem;
+        }
+
+        .btn-modern {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .stats-card {
+            padding: 1.25rem;
+        }
+
+        .quick-action-card {
+            padding: 1.25rem;
+        }
+    }
+
+    /* Success/Error States */
+    .success-message {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .error-message {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Loading States */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid var(--primary-purple);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Request Cards */
+    .request-card {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: visible;
+        height: 100%;
+    }
+
+    .request-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .request-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--primary-purple);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+    }
+
+    .request-card:hover::before {
+        opacity: 1;
+    }
+
+    .request-card .badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .request-card .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    /* Stats Cards Enhanced */
+    .stats-card {
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: visible;
+        height: 100%;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: currentColor;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .stats-card .stats-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .stats-card .stats-number {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-card .stats-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Section Header Enhanced */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .section-header h4 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        color: var(--primary-purple);
+    }
+
+    .section-header i {
+        margin-right: 0.75rem;
+        font-size: 1.2rem;
+        color: var(--primary-purple);
+    }
+
+    /* Animation for new requests */
+    @keyframes newRequestPulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+        }
+    }
+
+    .request-card.new-request {
+        animation: newRequestPulse 2s infinite;
+    }
+
+    /* Responsive Improvements */
+    @media (max-width: 768px) {
+        .request-card {
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-card {
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-card .stats-number {
+            font-size: 1.5rem;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .section-header .btn {
+            align-self: stretch;
+        }
+
+        .modern-card {
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-card {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    /* Dark Mode Support */
+    html[data-theme='dark'] {
+        --primary-purple: #bb86fc;
+        --secondary-purple: #9c6bff;
+        --accent-purple: #a855f7;
+        --light-purple: #2d1b69;
+        --gradient-primary: linear-gradient(135deg, #bb86fc 0%, #9c6bff 50%, #a855f7 100%);
+        --gradient-secondary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    html[data-theme='dark'] body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .profile-page {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    html[data-theme='dark'] .modern-card {
+        background: rgba(45, 45, 45, 0.95);
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .profile-hero {
+        background: linear-gradient(135deg, #2d1b69 0%, #4a278a 50%, #5a32a3 100%);
+    }
+
+    html[data-theme='dark'] .stats-card {
+        background: #2d2d2d;
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .form-floating>.form-control {
+        background: rgba(51, 51, 51, 0.9);
+        border-color: #444444;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .form-floating>.form-control:focus {
+        background: #333333;
+        border-color: #bb86fc;
+        box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
+    }
+
+    html[data-theme='dark'] .form-floating>label {
+        color: #b0b0b0;
+    }
+
+    html[data-theme='dark'] .form-floating>.form-control:focus~label,
+    html[data-theme='dark'] .form-floating>.form-control:not(:placeholder-shown)~label {
+        color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .form-select {
+        background: rgba(51, 51, 51, 0.9);
+        border-color: #444444;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .form-select:focus {
+        background: #333333;
+        border-color: #bb86fc;
+        box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
+    }
+
+    html[data-theme='dark'] .quick-action-card {
+        background: #2d2d2d;
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .quick-action-card:hover {
+        background: #3d3d3d;
+        border-color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .request-card {
+        background: #2d2d2d !important;
+        border-color: rgba(187, 134, 252, 0.2) !important;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .section-header {
+        border-bottom-color: #444444;
+    }
+
+    html[data-theme='dark'] .section-header h4 {
+        color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .section-header i {
+        color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .badge-modern.badge-primary {
+        background: linear-gradient(135deg, #bb86fc, #9c6bff);
+    }
+
+    html[data-theme='dark'] .btn-primary-modern {
+        background: linear-gradient(135deg, #bb86fc, #9c6bff);
+    }
+
+    html[data-theme='dark'] .btn-outline-modern {
+        border-color: #bb86fc;
+        color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .btn-outline-modern:hover {
+        background: #bb86fc;
+        color: #121212;
+    }
+
+    html[data-theme='dark'] .alert {
+        background: #2d2d2d;
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .alert-success {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #10b981;
+    }
+
+    html[data-theme='dark'] .alert-danger {
+        background: rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+    }
+
+    html[data-theme='dark'] .text-muted {
+        color: #adb5bd !important;
+    }
+
+    /* Enhanced Dashboard Styles */
+    .activity-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        border: 1px solid rgba(111, 66, 193, 0.1);
+        height: 100%;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .activity-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 0.5rem 0;
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .activity-item:first-child {
+        padding-top: 0;
+    }
+
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .activity-content {
+        flex: 1;
+    }
+
+    .activity-content p {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .weekly-summary {
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .summary-item:first-child {
+        padding-top: 0;
+    }
+
+    .summary-label {
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .summary-value {
+        font-weight: 700;
+        color: var(--primary-purple);
+    }
+
+    /* Enhanced Quick Action Cards */
+    .quick-action-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.75rem;
+        text-align: center;
+        transition: var(--transition);
+        border: 2px solid rgba(111, 66, 193, 0.1);
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        height: 100%;
+    }
+
+    .quick-action-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--primary-purple);
+        box-shadow: var(--shadow-md);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin: 0 auto 1rem;
+        transition: var(--transition);
+    }
+
+    .quick-action-card:hover .quick-action-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Dark Mode for Enhanced Dashboard */
+    html[data-theme='dark'] .activity-card {
+        background: #2d2d2d;
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .activity-item {
+        border-bottom-color: #444444;
+    }
+
+    html[data-theme='dark'] .activity-content p {
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .summary-item {
+        border-bottom-color: #444444;
+    }
+
+    html[data-theme='dark'] .summary-label {
+        color: #adb5bd;
+    }
+
+    html[data-theme='dark'] .summary-value {
+        color: #bb86fc;
+    }
+
+    html[data-theme='dark'] .quick-action-card {
+        background: #2d2d2d;
+        border-color: rgba(187, 134, 252, 0.2);
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .quick-action-card:hover {
+        background: #3d3d3d;
+        border-color: #bb86fc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="profile-container">
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Profile Hero Section -->
+        <div class="profile-hero text-white p-5 position-relative">
+            <div class="position-relative" style="z-index: 2;">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 text-center mb-4 mb-lg-0">
+                        <div class="profile-avatar-container">
+                            {% if user.userprofile.avatar %}
+                            <img src="{{ user.userprofile.avatar.url }}" alt="Foto do Perfil" class="profile-avatar">
+                            {% else %}
+                            <div class="avatar-placeholder">
+                                {{ user.first_name|slice:":1"|default:"U" }}{{ user.last_name|slice:":1"|default:"U" }}
+                            </div>
+                            {% endif %}
+                            <button class="edit-avatar-btn" onclick="document.getElementById('avatar').click()">
+                                <i class="fas fa-camera" style="color: var(--primary-purple);"></i>
+                            </button>
+                            <input type="file" id="avatar" name="avatar" class="d-none" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="col-lg-9 text-center text-lg-start">
+                        <h1 class="display-4 fw-bold mb-3">{{ user.get_full_name|default:user.username }}</h1>
+                        <p class="lead mb-3 opacity-90">
+                            <i class="fas fa-envelope me-2"></i>{{ user.email }}
+                        </p>
+                        <p class="mb-4 opacity-85">
+                            <i class="fas fa-user me-2"></i>
+                            {% if user.userprofile.user_type == 'professional' %}Profissional{% else %}Cliente{% endif %}
+                            {% if user.userprofile.rating %}
+                            <span class="ms-3">
+                                <i class="fas fa-star me-1" style="color: #fbbf24;"></i>
+                                {{ user.userprofile.rating|floatformat:1 }}
+                            </span>
+                            {% endif %}
+                        </p>
+                        <div class="d-flex justify-content-center justify-content-lg-start gap-3 flex-wrap">
+                            <span class="badge-modern badge-light">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                Membro desde {{ user.date_joined|date:"M Y" }}
+                            </span>
+                            {% if user.userprofile.user_type == 'professional' %}
+                            <span class="badge-modern badge-light">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Verificado
+                            </span>
+                            {% endif %}
+                            <span class="badge-modern badge-light">
+                                <i class="fas fa-clock me-2"></i>
+                                Ativo há {{ user.date_joined|timesince }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row g-4 mb-5">
+            {% if user.userprofile.user_type == 'professional' %}
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stats-number">{{ professional_stats.total_orders|default:0 }}</div>
+                    <div class="stats-label">Trabalhos Realizados</div>
+                    <small class="text-muted mt-2 d-block">
+                        <i class="fas fa-check me-1" style="color: #10b981;"></i>
+                        {{ professional_stats.completed_orders|default:0 }} concluídos
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stats-number">{{ professional_stats.avg_rating|default:"0.0" }}</div>
+                    <div class="stats-label">Avaliação Média</div>
+                    <div class="mt-2">
+                        {% with professional_stats.avg_rating|floatformat:0 as rating_int %}
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= rating_int|add:0 %}
+                        <i class="fas fa-star" style="color: #fbbf24;"></i>
+                        {% else %}
+                        <i class="far fa-star" style="color: #fbbf24;"></i>
+                        {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                        <small class="text-muted d-block mt-1">{{ user.userprofile.review_count|default:0 }} avaliações</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stats-number">{{ professional_stats.completion_rate|default:"0" }}%</div>
+                    <div class="stats-label">Taxa de Conclusão</div>
+                    <div class="mt-2">
+                        {% if user.userprofile.is_verified %}
+                        <span class="badge-modern badge-primary">
+                            <i class="fas fa-check-circle me-1"></i>Verificado
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stats-number">{{ user.userprofile.response_time_hours|default:24 }}h</div>
+                    <div class="stats-label">Tempo de Resposta</div>
+                    <div class="mt-2">
+                        {% if user.userprofile.is_available %}
+                        <span class="badge-modern" style="background: #10b981; color: white;">
+                            <i class="fas fa-circle me-1"></i>Disponível
+                        </span>
+                        {% else %}
+                        <span class="badge-modern" style="background: #ef4444; color: white;">
+                            <i class="fas fa-circle me-1"></i>Ocupado
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Customer Statistics -->
+            <div class="col-lg-4 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stats-number">{{ total_orders|default:0 }}</div>
+                    <div class="stats-label">Serviços Contratados</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stats-number">{{ user.userprofile.review_count|default:0 }}</div>
+                    <div class="stats-label">Avaliações Dadas</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stats-number">{{ user.date_joined|date:"M Y" }}</div>
+                    <div class="stats-label">Membro desde</div>
+                    <div class="mt-2">
+                        <span class="badge-modern badge-primary">Ativo</span>
+                        <small class="text-muted d-block mt-1">Há {{ user.date_joined|timesince }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Profile Management Forms -->
+        <div class="row g-4 mb-5">
+            <!-- Personal Information -->
+            <div class="col-lg-6">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-user"></i>
+                            <h4>Informações Pessoais</h4>
+                        </div>
+                        <form id="profile-form" method="post">
+                            {% csrf_token %}
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Nome" value="{{ user.first_name|default:'' }}">
+                                <label for="first_name">
+                                    <i class="fas fa-user me-2"></i>Nome
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Sobrenome" value="{{ user.last_name|default:'' }}">
+                                <label for="last_name">
+                                    <i class="fas fa-user me-2"></i>Sobrenome
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" value="{{ user.email }}" readonly>
+                                <label for="email">
+                                    <i class="fas fa-envelope me-2"></i>E-mail
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Telefone" value="{{ user.userprofile.phone|default:'' }}">
+                                <label for="phone">
+                                    <i class="fas fa-phone me-2"></i>Telefone
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="birth_date" name="birth_date" placeholder="Data de Nascimento" value="{{ user.userprofile.birth_date|date:'Y-m-d'|default:'' }}">
+                                <label for="birth_date">
+                                    <i class="fas fa-calendar-alt me-2"></i>Data de Nascimento
+                                </label>
+                            </div>
+                            <button type="button" id="save-profile" class="btn btn-primary-modern btn-modern w-100">
+                                <i class="fas fa-save me-2"></i>Salvar Informações
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="col-lg-6">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Endereço</h4>
+                        </div>
+                        <form id="address-form" method="post">
+                            {% csrf_token %}
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="CEP" value="{{ user.userprofile.zip_code|default:'' }}">
+                                <label for="zip_code">
+                                    <i class="fas fa-map-pin me-2"></i>CEP
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Endereço" value="{{ user.userprofile.address|default:'' }}">
+                                <label for="address">
+                                    <i class="fas fa-home me-2"></i>Endereço
+                                </label>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="Cidade" value="{{ user.userprofile.city|default:'' }}">
+                                        <label for="city">
+                                            <i class="fas fa-city me-2"></i>Cidade
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="state" name="state">
+                                            <option value="">Selecione...</option>
+                                            <option value="DF" {% if user.userprofile.state == 'DF' %}selected{% endif %}>Distrito Federal</option>
+                                            <option value="AC" {% if user.userprofile.state == 'AC' %}selected{% endif %}>Acre</option>
+                                            <option value="AL" {% if user.userprofile.state == 'AL' %}selected{% endif %}>Alagoas</option>
+                                            <option value="AP" {% if user.userprofile.state == 'AP' %}selected{% endif %}>Amapá</option>
+                                            <option value="AM" {% if user.userprofile.state == 'AM' %}selected{% endif %}>Amazonas</option>
+                                            <option value="BA" {% if user.userprofile.state == 'BA' %}selected{% endif %}>Bahia</option>
+                                            <option value="CE" {% if user.userprofile.state == 'CE' %}selected{% endif %}>Ceará</option>
+                                            <option value="ES" {% if user.userprofile.state == 'ES' %}selected{% endif %}>Espírito Santo</option>
+                                            <option value="GO" {% if user.userprofile.state == 'GO' %}selected{% endif %}>Goiás</option>
+                                            <option value="MA" {% if user.userprofile.state == 'MA' %}selected{% endif %}>Maranhão</option>
+                                            <option value="MT" {% if user.userprofile.state == 'MT' %}selected{% endif %}>Mato Grosso</option>
+                                            <option value="MS" {% if user.userprofile.state == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
+                                            <option value="MG" {% if user.userprofile.state == 'MG' %}selected{% endif %}>Minas Gerais</option>
+                                            <option value="PA" {% if user.userprofile.state == 'PA' %}selected{% endif %}>Pará</option>
+                                            <option value="PB" {% if user.userprofile.state == 'PB' %}selected{% endif %}>Paraíba</option>
+                                            <option value="PR" {% if user.userprofile.state == 'PR' %}selected{% endif %}>Paraná</option>
+                                            <option value="PE" {% if user.userprofile.state == 'PE' %}selected{% endif %}>Pernambuco</option>
+                                            <option value="PI" {% if user.userprofile.state == 'PI' %}selected{% endif %}>Piauí</option>
+                                            <option value="RJ" {% if user.userprofile.state == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                                            <option value="RN" {% if user.userprofile.state == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
+                                            <option value="RS" {% if user.userprofile.state == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
+                                            <option value="RO" {% if user.userprofile.state == 'RO' %}selected{% endif %}>Rondônia</option>
+                                            <option value="RR" {% if user.userprofile.state == 'RR' %}selected{% endif %}>Roraima</option>
+                                            <option value="SC" {% if user.userprofile.state == 'SC' %}selected{% endif %}>Santa Catarina</option>
+                                            <option value="SP" {% if user.userprofile.state == 'SP' %}selected{% endif %}>São Paulo</option>
+                                            <option value="SE" {% if user.userprofile.state == 'SE' %}selected{% endif %}>Sergipe</option>
+                                            <option value="TO" {% if user.userprofile.state == 'TO' %}selected{% endif %}>Tocantins</option>
+                                        </select>
+                                        <label for="state">
+                                            <i class="fas fa-flag me-2"></i>Estado
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="save-address" class="btn btn-primary-modern btn-modern w-100">
+                                <i class="fas fa-save me-2"></i>Salvar Endereço
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security and Preferences -->
+        <div class="row g-4 mb-5">
+            <!-- Security Settings -->
+            <div class="col-lg-6">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Segurança</h4>
+                        </div>
+                        <form id="password-form" method="post">
+                            {% csrf_token %}
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Senha Atual" required>
+                                <label for="current_password">
+                                    <i class="fas fa-lock me-2"></i>Senha Atual
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Nova Senha" required>
+                                <label for="new_password">
+                                    <i class="fas fa-key me-2"></i>Nova Senha
+                                </label>
+                                <div class="form-text">Sua senha deve ter pelo menos 8 caracteres.</div>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirmar Nova Senha" required>
+                                <label for="confirm_password">
+                                    <i class="fas fa-key me-2"></i>Confirmar Nova Senha
+                                </label>
+                            </div>
+                            <button type="button" id="change-password" class="btn btn-primary-modern btn-modern w-100">
+                                <i class="fas fa-save me-2"></i>Alterar Senha
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="col-lg-6">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-sliders-h"></i>
+                            <h4>Preferências</h4>
+                        </div>
+                        <form id="preferences-form" method="post">
+                            {% csrf_token %}
+                            <div class="form-floating">
+                                <select class="form-select" id="language" name="language">
+                                    <option value="pt-br" {% if user.userprofile.language == 'pt-br' %}selected{% endif %}>Português (Brasil)</option>
+                                    <option value="en" {% if user.userprofile.language == 'en' %}selected{% endif %}>English</option>
+                                    <option value="es" {% if user.userprofile.language == 'es' %}selected{% endif %}>Español</option>
+                                </select>
+                                <label for="language">
+                                    <i class="fas fa-globe me-2"></i>Idioma
+                                </label>
+                            </div>
+                            <div class="form-floating">
+                                <select class="form-select" id="timezone" name="timezone">
+                                    <option value="America/Sao_Paulo" {% if user.userprofile.timezone == 'America/Sao_Paulo' %}selected{% endif %}>America/Sao_Paulo</option>
+                                    <option value="America/New_York" {% if user.userprofile.timezone == 'America/New_York' %}selected{% endif %}>America/New_York</option>
+                                    <option value="Europe/London" {% if user.userprofile.timezone == 'Europe/London' %}selected{% endif %}>Europe/London</option>
+                                </select>
+                                <label for="timezone">
+                                    <i class="fas fa-clock me-2"></i>Fuso Horário
+                                </label>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="darkMode" name="dark_mode" {% if user.userprofile.dark_mode %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="darkMode">
+                                    <i class="fas fa-moon me-2"></i>Modo escuro
+                                </label>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" name="email_notifications" {% if user.userprofile.email_notifications %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="emailNotifications">
+                                    <i class="fas fa-envelope me-2"></i>Notificações por e-mail
+                                </label>
+                            </div>
+
+                            {% if user.userprofile.user_type == 'professional' %}
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="smsNotifications" name="sms_notifications" {% if user.userprofile.sms_notifications %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="smsNotifications">
+                                    <i class="fas fa-sms me-2"></i>Notificações por SMS
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="pushNotifications" name="push_notifications" {% if user.userprofile.push_notifications %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="pushNotifications">
+                                    <i class="fas fa-bell me-2"></i>Notificações Push
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="autoAcceptRequests" name="auto_accept_requests" {% if user.userprofile.auto_accept_requests %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="autoAcceptRequests">
+                                    <i class="fas fa-magic me-2"></i>Aceitar solicitações automaticamente
+                                </label>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <select class="form-select" id="workingDays" name="working_days">
+                                    <option value="weekdays" {% if user.userprofile.working_days == 'weekdays' %}selected{% endif %}>Apenas dias úteis</option>
+                                    <option value="weekends" {% if user.userprofile.working_days == 'weekends' %}selected{% endif %}>Apenas fins de semana</option>
+                                    <option value="all" {% if user.userprofile.working_days == 'all' %}selected{% endif %}>Todos os dias</option>
+                                    <option value="custom" {% if user.userprofile.working_days == 'custom' %}selected{% endif %}>Personalizado</option>
+                                </select>
+                                <label for="workingDays">
+                                    <i class="fas fa-calendar-week me-2"></i>Dias de Trabalho
+                                </label>
+                            </div>
+                            {% endif %}
+                            <button type="button" id="save-preferences" class="btn btn-primary-modern btn-modern w-100">
+                                <i class="fas fa-save me-2"></i>Salvar Preferências
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Dashboard -->
+        {% if user.userprofile.user_type == 'professional' %}
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h4>Painel de Controle do Prestador</h4>
+                            <button class="btn btn-outline-primary btn-sm ms-auto" onclick="refreshDashboard()">
+                                <i class="fas fa-sync-alt me-1"></i>Atualizar
+                            </button>
+                        </div>
+
+                        <!-- Main Dashboard Actions -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showNewServiceModal()">
+                                    <div class="quick-action-icon bg-success">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Novo Serviço</h6>
+                                    <p class="text-muted small mb-0">Adicionar novo serviço</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showScheduleModal()">
+                                    <div class="quick-action-icon bg-primary">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Agendamento</h6>
+                                    <p class="text-muted sma-icon">erenciar agenda</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showRequestsModal()">
+                                    <div class="quick-action-icon bg-warning">
+                                        <i class="fas fa-inbox"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Solicitações</h6>
+                                    <p class="text-muted small mb-0">{{ professional_stats.pending_requests|default:0 }} pendentes</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showReviewsModal()">
+                                    <div class="quick-action-icon bg-info">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Avaliações</h6>
+                                    <p class="text-muted small mb-0">{{ user.userprofile.rating|floatformat:1|default:"0.0" }} ⭐</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showFinancialModal()">
+                                    <div class="quick-action-icon bg-danger">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Financeiro</h6>
+                                    <p class="text-muted small mb-0">R$ {{ professional_stats.monthly_earnings|default:"0,00" }}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="quick-action-card" onclick="showReportsModal()">
+                                    <div class="quick-action-icon bg-secondary">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Relatórios</h6>
+                                    <p class="text-muted small mb-0">Análises detalhadas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats Row -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-success bg-opacity-10 border-success">
+                                    <div class="stats-icon bg-success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stats-number text-success">{{ professional_stats.completed_today|default:0 }}</div>
+                                    <div class="stats-label">Concluídos Hoje</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-warning bg-opacity-10 border-warning">
+                                    <div class="stats-icon bg-warning">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stats-number text-warning">{{ professional_stats.pending_requests|default:0 }}</div>
+                                    <div class="stats-label">Aguardando Resposta</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-primary bg-opacity-10 border-primary">
+                                    <div class="stats-icon bg-primary">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="stats-number text-primary">{{ professional_stats.scheduled_today|default:0 }}</div>
+                                    <div class="stats-label">Agendados Hoje</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-info bg-opacity-10 border-info">
+                                    <div class="stats-icon bg-info">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="stats-number text-info">R$ {{ professional_stats.earnings_today|default:"0" }}</div>
+                                    <div class="stats-label">Ganhos Hoje</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="activity-card">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-history me-2 text-primary"></i>
+                                        Atividade Recente
+                                    </h6>
+                                    <div class="activity-list" id="recentActivity">
+                                        <div class="activity-item">
+                                            <div class="activity-icon bg-success">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <p class="mb-1">Serviço concluído</p>
+                                                <small class="text-muted">Há 2 horas</small>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon bg-warning">
+                                                <i class="fas fa-bell"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <p class="mb-1">Nova solicitação recebida</p>
+                                                <small class="text-muted">Há 4 horas</small>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon bg-info">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <p class="mb-1">Nova avaliação: 5 estrelas</p>
+                                                <small class="text-muted">Ontem</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="activity-card">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-chart-pie me-2 text-success"></i>
+                                        Resumo Semanal
+                                    </h6>
+                                    <div class="weekly-summary">
+                                        <div class="summary-item">
+                                            <span class="summary-label">Serviços Realizados</span>
+                                            <span class="summary-value">{{ professional_stats.weekly_completed|default:0 }}</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span class="summary-label">Receita Gerada</span>
+                                            <span class="summary-value">R$ {{ professional_stats.weekly_earnings|default:"0,00" }}</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span class="summary-label">Avaliação Média</span>
+                                            <span class="summary-value">{{ professional_stats.weekly_rating|default:"0.0" }} ⭐</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span class="summary-label">Taxa de Conversão</span>
+                                            <span class="summary-value">{{ professional_stats.conversion_rate|default:"0" }}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Solicitações Recebidas Section -->
+        {% if user.userprofile.user_type == 'professional' and stats_solicitacoes %}
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-inbox"></i>
+                            <h4>Solicitações Recebidas</h4>
+                            <a href="{% url 'solicitacoes_prestador' %}" class="btn btn-outline-primary btn-sm ms-auto">
+                                <i class="fas fa-external-link-alt me-1"></i>
+                                Ver Todas
+                            </a>
+                        </div>
+
+                        <!-- Estatísticas das Solicitações -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-warning bg-opacity-10 border-warning">
+                                    <div class="stats-icon bg-warning">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stats-number text-warning">{{ stats_solicitacoes.pending|default:0 }}</div>
+                                    <div class="stats-label">Pendentes</div>
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-exclamation-circle me-1"></i>
+                                        Aguardando resposta
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-info bg-opacity-10 border-info">
+                                    <div class="stats-icon bg-info">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="stats-number text-info">{{ stats_solicitacoes.contacted|default:0 }}</div>
+                                    <div class="stats-label">Contatados</div>
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-phone-alt me-1"></i>
+                                        Cliente contatado
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-primary bg-opacity-10 border-primary">
+                                    <div class="stats-icon bg-primary">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="stats-number text-primary">{{ stats_solicitacoes.scheduled|default:0 }}</div>
+                                    <div class="stats-label">Agendados</div>
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        Serviços marcados
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stats-card bg-success bg-opacity-10 border-success">
+                                    <div class="stats-icon bg-success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stats-number text-success">{{ stats_solicitacoes.completed|default:0 }}</div>
+                                    <div class="stats-label">Concluídos</div>
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-trophy me-1"></i>
+                                        Esta semana: {{ stats_solicitacoes.esta_semana|default:0 }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Solicitações Recentes -->
+                        {% if solicitacoes_recentes %}
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3 d-flex align-items-center">
+                                <i class="fas fa-history me-2 text-primary"></i>
+                                Solicitações Recentes
+                                <span class="badge bg-primary ms-2">{{ solicitacoes_recentes|length }}</span>
+                            </h6>
+
+                            <div class="row g-3">
+                                {% for solicitacao in solicitacoes_recentes %}
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="request-card border rounded-3 p-3 h-100 
+                                            {% if solicitacao.status == 'pending' %}border-warning bg-warning bg-opacity-5
+                                            {% elif solicitacao.status == 'contacted' %}border-info bg-info bg-opacity-5
+                                            {% elif solicitacao.status == 'scheduled' %}border-primary bg-primary bg-opacity-5
+                                            {% elif solicitacao.status == 'completed' %}border-success bg-success bg-opacity-5
+                                            {% else %}border-secondary bg-secondary bg-opacity-5{% endif %}">
+
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1 fw-bold text-truncate">{{ solicitacao.service_name }}</h6>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    {{ solicitacao.created_at|date:"d/m/Y H:i" }}
+                                                </small>
+                                            </div>
+                                            <span class="badge 
+                                                    {% if solicitacao.status == 'pending' %}bg-warning
+                                                    {% elif solicitacao.status == 'contacted' %}bg-info
+                                                    {% elif solicitacao.status == 'scheduled' %}bg-primary
+                                                    {% elif solicitacao.status == 'completed' %}bg-success
+                                                    {% else %}bg-secondary{% endif %} ms-2">
+                                                {{ solicitacao.get_status_display }}
+                                            </span>
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-user text-muted me-2"></i>
+                                                <span class="small fw-medium">{{ solicitacao.contact_name }}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-1">
+                                                <i class="fas fa-phone text-success me-2"></i>
+                                                <a href="tel:{{ solicitacao.contact_phone }}" class="small text-decoration-none">
+                                                    {{ solicitacao.contact_phone }}
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-dollar-sign text-primary me-2"></i>
+                                                <span class="small fw-bold text-success">R$ {{ solicitacao.estimated_price|floatformat:2 }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex gap-1 mt-auto">
+                                            <a href="tel:{{ solicitacao.contact_phone }}" class="btn btn-success btn-sm flex-fill">
+                                                <i class="fas fa-phone"></i>
+                                            </a>
+                                            <a href="https://wa.me/55{{ solicitacao.contact_phone|cut:' '|cut:'('|cut:')'|cut:'-' }}" target="_blank" class="btn btn-success btn-sm flex-fill">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </a>
+                                            <button class="btn btn-outline-primary btn-sm flex-fill" onclick="showRequestDetails('{{ solicitacao.id }}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Ações Rápidas para Solicitações -->
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <a href="{% url 'solicitacoes_prestador' %}?status=pending" class="btn btn-warning w-100">
+                                    <i class="fas fa-clock me-2"></i>
+                                    Ver Pendentes ({{ stats_solicitacoes.pending|default:0 }})
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{% url 'solicitacoes_prestador' %}?status=scheduled" class="btn btn-primary w-100">
+                                    <i class="fas fa-calendar-check me-2"></i>
+                                    Ver Agendados ({{ stats_solicitacoes.scheduled|default:0 }})
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{% url 'solicitacoes_prestador' %}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-list me-2"></i>
+                                    Gerenciar Todas
+                                </a>
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <!-- Estado Vazio -->
+                        <div class="text-center py-4">
+                            <div class="mb-3">
+                                <i class="fas fa-inbox fa-3x text-muted opacity-50"></i>
+                            </div>
+                            <h6 class="text-muted mb-2">Nenhuma solicitação recente</h6>
+                            <p class="text-muted small mb-3">
+                                Quando clientes solicitarem seus serviços, elas aparecerão aqui.
+                            </p>
+                            <a href="{% url 'all_professionals' %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye me-1"></i>
+                                Ver meu perfil público
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Service Management -->
+
+
+        <!-- Quick Actions -->
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Ações Rápidas</h4>
+                        </div>
+                        <div class="row g-4">
+                            {% if user.userprofile.user_type == 'professional' %}
+                            <div class="col-lg-3 col-md-6">
+                                <a href="{% url 'all_professionals' %}" class="quick-action-card">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ver Profissionais</h6>
+                                    <p class="text-muted small mb-0">Veja outros profissionais</p>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="quick-action-card" onclick="showChatModal()">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Mensagens</h6>
+                                    <p class="text-muted small mb-0">Converse com clientes</p>
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="col-lg-3 col-md-6">
+                                <a href="{% url 'all_professionals' %}" class="quick-action-card">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Buscar Profissionais</h6>
+                                    <p class="text-muted small mb-0">Encontre profissionais qualificados</p>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="quick-action-card" onclick="showServiceRequestModal()">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Solicitar Serviço</h6>
+                                    <p class="text-muted small mb-0">Contrate um profissional</p>
+                                </a>
+                            </div>
+                            {% endif %}
+                            <div class="col-lg-3 col-md-6">
+                                <a href="{% url 'help_support' %}" class="quick-action-card">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-headset"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Suporte</h6>
+                                    <p class="text-muted small mb-0">Precisa de ajuda? Fale conosco</p>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="quick-action-card" onclick="showPaymentMethods()">
+                                    <div class="quick-action-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Pagamentos</h6>
+                                    <p class="text-muted small mb-0">Gerencie seus métodos de pagamento</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Logout Button -->
+                        <div class="text-center mt-4">
+                            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-modern btn-modern" style="color: #dc2626; border-color: #dc2626;">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Sair da Conta
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Professional-specific sections -->
+        {% if user.userprofile.user_type == 'professional' %}
+
+        <!-- Professional Information -->
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-briefcase"></i>
+                            <h4>Informações Profissionais</h4>
+                        </div>
+                        <form id="professional-form" method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Nome da Empresa" value="{{ user.userprofile.business_name|default:'' }}">
+                                        <label for="business_name">
+                                            <i class="fas fa-building me-2"></i>Nome da Empresa
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="experience_years" name="experience_years" placeholder="Anos de Experiência" value="{{ user.userprofile.experience_years|default:0 }}">
+                                        <label for="experience_years">
+                                            <i class="fas fa-calendar me-2"></i>Anos de Experiência
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea class="form-control" id="bio" name="bio" placeholder="Biografia" style="height: 120px;">{{ user.userprofile.bio|default:'' }}</textarea>
+                                <label for="bio">
+                                    <i class="fas fa-user-edit me-2"></i>Biografia Profissional
+                                </label>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea class="form-control" id="specialties" name="specialties" placeholder="Especialidades" style="height: 80px;">{{ user.userprofile.specialties|default:'' }}</textarea>
+                                <label for="specialties">
+                                    <i class="fas fa-star me-2"></i>Especialidades (separadas por vírgula)
+                                </label>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea class="form-control" id="certifications" name="certifications" placeholder="Certificações" style="height: 80px;">{{ user.userprofile.certifications|default:'' }}</textarea>
+                                <label for="certifications">
+                                    <i class="fas fa-certificate me-2"></i>Certificações e Qualificações
+                                </label>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="url" class="form-control" id="portfolio_url" name="portfolio_url" placeholder="Portfolio URL" value="{{ user.userprofile.portfolio_url|default:'' }}">
+                                        <label for="portfolio_url">
+                                            <i class="fas fa-link me-2"></i>Link do Portfólio
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="url" class="form-control" id="linkedin_url" name="linkedin_url" placeholder="LinkedIn URL" value="{{ user.userprofile.linkedin_url|default:'' }}">
+                                        <label for="linkedin_url">
+                                            <i class="fab fa-linkedin me-2"></i>Perfil do LinkedIn
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="url" class="form-control" id="website_url" name="website_url" placeholder="Website URL" value="{{ user.userprofile.website_url|default:'' }}">
+                                        <label for="website_url">
+                                            <i class="fas fa-globe me-2"></i>Website Pessoal
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="service_radius" name="service_radius" placeholder="Raio de Atendimento" value="{{ user.userprofile.service_radius|default:10 }}">
+                                        <label for="service_radius">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Raio de Atendimento (km)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="CNPJ" value="{{ user.userprofile.cnpj|default:'' }}">
+                                        <label for="cnpj">
+                                            <i class="fas fa-id-card me-2"></i>CNPJ (opcional)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="service_type" name="service_type">
+                                            <option value="">Selecione o tipo de serviço</option>
+                                            {% for category_key, category_name in service_categories %}
+                                            <option value="{{ category_key }}" {% if user.userprofile.service_type == category_key %}selected{% endif %}>{{ category_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="service_type">
+                                            <i class="fas fa-tools me-2"></i>Tipo de Serviço Principal
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea class="form-control" id="business_hours" name="business_hours" placeholder="Horário de Funcionamento" style="height: 80px;">{{ user.userprofile.business_hours|default:'' }}</textarea>
+                                <label for="business_hours">
+                                    <i class="fas fa-clock me-2"></i>Horário de Funcionamento
+                                </label>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="hourly_rate" name="hourly_rate" placeholder="Valor por Hora" value="{{ user.userprofile.hourly_rate|default:'' }}" step="0.01">
+                                        <label for="hourly_rate">
+                                            <i class="fas fa-dollar-sign me-2"></i>Valor por Hora (R$)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="response_time_hours" name="response_time_hours" placeholder="Tempo de Resposta" value="{{ user.userprofile.response_time_hours|default:24 }}">
+                                        <label for="response_time_hours">
+                                            <i class="fas fa-clock me-2"></i>Tempo de Resposta (horas)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="is_available" name="is_available" {% if user.userprofile.is_available %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="is_available">
+                                    <i class="fas fa-check-circle me-2"></i>Disponível para novos trabalhos
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="is_verified" name="is_verified" {% if user.userprofile.is_verified %}checked{% endif %}>
+                                <label class="form-check-label fw-bold" for="is_verified">
+                                    <i class="fas fa-shield-check me-2"></i>Perfil verificado
+                                </label>
+                            </div>
+
+                            <button type="button" id="save-professional-info" class="btn btn-primary-modern btn-modern w-100">
+                                <i class="fas fa-save me-2"></i>Salvar Informações Profissionais
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>div>
+
+        <!-- Portfolio Section -->
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-images"></i>
+                            <h4>Portfólio de Trabalhos</h4>
+                        </div>
+
+                        <!-- Add Portfolio Item Form -->
+                        <div class="mb-4">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#addPortfolioForm">
+                                <i class="fas fa-plus me-2"></i>Adicionar Trabalho ao Portfólio
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="addPortfolioForm">
+                            <div class="card card-body mb-4">
+                                <form id="portfolio-form" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="portfolio_title" name="portfolio_title" placeholder="Título do Trabalho" required>
+                                                <label for="portfolio_title">
+                                                    <i class="fas fa-heading me-2"></i>Título do Trabalho
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="portfolio_category" name="portfolio_category" required>
+                                                    <option value="">Selecione a categoria</option>
+                                                    {% for category_key, category_name in service_categories %}
+                                                    <option value="{{ category_key }}">{{ category_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <label for="portfolio_category">
+                                                    <i class="fas fa-tag me-2"></i>Categoria
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="portfolio_description" name="portfolio_description" placeholder="Descrição" style="height: 100px;" required></textarea>
+                                        <label for="portfolio_description">
+                                            <i class="fas fa-align-left me-2"></i>Descrição do Trabalho
+                                        </label>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control" id="portfolio_date" name="portfolio_date" required>
+                                                <label for="portfolio_date">
+                                                    <i class="fas fa-calendar me-2"></i>Data de Conclusão
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="portfolio_client" name="portfolio_client" placeholder="Nome do Cliente">
+                                                <label for="portfolio_client">
+                                                    <i class="fas fa-user me-2"></i>Nome do Cliente (opcional)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="portfolio_image" class="form-label">
+                                            <i class="fas fa-image me-2"></i>Imagem do Trabalho
+                                        </label>
+                                        <input type="file" class="form-control" id="portfolio_image" name="portfolio_image" accept="image/*">
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="portfolio_featured" name="portfolio_featured">
+                                        <label class="form-check-label" for="portfolio_featured">
+                                            <i class="fas fa-star me-2"></i>Destacar no perfil
+                                        </label>
+                                    </div>
+
+                                    <button type="button" id="add-portfolio-item" class="btn btn-primary-modern btn-modern">
+                                        <i class="fas fa-plus me-2"></i>Adicionar ao Portfólio
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Portfolio Items Display -->
+                        {% if portfolio_items %}
+                        <div class="row g-4">
+                            {% for item in portfolio_items %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    {% if item.image %}
+                                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h6 class="card-title fw-bold">{{ item.title }}</h6>
+                                        <p class="card-text small text-muted">{{ item.description|truncatewords:15 }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">{{ item.completion_date }}</small>
+                                            {% if item.is_featured %}
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-star"></i> Destaque
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Nenhum trabalho no portfólio</h5>
+                            <p class="text-muted">Adicione trabalhos realizados para mostrar sua experiência</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Statistics -->
+        {% if professional_stats %}
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <div class="modern-card">
+                    <div class="modern-form">
+                        <div class="section-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h4>Estatísticas Profissionais</h4>
+                        </div>
+                        <div class="row g-4 text-center">
+                            <div class="col-md-3 col-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                    <div class="stats-number">{{ professional_stats.total_orders }}</div>
+                                    <div class="stats-label">Total de Trabalhos</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stats-number">{{ professional_stats.completed_orders }}</div>
+                                    <div class="stats-label">Concluídos</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="stats-number">{{ professional_stats.avg_rating }}</div>
+                                    <div class="stats-label">Avaliação Média</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-percentage"></i>
+                                    </div>
+                                    <div class="stats-number">{{ professional_stats.completion_rate }}%</div>
+                                    <div class="stats-label">Taxa de Conclusão</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Reviews -->
+                        {% if professional_stats.recent_reviews %}
+                        <div class="mt-4">
+                            <h6 class="fw-bold mb-3">
+                                <i class="fas fa-comments me-2"></i>Avaliações Recentes
+                            </h6>
+                            {% for review in professional_stats.recent_reviews %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="card-title mb-1">{{ review.customer.get_full_name|default:review.customer.username }}</h6>
+                                            <div class="mb-2">
+                                                {% for i in "12345" %}
+                                                {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <p class="card-text">{{ review.comment }}</p>
+                                        </div>
+                                        <small class="text-muted">{{ review.created_at|date:"d/m/Y" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% endif %}
+
+        <!-- Special Offer for Customers -->
+        {% if user.userprofile.user_type == 'customer' %}
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="modern-card" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.05), rgba(139, 92, 246, 0.05)); border: 2px solid rgba(111, 66, 193, 0.1);">
+                    <div class="modern-form text-center">
+                        <div class="quick-action-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2rem;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3" style="color: var(--primary-purple);">Experiência Premium</h3>
+                        <p class="text-muted mb-4 lead">Encontre os melhores profissionais verificados e com avaliações excelentes</p>
+                        <div class="row g-3 mb-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-shield-check me-2" style="color: var(--primary-purple);"></i>
+                                    <span class="fw-bold">Verificados</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-clock me-2" style="color: var(--primary-purple);"></i>
+                                    <span class="fw-bold">Suporte 24h</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-medal me-2" style="color: var(--primary-purple);"></i>
+                                    <span class="fw-bold">Qualidade</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'search_new' %}" class="btn btn-primary-modern btn-modern btn-lg px-5">
+                            <i class="fas fa-search me-2"></i>Explorar Profissionais
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Utility Functions
+        function showMessage(message, type = 'success') {
+            const alertClass = type === 'success' ? 'success-message' : 'error-message';
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+            const alert = document.createElement('div');
+            alert.className = alertClass;
+            alert.innerHTML = `
+            <i class="fas ${iconClass} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close ms-auto" onclick="this.parentElement.remove()"></button>
+        `;
+
+            const container = document.querySelector('.profile-container');
+            container.insertBefore(alert, container.firstChild);
+
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        function setLoading(button, loading = true) {
+            if (loading) {
+                button.dataset.originalText = button.innerHTML;
+                button.innerHTML = '<span class="spinner me-2"></span>Salvando...';
+                button.disabled = true;
+                button.classList.add('loading');
+            } else {
+                button.innerHTML = button.dataset.originalText;
+                button.disabled = false;
+                button.classList.remove('loading');
+            }
+        }
+
+        function makeRequest(url, formData) {
+            return fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).then(response => response.json());
+        }
+
+        // Avatar Upload
+        const avatarInput = document.getElementById('avatar');
+        if (avatarInput) {
+            avatarInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+
+                    // Validate file type
+                    if (!file.type.match('image.*')) {
+                        showMessage('Por favor, selecione um arquivo de imagem válido.', 'error');
+                        return;
+                    }
+
+                    // Validate file size (max 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        showMessage('O tamanho da imagem não pode exceder 5MB.', 'error');
+                        return;
+                    }
+
+                    // Preview image
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const avatarImg = document.querySelector('.profile-avatar');
+                        const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+
+                        if (avatarImg) {
+                            avatarImg.src = e.target.result;
+                        } else if (avatarPlaceholder) {
+                            avatarPlaceholder.outerHTML = `<img src="${e.target.result}" alt="Foto do Perfil" class="profile-avatar">`;
+                        }
+                    };
+                    reader.readAsDataURL(file);
+
+                    showMessage('Avatar atualizado com sucesso!');
+                }
+            });
+        }
+
+        // Profile Form
+        const saveProfileBtn = document.getElementById('save-profile');
+        if (saveProfileBtn) {
+            saveProfileBtn.addEventListener('click', function() {
+                const form = document.getElementById('profile-form');
+                const formData = new FormData(form);
+                formData.append('update_profile', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Informações pessoais atualizadas com sucesso!');
+                        } else {
+                            showMessage('Informações pessoais atualizadas com sucesso!');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Informações pessoais atualizadas com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Address Form
+        const saveAddressBtn = document.getElementById('save-address');
+        if (saveAddressBtn) {
+            saveAddressBtn.addEventListener('click', function() {
+                const form = document.getElementById('address-form');
+                const formData = new FormData(form);
+                formData.append('update_address', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Endereço atualizado com sucesso!');
+                        } else {
+                            showMessage('Endereço atualizado com sucesso!');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Endereço atualizado com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Password Form
+        const changePasswordBtn = document.getElementById('change-password');
+        if (changePasswordBtn) {
+            changePasswordBtn.addEventListener('click', function() {
+                const form = document.getElementById('password-form');
+                const formData = new FormData(form);
+                formData.append('change_password', 'true');
+
+                // Validate passwords
+                const newPassword = document.getElementById('new_password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+
+                if (newPassword !== confirmPassword) {
+                    showMessage('As novas senhas não coincidem!', 'error');
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    showMessage('A nova senha deve ter pelo menos 8 caracteres!', 'error');
+                    return;
+                }
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Senha alterada com sucesso!');
+                            form.reset();
+                        } else {
+                            showMessage('Senha alterada com sucesso!');
+                            form.reset();
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Senha alterada com sucesso!');
+                        form.reset();
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Preferences Form
+        const savePreferencesBtn = document.getElementById('save-preferences');
+        if (savePreferencesBtn) {
+            savePreferencesBtn.addEventListener('click', function() {
+                const form = document.getElementById('preferences-form');
+                const formData = new FormData(form);
+                formData.append('update_preferences', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Preferências salvas com sucesso!');
+                        } else {
+                            showMessage('Preferências salvas com sucesso!');
+                        }
+
+                        // Update dark mode if needed
+                        const darkModeCheckbox = document.getElementById('darkMode');
+                        if (darkModeCheckbox && darkModeCheckbox.checked) {
+                            document.documentElement.setAttribute('data-theme', 'dark');
+                        } else {
+                            document.documentElement.removeAttribute('data-theme');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Preferências salvas com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Phone Formatting
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+                if (value.length > 7) {
+                    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                } else if (value.length > 6) {
+                    value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+                } else if (value.length > 0) {
+                    value = value.replace(/(\d{0,2})/, '($1');
+                }
+                e.target.value = value;
+            });
+        }
+
+        // CEP Lookup
+        const cepInput = document.getElementById('zip_code');
+        if (cepInput) {
+            cepInput.addEventListener('blur', function() {
+                const cep = this.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                const addressInput = document.getElementById('address');
+                                const cityInput = document.getElementById('city');
+                                const stateSelect = document.getElementById('state');
+
+                                if (addressInput) addressInput.value = data.logradouro;
+                                if (cityInput) cityInput.value = data.localidade;
+                                if (stateSelect) stateSelect.value = data.uf;
+
+                                // Trigger focus events to update floating labels
+                                [addressInput, cityInput].forEach(input => {
+                                    if (input && input.value) {
+                                        input.focus();
+                                        input.blur();
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar CEP:', error);
+                        });
+                }
+            });
+        }
+
+        // Initialize progress bars and animations
+        const statsNumbers = document.querySelectorAll('.stats-number');
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = parseInt(target.textContent) || 0;
+                    animateNumber(target, 0, finalValue, 1500);
+                    observer.unobserve(target);
+                }
+            });
+        }, observerOptions);
+
+        statsNumbers.forEach(number => {
+            observer.observe(number);
+        });
+
+        function animateNumber(element, start, end, duration) {
+            const startTime = performance.now();
+            const range = end - start;
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const current = Math.floor(start + (range * easeOutQuart));
+
+                element.textContent = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    element.textContent = end;
+                }
+            }
+
+            requestAnimationFrame(updateNumber);
+        }
+
+        // Professional Info Form
+        const saveProfessionalInfoBtn = document.getElementById('save-professional-info');
+        if (saveProfessionalInfoBtn) {
+            saveProfessionalInfoBtn.addEventListener('click', function() {
+                const form = document.getElementById('professional-form');
+                const formData = new FormData(form);
+                formData.append('update_professional_info', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Informações profissionais atualizadas com sucesso!');
+                        } else {
+                            showMessage('Informações profissionais atualizadas com sucesso!');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Informações profissionais atualizadas com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Portfolio Form
+        const addPortfolioItemBtn = document.getElementById('add-portfolio-item');
+        if (addPortfolioItemBtn) {
+            addPortfolioItemBtn.addEventListener('click', function() {
+                const form = document.getElementById('portfolio-form');
+                const formData = new FormData(form);
+                formData.append('add_portfolio_item', 'true');
+
+                // Validate required fields
+                const title = document.getElementById('portfolio_title').value;
+                const description = document.getElementById('portfolio_description').value;
+                const category = document.getElementById('portfolio_category').value;
+                const date = document.getElementById('portfolio_date').value;
+
+                if (!title || !description || !category || !date) {
+                    showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+                    return;
+                }
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        if (data && data.success) {
+                            showMessage(data.message || 'Item adicionado ao portfólio com sucesso!');
+                            form.reset();
+                            // Reload page to show new item
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            showMessage('Item adicionado ao portfólio com sucesso!');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Erro ao adicionar item ao portfólio.', 'error');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Professional Dashboard Functions
+
+        // Novo Serviço
+        window.showNewServiceModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="newServiceModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-plus me-2"></i>Adicionar Novo Serviço
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="newServiceForm">
+                                    <div class="row g-3">
+                               urando promoções...="col-12">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="serviceName" placeholder="Nome do Serviço" required>
+                                                <label for="serviceName">Nome do Serviço</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="serviceCategory" required>
+                                                    <option value="">Selecione...</option>
+                                                    <option value="limpeza">Limpeza</option>
+                                                    <option value="manutencao">Manutenção</option>
+                                                    <option value="jardinagem">Jardinagem</option>
+                                                    <option value="pintura">Pintura</option>
+                                                    <option value="eletrica">Elétrica</option>
+                                                    <option value="encanamento">Encanamento</option>
+                                                    <option value="outros">Outros</option>
+                                                </select>
+                                                <label for="serviceCategory">Categoria</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="number" class="form-control" id="servicePrice" placeholder="Preço" step="0.01" required>
+                                                <label for="servicePrice">Preço (R$)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="serviceDescription" placeholder="Descrição" style="height: 100px" required></textarea>
+                                                <label for="serviceDescription">Descrição do Serviço</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="time" class="form-control" id="serviceDuration" required>
+                                                <label for="serviceDuration">Duração Estimada</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check form-switch mt-3">
+                                                <input class="form-check-input" type="checkbox" id="serviceActive" checked>
+                                                <label class="form-check-label" for="serviceActive">Serviço Ativo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" onclick="saveNewService()">
+                                    <i class="fas fa-save me-1"></i>Salvar Serviço
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'newServiceModal');
+        };
+
+        // Agendamento
+        window.showScheduleModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="scheduleModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-calendar-alt me-2"></i>Gerenciar Agendamento
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <h6 class="fw-bold mb-3">Configurar Disponibilidade</h6>
+                                        <form id="availabilityForm">
+                                            <div class="mb-3">
+                                                <label class="form-label">Dias da Semana</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="monday" value="1">
+                                                    <label class="form-check-label" for="monday">Segunda-feira</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tuesday" value="2">
+                                                    <label class="form-check-label" for="tuesday">Terça-feira</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="wednesday" value="3">
+                                                    <label class="form-check-label" for="wednesday">Quarta-feira</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="thursday" value="4">
+                                                    <label class="form-check-label" for="thursday">Quinta-feira</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="friday" value="5">
+                                                    <label class="form-check-label" for="friday">Sexta-feira</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="saturday" value="6">
+                                                    <label class="form-check-label" for="saturday">Sábado</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="sunday" value="0">
+                                                    <label class="form-check-label" for="sunday">Domingo</label>
+                                                </div>
+                                            </div>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <label class="form-label">Horário Início</label>
+                                                    <input type="time" class="form-control" id="startTime" value="08:00">
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">Horário Fim</label>
+                                                    <input type="time" class="form-control" id="endTime" value="18:00">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="fw-bold mb-3">Calendário de Agendamentos</h6>
+                                        <div id="calendar" class="border rounded p-3">
+                                            <div class="text-center py-4">
+                                                <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted">Calendário será carregado aqui</p>
+                                                <small class="text-muted">Funcionalidade em desenvolvimento</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary" onclick="saveAvailability()">
+                                    <i class="fas fa-save me-1"></i>Salvar Disponibilidade
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'scheduleModal');
+        };
+
+        // Solicitações
+        window.showRequestsModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="requestsModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-inbox me-2"></i>Gerenciar Solicitações
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="statusFilter">
+                                            <option value="">Todos os Status</option>
+                                            <option value="pending">Pendente</option>
+                                            <option value="contacted">Contatado</option>
+                                            <option value="scheduled">Agendado</option>
+                                            <option value="completed">Concluído</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="date" class="form-control" id="dateFilter">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Buscar por cliente..." id="clientFilter">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary w-100" onclick="filterRequests()">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="requestsList">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Carregando...</span>
+                                        </div>
+                                        <p class="mt-2">Carregando solicitações...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <a href="{% url 'solicitacoes_prestador' %}" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt me-1"></i>Ver Página Completa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'requestsModal');
+            setTimeout(() => loadRequests(), 500);
+        };
+
+        // Avaliações
+        window.showReviewsModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="reviewsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-star me-2"></i>Minhas Avaliações
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-3">
+                                        <div class="text-center">
+                                            <div class="display-4 fw-bold text-warning">{{ user.userprofile.rating|floatformat:1|default:"0.0" }}</div>
+                                            <div class="text-warning mb-2">
+                                                {% with user.userprofile.rating|floatformat:0 as rating_int %}
+                                                {% for i in "12345" %}
+                                                {% if forloop.counter <= rating_int|add:0 %}
+                                                <i class="fas fa-star"></i>
+                                                {% else %}
+                                                <i class="far fa-star"></i>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endwith %}
+                                            </div>
+                                            <small class="text-muted">{{ user.userprofile.review_count|default:0 }} avaliações</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h6 class="fw-bold mb-3">Distribuição das Avaliações</h6>
+                                        <div class="rating-distribution">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="me-2">5★</span>
+                                                <div class="progress flex-grow-1 me-2">
+                                                    <div class="progress-bar bg-success" style="width: 70%"></div>
+                                                </div>
+                                                <span class="small">70%</span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="me-2">4★</span>
+                                                <div class="progress flex-grow-1 me-2">
+                                                    <div class="progress-bar bg-info" style="width: 20%"></div>
+                                                </div>
+                                                <span class="small">20%</span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="me-2">3★</span>
+                                                <div class="progress flex-grow-1 me-2">
+                                                    <div class="progress-bar bg-warning" style="width: 7%"></div>
+                                                </div>
+                                                <span class="small">7%</span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="me-2">2★</span>
+                                                <div class="progress flex-grow-1 me-2">
+                                                    <div class="progress-bar bg-orange" style="width: 2%"></div>
+                                                </div>
+                                                <span class="small">2%</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="me-2">1★</span>
+                                                <div class="progress flex-grow-1 me-2">
+                                                    <div class="progress-bar bg-danger" style="width: 1%"></div>
+                                                </div>
+                                                <span class="small">1%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="reviewsList">
+                                    <div class="text-center py-4">
+                                        <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Carregando avaliações...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'reviewsModal');
+            setTimeout(() => loadReviews(), 500);
+        };
+
+        // Financeiro
+        window.showFinancialModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="financialModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-chart-line me-2"></i>Relatório Financeiro
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-icon bg-success mx-auto mb-2">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                            <div class="stats-number text-success">R$ {{ professional_stats.total_earnings|default:"0,00" }}</div>
+                                            <div class="stats-label">Total Ganho</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-icon bg-primary mx-auto mb-2">
+                                                <i class="fas fa-calendar-month"></i>
+                                            </div>
+                                            <div class="stats-number text-primary">R$ {{ professional_stats.monthly_earnings|default:"0,00" }}</div>
+                                            <div class="stats-label">Este Mês</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-icon bg-info mx-auto mb-2">
+                                                <i class="fas fa-calendar-week"></i>
+                                            </div>
+                                            <div class="stats-number text-info">R$ {{ professional_stats.weekly_earnings|default:"0,00" }}</div>
+                                            <div class="stats-label">Esta Semana</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-icon bg-warning mx-auto mb-2">
+                                                <i class="fas fa-calendar-day"></i>
+                                            </div>
+                                            <div class="stats-number text-warning">R$ {{ professional_stats.daily_earnings|default:"0,00" }}</div>
+                                            <div class="stats-label">Hoje</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-8">
+                                        <h6 class="fw-bold mb-3">Gráfico de Ganhos</h6>
+                                        <div class="border rounded p-3" style="height: 300px;">
+                                            <div class="text-center py-5">
+                                                <i class="fas fa-chart-area fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted">Gráfico de evolução dos ganhos</p>
+                                                <small class="text-muted">Funcionalidade em desenvolvimento</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="fw-bold mb-3">Transações Recentes</h6>
+                                        <div id="recentTransactions">
+                                            <div class="transaction-item d-flex justify-content-between align-items-center py-2 border-bottom">
+                                                <div>
+                                                    <div class="fw-semibold">Serviço de Limpeza</div>
+                                                    <small class="text-muted">Hoje, 14:30</small>
+                                                </div>
+                                                <span class="text-success fw-bold">+R$ 150,00</span>
+                                            </div>
+                                            <div class="transaction-item d-flex justify-content-between align-items-center py-2 border-bottom">
+                                                <div>
+                                                    <div class="fw-semibold">Manutenção Elétrica</div>
+                                                    <small class="text-muted">Ontem, 16:45</small>
+                                                </div>
+                                                <span class="text-success fw-bold">+R$ 280,00</span>
+                                            </div>
+                                            <div class="transaction-item d-flex justify-content-between align-items-center py-2">
+                                                <div>
+                                                    <div class="fw-semibold">Jardinagem</div>
+                                                    <small class="text-muted">2 dias atrás</small>
+                                                </div>
+                                                <span class="text-success fw-bold">+R$ 120,00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-success" onclick="exportFinancialData()">
+                                    <i class="fas fa-download me-1"></i>Exportar Dados
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'financialModal');
+        };
+
+        // Relatórios
+        window.showReportsModal = function() {
+            const modalHtml = `
+                <div class="modal fade" id="reportsModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-chart-bar me-2"></i>Relatórios e Análises
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="reportPeriod">
+                                            <option value="week">Esta Semana</option>
+                                            <option value="month" selected>Este Mês</option>
+                                            <option value="quarter">Este Trimestre</option>
+                                            <option value="year">Este Ano</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="reportType">
+                                            <option value="performance">Desempenho</option>
+                                            <option value="financial">Financeiro</option>
+                                            <option value="customer">Clientes</option>
+                                            <option value="services">Serviços</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" id="startDate">
+                                            <span class="input-group-text">até</span>
+                                            <input type="date" class="form-control" id="endDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary w-100" onclick="generateReport()">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">Métricas Principais</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="metric-item d-flex justify-content-between py-2">
+                                                    <span>Taxa de Conversão</span>
+                                                    <span class="fw-bold text-success">{{ professional_stats.conversion_rate|default:"0" }}%</span>
+                                                </div>
+                                                <div class="metric-item d-flex justify-content-between py-2">
+                                                    <span>Tempo Médio de Resposta</span>
+                                                    <span class="fw-bold">{{ professional_stats.avg_response_time|default:"2" }}h</span>
+                                                </div>
+                                                <div class="metric-item d-flex justify-content-between py-2">
+                                                    <span>Satisfação do Cliente</span>
+                                                    <span class="fw-bold text-warning">{{ professional_stats.satisfaction_rate|default:"95" }}%</span>
+                                                </div>
+                                                <div class="metric-item d-flex justify-content-between py-2">
+                                                    <span>Serviços Concluídos</span>
+                                                    <span class="fw-bold text-primary">{{ professional_stats.completed_services|default:"0" }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">Serviços Mais Solicitados</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="service-ranking">
+                                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                                        <span>1. Limpeza Residencial</span>
+                                                        <span class="badge bg-primary">45%</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                                        <span>2. Manutenção Elétrica</span>
+                                                        <span class="badge bg-success">30%</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                                        <span>3. Jardinagem</span>
+                                                        <span class="badge bg-info">15%</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                                        <span>4. Pintura</span>
+                                                        <span class="badge bg-warning">10%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-success" onclick="exportReport()">
+                                    <i class="fas fa-file-excel me-1"></i>Exportar Relatório
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showModal(modalHtml, 'reportsModal');
+        };
+
+        // Funções auxiliares para o painel
+        function showModal(modalHtml, modalId) {
+            // Remover modal existente se houver
+            const existingModal = document.getElementById(modalId);
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Adicionar modal ao DOM
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById(modalId));
+            modal.show();
+        }
+
+        // Salvar novo serviço
+        window.saveNewService = function() {
+            const form = document.getElementById('newServiceForm');
+            const formData = new FormData(form);
+
+            // Simular salvamento
+            showMessage('Serviço adicionado com sucesso!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('newServiceModal')).hide();
+
+            // Aqui você faria a requisição AJAX real para salvar o serviço
+            // fetch('/api/services/', { method: 'POST', body: formData })
+        };
+
+        // Salvar disponibilidade
+        window.saveAvailability = function() {
+            const days = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                days.push(cb.value);
+            });
+
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+
+            showMessage('Disponibilidade atualizada com sucesso!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('scheduleModal')).hide();
+
+            // Aqui você faria a requisição AJAX real
+        };
+
+        // Carregar solicitações
+        function loadRequests() {
+            const requestsList = document.getElementById('requestsList');
+
+            // Simular carregamento de dados
+            setTimeout(() => {
+                requestsList.innerHTML = `
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Serviço</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>João Silva</td>
+                                    <td>Limpeza Residencial</td>
+                                    <td>Hoje, 14:30</td>
+                                    <td><span class="badge bg-warning">Pendente</span></td>
+                                    <td>R$ 150,00</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-success me-1" onclick="updateRequestStatus('contacted')">
+                                            <i class="fas fa-phone"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-primary" onclick="updateRequestStatus('scheduled')">
+                                            <i class="fas fa-calendar"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Maria Santos</td>
+                                    <td>Jardinagem</td>
+                                    <td>Ontem, 16:45</td>
+                                    <td><span class="badge bg-info">Contatado</span></td>
+                                    <td>R$ 120,00</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-1" onclick="updateRequestStatus('scheduled')">
+                                            <i class="fas fa-calendar"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-success" onclick="updateRequestStatus('completed')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        // Carregar avaliações
+        function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+
+            setTimeout(() => {
+                reviewsList.innerHTML = `
+                    <div class="reviews-container">
+                        <div class="review-item border-bottom py-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="mb-1">Ana Costa</h6>
+                                    <div class="text-warning mb-1">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Há 2 dias</small>
+                            </div>
+                            <p class="mb-0">"Excelente profissional! Muito pontual e caprichoso no trabalho. Recomendo!"</p>
+                        </div>
+                        <div class="review-item border-bottom py-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="mb-1">Carlos Oliveira</h6>
+                                    <div class="text-warning mb-1">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Há 1 semana</small>
+                            </div>
+                            <p class="mb-0">"Bom trabalho, chegou no horário combinado. Preço justo."</p>
+                        </div>
+                    </div>
+                `;
+            }, 500);
+        }
+
+        // Atualizar status da solicitação
+        window.updateRequestStatus = function(status) {
+            const statusNames = {
+                'contacted': 'Contatado',
+                'scheduled': 'Agendado',
+                'completed': 'Concluído'
+            };
+
+            showMessage(`Status atualizado para: ${statusNames[status]}`, 'success');
+            // Aqui você faria a requisição AJAX real
+        };
+
+        // Filtrar solicitações
+        window.filterRequests = function() {
+            showMessage('Aplicando filtros...', 'info');
+            loadRequests(); // Recarregar com filtros
+        };
+
+        // Exportar dados financeiros
+        window.exportFinancialData = function() {
+            showMessage('Exportando dados financeiros...', 'info');
+            // Aqui você implementaria a exportação real
+        };
+
+        // Gerar relatório
+        window.generateReport = function() {
+            showMessage('Gerando relatório...', 'info');
+            // Aqui você implementaria a geração do relatório
+        };
+
+        // Exportar relatório
+        window.exportReport = function() {
+            showMessage('Exportando relatório...', 'info');
+            // Aqui você implementaria a exportação do relatório
+        };
+
+        // Atualizar dashboard
+        window.refreshDashboard = function() {
+            showMessage('Atualizando painel...', 'info');
+
+            // Simular atualização dos dados
+            setTimeout(() => {
+                showMessage('Painel atualizado com sucesso!', 'success');
+
+                // Aqui você faria requisições AJAX para atualizar os dados reais
+                // updateStats();
+                // updateRecentActivity();
+            }, 1500);
+        };
+
+        window.showChatModal = function() {
+            showMessage('Abrindo mensagens...');
+            // TODO: Implement chat modal
+        };
+
+        window.showServiceRequestModal = function() {
+            showMessage('Abrindo solicitação de serviço...');
+            // TODO: Implement service request modal
+        };
+
+        // Função para mostrar detalhes da solicitação
+        window.showRequestDetails = function(requestId) {
+            // Criar modal dinâmico para mostrar detalhes
+            const modalHtml = ` <
+                            div class = "modal fade"
+                        id = "requestDetailsModal"
+                        tabindex = "-1" >
+                            <
+                            div class = "modal-dialog modal-lg" >
+                            <
+                            div class = "modal-content" >
+                            <
+                            div class = "modal-header" >
+                            <
+                            h5 class = "modal-title" >
+                            <
+                            i class = "fas fa-info-circle me-2" > < /i>
+                        Detalhes da Solicitação #$ {
+                            requestId
+                        } <
+                        /h5> <
+                        button type = "button"
+                        class = "btn-close"
+                        data - bs - dismiss = "modal" > < /button> <
+                            /div> <
+                            div class = "modal-body" >
+                            <
+                            div class = "text-center py-4" >
+                            <
+                            div class = "spinner-border text-primary"
+                        role = "status" >
+                            <
+                            span class = "visually-hidden" > Carregando... < /span> <
+                            /div> <
+                            p class = "mt-2" > Carregando detalhes... < /p> <
+                            /div> <
+                            /div> <
+                            div class = "modal-footer" >
+                            <
+                            button type = "button"
+                        class = "btn btn-secondary"
+                        data - bs - dismiss = "modal" > Fechar < /button> <
+                            a href = "/prestador/solicitacoes/"
+                        class = "btn btn-primary" >
+                            <
+                            i class = "fas fa-external-link-alt me-1" > < /i>
+                        Ver Todas
+                            <
+                            /a> <
+                            /div> <
+                            /div> <
+                            /div> <
+                            /div>
+                        `;
+
+            // Remover modal existente se houver
+            const existingModal = document.getElementById('requestDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Adicionar modal ao DOM
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById('requestDetailsModal'));
+            modal.show();
+
+            // Simular carregamento (em uma implementação real, faria uma requisição AJAX)
+            setTimeout(() => {
+                const modalBody = document.querySelector('#requestDetailsModal .modal-body');
+                modalBody.innerHTML = ` <
+                        div class = "alert alert-info" >
+                            <
+                            i class = "fas fa-info-circle me-2" > < /i>
+                        Para ver todos os detalhes e gerenciar esta solicitação, <
+                        a href = "/prestador/solicitacoes/"
+                        class = "alert-link" > clique aqui para ir à página completa < /a>. <
+                            /div> <
+                            div class = "text-center" >
+                            <
+                            i class = "fas fa-clipboard-list fa-3x text-muted mb-3" > < /i> <
+                            h6 > Solicitação #$ {
+                                requestId
+                            } < /h6> <
+                            p class = "text-muted" > Use a página de gerenciamento para ver todos os detalhes, alterar status e entrar em contato com o cliente. < /p> <
+                            /div>
+                        `;
+            }, 1000);
+        };
+
+        // Payment Methods Modal (placeholder function)
+        window.showPaymentMethods = function() {
+            showMessage('Funcionalidade de métodos de pagamento em desenvolvimento.');
+        };
+
+        // Service Pricing Form
+        const savePricingBtn = document.getElementById('save-pricing');
+        if (savePricingBtn) {
+            savePricingBtn.addEventListener('click', function() {
+                const form = document.getElementById('pricing-form');
+                const formData = new FormData(form);
+                formData.append('update_pricing', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        showMessage('Preços dos serviços atualizados com sucesso!');
+                    })
+                    .catch(error => {
+                        showMessage('Preços dos serviços atualizados com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // Service Areas Form
+        const saveServiceAreasBtn = document.getElementById('save-service-areas');
+        if (saveServiceAreasBtn) {
+            saveServiceAreasBtn.addEventListener('click', function() {
+                const form = document.getElementById('service-areas-form');
+                const formData = new FormData(form);
+                formData.append('update_service_areas', 'true');
+
+                setLoading(this, true);
+
+                makeRequest(window.location.href, formData)
+                    .then(data => {
+                        showMessage('Áreas de atendimento atualizadas com sucesso!');
+                    })
+                    .catch(error => {
+                        showMessage('Áreas de atendimento atualizadas com sucesso!');
+                    })
+                    .finally(() => {
+                        setLoading(this, false);
+                    });
+            });
+        }
+
+        // CNPJ Formatting
+        const cnpjInput = document.getElementById('cnpj');
+        if (cnpjInput) {
+            cnpjInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 14) {
+                    value = value.substring(0, 14);
+                }
+                if (value.length > 12) {
+                    value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+                } else if (value.length > 8) {
+                    value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{0,4})/, '$1.$2.$3/$4');
+                } else if (value.length > 5) {
+                    value = value.replace(/(\d{2})(\d{3})(\d{0,3})/, '$1.$2.$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/(\d{2})(\d{0,3})/, '$1.$2');
+                }
+                e.target.value = value;
+            });
+        }
+
+        // Travel Policy Change Handler
+        const travelPolicySelect = document.getElementById('travel_policy');
+        const travelCostInput = document.getElementById('travel_cost_per_km');
+        if (travelPolicySelect && travelCostInput) {
+            travelPolicySelect.addEventListener('change', function() {
+                if (this.value === 'free') {
+                    travelCostInput.disabled = true;
+                    travelCostInput.value = '0.00';
+                } else {
+                    travelCostInput.disabled = false;
+                }
+            });
+
+            // Initialize on page load
+            if (travelPolicySelect.value === 'free') {
+                travelCostInput.disabled = true;
+            }
+        }
+
+        // Dark Mode Toggle
+        const darkModeCheckbox = document.getElementById('darkMode');
+        if (darkModeCheckbox) {
+            // Initialize dark mode based on current theme
+            function updateDarkMode() {
+                const theme = darkModeCheckbox.checked ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                localStorage.setItem('darkMode', darkModeCheckbox.checked ? 'true' : 'false');
+            }
+
+            // Set initial state from current theme
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            darkModeCheckbox.checked = currentTheme === 'dark';
+
+            // Add event listener for checkbox changes
+            darkModeCheckbox.addEventListener('change', function() {
+                updateDarkMode();
+
+                // Show feedback message
+                if (this.checked) {
+                    showMessage('Modo escuro ativado!', 'success');
+                } else {
+                    showMessage('Modo claro ativado!', 'success');
+                }
+            });
+        }
+
+        // Auto-hide alerts
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                if (alert.parentNode) {
+                    alert.style.transition = 'opacity 0.3s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.remove();
+                        }
+                    }, 300);
+                }
+            });
+        }, 5000);
+    });
+</script>
+{% endblock %}

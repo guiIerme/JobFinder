@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chat Window - Sophie</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chat Widget CSS -->
+    <link rel="stylesheet" href="static/css/chat-widget.css">
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .test-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .test-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .test-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .test-btn.secondary {
+            background: #48bb78;
+        }
+
+        .test-btn.secondary:hover {
+            background: #38a169;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feature-list li:before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>🤖 Chat Window Test - Sophie</h1>
+
+        <div class="test-info">
+            <h3>Funcionalidades Implementadas:</h3>
+            <ul class="feature-list">
+                <li>Interface de chat completa com header, área de mensagens e input</li>
+                <li>Botões de minimizar e fechar</li>
+                <li>Indicador de digitação animado</li>
+                <li>Suporte a markdown (negrito, itálico, listas, links, código)</li>
+                <li>Renderização de mensagens do usuário e assistente</li>
+                <li>Auto-resize do textarea de input</li>
+                <li>Contador de caracteres (limite 2000)</li>
+                <li>Scroll automático para novas mensagens</li>
+                <li>Animações de abertura/fechamento</li>
+                <li>Gerenciamento de conexão WebSocket com reconexão automática</li>
+                <li>Rastreamento de cliques em links</li>
+                <li>Persistência de histórico no localStorage</li>
+            </ul>
+        </div>
+
+        <h3>Teste as Funcionalidades:</h3>
+        <div class="test-buttons">
+            <button class="test-btn" onclick="testOpenChat()">Abrir Chat</button>
+            <button class="test-btn" onclick="testCloseChat()">Fechar Chat</button>
+            <button class="test-btn" onclick="testMinimizeChat()">Minimizar Chat</button>
+            <button class="test-btn secondary" onclick="testSendMessage()">Enviar Mensagem Teste</button>
+            <button class="test-btn secondary" onclick="testAssistantMessage()">Simular Resposta Sophie</button>
+            <button class="test-btn secondary" onclick="testMarkdownMessage()">Testar Markdown</button>
+            <button class="test-btn secondary" onclick="testTypingIndicator()">Mostrar Digitando</button>
+            <button class="test-btn" onclick="testClearHistory()">Limpar Histórico</button>
+            <button class="test-btn" onclick="toggleDarkMode()">Alternar Modo Escuro</button>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px;">
+            <strong>Nota:</strong> O WebSocket não está conectado neste teste. As mensagens são apenas simulações visuais.
+            Para testar a conexão WebSocket completa, use o sistema integrado no Django.
+        </div>
+    </div>
+
+    <!-- Chat Widget Container -->
+    <div id="chat-widget-container">
+        <!-- Floating Chat Button -->
+        <button id="chat-widget-toggle" class="chat-widget-toggle" aria-label="Abrir chat com Sophie" title="Chat com Sophie - Assistente Virtual">
+            <i class="fas fa-comments chat-widget-icon"></i>
+            <span id="chat-unread-badge" class="chat-unread-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window" style="display: none;" role="dialog" aria-labelledby="chat-window-title" aria-modal="true">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="chat-title-container">
+                        <h3 id="chat-window-title" class="chat-title">Sophie</h3>
+                        <span class="chat-subtitle">Assistente Virtual</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-minimize" class="chat-action-btn" aria-label="Minimizar chat" title="Minimizar">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="chat-close" class="chat-action-btn" aria-label="Fechar chat" title="Fechar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chat-messages" class="chat-messages" role="log" aria-live="polite" aria-atomic="false">
+                <!-- Welcome message -->
+                <div class="chat-message assistant-message welcome-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>Olá! 👋 Eu sou a Sophie, sua assistente virtual.</p>
+                            <p>Como posso ajudá-lo hoje?</p>
+                        </div>
+                        <span class="message-time">Agora</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="chat-typing-indicator" class="chat-typing-indicator" style="display: none;" aria-live="polite" aria-label="Sophie está digitando">
+                <div class="typing-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-container">
+                <form id="chat-form" class="chat-form">
+                    <textarea id="chat-input" class="chat-input" placeholder="Digite sua mensagem..." rows="1" maxlength="2000" aria-label="Digite sua mensagem" required></textarea>
+                    <button id="chat-send" type="submit" class="chat-send-btn" aria-label="Enviar mensagem" title="Enviar (Enter)">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="chat-input-footer">
+                    <span class="chat-char-count">
+                        <span id="chat-char-current">0</span>/<span id="chat-char-max">2000</span>
+                    </span>
+                    <span class="chat-powered-by">
+                        Powered by OpenAI
+                    </span>
+                </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div id="chat-connection-status" class="chat-connection-status" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="chat-status-text">Conectando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="static/js/chat-widget.js"></script>
+    <script src="static/js/chat-message.js"></script>
+    <script src="static/js/chat-window.js"></script>
+
+    <script>
+        // Test functions
+        function testOpenChat() {
+            if (window.chatWindow) {
+                window.chatWindow.open();
+            }
+        }
+
+        function testCloseChat() {
+            if (window.chatWindow) {
+                window.chatWindow.close();
+            }
+        }
+
+        function testMinimizeChat() {
+            if (window.chatWindow) {
+                window.chatWindow.minimize();
+            }
+        }
+
+        function testSendMessage() {
+            if (window.chatWindow) {
+                window.chatWindow.sendMessage('Esta é uma mensagem de teste do usuário!');
+            }
+        }
+
+        function testAssistantMessage() {
+            if (window.chatWindow) {
+                window.chatWindow.receiveMessage({
+                    sender_type: 'assistant',
+                    content: 'Olá! Esta é uma resposta simulada da Sophie. Como posso ajudá-lo?',
+                    created_at: new Date().toISOString()
+                });
+            }
+        }
+
+        function testMarkdownMessage() {
+            if (window.chatWindow) {
+                const markdownContent = `Aqui está um exemplo de **markdown**:
+
+- Item de lista 1
+- Item de lista 2
+- Item de lista 3
+
+Você também pode usar *itálico* e \`código\`.
+
+Visite [este link](https://example.com) para mais informações.
+
+Lista numerada:
+1. Primeiro item
+2. Segundo item
+3. Terceiro item`;
+
+                window.chatWindow.receiveMessage({
+                    sender_type: 'assistant',
+                    content: markdownContent,
+                    created_at: new Date().toISOString()
+                });
+            }
+        }
+
+        function testTypingIndicator() {
+            if (window.chatWindow) {
+                window.chatWindow.displayTypingIndicator();
+
+                setTimeout(() => {
+                    window.chatWindow.hideTypingIndicator();
+                    testAssistantMessage();
+                }, 2000);
+            }
+        }
+
+        function testClearHistory() {
+            if (window.chatWindow) {
+                window.chatWindow.clearHistory();
+                alert('Histórico limpo!');
+            }
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+        }
+    </script>
+</body>
+
+</html>
+<li>Design responsivo (fullscreen em mobile)</li>
+<li>Suporte a modo escuro</li

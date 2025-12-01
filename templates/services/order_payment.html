@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pagamento do Pedido - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <i class="fas fa-credit-card fa-3x mb-3"></i>
+                    <h2 class="mb-0">Pagamento do Pedido</h2>
+                    <p class="mb-0">Pedido #{{ order.id }}</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <h4 class="fw-bold">Valor Total: R$ {{ order.total_price|floatformat:2 }}</h4>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-primary mb-3">Selecione um Método de Pagamento</h5>
+
+                            {% for payment_method in payment_methods %}
+                            <div class="form-check mb-3 border rounded-3 p-3 {% if payment_method.is_default %}border-primary{% endif %}">
+                                <input class="form-check-input" type="radio" name="payment_method" id="payment-{{ payment_method.id }}" value="{{ payment_method.id }}" {% if payment_method.is_default %}checked{% endif %}>
+                                <label class="form-check-label d-flex align-items-center" for="payment-{{ payment_method.id }}">
+                                    <div class="bg-primary text-white rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 30px;">
+                                        <span class="small fw-bold">
+                                            {% if payment_method.payment_type == 'credit_card' %}VISA{% elif payment_method.payment_type == 'debit_card' %}DEBIT{% elif payment_method.payment_type == 'pix' %}PIX{% else %}BANK{% endif %}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">
+                                            {% if payment_method.payment_type == 'credit_card' %}
+                                            Cartão de Crédito
+                                            {% elif payment_method.payment_type == 'debit_card' %}
+                                            Cartão de Débito
+                                            {% elif payment_method.payment_type == 'pix' %}
+                                            PIX
+                                            {% else %}
+                                            Transferência Bancária
+                                            {% endif %}
+                                        </div>
+                                        {% if payment_method.card_number_last4 %}
+                                        <div class="small text-muted">•••• {{ payment_method.card_number_last4 }}</div>
+                                        {% endif %}
+                                        {% if payment_method.is_default %}
+                                        <span class="badge bg-primary mt-1">Padrão</span>
+                                        {% endif %}
+                                    </div>
+                                </label>
+                            </div>
+                            {% empty %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-credit-card fa-2x text-muted mb-3"></i>
+                                <p class="text-muted mb-0">Nenhum método de pagamento cadastrado</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Seção PIX QR Code -->
+                        <div id="pixDetails" style="display: none;" class="mb-4">
+                            <div class="card border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-qrcode me-2"></i>
+                                        Pagamento via PIX
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <p class="text-muted mb-3">Escaneie o QR Code abaixo com o app do seu banco:</p>
+
+                                    <!-- QR Code Real -->
+                                    <div class="mb-4">
+                                        <img src="{% static 'images/pix.png' %}" alt="QR Code PIX" class="img-fluid" style="max-width: 300px; border: 3px solid #00BC77; border-radius: 10px; padding: 10px;">
+                                    </div>
+
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Valor:</strong> R$ {{ order.total_price|floatformat:2 }}
+                                    </div>
+
+                                    <p class="small text-muted mb-0">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        Pagamento seguro e instantâneo
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-5">
+                            <button type="submit" class="btn btn-success rounded-pill px-4 py-2">
+                                <i class="fas fa-check-circle me-2"></i> Confirmar Pagamento
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="fas fa-times me-2"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Show/hide payment details based on selection
+    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove active class from all options
+            document.querySelectorAll('.form-check').forEach(option => {
+                option.classList.remove('border-primary');
+            });
+
+            // Add active class to selected option
+            this.closest('.form-check').classList.add('border-primary');
+
+            // Hide PIX details by default
+            const pixDetails = document.getElementById('pixDetails');
+            if (pixDetails) pixDetails.style.display = 'none';
+
+            // Get the payment type from the label
+            const label = this.closest('.form-check').querySelector('.form-check-label');
+            const paymentType = label.textContent.trim();
+
+            // Show PIX details if PIX is selected
+            if (paymentType.includes('PIX') && pixDetails) {
+                pixDetails.style.display = 'block';
+            }
+        });
+
+        // Check if PIX is already selected on page load
+        if (radio.checked) {
+            const label = radio.closest('.form-check').querySelector('.form-check-label');
+            const paymentType = label.textContent.trim();
+            const pixDetails = document.getElementById('pixDetails');
+
+            if (paymentType.includes('PIX') && pixDetails) {
+                pixDetails.style.display = 'block';
+            }
+        }
+    });
+
+    // Add active class to selected option
+    this.closest('.payment-option').classList.add('border-primary');
+
+    // Hide all details
+    document.getElementById('pixDetails').style.display = 'none';
+    document.getElementById('bankSlipDetails').style.display = 'none';
+    document.getElementById('newCardFields').style.display = 'none';
+
+    // Show selected details
+    if (this.value === 'pix') {
+        document.getElementById('pixDetails').style.display = 'block';
+    } else if (this.value === 'bank_transfer') {
+        document.getElementById('bankSlipDetails').style.display = 'block';
+    } else if (this.value === 'credit_card') {
+        document.getElementById('newCardFields').style.display = 'block';
+    }
+    });
+    });
+
+    // Copy PIX code to clipboard
+    document.getElementById('copyPixCode') ? .addEventListener('click', function() {
+        const pixCodeInput = document.getElementById('pixCode');
+        pixCodeInput.select();
+        document.execCommand('copy');
+
+        // Show feedback
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-check me-1"></i> Copiado!';
+        setTimeout(() => {
+            this.innerHTML = originalText;
+        }, 2000);
+    });
+
+    // Payment form submission
+    document.getElementById('paymentForm') ? .addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
+        if (!selectedMethod) {
+            alert('Por favor, selecione um método de pagamento.');
+            return;
+        }
+
+        const payButton = document.getElementById('payButton');
+        const originalText = payButton.innerHTML;
+        payButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processando...';
+        payButton.disabled = true;
+
+        // Simulate payment processing
+        setTimeout(() => {
+            // In a real implementation, this would call the payment API
+            alert(`Pagamento de R$ {{ order.total_price }} realizado com sucesso usando ${selectedMethod.value}!`);
+            payButton.innerHTML = originalText;
+            payButton.disabled = false;
+
+            // Redirect to confirmation page
+            window.location.href = "{% url 'order_confirmation' order.id %}";
+        }, 2000);
+    });
+
+    // Format credit card number
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 16) value = value.substring(0, 16);
+
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) formattedValue += ' ';
+                formattedValue += value[i];
+            }
+
+            e.target.value = formattedValue;
+        });
+    }
+
+    // Format expiry date
+    const expiryDateInput = document.getElementById('expiryDate');
+    if (expiryDateInput) {
+        expiryDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.substring(0, 4);
+
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    // Format CVV
+    const cvvInput = document.getElementById('cvv');
+    if (cvvInput) {
+        cvvInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+        });
+    }
+    });
+</script>
+{% endblock %}

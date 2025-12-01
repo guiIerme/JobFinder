@@ -1,0 +1,402 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% block title_admin %}{% endblock %} - Admin Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Admin-specific styles */
+    .admin-sidebar {
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+        min-height: calc(100vh - 100px);
+        padding-top: 20px;
+    }
+    
+    .admin-sidebar .nav-link {
+        color: #495057;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .admin-sidebar .nav-link:hover {
+        background-color: #e9ecef;
+        color: #7c3aed;
+    }
+    
+    .admin-sidebar .nav-link.active {
+        background-color: #7c3aed;
+        color: white;
+    }
+    
+    .admin-content {
+        padding: 20px;
+    }
+    
+    .admin-header {
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .admin-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: none;
+        margin-bottom: 25px;
+    }
+    
+    .admin-card .card-header {
+        background-color: white;
+        border-bottom: 1px solid #e9ecef;
+        font-weight: 600;
+        padding: 15px 20px;
+    }
+    
+    .admin-table {
+        width: 100%;
+    }
+    
+    .admin-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+    
+    .admin-btn {
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .admin-btn-primary {
+        background-color: #7c3aed;
+        border-color: #7c3aed;
+        color: white;
+    }
+    
+    .admin-btn-primary:hover {
+        background-color: #6d28d9;
+        border-color: #6d28d9;
+        color: white;
+    }
+    
+    .admin-btn-outline-primary {
+        color: #7c3aed;
+        border-color: #7c3aed;
+    }
+    
+    .admin-btn-outline-primary:hover {
+        background-color: #7c3aed;
+        color: white;
+    }
+    
+    .admin-breadcrumb {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+    
+    /* Override Django admin default styles */
+    #header {
+        background-color: white !important;
+        border-bottom: 1px solid #dee2e6 !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        padding: 1rem 0 !important;
+    }
+    
+    #branding h1, #branding h1 a:link, #branding h1 a:visited {
+        color: #7c3aed !important;
+        font-weight: 700 !important;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background-color: #7c3aed !important;
+        color: white !important;
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background-color: #7c3aed !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 1.25rem !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+        background-color: #6d28d9 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25) !important;
+    }
+    
+    /* Settings section styles */
+    .settings-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .settings-section h5 {
+        color: #7c3aed;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .settings-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .settings-item:last-child {
+        border-bottom: none;
+    }
+    
+    .settings-label {
+        font-weight: 500;
+    }
+    
+    .settings-description {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 3px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 admin-sidebar d-none d-md-block">
+            <h5 class="mb-4"><i class="fas fa-cog me-2"></i>Administração</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard_new' %}active{% endif %}" 
+                       href="{% url 'admin_dashboard_new' %}">
+                        <i class="fas fa-tachometer-alt me-2"></i> Painel
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">
+                        <i class="fas fa-database me-2"></i> Django Admin
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}auth/user/">
+                        <i class="fas fa-users me-2"></i> Usuários
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}services/service/">
+                        <i class="fas fa-concierge-bell me-2"></i> Serviços
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}services/order/">
+                        <i class="fas fa-shopping-cart me-2"></i> Pedidos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}services/userprofile/">
+                        <i class="fas fa-user-circle me-2"></i> Perfis
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}services/paymentmethod/">
+                        <i class="fas fa-credit-card me-2"></i> Pagamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}services/sponsor/">
+                        <i class="fas fa-handshake me-2"></i> Patrocinadores
+                    </a>
+                </li>
+                <!-- Settings Section -->
+                <li class="nav-item mt-4">
+                    <a class="nav-link" href="{% url 'admin_settings' %}">
+                        <i class="fas fa-cog me-2"></i> Configurações
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 admin-content">
+            {% block admin_content %}
+                <!-- Django admin content will be injected here -->
+                <div class="admin-header">
+                    <h2>{% if title %}{{ title }}{% endif %}</h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card admin-card">
+                            <div class="card-body">
+                                {% block messages %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+                                                {{ message }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endblock messages %}
+                                
+                                {% block content_title %}{% if title %}<h3>{{ title }}</h3>{% endif %}{% endblock %}
+                                
+                                {% block content %}
+                                {{ content }}
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="settingsModalLabel"><i class="fas fa-cog me-2"></i>Configurações do Sistema</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="p-4">
+                    <!-- System Settings -->
+                    <div class="settings-section mb-4">
+                        <h5 class="mb-3"><i class="fas fa-desktop me-2"></i>Configurações do Sistema</h5>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Modo de Manutenção</div>
+                                <div class="settings-description">Ativar/desativar modo de manutenção do site</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="maintenanceMode">
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Registro de Usuários</div>
+                                <div class="settings-description">Permitir novos registros de usuários</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="userRegistration" checked>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Verificação de E-mail</div>
+                                <div class="settings-description">Exigir verificação de e-mail para novos usuários</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="emailVerification" checked>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notification Settings -->
+                    <div class="settings-section mb-4">
+                        <h5 class="mb-3"><i class="fas fa-bell me-2"></i>Configurações de Notificação</h5>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Notificações por E-mail</div>
+                                <div class="settings-description">Enviar notificações importantes por e-mail</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Notificações Push</div>
+                                <div class="settings-description">Enviar notificações push para usuários</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Alertas de Segurança</div>
+                                <div class="settings-description">Enviar alertas de segurança para administradores</div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="securityAlerts" checked>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Appearance Settings -->
+                    <div class="settings-section">
+                        <h5 class="mb-3"><i class="fas fa-palette me-2"></i>Configurações de Aparência</h5>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Tema Padrão</div>
+                                <div class="settings-description">Tema padrão para novos usuários</div>
+                            </div>
+                            <select class="form-select form-select-sm" style="width: auto;">
+                                <option>Claro</option>
+                                <option selected>Escuro</option>
+                                <option>Automático</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Idioma Padrão</div>
+                                <div class="settings-description">Idioma padrão do sistema</div>
+                            </div>
+                            <select class="form-select form-select-sm" style="width: auto;">
+                                <option selected>Português (Brasil)</option>
+                                <option>English</option>
+                                <option>Español</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                <a href="{% url 'admin_settings' %}" class="btn btn-outline-primary">Configurações Avançadas</a>
+                <button type="button" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Toggle sidebar on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('adminSidebar');
+        
+        if (toggleButton && sidebar) {
+            toggleButton.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+        }
+        
+        // Settings modal functionality
+        const settingsModal = document.getElementById('settingsModal');
+        if (settingsModal) {
+            settingsModal.addEventListener('show.bs.modal', function (event) {
+                // Load current settings when modal opens
+                console.log('Loading current settings...');
+            });
+        }
+    });
+</script>
+{% endblock %}

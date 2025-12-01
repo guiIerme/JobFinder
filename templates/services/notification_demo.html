@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Demo de Notificações - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Demo do Sistema de Notificações</h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">Clique nos botões abaixo para ver exemplos de notificações personalizadas:</p>
+                    
+                    <div class="d-grid gap-3">
+                        <button type="button" class="btn btn-success btn-lg" onclick="showSuccess()">
+                            <i class="fas fa-check-circle me-2"></i>Notificação de Sucesso
+                        </button>
+                        
+                        <button type="button" class="btn btn-danger btn-lg" onclick="showError()">
+                            <i class="fas fa-exclamation-circle me-2"></i>Notificação de Erro
+                        </button>
+                        
+                        <button type="button" class="btn btn-warning btn-lg" onclick="showWarning()">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Notificação de Aviso
+                        </button>
+                        
+                        <button type="button" class="btn btn-info btn-lg" onclick="showInfo()">
+                            <i class="fas fa-info-circle me-2"></i>Notificação de Informação
+                        </button>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h5>Como usar no seu código:</h5>
+                        <pre class="bg-light p-3 rounded">
+<code>// Notificação de sucesso
+window.notifications.success('Operação concluída com sucesso!');
+
+// Notificação de erro
+window.notifications.error('Ocorreu um erro. Tente novamente.');
+
+// Notificação de aviso
+window.notifications.warning('Esta é uma mensagem de aviso.');
+
+// Notificação de informação
+window.notifications.info('Esta é uma mensagem informativa.');
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showSuccess() {
+    window.notifications.success('Operação concluída com sucesso! Esta notificação desaparecerá automaticamente em 5 segundos.');
+}
+
+function showError() {
+    window.notifications.error('Ocorreu um erro. Esta notificação permanecerá visível até ser fechada manualmente.');
+}
+
+function showWarning() {
+    window.notifications.warning('Esta é uma mensagem de aviso. Desaparecerá automaticamente em 7 segundos.');
+}
+
+function showInfo() {
+    window.notifications.info('Esta é uma mensagem informativa. Desaparecerá automaticamente em 5 segundos.');
+}
+</script>
+{% endblock %}

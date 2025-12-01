@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget Test</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chat Widget CSS -->
+    <link rel="stylesheet" href="static/css/chat-widget.css">
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 6px;
+        }
+
+        .test-section h2 {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .test-btn:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+
+        .test-btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #1976d2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>🧪 Chat Widget Test Page</h1>
+        <p class="description">
+            This page tests the chat widget component (Task 8). The floating chat button should appear
+            in the bottom-right corner, above where the accessibility button would be.
+        </p>
+
+        <div class="test-section">
+            <h2>📍 Visual Test</h2>
+            <p>Look at the bottom-right corner of the page. You should see:</p>
+            <ul>
+                <li>A purple circular button with a chat icon</li>
+                <li>The button should have a smooth gradient background</li>
+                <li>Hovering should scale the button slightly</li>
+                <li>Clicking should trigger a console message</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🎮 Interactive Tests</h2>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testToggle()">Toggle Widget</button>
+                <button class="test-btn" onclick="testShow()">Show Widget</button>
+                <button class="test-btn" onclick="testHide()">Hide Widget</button>
+                <button class="test-btn" onclick="testSetUnread(5)">Set 5 Unread</button>
+                <button class="test-btn" onclick="testSetUnread(100)">Set 100 Unread</button>
+                <button class="test-btn" onclick="testClearUnread()">Clear Unread</button>
+                <button class="test-btn" onclick="testIncrement()">Increment Unread</button>
+                <button class="test-btn" onclick="testLoading()">Toggle Loading</button>
+            </div>
+            <div class="status" id="status">Ready for testing...</div>
+        </div>
+
+        <div class="test-section">
+            <h2>⌨️ Keyboard Test</h2>
+            <p>Tab to the chat widget button and press Enter or Space to activate it.</p>
+        </div>
+
+        <div class="info-box">
+            <strong>Requirements Tested:</strong>
+            <ul>
+                <li>✅ 1.1 - Widget displays on page with chat icon</li>
+                <li>✅ 1.2 - Widget is clearly identifiable</li>
+                <li>✅ 1.3 - Widget responds to clicks</li>
+                <li>✅ 1.5 - Widget maintains state</li>
+                <li>✅ 1.6 - Responsive design (resize window to test)</li>
+                <li>✅ 1.7 - Positioned above accessibility button (z-index: 999)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Chat Widget HTML -->
+    <div id="chat-widget-container">
+        <button id="chat-widget-toggle" class="chat-widget-toggle" aria-label="Abrir chat com Sophie" title="Chat com Sophie - Assistente Virtual">
+            <i class="fas fa-comments chat-widget-icon"></i>
+            <span id="chat-unread-badge" class="chat-unread-badge" style="display: none;">0</span>
+        </button>
+    </div>
+
+    <!-- Chat Widget JS -->
+    <script src="static/js/chat-widget.js"></script>
+
+    <!-- Test Functions -->
+    <script>
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+            console.log(message);
+        }
+
+        function testToggle() {
+            if (window.chatWidget) {
+                window.chatWidget.toggle();
+                updateStatus('✓ Toggle called');
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        function testShow() {
+            if (window.chatWidget) {
+                window.chatWidget.show();
+                updateStatus('✓ Widget shown');
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        function testHide() {
+            if (window.chatWidget) {
+                window.chatWidget.hide();
+                updateStatus('✓ Widget hidden');
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        function testSetUnread(count) {
+            if (window.chatWidget) {
+                window.chatWidget.setUnreadCount(count);
+                updateStatus(`✓ Unread count set to ${count}`);
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        function testClearUnread() {
+            if (window.chatWidget) {
+                window.chatWidget.clearUnreadCount();
+                updateStatus('✓ Unread count cleared');
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        function testIncrement() {
+            if (window.chatWidget) {
+                window.chatWidget.incrementUnreadCount();
+                updateStatus('✓ Unread count incremented');
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        let loadingState = false;
+
+        function testLoading() {
+            if (window.chatWidget) {
+                loadingState = !loadingState;
+                window.chatWidget.setLoading(loadingState);
+                updateStatus(`✓ Loading state: ${loadingState}`);
+            } else {
+                updateStatus('✗ Chat widget not initialized');
+            }
+        }
+
+        // Listen for custom events
+        document.addEventListener('chat:widget-toggle', function(e) {
+            console.log('Chat widget toggle event:', e.detail);
+        });
+
+        document.addEventListener('chat:open-requested', function() {
+            console.log('Chat open requested');
+            updateStatus('✓ Chat open requested (will connect to chat window in task 9)');
+        });
+
+        // Check initialization
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (window.chatWidget) {
+                    updateStatus('✓ Chat widget initialized successfully');
+                } else {
+                    updateStatus('✗ Chat widget failed to initialize');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

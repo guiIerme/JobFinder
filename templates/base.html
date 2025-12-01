@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Job Finder - Encontre Profissionais Qualificados{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css';">
+
+    <!-- Font Awesome Fallback -->
+    <script>
+        // Check if Font Awesome loaded, if not load from alternative CDN
+        document.addEventListener('DOMContentLoaded', function() {
+            const testIcon = document.createElement('i');
+            testIcon.className = 'fas fa-home';
+            testIcon.style.position = 'absolute';
+            testIcon.style.left = '-9999px';
+            document.body.appendChild(testIcon);
+
+            const style = window.getComputedStyle(testIcon, ':before');
+            const content = style.getPropertyValue('content');
+
+            if (!content || content === 'none' || content === '""') {
+                const fallbackLink = document.createElement('link');
+                fallbackLink.rel = 'stylesheet';
+                fallbackLink.href = 'https://use.fontawesome.com/releases/v6.4.0/css/all.css';
+                document.head.appendChild(fallbackLink);
+            }
+
+            document.body.removeChild(testIcon);
+        });
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS with lazy loading for non-critical styles -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="{% static 'css/modern.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="{% static 'css/provider_dashboard_enhanced.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="{% static 'css/accessibility.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="{% static 'css/dropdown-fix.css' %}" rel="stylesheet">
+    <link href="{% static 'css/solicitar-servico.css' %}" rel="stylesheet">
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- No-JS fallback -->
+    <noscript>
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'css/modern.css' %}" rel="stylesheet">
+        <link href="{% static 'css/provider_dashboard_enhanced.css' %}" rel="stylesheet">
+        <link href="{% static 'css/accessibility.css' %}" rel="stylesheet">
+        <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet">
+        <link href="{% static 'css/dropdown-fix.css' %}" rel="stylesheet">
+        <link href="{% static 'css/solicitar-servico.css' %}" rel="stylesheet">
+    </noscript>
+
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+        /* Critical styles for immediate rendering */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            transition: all 0.2s ease;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Animation for loading states */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Help & Support link styling */
+        .nav-link[href*="help-support"] {
+            position: relative;
+        }
+
+        .nav-link[href*="help-support"]:hover {
+            color: #6f42c1 !important;
+        }
+
+        .nav-link[href*="help-support"] i {
+            color: #28a745;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+
+    <!-- Theme Initialization Script -->
+    <script>
+        // Initialize theme before page renders to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let theme = 'light';
+            if (savedTheme === 'true' || savedTheme === 'dark') {
+                theme = 'dark';
+            } else if (!savedTheme && prefersDark) {
+                theme = 'dark';
+            }
+
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <!-- WebSocket Notifications CSS -->
+    <link rel="stylesheet" href="{% static 'css/websocket-notifications.css' %}">
+
+    <!-- Chat Widget CSS -->
+    <link rel="stylesheet" href="{% static 'css/chat-widget.css' %}">
+</head>
+
+<body class="d-flex flex-column min-vh-100" data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <i class="fas fa-toolbox me-2 text-primary"></i>
+                <span class="fw-bold">Job Finder</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_new' %}">Buscar Profissionais</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sponsors_new' %}">Parceiros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contato</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{% url 'help_support' %}">
+                            <i class="fas fa-question-circle me-1"></i>Ajuda & Suporte
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 0.6rem; margin-left: -10px;">
+                                24h
+                                <span class="visually-hidden">suporte 24 horas</span>
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <!-- Service Request Button -->
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                            {% if user.userprofile.avatar %}
+                            <img src="{{ user.userprofile.avatar.url }}" alt="Profile Picture" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                            {% else %}
+                            <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                {{ user.first_name|slice:":1"|default:user.username|slice:":1" }}
+                            </div>
+                            {% endif %}
+                            <span>{{ user.get_full_name|default:user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+
+                            <li><a class="dropdown-item" href="{% url 'profile_new' %}"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                            {% if user.userprofile.user_type == 'professional' %}
+                            <li><a class="dropdown-item" href="{% url 'provider_dashboard' %}"><i class="fas fa-toolbox me-2"></i>Painel do Prestador</a></li>
+                            {% elif user.userprofile.user_type == 'customer' %}
+                            <li><a class="dropdown-item" href="{% url 'my_orders' %}"><i class="fas fa-clipboard-list me-2"></i>Meus Pedidos</a></li>
+                            {% elif user.userprofile.user_type == 'admin' %}
+                            <li><a class="dropdown-item" href="{% url 'admin_dashboard_new' %}"><i class="fas fa-cogs me-2"></i>Painel Administrativo</a></li>
+                            <li><a class="dropdown-item" href="{% url 'ai_dashboard' %}"><i class="fas fa-brain me-2"></i>AI Dashboard</a></li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary rounded-pill me-2" href="{% url 'login' %}">Entrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary rounded-pill" href="{% url 'register' %}">Cadastrar</a>
+                    </li>
+                    {% endif %}
+                    <!-- Dark Mode Toggle -->
+                    <li class="nav-item d-flex align-items-center ms-2">
+                        <button id="darkModeToggle" class="btn btn-outline-light btn-sm rounded-pill px-3 py-2" aria-label="Alternar modo escuro" title="Alternar modo escuro (Ctrl+Shift+D)" style="transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+                            <i class="fas fa-moon me-1"></i>
+                            <span class="d-none d-md-inline">Escuro</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% elif message.tags == 'info' %}info-circle{% endif %} me-2"></i>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Breadcrumb -->
+    {% block breadcrumb %}
+    {% endblock %}
+
+    <!-- Main Content -->
+    <main class="flex-shrink-0">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-5 bg-dark">
+        <div class="container">
+            <div class="row mb-4">
+                <!-- Trust Badges -->
+                <div class="col-12 text-center mb-4">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-shield-alt text-success me-2"></i>
+                            <span class="fw-medium">Pagamento Seguro</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-medal text-primary me-2"></i>
+                            <span class="fw-medium">Profissionais Verificados</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-headset text-info me-2"></i>
+                            <span class="fw-medium">Suporte 24/7</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-award text-warning me-2"></i>
+                            <span class="fw-medium">Satisfação Garantida</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Job Finder</h5>
+                    <p class="text-muted">Conectando clientes a profissionais qualificados desde 2023.</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-decoration-none text-muted" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none text-muted" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none text-muted" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none text-muted" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Links Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Início</a></li>
+                        <li class="mb-2"><a href="{% url 'search_new' %}" class="text-decoration-none text-muted">Buscar Profissionais</a></li>
+                        <li class="mb-2"><a href="{% url 'sponsors_new' %}" class="text-decoration-none text-muted">Parceiros</a></li>
+                        <li class="mb-2"><a href="{% url 'about' %}" class="text-decoration-none text-muted">Sobre</a></li>
+                        <li class="mb-2"><a href="{% url 'help_support' %}" class="text-decoration-none text-muted">Ajuda & Suporte</a></li>
+                        <li class="mb-2"><a href="{% url 'faq' %}" class="text-decoration-none text-muted">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Contato</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>contato@jobfinder.com</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>(61) 98196-1144</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Brasília, DF</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="text-muted mb-0">&copy; 2023 Job Finder. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="{% url 'terms' %}" class="text-decoration-none text-muted me-3">Termos de Uso</a>
+                    <a href="{% url 'privacy' %}" class="text-decoration-none text-muted">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget-container">
+        <!-- Floating Chat Button -->
+        <button id="chat-widget-toggle" class="chat-widget-toggle" aria-label="Abrir chat com Sophie" title="Chat com Sophie - Assistente Virtual">
+            <i class="fas fa-comments chat-widget-icon"></i>
+            <span id="chat-unread-badge" class="chat-unread-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window" style="display: none;" role="dialog" aria-labelledby="chat-window-title" aria-modal="true">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="chat-title-container">
+                        <h3 id="chat-window-title" class="chat-title">Sophie</h3>
+                        <span class="chat-subtitle">Assistente Virtual</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-minimize" class="chat-action-btn" aria-label="Minimizar chat" title="Minimizar">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="chat-close" class="chat-action-btn" aria-label="Fechar chat" title="Fechar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chat-messages" class="chat-messages" role="log" aria-live="polite" aria-atomic="false">
+                <!-- Welcome message will be inserted here -->
+                <div class="chat-message assistant-message welcome-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>Olá! 👋 Eu sou a Sophie, sua assistente virtual.</p>
+                            <p>Como posso ajudá-lo hoje?</p>
+                        </div>
+                        <span class="message-time">Agora</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="chat-typing-indicator" class="chat-typing-indicator" style="display: none;" aria-live="polite" aria-label="Sophie está digitando">
+                <div class="typing-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-container">
+                <form id="chat-form" class="chat-form">
+                    <textarea id="chat-input" class="chat-input" placeholder="Digite sua mensagem..." rows="1" maxlength="2000" aria-label="Digite sua mensagem" required></textarea>
+                    <button id="chat-send" type="submit" class="chat-send-btn" aria-label="Enviar mensagem" title="Enviar (Enter)">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="chat-input-footer">
+                    <span class="chat-char-count">
+                        <span id="chat-char-current">0</span>/<span id="chat-char-max">2000</span>
+                    </span>
+                    <span class="chat-powered-by">
+                        Powered by OpenAI
+                    </span>
+                </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div id="chat-connection-status" class="chat-connection-status" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="chat-status-text">Conectando...</span>
+            </div>
+
+            <!-- Satisfaction Rating -->
+            <div id="chat-rating-container" class="chat-rating-container" style="display: none;">
+                <div class="rating-header">
+                    <h4 class="rating-title">Como foi sua experiência?</h4>
+                    <p class="rating-subtitle">Sua opinião nos ajuda a melhorar</p>
+                </div>
+                <div class="rating-stars" role="radiogroup" aria-label="Avaliação de satisfação de 1 a 5 estrelas">
+                    <button type="button" class="rating-star" data-rating="1" aria-label="1 estrela" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="2" aria-label="2 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="3" aria-label="3 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="4" aria-label="4 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="5" aria-label="5 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+                <div class="rating-actions">
+                    <button type="button" id="rating-submit" class="rating-btn rating-btn-submit" disabled>
+                        Enviar Avaliação
+                    </button>
+                    <button type="button" id="rating-skip" class="rating-btn rating-btn-skip">
+                        Pular
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessibility Assistant -->
+    <div id="accessibility-assistant">
+        <!-- Floating Accessibility Button -->
+        <button id="accessibility-toggle" class="accessibility-toggle" aria-label="Abrir assistente de acessibilidade" title="Assistente de Acessibilidade">
+            <i class="fas fa-hands accessibility-icon"></i>
+        </button>
+
+        <!-- Accessibility Panel -->
+        <div id="accessibility-panel" class="accessibility-panel" style="display: none;">
+            <div class="accessibility-header">
+                <h3>Assistente de Acessibilidade</h3>
+                <button id="close-accessibility" class="close-btn" aria-label="Fechar painel de acessibilidade">×</button>
+            </div>
+
+            <div class="accessibility-options">
+                <!-- Libras Toggle -->
+                <div class="option">
+                    <button id="toggle-libras" class="toggle-btn">
+                        <i class="fas fa-sign-language option-icon"></i>
+                        <span class="option-text">Libras</span>
+                    </button>
+                    <p class="option-description">Ativar/Desativar tradução para Libras</p>
+                </div>
+
+                <!-- Font Size Controls -->
+                <div class="option">
+                    <div class="font-controls">
+                        <button id="decrease-font" class="control-btn" aria-label="Diminuir tamanho da fonte">A-</button>
+                        <span id="font-size-display" class="font-size-display">100%</span>
+                        <button id="increase-font" class="control-btn" aria-label="Aumentar tamanho da fonte">A+</button>
+                        <button id="reset-font" class="reset-btn" aria-label="Redefinir tamanho da fonte">Redefinir</button>
+                    </div>
+                    <p class="option-description">Ajustar tamanho do texto</p>
+                </div>
+
+                <!-- Contrast Toggle -->
+                <div class="option">
+                    <button id="toggle-contrast" class="toggle-btn">
+                        <i class="fas fa-adjust option-icon"></i>
+                        <span id="contrast-text" class="option-text">Alto Contraste</span>
+                    </button>
+                    <p class="option-description">Alternar modo de alto contraste</p>
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <div class="option">
+                    <button id="toggle-dark-mode" class="toggle-btn">
+                        <i class="fas fa-moon option-icon"></i>
+                        <span class="option-text">Modo Escuro</span>
+                    </button>
+                    <p class="option-description">Alternar entre modo claro e escuro</p>
+                </div>
+
+                <!-- Text Reader -->
+                <div class="option">
+                    <button id="text-reader" class="toggle-btn">
+                        <i class="fas fa-volume-up option-icon"></i>
+                        <span class="option-text">Leitor de Texto</span>
+                    </button>
+                    <p class="option-description">Ouvir o conteúdo da página</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VLibras Widget Container -->
+    <div id="vlibras-widget" style="display: none;"></div>
+
+
+
+
+
+
+
+    <!-- Modal de Solicitação de Serviço -->
+    {% include 'services/modal_solicitar_servico.html' %}
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/dropdown-fix.js' %}"></script>
+    <script src="{% static 'js/dropdown-emergency-fix.js' %}"></script>
+
+
+    <script src="{% static 'js/accessibility.js' %}"></script>
+    <script src="{% static 'js/dark-mode.js' %}"></script>
+    <script src="{% static 'js/microinteractions.js' %}"></script>
+
+    {% block extra_js %}
+    <script>
+        // Função para atualizar o botão de acordo com o tema atual
+        function updateDarkModeButton() {
+            const button = document.getElementById('darkModeToggle');
+            if (!button) return;
+
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const icon = button.querySelector('i');
+            const text = button.querySelector('span');
+
+            if (currentTheme === 'dark') {
+                icon.className = 'fas fa-sun me-1';
+                if (text) text.textContent = 'Claro';
+                button.classList.remove('btn-outline-light');
+                button.classList.add('btn-outline-warning');
+            } else {
+                icon.className = 'fas fa-moon me-1';
+                if (text) text.textContent = 'Escuro';
+                button.classList.remove('btn-outline-warning');
+                button.classList.add('btn-outline-light');
+            }
+        }
+
+        // Inicializar o botão quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDarkModeButton();
+        });
+
+        // Analytics tracking
+        (function() {
+            // Track page view
+            fetch('/analytics/track-page-view/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]') ? document.querySelector('[name=csrfmiddlewaretoken]').value : ''
+                },
+                body: JSON.stringify({
+                    path: window.location.pathname,
+                    referrer: document.referrer
+                })
+            });
+
+            // Track clicks on important elements
+            document.addEventListener('click', function(e) {
+                var element = e.target;
+                var importantElements = ['btn', 'card', 'nav-link', 'dropdown-item'];
+
+                // Check if clicked element or its parents have important classes
+                while (element && element !== document) {
+                    var classList = element.className;
+                    if (typeof classList === 'string') {
+                        for (var i = 0; i < importantElements.length; i++) {
+                            if (classList.includes(importantElements[i])) {
+                                // Track the click
+                                fetch('/analytics/track-user-action/', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]') ? document.querySelector('[name=csrfmiddlewaretoken]').value : ''
+                                    },
+                                    body: JSON.stringify({
+                                        action_type: 'click',
+                                        element_id: element.id || '',
+                                        page_path: window.location.pathname,
+                                        additional_data: {
+                                            element_class: classList,
+                                            element_text: element.textContent.trim().substring(0, 50)
+                                        }
+                                    })
+                                });
+                                break;
+                            }
+                        }
+                    }
+                    element = element.parentElement;
+                }
+            });
+
+            // Track form submissions
+            document.addEventListener('submit', function(e) {
+                var form = e.target;
+                if (form.tagName === 'FORM') {
+                    // Track the form submission
+                    fetch('/analytics/track-user-action/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]') ? document.querySelector('[name=csrfmiddlewaretoken]').value : ''
+                        },
+                        body: JSON.stringify({
+                            action_type: 'form_submit',
+                            element_id: form.id || '',
+                            page_path: window.location.pathname,
+                            additional_data: {
+                                form_action: form.action,
+                                form_method: form.method
+                            }
+                        })
+                    });
+                }
+            });
+
+            // AI Suggestions
+            function loadAISuggestions() {
+                fetch('/api/ai-suggestions/')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.recommendations) {
+                            // Display AI suggestions in a notification or sidebar
+                            console.log('AI Suggestions:', data.recommendations);
+                            // You can implement UI for displaying suggestions here
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading AI suggestions:', error);
+                    });
+            }
+
+            // Load AI suggestions after page load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadAISuggestions);
+            } else {
+                loadAISuggestions();
+            }
+        })();
+    </script>
+
+    <!-- Ativar tooltips do Bootstrap em todo o site -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar todos os tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Inicializar todos os popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
+
+    <!-- WebSocket Client for Real-time Notifications -->
+    <script src="{% static 'js/websocket-client.js' %}"></script>
+
+    <!-- Chat Widget -->
+    <script src="{% static 'js/chat-widget.js' %}"></script>
+    <script src="{% static 'js/chat-message.js' %}"></script>
+    <script src="{% static 'js/chat-window.js' %}"></script>
+    <script src="{% static 'js/chat-debug.js' %}"></script>
+
+    {% endblock %}
+</body>
+
+</html>

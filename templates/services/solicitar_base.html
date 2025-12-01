@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar Serviço - Etapa {{ current_step }} de 4{% endblock %}
+
+{% block extra_css %}
+<style>
+    .progress-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0 40px 0;
+        padding: 0 20px;
+    }
+
+    .progress-step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        padding: 10px;
+    }
+
+    .progress-step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 25px;
+        right: -50%;
+        width: 100%;
+        height: 2px;
+        background-color: #e9ecef;
+        z-index: 1;
+    }
+
+    .progress-step.active::after,
+    .progress-step.completed::after {
+        background-color: #007bff;
+    }
+
+    .step-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        position: relative;
+        z-index: 2;
+    }
+
+    .progress-step.active .step-circle {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .progress-step.completed .step-circle {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .step-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #6c757d;
+    }
+
+    .progress-step.active .step-title {
+        color: #007bff;
+        font-weight: 600;
+    }
+
+    .progress-step.completed .step-title {
+        color: #28a745;
+    }
+
+    .form-section {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+        padding: 20px 0;
+    }
+
+    .btn-navigation {
+        min-width: 120px;
+        padding: 12px 24px;
+        font-weight: 500;
+    }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    .success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+    }
+
+    @media (max-width: 768px) {
+        .progress-indicator {
+            padding: 0 10px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        .step-title {
+            font-size: 12px;
+        }
+
+        .form-section {
+            padding: 20px;
+        }
+
+        .navigation-buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-navigation {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Cabeçalho -->
+            <div class="text-center mb-4">
+                <h2>Solicitar Serviço</h2>
+                <p class="text-muted">{{ service.name }} - {{ service.provider.user.get_full_name }}</p>
+            </div>
+
+            <!-- Indicador de Progresso -->
+            <div class="progress-indicator">
+                <div class="progress-step {% if current_step >= 1 %}{% if current_step == 1 %}active{% else %}completed{% endif %}{% endif %}">
+                    <div class="step-circle">
+                        {% if current_step > 1 %}✓{% else %}1{% endif %}
+                    </div>
+                    <div class="step-title">Solicitação</div>
+                </div>
+                <div class="progress-step {% if current_step >= 2 %}{% if current_step == 2 %}active{% else %}completed{% endif %}{% endif %}">
+                    <div class="step-circle">
+                        {% if current_step > 2 %}✓{% else %}2{% endif %}
+                    </div>
+                    <div class="step-title">Agendamento</div>
+                </div>
+                <div class="progress-step {% if current_step >= 3 %}{% if current_step == 3 %}active{% else %}completed{% endif %}{% endif %}">
+                    <div class="step-circle">
+                        {% if current_step > 3 %}✓{% else %}3{% endif %}
+                    </div>
+                    <div class="step-title">Pagamento</div>
+                </div>
+                <div class="progress-step {% if current_step >= 4 %}active{% endif %}">
+                    <div class="step-circle">4</div>
+                    <div class="step-title">Confirmação</div>
+                </div>
+            </div>
+
+            <!-- Conteúdo da Etapa -->
+            {% block step_content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Validação de formulário em tempo real
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        if (form) {
+            // Adicionar validação em tempo real
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearError);
+            });
+        }
+    });
+
+    function validateField(event) {
+        const field = event.target;
+        const value = field.value.trim();
+
+        // Remover mensagens de erro anteriores
+        clearError(event);
+
+        if (!value && field.hasAttribute('required')) {
+            showFieldError(field, 'Este campo é obrigatório.');
+            return false;
+        }
+
+        // Validações específicas por tipo
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                showFieldError(field, 'Formato de email inválido.');
+                return false;
+            }
+        }
+
+        if (field.type === 'tel' && value) {
+            const phoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
+            if (!phoneRegex.test(value)) {
+                showFieldError(field, 'Formato: (11) 99999-9999');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function clearError(event) {
+        const field = event.target;
+        const errorDiv = field.parentNode.querySelector('.field-error');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+        field.classList.remove('is-invalid');
+    }
+
+    function showFieldError(field, message) {
+        field.classList.add('is-invalid');
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error text-danger small mt-1';
+        errorDiv.textContent = message;
+
+        field.parentNode.appendChild(errorDiv);
+    }
+
+    // Máscara para telefone
+    function applyPhoneMask(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                if (value.length <= 10) {
+                    value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                } else {
+                    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                }
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    // Aplicar máscara aos campos de telefone
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInputs = document.querySelectorAll('input[type="tel"]');
+        phoneInputs.forEach(applyPhoneMask);
+    });
+</script>
+{% endblock %}

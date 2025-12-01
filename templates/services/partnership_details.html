@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nível de Parceria {{ level_data.name }} - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'sponsors_new' %}">Parceiros</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Nível {{ level_data.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <div class="mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                             style="width: 100px; height: 100px;">
+                            <i class="fas {{ level_data.icon }} fa-3x text-primary"></i>
+                        </div>
+                    </div>
+                    <h1 class="mb-3">Plano de Parceria {{ level_data.name }}</h1>
+                    <p class="lead text-muted mb-4">{{ level_data.description }}</p>
+                    <div class="bg-light rounded-pill d-inline-block px-4 py-2 mb-4">
+                        <h3 class="mb-0">{{ level_data.price }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Benefits -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Benefícios do Plano {{ level_data.name }}</h2>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <ul class="list-group list-group-flush">
+                                {% for benefit in level_data.benefits %}
+                                <li class="list-group-item border-0 px-0 py-3">
+                                    <div class="d-flex">
+                                        <div class="me-3">
+                                            <i class="fas fa-check-circle text-success fa-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1">{{ benefit }}</h5>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comparison Table -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Comparação de Planos</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Benefícios</th>
+                            <th class="text-center">Básico</th>
+                            <th class="text-center">Premium</th>
+                            <th class="text-center">Platina</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Presença no diretório de parceiros</td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Destaque em buscas relevantes</td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Desconto para clientes</td>
+                            <td class="text-center">Até 5%</td>
+                            <td class="text-center">Até 10%</td>
+                            <td class="text-center">Até 15%</td>
+                        </tr>
+                        <tr>
+                            <td>Relatórios mensais de performance</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Destaque em newsletters</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Suporte prioritário</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Posicionamento privilegiado</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Suporte dedicado 24/7</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Campanhas personalizadas</td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary border-0 shadow text-center">
+                <div class="card-body py-5">
+                    <div class="border rounded-3 p-4" style="background-color: rgba(255, 255, 255, 0.9); border-color: #6f42c1 !important;">
+                        <h3 class="mb-3" style="color: #6f42c1 !important;">
+                            <i class="fas fa-handshake me-2"></i>{{ level_data.call_to_action }}
+                        </h3>
+                        <p class="lead mb-4" style="color: #6f42c1 !important;">
+                            Junte-se à nossa rede de parceiros e alcance milhares de clientes em busca de serviços de qualidade.
+                        </p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="{% url 'sponsors_new' %}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Voltar aos Planos
+                            </a>
+                            <!-- Contact button with email options -->
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-lg animated-button dropdown-toggle" 
+                                        type="button" 
+                                        id="contactDropdown" 
+                                        data-bs-toggle="dropdown" 
+                                        aria-expanded="false">
+                                    <i class="fas fa-envelope me-2"></i>Entrar em Contato
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" 
+                                           href="mailto:partnerships@jobfinder.com?subject=Interesse em Parceria {{ level_data.name }}&body=Olá, gostaria de saber mais sobre o plano de parceria {{ level_data.name }} com o Job Finder.&cc=&bcc=">
+                                            <i class="fab fa-microsoft me-2"></i>Outlook
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" 
+                                           href="https://mail.google.com/mail/?view=cm&fs=1&to=partnerships@jobfinder.com&su=Interesse em Parceria {{ level_data.name }}&body=Olá, gostaria de saber mais sobre o plano de parceria {{ level_data.name }} com o Job Finder." 
+                                           target="_blank">
+                                            <i class="fab fa-google me-2"></i>Gmail
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(111, 66, 193, 0.4);
+    }
+    70% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(111, 66, 193, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(111, 66, 193, 0);
+    }
+}
+
+.animated-button {
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.animated-button:hover {
+    animation: none;
+    transform: scale(1.05);
+}
+
+.dropdown-menu {
+    border-color: #6f42c1 !important;
+}
+
+.dropdown-item:hover {
+    background-color: #6f42c1 !important;
+    color: white !important;
+}
+</style>
+
+<script>
+// Add hover effect to the dropdown button
+document.addEventListener('DOMContentLoaded', function() {
+    const contactDropdown = document.getElementById('contactDropdown');
+    
+    if (contactDropdown) {
+        contactDropdown.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#6f42c1';
+            this.style.color = '#ffffff';
+            this.style.borderColor = '#6f42c1';
+        });
+        
+        contactDropdown.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '#6f42c1';
+            this.style.color = '#ffffff';
+            this.style.borderColor = '#6f42c1';
+        });
+    }
+});
+</script>
+{% endblock %}

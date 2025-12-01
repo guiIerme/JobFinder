@@ -1,0 +1,447 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perfil do Prestador - {{ provider.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-6">
+    <div class="row g-6">
+        <!-- Provider Info -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow modern-rounded-lg overflow-hidden">
+                <div class="card-body text-center position-relative p-6">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                    <div class="position-relative z-1">
+                        <!-- Profile Avatar -->
+                        <div class="profile-avatar mb-6 d-flex justify-content-center">
+                            {% if user_profile.avatar %}
+                            <img src="{{ user_profile.avatar.url }}" alt="Profile Picture" class="rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 5px solid rgba(255, 255, 255, 0.3);">
+                            {% else %}
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center modern-shadow" style="width: 140px; height: 140px; font-size: 3.5rem; font-weight: bold; border: 5px solid rgba(255, 255, 255, 0.3);">
+                                {{ provider.first_name|slice:":1"|default:"U" }}{{ provider.last_name|slice:":1"|default:"U" }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <h2 class="mb-4 fw-bold">{{ provider.get_full_name|default:provider.username }}</h2>
+                        <p class="text-muted mb-6 fs-5">
+                            <i class="fas fa-user-tie me-2"></i>
+                            {{ user_profile.user_type|title }}
+                        </p>
+
+                        <!-- Rating Display -->
+                        <div class="rating-display mb-6 p-5 bg-light rounded-4">
+                            <div class="stars mb-4">
+                                {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= user_profile.rating|floatformat:"0"|default:0 %}
+                                <i class="fas fa-star text-warning me-2 fs-3"></i>
+                                {% else %}
+                                <i class="far fa-star text-warning me-2 fs-3"></i>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="rating-text">
+                                <span class="fw-bold fs-2 text-primary">{{ user_profile.rating|floatformat:1|default:"0.0" }}</span>
+                                <span class="text-muted fs-4">/5</span>
+                                <div class="small text-muted mt-3 fs-6">({{ user_profile.review_count|default:"0" }} avaliações)</div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="contact-info text-start p-5 bg-light rounded-4 mb-6">
+                            <h5 class="fw-bold mb-5 d-flex align-items-center">
+                                <i class="fas fa-address-card text-primary me-3"></i>
+                                <span>Informações de Contato</span>
+                            </h5>
+
+                            <div class="d-flex align-items-center mb-5 pb-4">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-5" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-envelope text-primary fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="small text-muted mb-2 fs-6">E-mail</div>
+                                    <div class="fw-medium fs-5">{{ provider.email }}</div>
+                                </div>
+                            </div>
+
+                            {% if user_profile.phone %}
+                            <div class="d-flex align-items-center mb-5 pb-4">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-5" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-phone text-primary fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="small text-muted mb-2 fs-6">Telefone</div>
+                                    <div class="fw-medium fs-5">{{ user_profile.phone }}</div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if user_profile.city %}
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-5" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-map-marker-alt text-primary fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="small text-muted mb-2 fs-6">Localização</div>
+                                    <div class="fw-medium fs-5">{{ user_profile.city }}, {{ user_profile.state|default:"Não informado" }}</div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 d-grid gap-4">
+                            {% if custom_services %}
+                            <!-- Se há serviços, mostrar o primeiro como padrão -->
+                            <a href="{% url 'solicitar_servico_step1' custom_services.0.id %}" class="btn btn-primary btn-lg w-100 rounded-pill py-3">
+                                <i class="fas fa-concierge-bell me-3"></i> Solicitar Serviço
+                            </a>
+                            {% else %}
+                            <!-- Se não há serviços, criar um genérico -->
+                            <button class="btn btn-primary btn-lg w-100 rounded-pill py-3" onclick="alert('Este prestador ainda não possui serviços cadastrados. Entre em contato diretamente.')">
+                                <i class="fas fa-concierge-bell me-3"></i> Solicitar Serviço
+                            </button>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'create_chat' 0 %}?order={{ provider.id }}" class="modern-btn modern-btn-outline-primary rounded-pill py-5 fw-bold fs-4">
+                                <i class="fas fa-comments me-3"></i> Iniciar Chat
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Provider Details -->
+        <div class="col-lg-8">
+            <!-- Services Offered -->
+            <div class="card border-0 shadow modern-rounded-lg mb-6 overflow-hidden">
+                <div class="card-header bg-white border-bottom py-5">
+                    <h4 class="mb-0 d-flex align-items-center fw-bold text-primary">
+                        <i class="fas fa-toolbox me-3"></i>
+                        <span>Serviços Oferecidos</span>
+                    </h4>
+                </div>
+                <div class="card-body p-6">
+                    {% if custom_services %}
+                    <div class="row g-6">
+                        {% for service in custom_services %}
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm h-100 modern-hover-lift">
+                                <div class="card-body d-flex flex-column p-5">
+                                    <h4 class="card-title fw-bold mb-4">{{ service.name }}</h4>
+                                    <p class="card-text text-muted flex-grow-1 mb-5 fs-5">{{ service.description|truncatewords:20 }}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-5 pt-4">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold fs-3 text-primary">R$ {{ service.estimated_price }}</span>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill px-4 py-3 fs-6">{{ service.get_category_display }}</span>
+                                    </div>
+
+                                    <div class="mt-5 pt-3">
+                                        <a href="{% url 'solicitar_servico_step1' service.id %}" class="btn btn-outline-primary w-100 rounded-pill">
+                                            <i class="fas fa-calendar-plus me-2"></i> Solicitar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-7">
+                        <i class="fas fa-toolbox fa-4x text-muted mb-5"></i>
+                        <p class="text-muted fs-4">Este prestador ainda não oferece serviços personalizados.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Provider Statistics -->
+            <div class="card border-0 shadow modern-rounded-lg mb-6 overflow-hidden">
+                <div class="card-header bg-white border-bottom py-5">
+                    <h4 class="mb-0 d-flex align-items-center fw-bold text-primary">
+                        <i class="fas fa-chart-bar me-3"></i>
+                        <span>Estatísticas</span>
+                    </h4>
+                </div>
+                <div class="card-body p-6">
+                    <div class="row text-center g-6">
+                        <div class="col-md-3 col-6">
+                            <div class="stat-box p-5 rounded-4 bg-light">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                                    <i class="fas fa-clipboard-list fa-xl text-primary"></i>
+                                </div>
+                                <h2 class="mb-3 fw-bold text-primary">{{ total_orders|default:"0" }}</h2>
+                                <p class="text-muted mb-0 fs-5">Pedidos</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-box p-5 rounded-4 bg-light">
+                                <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                                    <i class="fas fa-check-circle fa-xl text-success"></i>
+                                </div>
+                                <h2 class="mb-3 fw-bold text-success">{{ completed_orders|default:"0" }}</h2>
+                                <p class="text-muted mb-0 fs-5">Concluídos</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-box p-5 rounded-4 bg-light">
+                                <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                                    <i class="fas fa-star-half-alt fa-xl text-warning"></i>
+                                </div>
+                                <h2 class="mb-3 fw-bold text-warning">{{ average_rating|floatformat:1|default:"0.0" }}</h2>
+                                <p class="text-muted mb-0 fs-5">Avaliação</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-box p-5 rounded-4 bg-light">
+                                <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 70px; height: 70px;">
+                                    <i class="fas fa-concierge-bell fa-xl text-info"></i>
+                                </div>
+                                <h2 class="mb-3 fw-bold text-info">{{ total_services|default:"0" }}</h2>
+                                <p class="text-muted mb-0 fs-5">Serviços</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="card border-0 shadow modern-rounded-lg overflow-hidden">
+                <div class="card-header bg-white border-bottom py-5">
+                    <h4 class="mb-0 d-flex align-items-center fw-bold text-primary">
+                        <i class="fas fa-comments me-3"></i>
+                        <span>Avaliações dos Clientes</span>
+                    </h4>
+                </div>
+                <div class="card-body p-6">
+                    <div id="reviews-container">
+                        <!-- Reviews will be loaded here via AJAX -->
+                        <div class="text-center py-6">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mt-4 text-muted fs-4">Carregando avaliações...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for additional spacing -->
+<style>
+    .p-6 {
+        padding: 2.5rem !important;
+    }
+
+    .py-6 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    .px-6 {
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
+
+    .pt-6 {
+        padding-top: 2.5rem !important;
+    }
+
+    .pb-6 {
+        padding-bottom: 2.5rem !important;
+    }
+
+    .ps-6 {
+        padding-left: 2.5rem !important;
+    }
+
+    .pe-6 {
+        padding-right: 2.5rem !important;
+    }
+
+    .m-6 {
+        margin: 2.5rem !important;
+    }
+
+    .my-6 {
+        margin-top: 2.5rem !important;
+        margin-bottom: 2.5rem !important;
+    }
+
+    .mx-6 {
+        margin-left: 2.5rem !important;
+        margin-right: 2.5rem !important;
+    }
+
+    .mt-6 {
+        margin-top: 2.5rem !important;
+    }
+
+    .mb-6 {
+        margin-bottom: 2.5rem !important;
+    }
+
+    .ms-6 {
+        margin-left: 2.5rem !important;
+    }
+
+    .me-6 {
+        margin-right: 2.5rem !important;
+    }
+
+    .g-6 {
+        --bs-gutter-x: 2.5rem;
+        --bs-gutter-y: 2.5rem;
+    }
+
+    .gap-4 {
+        gap: 1.5rem !important;
+    }
+
+    .gap-5 {
+        gap: 2rem !important;
+    }
+
+    .gap-6 {
+        gap: 2.5rem !important;
+    }
+
+    .rounded-4 {
+        border-radius: 1rem !important;
+    }
+
+    .py-7 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .mb-7 {
+        margin-bottom: 3rem !important;
+    }
+
+    .fs-6 {
+        font-size: 0.9rem !important;
+    }
+</style>
+
+<script>
+    // Load reviews via AJAX when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const providerId = "{{ provider.id }}";
+
+        // Check if providerId is valid before making the request
+        if (providerId && providerId !== "None") {
+            fetch(`/professional-reviews/${providerId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayReviews(data.reviews);
+                    } else {
+                        document.getElementById('reviews-container').innerHTML =
+                            '<div class="text-center py-6"><p class="text-muted fs-4">Não foi possível carregar as avaliações.</p></div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading reviews:', error);
+                    document.getElementById('reviews-container').innerHTML =
+                        '<div class="text-center py-6"><p class="text-muted fs-4">Erro ao carregar as avaliações.</p></div>';
+                });
+        } else {
+            document.getElementById('reviews-container').innerHTML =
+                '<div class="text-center py-6"><p class="text-muted fs-4">Não foi possível carregar as avaliações.</p></div>';
+        }
+    });
+
+    function displayReviews(reviews) {
+        const container = document.getElementById('reviews-container');
+
+        if (!container) return;
+
+        if (reviews.length === 0) {
+            container.innerHTML = '<div class="text-center py-6"><p class="text-muted fs-4">Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p></div>';
+            return;
+        }
+
+        let reviewsHtml = '';
+
+        reviews.forEach(review => {
+            // Format date
+            let formattedDate = 'Data não disponível';
+            if (review.created_at) {
+                try {
+                    const reviewDate = new Date(review.created_at);
+                    formattedDate = reviewDate.toLocaleDateString('pt-BR');
+                } catch (e) {
+                    formattedDate = 'Data não disponível';
+                }
+            }
+
+            // Customer name
+            let customerName = 'Cliente';
+            if (review.customer) {
+                if (review.customer.first_name) {
+                    customerName = review.customer.first_name;
+                } else if (review.customer.username) {
+                    customerName = review.customer.username;
+                }
+            }
+
+            // Get first letter for avatar
+            const firstLetter = customerName.charAt(0).toUpperCase() || 'C';
+
+            reviewsHtml += `
+            <div class="review-item border-bottom pb-6 mb-6">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-5">
+                            <!-- Profile image container with proper styling to prevent cropping -->
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center overflow-hidden" style="width: 60px; height: 60px;">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; font-weight: bold; font-size: 1.5rem;">
+                                    ${firstLetter}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <strong class="fs-4">${customerName}</strong>
+                            <div class="rating mt-2 fs-5">
+                                ${generateStars(review.rating || 0)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-muted fs-6">${formattedDate}</div>
+                </div>
+                
+                <div class="review-comment mt-4 bg-light p-5 rounded-4 fs-5">
+                    ${review.comment || '<em class="text-muted">Sem comentários</em>'}
+                </div>
+            </div>
+        `;
+        });
+
+        // Remove the last border-bottom
+        reviewsHtml = reviewsHtml.replace(/border-bottom/g, '').replace(/class="review-item pb-6 mb-6"/, 'class="review-item pb-6 mb-0"');
+
+        container.innerHTML = reviewsHtml;
+    }
+
+    function generateStars(rating) {
+        let stars = '';
+        const validRating = Math.min(Math.max(parseInt(rating) || 0, 0), 5);
+
+        for (let i = 1; i <= 5; i++) {
+            if (i <= validRating) {
+                stars += '<i class="fas fa-star text-warning me-2 fs-5"></i>';
+            } else {
+                stars += '<i class="far fa-star text-warning me-2 fs-5"></i>';
+            }
+        }
+        return stars;
+    }
+</script>
+{% endblock %}

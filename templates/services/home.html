@@ -1,0 +1,1016 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Job Finder - Encontre Profissionais Qualificados{% endblock %}
+
+{% block breadcrumb %}
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Início</a></li>
+        </ol>
+    </nav>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="hero-section text-center mb-5 modern-card position-relative overflow-hidden shadow-lg">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.15) 0%, rgba(114, 9, 183, 0.1) 100%);"></div>
+        <div class="position-relative z-1 py-5">
+            <div class="mb-4 d-flex align-items-center justify-content-center">
+                <i class="fas fa-home-heart fa-4x text-primary modern-hover-lift"></i>
+            </div>
+            <h1 class="hero-title mb-4 fw-bold display-4">Encontre Profissionais Qualificados</h1>
+            <p class="hero-subtitle mb-5 lead d-flex align-items-center justify-content-center mx-auto" style="max-width: 700px;">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <span>Conectamos você aos melhores profissionais para serviços domésticos em sua região.</span>
+            </p>
+
+            <!-- Search Bar -->
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-8">
+                    <form action="{% url 'search_new' %}" method="get" class="modern-input-group input-group input-group-lg rounded-pill overflow-hidden shadow-lg">
+                        <span class="input-group-text bg-white border-0">
+                            <i class="fas fa-search text-primary"></i>
+                        </span>
+                        <input type="text" name="search" class="modern-form-control form-control border-0 ps-2" id="home-search" placeholder="O que você precisa? (ex: eletricista, encanador, pintor...)" style="background-color: rgba(255, 255, 255, 0.95);">
+                        <button class="modern-btn modern-btn-primary rounded-pill px-4" type="submit" id="home-search-btn">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Popular Services -->
+            <div class="mt-5 pt-4">
+                <p class="text-muted mb-4">Serviços populares:</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <span class="modern-badge bg-light text-dark px-3 py-2">Elétrica</span>
+                    <span class="modern-badge bg-light text-dark px-3 py-2">Encanamento</span>
+                    <span class="modern-badge bg-light text-dark px-3 py-2">Pintura</span>
+                    <span class="modern-badge bg-light text-dark px-3 py-2">Limpeza</span>
+                    <span class="modern-badge bg-light text-dark px-3 py-2">Montagem</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mb-6">
+        <div class="col-12">
+            <div class="modern-card border-0 shadow overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.08) 0%, rgba(114, 9, 183, 0.05) 100%);"></div>
+                <div class="card-body py-5 position-relative z-1">
+                    <div class="row text-center g-5">
+                        <div class="col-md-3 mb-4 mb-md-0">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 modern-stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-users fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="mb-2 fw-bold d-flex align-items-center display-6">
+                                    <i class="fas fa-user-tie text-primary me-1"></i>
+                                    <span class="count-up" data-count="1200">0</span>+
+                                </h3>
+                                <p class="text-muted mb-0 d-flex align-items-center">
+                                    <i class="fas fa-id-badge text-primary me-1"></i>
+                                    <span>Profissionais</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4 mb-md-0">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 modern-stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-clipboard-list fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="mb-2 fw-bold d-flex align-items-center display-6">
+                                    <i class="fas fa-tasks text-primary me-1"></i>
+                                    <span class="count-up" data-count="5800">0</span>+
+                                </h3>
+                                <p class="text-muted mb-0 d-flex align-items-center">
+                                    <i class="fas fa-handshake text-primary me-1"></i>
+                                    <span>Serviços Realizados</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4 mb-md-0">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 modern-stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-star fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="mb-2 fw-bold d-flex align-items-center display-6">
+                                    <i class="fas fa-star-half-alt text-warning me-1"></i>
+                                    <span>4.9</span>/5
+                                </h3>
+                                <p class="text-muted mb-0 d-flex align-items-center">
+                                    <i class="fas fa-poll text-primary me-1"></i>
+                                    <span>Avaliação Média</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 modern-stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="mb-2 fw-bold d-flex align-items-center display-6">
+                                    <i class="fas fa-city text-primary me-1"></i>
+                                    <span class="count-up" data-count="85">0</span>+
+                                </h3>
+                                <p class="text-muted mb-0 d-flex align-items-center">
+                                    <i class="fas fa-map-marked-alt text-primary me-1"></i>
+                                    <span>Cidades</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="row mb-6">
+        <div class="col-12">
+            <h2 class="text-center mb-5 d-flex align-items-center justify-content-center">
+                <i class="fas fa-th-large text-primary me-2"></i>
+                <span>Categorias de Serviços</span>
+            </h2>
+            <p class="text-center text-muted mb-5" style="max-width: 700px; margin: 0 auto;">
+                Encontre profissionais especializados para todos os tipos de serviços domésticos
+            </p>
+            <div class="row g-4">
+                {% for category_key, category_name in service_categories %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="modern-card service-card h-100 shadow border-0 modern-hover-lift position-relative overflow-hidden category-card">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 category-bg"></div>
+                        <div class="card-body text-center position-relative z-1 d-flex flex-column p-4">
+                            <div class="mb-4">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-4 modern-stats-icon modern-hover-lift category-icon" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-{% if category_key == 'repair' %}wrench{% elif category_key == 'assembly' %}tools{% elif category_key == 'plumbing' %}faucet{% elif category_key == 'electrical' %}plug{% elif category_key == 'cleaning' %}broom{% elif category_key == 'painting' %}paint-roller{% else %}concierge-bell{% endif %} fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3">{{ category_name }}</h5>
+                            <p class="text-muted mb-4 flex-grow-1">
+                                {% if category_key == 'repair' %}
+                                <i class="fas fa-tools text-primary me-1"></i>
+                                Reparos gerais, consertos e manutenção
+                                {% elif category_key == 'assembly' %}
+                                <i class="fas fa-hammer text-primary me-1"></i>
+                                Montagem de móveis, eletrodomésticos e equipamentos
+                                {% elif category_key == 'plumbing' %}
+                                <i class="fas fa-faucet text-primary me-1"></i>
+                                Encanamento, reparos hidráulicos e instalações
+                                {% elif category_key == 'electrical' %}
+                                <i class="fas fa-bolt text-primary me-1"></i>
+                                Instalações elétricas, manutenção e reparos
+                                {% elif category_key == 'cleaning' %}
+                                <i class="fas fa-broom text-primary me-1"></i>
+                                Limpeza residencial, comercial e pós-obras
+                                {% elif category_key == 'painting' %}
+                                <i class="fas fa-paint-roller text-primary me-1"></i>
+                                Pintura de paredes, tetos e acabamentos
+                                {% else %}
+                                <i class="fas fa-concierge-bell text-primary me-1"></i>
+                                Outros serviços especializados
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Professionals Button -->
+    <div class="row mb-6">
+        <div class="col-12 text-center">
+            <a href="{% url 'all_professionals' %}" class="modern-btn modern-btn-primary rounded-pill px-5 py-4 fw-bold fs-5 text-decoration-none">
+                <i class="fas fa-users me-2"></i>
+                Ver Todos os Profissionais
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            <p class="text-muted mt-4">Explore todos os profissionais disponíveis em todas as categorias</p>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="row mb-6">
+        <div class="col-12">
+            <h2 class="text-center mb-5 d-flex align-items-center justify-content-center">
+                <i class="fas fa-question-circle text-primary me-2"></i>
+                <span>Como Funciona</span>
+            </h2>
+            <p class="text-center text-muted mb-5" style="max-width: 700px; margin: 0 auto;">
+                Veja como é fácil encontrar e contratar profissionais especializados para seus serviços domésticos
+            </p>
+
+            <!-- Steps -->
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden modern-hover-lift">
+                        <div class="card-body position-relative z-1 py-5 px-4">
+                            <div class="d-flex justify-content-center mb-4">
+                                <span class="modern-badge bg-primary text-white rounded-circle">
+                                    <span class="fw-bold">1</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-4">Pesquise</h5>
+                            <p class="text-muted mb-0 ps-3 pe-3">
+                                Digite o tipo de serviço que você precisa e encontre profissionais qualificados em sua região.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden modern-hover-lift">
+                        <div class="card-body position-relative z-1 py-5 px-4">
+                            <div class="d-flex justify-content-center mb-4">
+                                <span class="modern-badge bg-primary text-white rounded-circle">
+                                    <span class="fw-bold">2</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-4">Solicite</h5>
+                            <p class="text-muted mb-0 ps-3 pe-3">
+                                Clique em "Solicitar Serviço" e preencha os detalhes do seu pedido.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden modern-hover-lift">
+                        <div class="card-body position-relative z-1 py-5 px-4">
+                            <div class="d-flex justify-content-center mb-4">
+                                <span class="modern-badge bg-primary text-white rounded-circle">
+                                    <span class="fw-bold">3</span>
+                                </span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-4">Conclua</h5>
+                            <p class="text-muted mb-0 ps-3 pe-3">
+                                Aceite a proposta do profissional e finalize o serviço.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="row mb-6 animate-on-scroll">
+        <div class="col-12">
+            <h2 class="text-center mb-5 d-flex align-items-center justify-content-center">
+                <i class="fas fa-comments text-primary me-2"></i>
+                <span>O Que Dizem Nossos Clientes</span>
+            </h2>
+            <p class="text-center text-muted mb-5" style="max-width: 700px; margin: 0 auto;">
+                Veja o que nossos clientes dizem sobre a experiência com nossos profissionais
+            </p>
+
+            <!-- Testimonials Carousel -->
+            <div class="testimonials-carousel-wrapper position-relative">
+                <div class="testimonials-carousel overflow-hidden">
+                    <div class="testimonials-track d-flex gap-4" id="testimonialsTrack">
+                        <!-- Testimonial 1 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Excelente serviço de encanamento! Resolveu o vazamento rapidamente e deu ótimas dicas de manutenção."
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            M
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Maria Silva</h6>
+                                        <small class="text-muted">São Paulo, SP</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 2 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Eletricista muito competente! Preços justos e trabalho de qualidade. Super recomendo!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            J
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">João Santos</h6>
+                                        <small class="text-muted">Rio de Janeiro, RJ</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 3 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Pintor excelente! Reformou meu apartamento com perfeição. Resultado impecável!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            A
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Ana Costa</h6>
+                                        <small class="text-muted">Belo Horizonte, MG</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 4 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Serviço de limpeza impecável! Equipe pontual, educada e muito eficiente. Minha casa ficou brilhando!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            C
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Carlos Oliveira</h6>
+                                        <small class="text-muted">Curitiba, PR</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 5 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Montador de móveis muito profissional. Montou tudo certinho e ainda levou o lixo embora!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            P
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Paula Ferreira</h6>
+                                        <small class="text-muted">Porto Alegre, RS</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 6 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Jardineiro atencioso e caprichoso. Meu jardim nunca esteve tão bonito. Voltarei a contratar!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            R
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Roberto Lima</h6>
+                                        <small class="text-muted">Brasília, DF</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 7 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Técnico de ar condicionado muito experiente. Consertou o problema em minutos. Preço justo!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            L
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Luciana Alves</h6>
+                                        <small class="text-muted">Recife, PE</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 8 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Marceneiro talentoso! Fez um armário sob medida perfeito. Acabamento de primeira qualidade!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            F
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Fernando Souza</h6>
+                                        <small class="text-muted">Salvador, BA</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 9 -->
+                        <div class="testimonial-item flex-shrink-0">
+                            <div class="testimonial-card shadow rounded-4 p-4 bg-white h-100 modern-hover-lift">
+                                <div class="d-flex justify-content-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-quote-left text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="stars mb-3 text-center">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <p class="text-muted mb-4 fst-italic text-center">
+                                    "Dedetizadora eficiente e cuidadosa. Acabou com o problema de formigas. Serviço garantido!"
+                                </p>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="me-2">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-weight: bold;">
+                                            T
+                                        </div>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="mb-0 fw-bold">Tatiana Rocha</h6>
+                                        <small class="text-muted">Fortaleza, CE</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Services Showcase -->
+    <div class="row mb-6 animate-on-scroll">
+        <div class="col-12">
+            <div class="modern-card border-0 shadow custom-service-section position-relative overflow-hidden">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.95) 0%, rgba(111, 66, 193, 0.9) 100%);"></div>
+                <div class="card-body text-center py-6 position-relative z-1">
+                    <h3 class="mb-4 fw-bold d-flex align-items-center justify-content-center text-white">
+                        <i class="fas fa-user-tie me-2"></i>
+                        <span>É um Profissional?</span>
+                    </h3>
+                    <p class="lead mb-5 text-white opacity-90" style="max-width: 700px; margin: 0 auto;">
+                        Junte-se à nossa plataforma e conecte-se com clientes que precisam dos seus serviços
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-4">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'provider_dashboard' %}" class="modern-btn modern-btn-light rounded-pill px-5 py-4 fw-bold fs-5 btn-destaque-acessar-painel">
+                            <i class="fas fa-tachometer-alt me-2"></i> Acessar Painel
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'register' %}?user_type=professional" class="modern-btn modern-btn-light rounded-pill px-5 py-4 fw-bold fs-5 btn-destaque-registrar">
+                            <i class="fas fa-user-plus me-2"></i> Registrar como Profissional
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'about' %}" class="modern-btn modern-btn-outline-light rounded-pill px-5 py-4 fw-bold fs-5 btn-destaque-saiba-mais">
+                            <i class="fas fa-info-circle me-2"></i> Saiba Mais
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Center -->
+    <div class="row mb-6 animate-on-scroll">
+        <div class="col-12">
+            <div class="modern-card border-0 shadow bg-white rounded-4 overflow-hidden">
+                <div class="card-body text-center py-6">
+                    <h3 class="mb-4 fw-bold d-flex align-items-center justify-content-center text-primary">
+                        <i class="fas fa-question-circle me-2"></i>
+                        <span>Precisa de Ajuda?</span>
+                    </h3>
+                    <p class="lead mb-5 text-muted" style="max-width: 700px; margin: 0 auto;">
+                        Nossa central de ajuda está disponível 24/7 para responder suas dúvidas
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-4">
+                        <a href="{% url 'help_support' %}" class="modern-btn modern-btn-primary rounded-pill px-5 py-4 fw-bold fs-5">
+                            <i class="fas fa-life-ring me-2"></i> Central de Ajuda
+                        </a>
+                        <a href="{% url 'contact' %}" class="modern-btn modern-btn-outline-primary rounded-pill px-5 py-4 fw-bold fs-5">
+                            <i class="fas fa-envelope me-2"></i> Contato
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional spacing styles -->
+<style>
+    /* Add more spacing between sections */
+    .mb-6 {
+        margin-bottom: 4rem !important;
+    }
+
+    .mb-7 {
+        margin-bottom: 5rem !important;
+    }
+
+    .mt-6 {
+        margin-top: 4rem !important;
+    }
+
+    .pt-6 {
+        padding-top: 4rem !important;
+    }
+
+    .py-6 {
+        padding-top: 4rem !important;
+        padding-bottom: 4rem !important;
+    }
+
+    /* Improve spacing in hero section */
+    .hero-section {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Add more padding to testimonial cards */
+    .testimonial-card {
+        padding: 3rem !important;
+        margin-bottom: 3rem !important;
+    }
+
+    /* Improve spacing in stats section */
+    .stats-section {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Add more spacing to category cards */
+    .category-card {
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Improve spacing in how it works section */
+    .how-it-works-section {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Add more spacing to professional showcase */
+    .custom-service-section {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Improve spacing in help center */
+    .help-center-section {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Dark mode spacing adjustments */
+    html[data-theme='dark'] .testimonial-card {
+        background-color: #252525 !important;
+        border: 1px solid #444444 !important;
+    }
+
+    html[data-theme='dark'] .custom-service-section {
+        border: 1px solid #444444 !important;
+    }
+
+    html[data-theme='dark'] .help-center-section .modern-card {
+        background-color: #252525 !important;
+        border: 1px solid #444444 !important;
+    }
+
+    /* Testimonials Carousel Styles */
+    .testimonials-carousel-wrapper {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .testimonials-carousel {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .testimonials-track {
+        display: flex;
+        gap: 1.5rem;
+        animation: scroll-testimonials 40s linear infinite;
+        will-change: transform;
+    }
+
+    .testimonials-track:hover {
+        animation-play-state: paused;
+    }
+
+    .testimonial-item {
+        flex: 0 0 auto;
+        width: 350px;
+    }
+
+    @media (max-width: 768px) {
+        .testimonial-item {
+            width: 280px;
+        }
+    }
+
+    @keyframes scroll-testimonials {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .testimonial-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* ========================================
+       DESTAQUES DOS BOTÕES PRINCIPAIS
+       ======================================== */
+
+    /* Botão Acessar Painel */
+    .btn-destaque-acessar-painel {
+        position: relative;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
+        animation: pulseGlowPainel 2s ease-in-out infinite;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        border: 3px solid rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .btn-destaque-acessar-painel:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.5) !important;
+        background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%) !important;
+    }
+
+    .btn-destaque-acessar-painel::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #4facfe, #667eea);
+        background-size: 400%;
+        border-radius: 50px;
+        z-index: -1;
+        animation: gradientRotate 3s linear infinite;
+        opacity: 0.7;
+    }
+
+    .btn-destaque-acessar-painel::after {
+        content: '🚀';
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        font-size: 1.5rem;
+        animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    /* Botão Registrar como Profissional */
+    .btn-destaque-registrar {
+        position: relative;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
+        animation: pulseGlowRegistrar 2s ease-in-out infinite;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        border: 3px solid rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .btn-destaque-registrar:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.5) !important;
+        background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%) !important;
+    }
+
+    .btn-destaque-registrar::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        background: linear-gradient(45deg, #f093fb, #f5576c, #ffd93d, #6bcf7f, #f093fb);
+        background-size: 400%;
+        border-radius: 50px;
+        z-index: -1;
+        animation: gradientRotate 3s linear infinite;
+        opacity: 0.7;
+    }
+
+    .btn-destaque-registrar::after {
+        content: '⭐';
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        font-size: 1.5rem;
+        animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    /* Botão Saiba Mais */
+    .btn-destaque-saiba-mais {
+        position: relative;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+        animation: pulseGlowSaiba 2.5s ease-in-out infinite;
+        transition: all 0.3s ease;
+        border: 3px solid rgba(255, 255, 255, 0.8) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-destaque-saiba-mais:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4) !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(255, 255, 255, 1) !important;
+    }
+
+    .btn-destaque-saiba-mais::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        background: linear-gradient(45deg, #4facfe, #00f2fe, #43e97b, #38f9d7, #4facfe);
+        background-size: 400%;
+        border-radius: 50px;
+        z-index: -1;
+        animation: gradientRotate 4s linear infinite;
+        opacity: 0.5;
+    }
+
+    .btn-destaque-saiba-mais::after {
+        content: '💡';
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        font-size: 1.5rem;
+        animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    /* Animações */
+    @keyframes pulseGlowPainel {
+
+        0%,
+        100% {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        50% {
+            box-shadow: 0 8px 35px rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    @keyframes pulseGlowRegistrar {
+
+        0%,
+        100% {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        50% {
+            box-shadow: 0 8px 35px rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    @keyframes pulseGlowSaiba {
+
+        0%,
+        100% {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        50% {
+            box-shadow: 0 8px 35px rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    @keyframes gradientRotate {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @keyframes sparkle {
+
+        0%,
+        100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.3) rotate(180deg);
+            opacity: 0.7;
+        }
+    }
+
+    /* Efeito de seta nos botões */
+    .btn-destaque-acessar-painel i.fa-arrow-right,
+    .btn-destaque-registrar i.fa-arrow-right,
+    .btn-destaque-saiba-mais i.fa-arrow-right {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-destaque-acessar-painel:hover i.fa-arrow-right,
+    .btn-destaque-registrar:hover i.fa-arrow-right,
+    .btn-destaque-saiba-mais:hover i.fa-arrow-right {
+        transform: translateX(5px);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+
+        .btn-destaque-acessar-painel::after,
+        .btn-destaque-registrar::after,
+        .btn-destaque-saiba-mais::after {
+            font-size: 1.2rem;
+            top: -10px;
+            right: -5px;
+        }
+    }
+</style>
+
+<script>
+    // Add animation to elements when they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add scroll animation to service cards
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 * index);
+        });
+
+        // Add hover effect to service icons
+        const serviceIcons = document.querySelectorAll('.stats-icon');
+        serviceIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1) translateY(-5px)';
+            });
+
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) translateY(0)';
+            });
+        });
+
+        // Testimonials Carousel - Duplicate items for infinite scroll
+        const testimonialsTrack = document.getElementById('testimonialsTrack');
+        if (testimonialsTrack) {
+            const testimonialItems = Array.from(testimonialsTrack.children);
+            // Clone all items and append them to create seamless loop
+            testimonialItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                testimonialsTrack.appendChild(clone);
+            });
+        }
+    });
+</script>
+{% endblock %}

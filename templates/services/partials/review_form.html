@@ -1,0 +1,101 @@
+{% if order.status == 'completed' and not order.review %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h5><i class="fas fa-star"></i> Avaliar este serviço</h5>
+    </div>
+    <div class="card-body">
+        <form id="review-form" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ order.id }}">
+            
+            <div class="mb-3">
+                <label class="form-label">Sua avaliação</label>
+                <div class="rating-stars">
+                    <input type="radio" id="star5" name="rating" value="5" required />
+                    <label for="star5" title="5 estrelas">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4" required />
+                    <label for="star4" title="4 estrelas">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3" required />
+                    <label for="star3" title="3 estrelas">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2" required />
+                    <label for="star2" title="2 estrelas">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1" required />
+                    <label for="star1" title="1 estrela">&#9733;</label>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comentário (opcional)</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Conte sobre sua experiência com o serviço..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Enviar Avaliação
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+.rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.rating-stars input[type="radio"] {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-stars label:hover,
+.rating-stars label:hover ~ label,
+.rating-stars input[type="radio"]:checked ~ label {
+    color: #ffc107;
+}
+
+.rating-stars input[type="radio"]:checked + label,
+.rating-stars input[type="radio"]:checked + label ~ label {
+    color: #ffc107;
+}
+</style>
+
+<script>
+document.getElementById('review-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const orderId = formData.get('order_id');
+    
+    fetch(`/submit-review/${orderId}/`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            alert('Avaliação enviada com sucesso!');
+            // Reload the page to show the review
+            location.reload();
+        } else {
+            // Show error message
+            alert('Erro ao enviar avaliação: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Erro ao enviar avaliação. Por favor, tente novamente.');
+    });
+});
+</script>
+{% endif %}

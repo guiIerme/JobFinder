@@ -1,0 +1,372 @@
+<!-- Modal de Solicitação de Serviço -->
+<div class="modal fade" id="modalSolicitarServico" tabindex="-1" aria-labelledby="modalSolicitarServicoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSolicitarServicoLabel">
+                    <i class="fas fa-concierge-bell me-2"></i>
+                    Solicitar Serviço
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Informações do Serviço -->
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-info-circle me-2"></i>Detalhes do Serviço</h6>
+                    <div id="service-info">
+                        <p><strong>Serviço:</strong> <span id="service-name-display">-</span></p>
+                        <p><strong>Descrição:</strong> <span id="service-description-display">-</span></p>
+                        <p><strong>Preço Estimado:</strong> R$ <span id="service-price-display">0,00</span></p>
+                    </div>
+                </div>
+
+                <!-- Formulário -->
+                <form id="form-solicitar-servico">
+                    {% csrf_token %}
+
+                    <!-- Campos ocultos para dados do serviço -->
+                    <input type="hidden" id="service-id" name="service_id" value="">
+                    <input type="hidden" id="service-name" name="service_name" value="">
+                    <input type="hidden" id="service-description" name="service_description" value="">
+                    <input type="hidden" id="service-price" name="estimated_price" value="">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="contact-name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>
+                                    Nome Completo *
+                                </label>
+                                <input type="text" class="form-control" id="contact-name" name="contact_name" value="{% if user.is_authenticated %}{{ user.get_full_name }}{% endif %}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="contact-email" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    E-mail *
+                                </label>
+                                <input type="email" class="form-control" id="contact-email" name="contact_email" value="{% if user.is_authenticated %}{{ user.email }}{% endif %}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contact-phone" class="form-label">
+                            <i class="fas fa-phone me-1"></i>
+                            Telefone *
+                        </label>
+                        <input type="tel" class="form-control" id="contact-phone" name="contact_phone" value="{% if user.is_authenticated %}{{ user.userprofile.phone }}{% endif %}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">
+                            <i class="fas fa-comment me-1"></i>
+                            Observações Adicionais
+                        </label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Descreva detalhes específicos, horário preferido, etc."></textarea>
+                    </div>
+
+                    <!-- Feedback de Status -->
+                    <div id="form-feedback" class="d-none">
+                        <div id="success-message" class="alert alert-success d-none">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span id="success-text">Solicitação enviada com sucesso!</span>
+                        </div>
+                        <div id="error-message" class="alert alert-danger d-none">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <span id="error-text">Erro ao enviar solicitação. Tente novamente.</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-solicitacao">
+                    <i class="fas fa-paper-plane me-1"></i>
+                    <span id="btn-text">Enviar Solicitação</span>
+                    <span id="btn-loading" class="d-none">
+                        <span class="spinner-border spinner-border-sm me-1"></span>
+                        Enviando...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Função global para solicitar serviço
+    window.solicitarServico = function(servicoId, nome, descricao, preco) {
+        console.log('🚀 solicitarServico chamada:', {
+            servicoId,
+            nome,
+            descricao,
+            preco
+        });
+
+        try {
+            // Verificar se Bootstrap está carregado
+            if (typeof bootstrap === 'undefined') {
+                console.error('❌ Bootstrap não está carregado');
+                alert('Erro: Sistema não está pronto. Recarregue a página.');
+                return;
+            }
+
+            // Encontrar o modal
+            const modal = document.getElementById('modalSolicitarServico');
+            if (!modal) {
+                console.error('❌ Modal não encontrado');
+                alert('Erro: Modal não encontrado. Recarregue a página.');
+                return;
+            }
+
+            // Garantir que os valores não sejam undefined ou null
+            const serviceId = servicoId || '';
+            const serviceName = nome || 'Serviço Personalizado';
+            const serviceDescription = descricao || 'Descreva o que você precisa';
+            const servicePrice = preco || '0.00';
+
+            console.log('📋 Dados processados:', {
+                serviceId,
+                serviceName,
+                serviceDescription,
+                servicePrice
+            });
+
+            // Preencher campos ocultos do formulário
+            const serviceIdField = document.getElementById('service-id');
+            const serviceNameField = document.getElementById('service-name');
+            const serviceDescriptionField = document.getElementById('service-description');
+            const servicePriceField = document.getElementById('service-price');
+
+            if (serviceIdField) serviceIdField.value = serviceId;
+            if (serviceNameField) serviceNameField.value = serviceName;
+            if (serviceDescriptionField) serviceDescriptionField.value = serviceDescription;
+            if (servicePriceField) servicePriceField.value = servicePrice;
+
+            // Atualizar display visual
+            const nameDisplay = document.getElementById('service-name-display');
+            const descriptionDisplay = document.getElementById('service-description-display');
+            const priceDisplay = document.getElementById('service-price-display');
+
+            if (nameDisplay) nameDisplay.textContent = serviceName;
+            if (descriptionDisplay) descriptionDisplay.textContent = serviceDescription;
+            if (priceDisplay) {
+                // Formatar preço para exibição brasileira
+                const formattedPrice = parseFloat(servicePrice).toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                priceDisplay.textContent = formattedPrice;
+            }
+
+            console.log('✅ Campos preenchidos:', {
+                serviceId: serviceIdField ? serviceIdField.value : 'N/A',
+                serviceName: serviceNameField ? serviceNameField.value : 'N/A',
+                serviceDescription: serviceDescriptionField ? serviceDescriptionField.value : 'N/A',
+                servicePrice: servicePriceField ? servicePriceField.value : 'N/A'
+            });
+
+            // Limpar feedback anterior
+            const feedbackDiv = document.getElementById('form-feedback');
+            const successDiv = document.getElementById('success-message');
+            const errorDiv = document.getElementById('error-message');
+
+            if (feedbackDiv) feedbackDiv.classList.add('d-none');
+            if (successDiv) successDiv.classList.add('d-none');
+            if (errorDiv) errorDiv.classList.add('d-none');
+
+            // Resetar botão
+            const btnEnviar = document.getElementById('btn-enviar-solicitacao');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+
+            if (btnEnviar) btnEnviar.disabled = false;
+            if (btnText) btnText.classList.remove('d-none');
+            if (btnLoading) btnLoading.classList.add('d-none');
+
+            console.log('✅ Dados preenchidos, abrindo modal...');
+
+            // Abrir modal
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+
+            console.log('✅ Modal aberto com sucesso!');
+
+        } catch (error) {
+            console.error('❌ Erro ao abrir modal:', error);
+            alert('Erro ao abrir modal: ' + error.message);
+        }
+    };
+
+    // Configurar evento de envio quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔧 Configurando eventos do modal...');
+
+        const btnEnviar = document.getElementById('btn-enviar-solicitacao');
+        const form = document.getElementById('form-solicitar-servico');
+
+        if (btnEnviar && form) {
+            btnEnviar.addEventListener('click', function() {
+                console.log('📤 Botão enviar clicado');
+                enviarSolicitacao();
+            });
+
+            // Também permitir envio via Enter no formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('📤 Formulário submetido via Enter');
+                enviarSolicitacao();
+            });
+
+            console.log('✅ Eventos configurados com sucesso');
+        } else {
+            console.error('❌ Elementos do formulário não encontrados');
+        }
+    });
+
+    // Função para enviar solicitação via AJAX
+    function enviarSolicitacao() {
+        console.log('🚀 Iniciando envio da solicitação...');
+
+        const form = document.getElementById('form-solicitar-servico');
+        const btnEnviar = document.getElementById('btn-enviar-solicitacao');
+        const btnText = document.getElementById('btn-text');
+        const btnLoading = document.getElementById('btn-loading');
+        const feedbackDiv = document.getElementById('form-feedback');
+        const successDiv = document.getElementById('success-message');
+        const errorDiv = document.getElementById('error-message');
+        const successText = document.getElementById('success-text');
+        const errorText = document.getElementById('error-text');
+
+        // Validar campos obrigatórios
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            console.log('❌ Campos obrigatórios não preenchidos');
+            errorText.textContent = 'Por favor, preencha todos os campos obrigatórios.';
+            errorDiv.classList.remove('d-none');
+            successDiv.classList.add('d-none');
+            feedbackDiv.classList.remove('d-none');
+            return;
+        }
+
+        // Mostrar loading
+        btnEnviar.disabled = true;
+        btnText.classList.add('d-none');
+        btnLoading.classList.remove('d-none');
+        feedbackDiv.classList.add('d-none');
+
+        // Preparar dados
+        const formData = new FormData(form);
+
+        // Log detalhado dos dados que serão enviados
+        const dataToSend = {
+            service_id: formData.get('service_id'),
+            service_name: formData.get('service_name'),
+            service_description: formData.get('service_description'),
+            estimated_price: formData.get('estimated_price'),
+            contact_name: formData.get('contact_name'),
+            contact_email: formData.get('contact_email'),
+            contact_phone: formData.get('contact_phone'),
+            notes: formData.get('notes')
+        };
+
+        console.log('📊 Dados do formulário que serão enviados:', dataToSend);
+
+        // Verificar se os dados do serviço estão sendo enviados corretamente
+        if (!dataToSend.service_name || dataToSend.service_name === 'Serviço Personalizado') {
+            console.warn('⚠️ Atenção: service_name está vazio ou é "Serviço Personalizado"');
+        }
+        if (!dataToSend.service_description) {
+            console.warn('⚠️ Atenção: service_description está vazio');
+        }
+        if (!dataToSend.estimated_price || dataToSend.estimated_price === '0.00') {
+            console.warn('⚠️ Atenção: estimated_price está vazio ou é 0.00');
+        }
+
+        // Enviar via AJAX
+        console.log('🌐 Enviando requisição para /solicitar-servico/...');
+
+        fetch('/solicitar-servico/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                console.log('📡 Resposta recebida:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('📋 Dados da resposta:', data);
+
+                // Resetar botão
+                btnEnviar.disabled = false;
+                btnText.classList.remove('d-none');
+                btnLoading.classList.add('d-none');
+
+                if (data.success) {
+                    console.log('✅ Solicitação enviada com sucesso!');
+
+                    // Mostrar sucesso
+                    successText.textContent = data.message || 'Solicitação enviada com sucesso! Entraremos em contato em breve.';
+                    successDiv.classList.remove('d-none');
+                    errorDiv.classList.add('d-none');
+                    feedbackDiv.classList.remove('d-none');
+
+                    // Fechar modal após 3 segundos
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('modalSolicitarServico'));
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        // Limpar formulário
+                        form.reset();
+                        feedbackDiv.classList.add('d-none');
+                    }, 3000);
+
+                } else {
+                    console.log('❌ Erro na solicitação:', data.message);
+
+                    // Mostrar erro
+                    errorText.textContent = data.message || 'Erro ao enviar solicitação. Tente novamente.';
+                    errorDiv.classList.remove('d-none');
+                    successDiv.classList.add('d-none');
+                    feedbackDiv.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erro na requisição:', error);
+
+                // Resetar botão
+                btnEnviar.disabled = false;
+                btnText.classList.remove('d-none');
+                btnLoading.classList.add('d-none');
+
+                // Mostrar erro
+                errorText.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+                errorDiv.classList.remove('d-none');
+                successDiv.classList.add('d-none');
+                feedbackDiv.classList.remove('d-none');
+            });
+    }
+
+    console.log('✅ Modal de solicitação carregado com sucesso');
+</script>

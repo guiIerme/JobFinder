@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste VLibras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .status {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f0f0f0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste de Integração VLibras</h1>
+    
+    <div id="status" class="status">
+        Aguardando ação...
+    </div>
+
+    <button onclick="loadVLibras()">Carregar VLibras</button>
+    <button onclick="removeVLibras()">Remover VLibras</button>
+    <button onclick="checkStatus()">Verificar Status</button>
+
+    <h2>Texto de Teste</h2>
+    <p>Este é um texto de teste para o VLibras. Quando o widget estiver ativo, você poderá traduzir este texto para Libras.</p>
+    <p>O VLibras é uma ferramenta de acessibilidade que traduz conteúdo digital para Língua Brasileira de Sinais.</p>
+
+    <script>
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+            console.log('[VLibras Test]', message);
+        }
+
+        function loadVLibras() {
+            updateStatus('Carregando VLibras...', 'info');
+
+            // Check if already loaded
+            if (document.querySelector('[vw]')) {
+                updateStatus('VLibras já está carregado!', 'success');
+                return;
+            }
+
+            // Create VLibras container
+            const vLibrasDiv = document.createElement('div');
+            vLibrasDiv.setAttribute('vw', '');
+            vLibrasDiv.className = 'enabled';
+            vLibrasDiv.innerHTML = `
+                <div vw-access-button class="active"></div>
+                <div vw-plugin-wrapper>
+                    <div class="vw-plugin-top-wrapper"></div>
+                </div>
+            `;
+            document.body.appendChild(vLibrasDiv);
+            updateStatus('Container VLibras criado', 'info');
+
+            // Load script
+            const script = document.createElement('script');
+            script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+            script.async = true;
+
+            script.onload = function() {
+                updateStatus('Script carregado! Inicializando...', 'info');
+                
+                setTimeout(() => {
+                    try {
+                        if (typeof window.VLibras !== 'undefined') {
+                            new window.VLibras.Widget('https://vlibras.gov.br/app');
+                            updateStatus('✅ VLibras carregado com sucesso!', 'success');
+                        } else {
+                            updateStatus('❌ Objeto VLibras não encontrado', 'error');
+                        }
+                    } catch (e) {
+                        updateStatus('❌ Erro ao inicializar: ' + e.message, 'error');
+                    }
+                }, 500);
+            };
+
+            script.onerror = function() {
+                updateStatus('❌ Falha ao carregar o script do VLibras', 'error');
+            };
+
+            document.head.appendChild(script);
+        }
+
+        function removeVLibras() {
+            const elements = document.querySelectorAll('[vw], [vw-access-button], [vw-plugin-wrapper]');
+            elements.forEach(el => el.remove());
+            
+            const script = document.querySelector('script[src*="vlibras"]');
+            if (script) script.remove();
+            
+            updateStatus('VLibras removido', 'info');
+        }
+
+        function checkStatus() {
+            const hasContainer = !!document.querySelector('[vw]');
+            const hasScript = !!document.querySelector('script[src*="vlibras"]');
+            const hasVLibras = typeof window.VLibras !== 'undefined';
+            
+            const status = `
+                Container: ${hasContainer ? '✅' : '❌'}
+                Script: ${hasScript ? '✅' : '❌'}
+                Objeto VLibras: ${hasVLibras ? '✅' : '❌'}
+            `;
+            
+            updateStatus(status, hasContainer && hasScript && hasVLibras ? 'success' : 'error');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notificações - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-5 gap-3">
+        <div class="d-flex align-items-center">
+            <a href="{% url 'home' %}" class="modern-btn modern-btn-outline me-3 rounded-circle">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3 stats-icon modern-hover-lift">
+                    <i class="fas fa-bell fa-lg text-primary"></i>
+                </div>
+                <h2 class="mb-2 fw-bold">Notificações</h2>
+                <p class="text-muted mb-0">Suas notificações mais recentes</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notifications List -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="modern-card">
+                <div class="card-body">
+                    {% if notifications %}
+                        {% for notification in notifications %}
+                        <div class="border-bottom py-4 hover-lift rounded-3 px-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-4 stats-icon modern-hover-lift" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-info-circle text-primary fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">Notificação</h5>
+                                        <p class="text-muted mb-0">Detalhes da notificação</p>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Há alguns minutos</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Empty State -->
+                        <div class="text-center py-5">
+                            <div class="bg-light bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-4 mb-4 stats-icon modern-hover-lift mx-auto" style="width: 100px; height: 100px;">
+                                <i class="fas fa-bell fa-3x text-muted"></i>
+                            </div>
+                            <h4 class="fw-bold mb-3">Nenhuma notificação encontrada</h4>
+                            <p class="text-muted mb-0">Você não tem notificações no momento.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

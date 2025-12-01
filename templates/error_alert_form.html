@@ -1,0 +1,97 @@
+<div class="modal fade" id="errorAlertModal" tabindex="-1" aria-labelledby="errorAlertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorAlertModalLabel">Reportar Problema</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="errorAlertForm">
+          <div class="mb-3">
+            <label for="errorType" class="form-label">Tipo de Erro</label>
+            <input type="text" class="form-control" id="errorType" value="{{ error_type }}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="errorMessage" class="form-label">Mensagem de Erro</label>
+            <textarea class="form-control" id="errorMessage" rows="3" readonly>{{ error_message }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="userDescription" class="form-label">Descrição do Problema *</label>
+            <textarea class="form-control" id="userDescription" rows="4" required placeholder="Descreva o que você estava fazendo quando o erro ocorreu..."></textarea>
+            <div class="form-text">Por favor, forneça detalhes sobre o que você estava tentando fazer quando este erro ocorreu.</div>
+          </div>
+          <div class="mb-3">
+            <label for="userEmail" class="form-label">Seu Email (opcional)</label>
+            <input type="email" class="form-control" id="userEmail" placeholder="seu.email@exemplo.com">
+            <div class="form-text">Se você quiser ser notificado sobre a resolução deste problema.</div>
+          </div>
+          <div class="mb-3">
+            <label for="errorUrl" class="form-label">URL do Erro</label>
+            <input type="text" class="form-control" id="errorUrl" value="{{ request.build_absolute_uri }}" readonly>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="submitErrorAlert">Enviar Relatório</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle error alert submission
+  document.getElementById('submitErrorAlert').addEventListener('click', function() {
+    const formData = {
+      error_type: document.getElementById('errorType').value,
+      error_message: document.getElementById('errorMessage').value,
+      user_description: document.getElementById('userDescription').value,
+      user_email: document.getElementById('userEmail').value,
+      error_url: document.getElementById('errorUrl').value,
+      user_agent: navigator.userAgent,
+      timestamp: new Date().toISOString()
+    };
+    
+    // Send the error report via AJAX
+    fetch('/report-error/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Close the modal and show success message
+        bootstrap.Modal.getInstance(document.getElementById('errorAlertModal')).hide();
+        alert('Relatório de erro enviado com sucesso! Obrigado por nos ajudar a melhorar o sistema.');
+      } else {
+        alert('Erro ao enviar o relatório. Por favor, tente novamente.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Erro ao enviar o relatório. Por favor, tente novamente.');
+    });
+  });
+  
+  // Helper function to get CSRF token
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});
+</script>

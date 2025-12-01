@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Otimizações de Performance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .stats-card {
+            width: 200px;
+            height: 150px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .page-header {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Teste de Otimizações de Performance - Dashboard</h1>
+
+    <div class="test-section">
+        <h2>1. Teste de will-change</h2>
+        <div class="stats-card" id="test-card">Card de Teste</div>
+        <div id="willchange-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Teste de CSS Containment</h2>
+        <div id="containment-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Teste de Visibility Handler</h2>
+        <div id="visibility-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Teste de Lazy Loading</h2>
+        <div class="page-header" id="test-header"></div>
+        <div id="lazyload-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Teste de Debounce</h2>
+        <div id="debounce-result" class="test-result"></div>
+    </div>
+
+    <script src="static/js/admin-dashboard-animations.js"></script>
+    <script>
+        // Teste 1: will-change
+        function testWillChange() {
+            const card = document.getElementById('test-card');
+            const result = document.getElementById('willchange-result');
+
+            // Simular hover
+            card.dispatchEvent(new Event('mouseenter'));
+
+            setTimeout(() => {
+                const willChange = window.getComputedStyle(card).willChange;
+                if (willChange !== 'auto') {
+                    result.className = 'test-result success';
+                    result.textContent = '✓ will-change aplicado durante hover: ' + willChange;
+                } else {
+                    result.className = 'test-result error';
+                    result.textContent = '✗ will-change não foi aplicado';
+                }
+
+                // Simular mouse leave
+                card.dispatchEvent(new Event('mouseleave'));
+
+                setTimeout(() => {
+                    const willChangeAfter = window.getComputedStyle(card).willChange;
+                    if (willChangeAfter === 'auto') {
+                        result.textContent += ' | ✓ will-change removido após hover';
+                    }
+                }, 500);
+            }, 100);
+        }
+
+        // Teste 2: CSS Containment
+        function testContainment() {
+            const result = document.getElementById('containment-result');
+            const cards = document.querySelectorAll('.stats-card');
+
+            if (cards.length > 0) {
+                const contain = window.getComputedStyle(cards[0]).contain;
+                if (contain && contain !== 'none') {
+                    result.className = 'test-result success';
+                    result.textContent = '✓ CSS containment aplicado: ' + contain;
+                } else {
+                    result.className = 'test-result error';
+                    result.textContent = '✗ CSS containment não aplicado';
+                }
+            }
+        }
+
+        // Teste 3: Visibility Handler
+        function testVisibilityHandler() {
+            const result = document.getElementById('visibility-result');
+
+            if (typeof setupVisibilityHandler === 'function') {
+                result.className = 'test-result success';
+                result.textContent = '✓ Função setupVisibilityHandler existe';
+            } else {
+                result.className = 'test-result error';
+                result.textContent = '✗ Função setupVisibilityHandler não encontrada';
+            }
+        }
+
+        // Teste 4: Lazy Loading
+        function testLazyLoading() {
+            const result = document.getElementById('lazyload-result');
+
+            if (window.dashboardInstance) {
+                const hasLazyFunctions =
+                    typeof window.dashboardInstance.initParticles === 'function' &&
+                    typeof window.dashboardInstance.initCursorEffects === 'function';
+
+                if (hasLazyFunctions) {
+                    result.className = 'test-result success';
+                    result.textContent = '✓ Funções de lazy loading implementadas';
+                } else {
+                    result.className = 'test-result error';
+                    result.textContent = '✗ Funções de lazy loading não encontradas';
+                }
+            } else {
+                result.className = 'test-result error';
+                result.textContent = '✗ dashboardInstance não inicializado';
+            }
+        }
+
+        // Teste 5: Debounce
+        function testDebounce() {
+            const result = document.getElementById('debounce-result');
+
+            if (typeof debounce === 'function' && typeof setupDebouncedHandlers === 'function') {
+                result.className = 'test-result success';
+                result.textContent = '✓ Funções de debounce implementadas';
+
+                // Testar debounce
+                let callCount = 0;
+                const debouncedFn = debounce(() => callCount++, 100);
+
+                // Chamar múltiplas vezes
+                debouncedFn();
+                debouncedFn();
+                debouncedFn();
+
+                setTimeout(() => {
+                    if (callCount === 1) {
+                        result.textContent += ' | ✓ Debounce funcionando corretamente';
+                    } else {
+                        result.textContent += ' | ✗ Debounce não está funcionando (chamadas: ' + callCount + ')';
+                    }
+                }, 200);
+            } else {
+                result.className = 'test-result error';
+                result.textContent = '✗ Funções de debounce não encontradas';
+            }
+        }
+
+        // Executar testes após carregamento
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testWillChange();
+                testContainment();
+                testVisibilityHandler();
+                testLazyLoading();
+                testDebounce();
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

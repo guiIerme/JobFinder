@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Novo Sistema de Filtros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .filter-section {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Teste do Novo Sistema de Filtros</h1>
+
+        <!-- Loading indicator -->
+        <div id="filter-loading" class="alert alert-info d-none">
+            <div class="spinner-border spinner-border-sm me-2"></div>
+            Aplicando filtros...
+        </div>
+
+        <!-- Search Filter -->
+        <div class="filter-section">
+            <label for="search-filter">Buscar:</label>
+            <input type="text" id="search-filter" class="form-control" placeholder="Digite para buscar...">
+        </div>
+
+        <!-- Location Filter -->
+        <div class="filter-section">
+            <label for="location-filter">Localização:</label>
+            <input type="text" id="location-filter" class="form-control" placeholder="Digite a localização...">
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-section">
+            <label>Categoria:</label><br>
+            <input type="radio" name="category" value="" id="all-cat" checked>
+            <label for="all-cat">Todas</label><br>
+            <input type="radio" name="category" value="repair" id="repair-cat">
+            <label for="repair-cat">Reparo</label><br>
+            <input type="radio" name="category" value="cleaning" id="cleaning-cat">
+            <label for="cleaning-cat">Limpeza</label>
+        </div>
+
+        <!-- Rating Filter -->
+        <div class="filter-section">
+            <label>Avaliação:</label><br>
+            <input type="radio" name="rating" value="" id="all-rating" checked>
+            <label for="all-rating">Qualquer</label><br>
+            <input type="radio" name="rating" value="5" id="rating-5">
+            <label for="rating-5">5 estrelas</label><br>
+            <input type="radio" name="rating" value="4" id="rating-4">
+            <label for="rating-4">4+ estrelas</label>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-section">
+            <label>Preço:</label><br>
+            <input type="radio" name="price" value="" id="all-price" checked>
+            <label for="all-price">Qualquer</label><br>
+            <input type="radio" name="price" value="0-100" id="price-1">
+            <label for="price-1">Até R$ 100</label><br>
+            <input type="radio" name="price" value="100-300" id="price-2">
+            <label for="price-2">R$ 100 - R$ 300</label><br>
+            <input type="radio" name="price" value="300+" id="price-3">
+            <label for="price-3">Acima de R$ 300</label>
+        </div>
+
+        <!-- Clear Button -->
+        <button id="clear-filters" class="btn btn-secondary">Limpar Filtros</button>
+
+        <!-- Old buttons (should be hidden) -->
+        <div class="filter-action-buttons mt-3">
+            <button class="btn btn-primary">Aplicar (deve ser escondido)</button>
+        </div>
+
+        <div class="mt-4">
+            <h3>Instruções:</h3>
+            <ol>
+                <li>Abra o Console do navegador (F12)</li>
+                <li>Digite nos campos de texto (deve ter delay de 800ms)</li>
+                <li>Clique nos radio buttons (aplicação imediata)</li>
+                <li>Observe os logs no console</li>
+                <li>Verifique se a URL muda corretamente</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Mesmo script do sistema de filtros
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Novo Sistema de Filtros Iniciando...');
+
+            const DEBOUNCE_DELAY = 800;
+            onsole.log('📋 Elementos encontrados:', {
+                search: !!elements.searchInput,
+                location: !!elements.locationInput,
+                clear: !!elements.clearButton,
+                loading: !!elements.loadingIndicator
+            });
+
+            function applyFilters() {
+                console.log('🔄 Aplicando filtros...');
+                showLoading(true);
+
+                const filters = collectFilterValues();
+                console.log('📊 Valores coletados:', filters);
+
+                const url = buildFilterURL(filters);
+                console.log('🌐 URL construída:', url);
+
+                setTimeout(() => {
+                    console.log('🚀 Redirecionando para:', url);
+                    // Em teste, não redirecionar de verdade
+                    // window.location.href = url;
+                    showLoading(false);
+                }, 1000);
+            }
+
+            function collectFilterValues() {
+                const search = elements.searchInput ? elements.searchInput.value.trim() : '';
+                const location = elements.locationInput ? elements.locationInput.value.trim() : '';
+
+                const categoryRadio = document.querySelector('input[name="category"]:checked');
+                const ratingRadio = document.querySelector('input[name="rating"]:checked');
+                const priceRadio = document.querySelector('input[name="price"]:checked');
+
+                const category = categoryRadio ? categoryRadio.value : '';
+                const rating = ratingRadio ? ratingRadio.value : '';
+                const price = priceRadio ? priceRadio.value : '';
+
+                return {
+                    search,
+                    location,
+                    category,
+                    rating,
+                    price
+                };
+            }
+
+            function buildFilterURL(filters) {
+                const params = new URLSearchParams();
+
+                if (filters.search) params.set('search', filters.search);
+                if (filters.location) params.set('location', filters.location);
+                if (filters.category) params.set('category', filters.category);
+                if (filters.rating) params.set('rating', filters.rating);
+
+                if (filters.price) {
+                    switch (filters.price) {
+                        case '0-100':
+                            params.set('price_min', '0');
+                            params.set('price_max', '100');
+                            break;
+                        case '100-300':
+                            params.set('price_min', '100');
+                            params.set('price_max', '300');
+                            break;
+                        case '300+':
+                            params.set('price_min', '300');
+                            break;
+                    }
+                }
+
+                const queryString = params.toString();
+                return queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+            }
+
+            function showLoading(show) {
+                if (elements.loadingIndicator) {
+                    if (show) {
+                        elements.loadingIndicator.classList.remove('d-none');
+                        console.log('⏳ Loading mostrado');
+                    } else {
+                        elements.loadingIndicator.classList.add('d-none');
+                        console.log('✅ Loading escondido');
+                    }
+                }
+            }
+
+            function debounceFilter() {
+                clearTimeout(filterTimeout);
+                filterTimeout = setTimeout(() => {
+                    applyFilters();
+                }, DEBOUNCE_DELAY);
+            }
+
+            function clearAllFilters() {
+                console.log('🧹 Limpando todos os filtros...');
+
+                if (elements.searchInput) elements.searchInput.value = '';
+                if (elements.locationInput) elements.locationInput.value = '';
+
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = (radio.value === '');
+                });
+
+                console.log('✅ Filtros limpos (em teste, não redireciona)');
+            }
+
+            function setupEventListeners() {
+                console.log('🎯 Configurando event listeners...');
+
+                if (elements.searchInput) {
+                    elements.searchInput.addEventListener('input', function() {
+                        console.log('🔍 Busca alterada:', this.value);
+                        debounceFilter();
+                    });
+                }
+
+                if (elements.locationInput) {
+                    elements.locationInput.addEventListener('input', function() {
+                        console.log('📍 Localização alterada:', this.value);
+                        debounceFilter();
+                    });
+                }
+
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        console.log('🔘 Radio alterado:', this.name, '=', this.value);
+                        applyFilters();
+                    });
+                });
+
+                if (elements.clearButton) {
+                    elements.clearButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        clearAllFilters();
+                    });
+                }
+
+                console.log(`✅ ${radioButtons.length} radio buttons configurados`);
+            }
+
+            function hideOldButtons() {
+                if (elements.actionButtons) {
+                    elements.actionButtons.style.display = 'none';
+                    console.log('🙈 Botões antigos escondidos');
+                }
+            }
+
+            function init() {
+                setupEventListeners();
+                hideOldButtons();
+                console.log('🎉 Sistema de filtros inicializado com sucesso!');
+            }
+
+            init();
+        });
+    </script>
+</body>
+
+</html> let filterTimeout = null;
+
+const elements = {
+searchInput: document.getElementById('search-filter'),
+locationInput: document.getElementById('location-filter'),
+clearButton: document.getElementById('clear-filters'),
+loadingIndicator: document.getElementById('filter-loading'),
+actionButtons: document.querySelector('.filter-action-buttons')
+};

@@ -1,0 +1,89 @@
+<!-- Widget de Resumo das Solicitações -->
+<div class="col-lg-6 mb-4">
+    <div class="section-card rounded-4 shadow-sm h-100">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="section-title mb-0">
+                    <i class="fas fa-inbox text-primary me-2"></i>
+                    Solicitações Recebidas
+                </h4>
+                <a href="{% url 'solicitacoes_prestador' %}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-eye me-1"></i>
+                    Ver Todas
+                </a>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="row mb-4">
+                <div class="col-6">
+                    <div class="stat-card bg-warning bg-opacity-10 rounded-3 p-3 text-center">
+                        <div class="stat-number text-warning fw-bold fs-4">{{ stats_solicitacoes.pending|default:0 }}</div>
+                        <div class="stat-label small text-muted">Pendentes</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="stat-card bg-success bg-opacity-10 rounded-3 p-3 text-center">
+                        <div class="stat-number text-success fw-bold fs-4">{{ stats_solicitacoes.esta_semana|default:0 }}</div>
+                        <div class="stat-label small text-muted">Esta Semana</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solicitações Recentes -->
+            {% if solicitacoes_recentes %}
+            <div class="recent-requests">
+                <h6 class="mb-3 text-muted">Solicitações Recentes:</h6>
+                {% for solicitacao in solicitacoes_recentes %}
+                <div class="request-item d-flex align-items-center justify-content-between p-3 mb-2 bg-light rounded-3">
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">{{ solicitacao.contact_name }}</div>
+                        <div class="small text-muted">{{ solicitacao.service_name|truncatechars:30 }}</div>
+                        <div class="small text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            {{ solicitacao.created_at|timesince }} atrás
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge 
+                                {% if solicitacao.status == 'pending' %}bg-warning
+                                {% elif solicitacao.status == 'contacted' %}bg-info
+                                {% elif solicitacao.status == 'scheduled' %}bg-primary
+                                {% elif solicitacao.status == 'completed' %}bg-success
+                                {% else %}bg-secondary{% endif %} mb-1">
+                            {{ solicitacao.get_status_display }}
+                        </span>
+                        <div class="small text-success fw-bold">
+                            R$ {{ solicitacao.estimated_price|floatformat:2 }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <p class="text-muted mb-0">Nenhuma solicitação ainda</p>
+                <small class="text-muted">As solicitações aparecerão aqui</small>
+            </div>
+            {% endif %}
+
+            <!-- Ações Rápidas -->
+            <div class="mt-4 pt-3 border-top">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'solicitacoes_prestador' %}?status=pending" class="btn btn-warning btn-sm flex-fill">
+                        <i class="fas fa-clock me-1"></i>
+                        Pendentes
+                    </a>
+                    <a href="{% url 'solicitacoes_prestador' %}?status=contacted" class="btn btn-info btn-sm flex-fill">
+                        <i class="fas fa-phone me-1"></i>
+                        Contatados
+                    </a>
+                    <a href="{% url 'solicitacoes_prestador' %}?status=scheduled" class="btn btn-primary btn-sm flex-fill">
+                        <i class="fas fa-calendar me-1"></i>
+                        Agendados
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

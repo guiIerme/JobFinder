@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Tooltips - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 3rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .test-item {
+            text-align: center;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            color: #667eea;
+            cursor: help;
+            transition: transform 0.3s ease;
+        }
+
+        .test-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .test-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-weight: 600;
+            cursor: help;
+        }
+
+        /* Tooltip Styles */
+        .tooltip-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: #333;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            max-width: 300px;
+            word-wrap: break-word;
+            pointer-events: none;
+        }
+
+        .tooltip-modern.tooltip-popover {
+            padding: 1.25rem;
+            max-width: 400px;
+            pointer-events: auto;
+            cursor: default;
+        }
+
+        .tooltip-modern::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .tooltip-modern.tooltip-position-top::before {
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0 6px;
+            border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+        }
+
+        .tooltip-modern.tooltip-position-bottom::before {
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 6px 6px;
+            border-color: transparent transparent rgba(255, 255, 255, 0.95) transparent;
+        }
+
+        .tooltip-modern.tooltip-position-left::before {
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-color: transparent transparent transparent rgba(255, 255, 255, 0.95);
+        }
+
+        .tooltip-modern.tooltip-position-right::before {
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 6px 6px 0;
+            border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent;
+        }
+
+        [data-tooltip] {
+            cursor: h relative;
+        }
+
+        [data-tooltip-trigger="click"] {
+            cursor: pointer;
+        }
+
+        .info-text {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎨 Sistema de Tooltips e Popovers Animados</h1>
+
+        <div class="test-section">
+            <h2>1. Tooltips com Posicionamento Automático</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <i class="fas fa-info-circle test-icon" data-tooltip="Este é um tooltip com posicionamento automático. Ele escolhe a melhor posição baseado no espaço disponível." data-tooltip-position="auto"></i>
+                    <p>Posição Auto</p>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-star test-icon" data-tooltip="Tooltip posicionado no topo" data-tooltip-position="top"></i>
+                    <p>Posição Topo</p>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-heart test-icon" data-tooltip="Tooltip posicionado embaixo" data-tooltip-position="bottom"></i>
+                    <p>Posição Baixo</p>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-bell test-icon" data-tooltip="Tooltip à esquerda" data-tooltip-position="left"></i>
+                    <p>Posição Esquerda</p>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-rocket test-icon" data-tooltip="Tooltip à direita" data-tooltip-position="right"></i>
+                    <p>Posição Direita</p>
+                </div>
+            </div>
+            <div class="info-text">
+                <strong>Hover sobre os ícones</strong> para ver os tooltips com diferentes posicionamentos.
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Tooltips em Botões</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <button class="test-button" data-tooltip="Clique para salvar suas alterações" data-tooltip-position="top">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+                <div class="test-item">
+                    <button class="test-button" data-tooltip="Cancelar e voltar à página anterior" data-tooltip-position="top">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+                <div class="test-item">
+                    <button class="test-button" data-tooltip="Enviar formulário para processamento" data-tooltip-position="top">
+                        <i class="fas fa-paper-plane"></i> Enviar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. Popovers com Clique (Mais Informações)</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <button class="test-button" data-tooltip="<strong>Informações Detalhadas</strong><br><br>Este é um popover que aparece ao clicar. Ele pode conter mais informações e permanece visível até você clicar fora." data-tooltip-trigger="click" data-tooltip-type="popover" data-tooltip-position="bottom">
+                        <i class="fas fa-question-circle"></i> Clique para Info
+                    </button>
+                </div>
+                <div class="test-item">
+                    <button class="test-button" data-tooltip="<strong>Ajuda Contextual</strong><br><br>Popovers são ideais para informações mais longas que não cabem em tooltips simples." data-tooltip-trigger="click" data-tooltip-type="popover" data-tooltip-position="top">
+                        <i class="fas fa-life-ring"></i> Ajuda
+                    </button>
+                </div>
+            </div>
+            <div class="info-text">
+                <strong>Clique nos botões</strong> para ver os popovers. Clique fora para fechar.
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>4. Tooltips em Badges</h2>
+            <div class="test-grid">
+                <div class="test-item">
+                    <span class="test-badge" data-tooltip="Status: Ativo - Todas as funcionalidades estão operacionais" data-tooltip-position="top">
+                        <i class="fas fa-check-circle"></i> Ativo
+                    </span>
+                </div>
+                <div class="test-item">
+                    <span class="test-badge" data-tooltip="Status: Processando - Aguarde a conclusão da operação" data-tooltip-position="top" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-spinner fa-spin"></i> Processando
+                    </span>
+                </div>
+                <div class="test-item">
+                    <span class="test-badge" data-tooltip="Status: Concluído - Operação finalizada com sucesso" data-tooltip-position="top" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-flag-checkered"></i> Concluído
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>5. Teste de Z-Index Dinâmico</h2>
+            <p style="margin-bottom: 1rem;">Passe o mouse sobre múltiplos elementos rapidamente para ver o sistema de z-index dinâmico em ação:</p>
+            <div class="test-grid">
+                <div class="test-item">
+                    <i class="fas fa-layer-group test-icon" data-tooltip="Tooltip 1 - Z-index gerenciado automaticamente" data-tooltip-position="top"></i>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-layer-group test-icon" data-tooltip="Tooltip 2 - Sempre aparece acima dos anteriores" data-tooltip-position="top"></i>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-layer-group test-icon" data-tooltip="Tooltip 3 - Sistema de empilhamento inteligente" data-tooltip-position="top"></i>
+                </div>
+                <div class="test-item">
+                    <i class="fas fa-layer-group test-icon" data-tooltip="Tooltip 4 - Sem conflitos de sobreposição" data-tooltip-position="top"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/admin-dashboard-animations.js"></script>
+    <script>
+        // Initialize tooltips manually for this test page
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipManager = TooltipManager.initAll({
+                animationDuration: 200,
+                offset: 10,
+                zIndexBase: 10000
+            });
+
+            console.log('Tooltip system initialized for test page');
+        });
+    </script>
+</body>
+
+</html>
+elp;

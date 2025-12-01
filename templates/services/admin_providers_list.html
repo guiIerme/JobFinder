@@ -1,0 +1,533 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lista de Prestadores - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
+        <div>
+            <h2 class="mb-0 fw-bold">Lista de Prestadores</h2>
+            <p class="text-muted mb-0">Gerencie todos os prestadores de serviço da plataforma</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary rounded-pill px-4" id="refreshProviders">
+                <i class="fas fa-sync-alt me-1"></i> Atualizar
+            </button>
+            <a href="{% url 'admin_dashboard_new' %}" class="btn btn-outline-primary rounded-pill px-4">
+                <i class="fas fa-arrow-left me-1"></i> Voltar
+            </a>
+        </div>
+    </div>
+    
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-body">
+                    <form id="providerFilterForm">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="searchInput" class="form-label">Buscar Prestador</label>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Nome, email ou cidade">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ratingFilter" class="form-label">Avaliação Mínima</label>
+                                <select class="form-select" id="ratingFilter">
+                                    <option value="">Todas</option>
+                                    <option value="4.5">4.5+ estrelas</option>
+                                    <option value="4.0">4.0+ estrelas</option>
+                                    <option value="3.5">3.5+ estrelas</option>
+                                    <option value="3.0">3.0+ estrelas</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="statusFilter" class="form-label">Status</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">Todos</option>
+                                    <option value="active">Ativo</option>
+                                    <option value="inactive">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" class="btn btn-primary w-100" id="applyFilters">
+                                    <i class="fas fa-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Total de Prestadores</h5>
+                            <h2 class="mb-2 count-up fw-bold" data-target="{{ providers|length }}">0</h2>
+                        </div>
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-user-tie fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(76, 201, 240, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Média de Avaliação</h5>
+                            <h2 class="mb-2 fw-bold">4.2</h2>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-star fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Prestadores Ativos</h5>
+                            <h2 class="mb-2 count-up fw-bold" data-target="42">0</h2>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-check-circle fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4 animate-card">
+            <div class="card border-0 shadow h-100 rounded-3 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1">Novos (30 dias)</h5>
+                            <h2 class="mb-2 count-up fw-bold" data-target="8">0</h2>
+                        </div>
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-plus-circle fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Providers Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">Prestadores Cadastrados</h5>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm rounded-pill me-2" id="exportProviders">
+                            <i class="fas fa-file-export me-1"></i> Exportar
+                        </button>
+                        <button class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#bulkActionsModal">
+                            <i class="fas fa-tasks me-1"></i> Ações em Massa
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if providers %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAllProviders">
+                                        </div>
+                                    </th>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Telefone</th>
+                                    <th>Cidade</th>
+                                    <th>Estado</th>
+                                    <th>Data de Registro</th>
+                                    <th>Avaliação</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for provider in providers %}
+                                <tr class="animate-row border-bottom" data-provider-id="{{ provider.id }}">
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input provider-checkbox" type="checkbox" value="{{ provider.id }}" data-provider-name="{{ provider.get_full_name|default:provider.username }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: white; font-weight: bold;">
+                                                {{ provider.first_name|first|upper }}{{ provider.last_name|first|upper }}
+                                            </div>
+                                            <div>
+                                                <div class="fw-medium">{{ provider.get_full_name|default:provider.username }}</div>
+                                                <div class="text-muted small">@{{ provider.username }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ provider.email }}</td>
+                                    <td>{{ provider.userprofile.phone|default:'Não informado' }}</td>
+                                    <td>{{ provider.userprofile.city|default:'Não informado' }}</td>
+                                    <td>{{ provider.userprofile.state|default:'Não informado' }}</td>
+                                    <td>{{ provider.date_joined|date:"d/m/Y" }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            <span>{{ provider.userprofile.rating|floatformat:1 }}</span>
+                                            <span class="text-muted ms-1">({{ provider.userprofile.review_count }})</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{% if provider.is_active %}success{% else %}secondary{% endif %} rounded-pill">
+                                            {% if provider.is_active %}Ativo{% else %}Inativo{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{% url 'admin_provider_services' provider.id %}" class="btn btn-sm btn-outline-primary" title="Ver Serviços">
+                                                <i class="fas fa-concierge-bell"></i>
+                                            </a>
+                                            <a href="{% url 'provider_profile' provider.id %}" class="btn btn-sm btn-outline-info" title="Ver Perfil">
+                                                <i class="fas fa-user"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-warning edit-provider-btn" title="Editar" data-provider-id="{{ provider.id }}" data-bs-toggle="modal" data-bs-target="#editProviderModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" title="Desativar" onclick="confirmAction('Desativar prestador', 'Tem certeza que deseja desativar {{ provider.get_full_name|default:provider.username }}?', function() { /* Implement deactivation */ })">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Navegação da lista de prestadores">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-user-tie fa-3x text-muted mb-3"></i>
+                        <h5 class="mb-2">Nenhum prestador encontrado</h5>
+                        <p class="text-muted">Não há prestadores cadastrados na plataforma.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Actions Modal -->
+<div class="modal fade" id="bulkActionsModal" tabindex="-1" aria-labelledby="bulkActionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bulkActionsModalLabel">Ações em Massa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Selecione uma ação:</label>
+                    <select class="form-select" id="bulkActionSelect">
+                        <option value="">Escolha uma ação...</option>
+                        <option value="activate">Ativar selecionados</option>
+                        <option value="deactivate">Desativar selecionados</option>
+                        <option value="send_message">Enviar mensagem</option>
+                        <option value="export">Exportar selecionados</option>
+                    </select>
+                </div>
+                <div id="selectedProvidersInfo" class="alert alert-info d-none">
+                    <strong>Selecionados:</strong> <span id="selectedCount">0</span> prestadores
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="executeBulkAction">Executar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Provider Modal -->
+<div class="modal fade" id="editProviderModal" tabindex="-1" aria-labelledby="editProviderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProviderModalLabel">Editar Prestador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProviderForm">
+                    <input type="hidden" id="editProviderId">
+                    <div class="mb-3">
+                        <label for="providerName" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control" id="providerName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="providerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="providerEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="providerPhone" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="providerPhone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="providerCity" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="providerCity">
+                    </div>
+                    <div class="mb-3">
+                        <label for="providerState" class="form-label">Estado</label>
+                        <input type="text" class="form-control" id="providerState">
+                    </div>
+                    <div class="mb-3">
+                        <label for="providerStatus" class="form-label">Status</label>
+                        <select class="form-select" id="providerStatus">
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="saveProviderBtn">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.animate-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.animate-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-row {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+}
+
+.animate-row.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.count-up {
+    display: inline-block;
+}
+
+/* Refresh button animation */
+#refreshProviders i {
+    transition: transform 0.3s ease;
+}
+
+#refreshProviders i.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Refresh providers
+    document.getElementById('refreshProviders').addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        icon.classList.add('fa-spin');
+        setTimeout(() => {
+            icon.classList.remove('fa-spin');
+            // In a real application, you would refresh the data here
+            location.reload();
+        }, 1000);
+    });
+    
+    // Select all providers checkbox
+    document.getElementById('selectAllProviders').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.provider-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateSelectedProvidersInfo();
+    });
+    
+    // Individual provider checkbox change
+    document.querySelectorAll('.provider-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectedProvidersInfo);
+    });
+    
+    // Edit provider button click
+    document.querySelectorAll('.edit-provider-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const providerId = this.getAttribute('data-provider-id');
+            const row = this.closest('tr');
+            const providerName = row.querySelector('.fw-medium').textContent;
+            
+            // Set form values (in a real app, you would fetch the actual data)
+            document.getElementById('editProviderId').value = providerId;
+            document.getElementById('editProviderModalLabel').textContent = 'Editar Prestador: ' + providerName;
+            document.getElementById('providerName').value = providerName;
+            // Other fields would be populated with actual data
+        });
+    });
+    
+    // Save provider button click
+    document.getElementById('saveProviderBtn').addEventListener('click', function() {
+        const providerId = document.getElementById('editProviderId').value;
+        // In a real application, you would send the data to the server
+        alert('Salvando alterações para o prestador ID: ' + providerId);
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editProviderModal'));
+        modal.hide();
+    });
+    
+    // Update selected providers info
+    function updateSelectedProvidersInfo() {
+        const selectedCheckboxes = document.querySelectorAll('.provider-checkbox:checked');
+        const selectedCount = selectedCheckboxes.length;
+        document.getElementById('selectedCount').textContent = selectedCount;
+        
+        const infoDiv = document.getElementById('selectedProvidersInfo');
+        if (selectedCount > 0) {
+            infoDiv.classList.remove('d-none');
+        } else {
+            infoDiv.classList.add('d-none');
+        }
+    }
+    
+    // Bulk action execution
+    document.getElementById('executeBulkAction').addEventListener('click', function() {
+        const action = document.getElementById('bulkActionSelect').value;
+        const selectedCheckboxes = document.querySelectorAll('.provider-checkbox:checked');
+        
+        if (!action) {
+            alert('Por favor, selecione uma ação.');
+            return;
+        }
+        
+        if (selectedCheckboxes.length === 0) {
+            alert('Por favor, selecione pelo menos um prestador.');
+            return;
+        }
+        
+        // In a real application, you would implement the actual bulk actions
+        switch(action) {
+            case 'activate':
+                alert(`Ativando ${selectedCheckboxes.length} prestadores...`);
+                break;
+            case 'deactivate':
+                alert(`Desativando ${selectedCheckboxes.length} prestadores...`);
+                break;
+            case 'send_message':
+                alert(`Abrindo formulário para enviar mensagem para ${selectedCheckboxes.length} prestadores...`);
+                break;
+            case 'export':
+                alert(`Exportando dados de ${selectedCheckboxes.length} prestadores...`);
+                break;
+        }
+        
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('bulkActionsModal'));
+        modal.hide();
+    });
+    
+    // Count up animation
+    const countUpElements = document.querySelectorAll('.count-up');
+    countUpElements.forEach(element => {
+        const target = parseInt(element.getAttribute('data-target'));
+        let count = 0;
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        
+        const timer = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+                count = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(count);
+        }, 16);
+    });
+    
+    // Add animation classes with delay
+    const animateCards = document.querySelectorAll('.animate-card');
+    animateCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('visible');
+        }, index * 150);
+    });
+    
+    // Animate rows
+    const animateRows = document.querySelectorAll('.animate-row');
+    animateRows.forEach((row, index) => {
+        setTimeout(() => {
+            row.classList.add('visible');
+        }, index * 100);
+    });
+});
+
+// Confirm action function
+function confirmAction(title, message, callback) {
+    if (confirm(`${title}\n\n${message}`)) {
+        callback();
+    }
+}
+</script>
+{% endblock %}

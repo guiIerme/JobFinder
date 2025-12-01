@@ -1,0 +1,568 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar Serviço - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <i class="fas fa-concierge-bell fa-3x mb-3"></i>
+                    <h2 class="mb-0">Solicitar Serviço</h2>
+                    <p class="mb-0">Preencha os detalhes para agendar seu serviço</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" id="service-request-form" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="custom_service" value="{{ custom_service.id }}">
+                        
+                        <!-- Service Information -->
+                        <div class="mb-5 p-4 bg-light rounded-3">
+                            <h4 class="fw-bold text-primary mb-3">Serviço Selecionado</h4>
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-concierge-bell"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1" id="service-name">{{ custom_service.name }}</h5>
+                                    <p class="mb-0 text-muted" id="service-description">{{ custom_service.description }}</p>
+                                    <div class="d-flex align-items-center mt-2">
+                                        <span class="fw-bold fs-5 text-primary" id="service-price">R$ {{ custom_service.estimated_price|floatformat:2 }}</span>
+                                        <span class="badge bg-primary rounded-pill ms-3" id="service-category">{{ custom_service.get_category_display }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="progress rounded-pill" style="height: 10px;">
+                                <div class="progress-bar bg-primary" id="request-progress" role="progressbar" style="width: 20%;" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <small class="text-muted fw-medium">Endereço</small>
+                                <small class="text-muted fw-medium">Agendar</small>
+                                <small class="text-muted fw-medium">Contato</small>
+                                <small class="text-muted fw-medium">Detalhes</small>
+                                <small class="text-muted fw-medium">Confirmação</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 1: Address -->
+                        <div class="step" id="step-1">
+                            <h4 class="mb-4 fw-bold text-primary d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                <span>Endereço</span>
+                            </h4>
+                            <div class="mb-3">
+                                <label for="cep" class="form-label fw-bold">CEP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-lg rounded-start-pill" id="cep" name="cep" placeholder="00000-000" maxlength="9">
+                                    <button class="btn btn-outline-primary rounded-end-pill" type="button" id="searchZipCode">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label fw-bold">Endereço <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg rounded-pill" id="address" name="address" placeholder="Rua/Av." required>
+                                <div class="invalid-feedback">Por favor, informe o endereço.</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="number" class="form-label fw-bold">Número <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" id="number" name="number" placeholder="Número da casa/prédio" required>
+                                    <div class="invalid-feedback">Por favor, informe o número do endereço.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="complement" class="form-label fw-bold">Complemento (Opcional)</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" id="complement" name="complement" placeholder="Apartamento, bloco, etc.">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="city" class="form-label fw-bold">Cidade <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" id="city" name="city" placeholder="Nome da cidade" required>
+                                    <div class="invalid-feedback">Por favor, informe a cidade.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="state" class="form-label fw-bold">Estado <span class="text-danger">*</span></label>
+                                    <select class="form-select form-control-lg rounded-pill" id="state" name="state" required>
+                                        <option value="">Selecione</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP" selected>São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione o estado.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Schedule -->
+                        <div class="step d-none" id="step-2">
+                            <h4 class="mb-4 fw-bold text-primary d-flex align-items-center">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                <span>Agendar Horário</span>
+                            </h4>
+                            <div class="mb-4">
+                                <label for="scheduled_date" class="form-label fw-bold">Data e Hora Preferidas <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control form-control-lg rounded-pill" id="scheduled_date" name="scheduled_datetime" required>
+                                <div class="invalid-feedback">Por favor, selecione uma data e hora válidas.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="time_preference" class="form-label fw-bold">Preferência de Horário</label>
+                                <select class="form-select form-control-lg rounded-pill" id="time_preference" name="time_preference">
+                                    <option value="morning">Manhã (8:00 - 12:00)</option>
+                                    <option value="afternoon">Tarde (12:00 - 18:00)</option>
+                                    <option value="evening">Noite (18:00 - 22:00)</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="urgency" class="form-label fw-bold">Nível de Urgência</label>
+                                <select class="form-select form-control-lg rounded-pill" id="urgency" name="urgency">
+                                    <option value="normal">Normal (Agendamento comum)</option>
+                                    <option value="urgent">Urgente (Nas próximas 24h)</option>
+                                    <option value="immediate">Imediato (Hoje)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Contact -->
+                        <div class="step d-none" id="step-3">
+                            <h4 class="mb-4 fw-bold text-primary d-flex align-items-center">
+                                <i class="fas fa-user me-2"></i>
+                                <span>Informações de Contato</span>
+                            </h4>
+                            <div class="mb-3">
+                                <label for="contact_name" class="form-label fw-bold">Nome Completo <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg rounded-pill" id="contact_name" name="contact_name" placeholder="Seu nome completo" value="{{ user.get_full_name|default:user.username }}" required>
+                                <div class="invalid-feedback">Por favor, informe seu nome completo.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_phone" class="form-label fw-bold">Telefone <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text rounded-start-pill">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                    <input type="tel" class="form-control form-control-lg rounded-end-pill" id="contact_phone" name="contact_phone" placeholder="(61) 98196-1144" value="{{ user.userprofile.phone|default:'' }}" required>
+                                </div>
+                                <div class="invalid-feedback">Por favor, informe um telefone válido.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_email" class="form-label fw-bold">E-mail <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text rounded-start-pill">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control form-control-lg rounded-end-pill" id="contact_email" name="contact_email" placeholder="seu@email.com" value="{{ user.email }}" required>
+                                </div>
+                                <div class="invalid-feedback">Por favor, informe um e-mail válido.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 4: Details -->
+                        <div class="step d-none" id="step-4">
+                            <h4 class="mb-4 fw-bold text-primary d-flex align-items-center">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span>Detalhes do Serviço</span>
+                            </h4>
+                            <div class="mb-4">
+                                <label for="notes" class="form-label fw-bold">Observações Adicionais</label>
+                                <textarea class="form-control rounded-3" id="notes" name="notes" rows="4" placeholder="Descreva detalhes importantes sobre o serviço solicitado"></textarea>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="accessibility-needs" name="accessibility_needs">
+                                <label class="form-check-label" for="accessibility-needs">
+                                    Preciso de profissional com experiência em acessibilidade
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="insurance-required" name="insurance_required">
+                                <label class="form-check-label" for="insurance-required">
+                                    Preciso de profissional com seguro de responsabilidade civil
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 5: Confirmation -->
+                        <div class="step d-none" id="step-5">
+                            <h4 class="mb-4 fw-bold text-primary d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <span>Confirmar Solicitação</span>
+                            </h4>
+                            
+                            <div class="alert alert-info mb-4">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span>Revise todas as informações antes de confirmar sua solicitação.</span>
+                            </div>
+                            
+                            <!-- Order Summary -->
+                            <div class="border rounded-3 p-4 bg-light mb-4">
+                                <h5 class="mb-3">Resumo do Pedido</h5>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Serviço:</span>
+                                    <span id="summary-service">-</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Valor:</span>
+                                    <span class="fw-bold" id="summary-price">-</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Data e Hora:</span>
+                                    <span id="summary-datetime">-</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Endereço:</span>
+                                    <span id="summary-address">-</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Contato:</span>
+                                    <span id="summary-contact">-</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="terms-accepted" name="terms_accepted" required>
+                                <label class="form-check-label" for="terms-accepted">
+                                    Concordo com os <a href="{% url 'terms' %}" class="text-decoration-none">Termos de Serviço</a> e <a href="{% url 'privacy' %}" class="text-decoration-none">Política de Privacidade</a> <span class="text-danger">*</span>
+                                </label>
+                                <div class="invalid-feedback">Você deve aceitar os termos para continuar.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill" id="prev-step" style="display: none;">
+                                <i class="fas fa-arrow-left me-2"></i>Voltar
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg rounded-pill ms-auto" id="next-step">
+                                Continuar <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill ms-auto d-none" id="submit-request">
+                                <i class="fas fa-check me-2"></i>Confirmar Solicitação
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.step {
+    transition: opacity 0.3s ease;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form steps
+    let currentStep = 1;
+    const totalSteps = 5;
+    const steps = document.querySelectorAll('.step');
+    const prevButton = document.getElementById('prev-step');
+    const nextButton = document.getElementById('next-step');
+    const submitButton = document.getElementById('submit-request');
+    const progressBar = document.getElementById('request-progress');
+    
+    // Set minimum date to today for scheduling
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    document.getElementById('scheduled_date').min = minDateTime;
+    
+    // Navigation functions
+    function showStep(step) {
+        // Hide all steps
+        steps.forEach(s => s.classList.add('d-none'));
+        
+        // Show current step
+        document.getElementById(`step-${step}`).classList.remove('d-none');
+        
+        // Update progress bar
+        const progress = (step / totalSteps) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', step);
+        
+        // Update buttons
+        if (step === 1) {
+            prevButton.style.display = 'none';
+        } else {
+            prevButton.style.display = 'block';
+        }
+        
+        if (step === totalSteps) {
+            nextButton.classList.add('d-none');
+            submitButton.classList.remove('d-none');
+        } else {
+            nextButton.classList.remove('d-none');
+            submitButton.classList.add('d-none');
+        }
+        
+        // Update summary in final step
+        if (step === totalSteps) {
+            updateSummary();
+        }
+        
+        currentStep = step;
+    }
+    
+    function updateSummary() {
+        // Update summary information
+        document.getElementById('summary-service').textContent = document.getElementById('service-name').textContent;
+        document.getElementById('summary-price').textContent = document.getElementById('service-price').textContent;
+        document.getElementById('summary-datetime').textContent = document.getElementById('scheduled_date').value;
+        document.getElementById('summary-contact').textContent = document.getElementById('contact_name').value;
+        
+        // Update address summary
+        const address = document.getElementById('address').value;
+        const number = document.getElementById('number').value;
+        const complement = document.getElementById('complement').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        
+        let addressSummary = `${address}, ${number}`;
+        if (complement) {
+            addressSummary += `, ${complement}`;
+        }
+        addressSummary += `, ${city}, ${state}`;
+        document.getElementById('summary-address').textContent = addressSummary;
+    }
+    
+    // Next button
+    nextButton.addEventListener('click', function() {
+        if (currentStep < totalSteps) {
+            // Validate current step before proceeding
+            if (validateStep(currentStep)) {
+                showStep(currentStep + 1);
+            }
+        }
+    });
+    
+    // Previous button
+    prevButton.addEventListener('click', function() {
+        if (currentStep > 1) {
+            showStep(currentStep - 1);
+        }
+    });
+    
+    // Step validation
+    function validateStep(step) {
+        let isValid = true;
+        const currentStepElement = document.getElementById(`step-${step}`);
+        const inputs = currentStepElement.querySelectorAll('input[required], select[required], textarea[required]');
+        
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        // Special validation for email
+        const emailInput = currentStepElement.querySelector('input[type="email"]');
+        if (emailInput && emailInput.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('is-invalid');
+                isValid = false;
+            }
+        }
+        
+        // Special validation for phone
+        const phoneInput = currentStepElement.querySelector('input[type="tel"]');
+        if (phoneInput && phoneInput.value) {
+            const phoneRegex = /^\(?[0-9]{2}\)? [0-9]{4,5}-[0-9]{4}$/;
+            if (!phoneRegex.test(phoneInput.value)) {
+                phoneInput.classList.add('is-invalid');
+                isValid = false;
+            }
+        }
+        
+        // Special validation for scheduled date
+        if (step === 2) {
+            const scheduledDateInput = document.getElementById('scheduled_date');
+            if (scheduledDateInput.value) {
+                const selectedDate = new Date(scheduledDateInput.value);
+                const now = new Date();
+                if (selectedDate < now) {
+                    scheduledDateInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+            }
+        }
+        
+        return isValid;
+    }
+    
+    // Real-time validation
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+        element.addEventListener('blur', function() {
+            if (this.hasAttribute('required') || this.type === 'email' || this.type === 'tel') {
+                if (!this.checkValidity()) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                    
+                    // Special validation for email
+                    if (this.type === 'email' && this.value) {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(this.value)) {
+                            this.classList.add('is-invalid');
+                        }
+                    }
+                    
+                    // Special validation for phone
+                    if (this.type === 'tel' && this.value) {
+                        const phoneRegex = /^\(?[0-9]{2}\)? [0-9]{4,5}-[0-9]{4}$/;
+                        if (!phoneRegex.test(this.value)) {
+                            this.classList.add('is-invalid');
+                        }
+                    }
+                }
+            }
+        });
+    });
+    
+    // CEP search with improved error handling
+    function searchCEP() {
+        const cepInput = document.getElementById('cep');
+        const cep = cepInput.value.replace(/\D/g, '');
+        
+        if (cep.length !== 8) {
+            alert('Por favor, insira um CEP válido com 8 dígitos.');
+            return;
+        }
+        
+        // Show loading state
+        const searchButton = document.getElementById('searchZipCode');
+        const originalText = searchButton.innerHTML;
+        searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+        searchButton.disabled = true;
+        
+        // Make API call to ViaCEP
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.erro) {
+                    throw new Error('CEP não encontrado');
+                }
+                
+                // Populate fields with returned data
+                if (data.logradouro) {
+                    document.getElementById('address').value = data.logradouro;
+                }
+                if (data.localidade) {
+                    document.getElementById('city').value = data.localidade;
+                }
+                if (data.uf) {
+                    // Find the option that matches the UF
+                    const stateSelect = document.getElementById('state');
+                    for (let i = 0; i < stateSelect.options.length; i++) {
+                        if (stateSelect.options[i].value === data.uf) {
+                            stateSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                if (data.complemento) {
+                    document.getElementById('complement').value = data.complemento;
+                }
+                
+                alert('CEP encontrado com sucesso!');
+            })
+            .catch(error => {
+                console.error('Error fetching CEP:', error);
+                alert('Erro ao buscar CEP. Por favor, verifique o número e tente novamente.');
+            })
+            .finally(() => {
+                // Restore button
+                searchButton.innerHTML = originalText;
+                searchButton.disabled = false;
+            });
+    }
+    
+    // Add event listener for search button
+    document.getElementById('searchZipCode').addEventListener('click', searchCEP);
+    
+    // Format CEP input
+    document.getElementById('cep').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 5) {
+            value = value.substring(0, 5) + '-' + value.substring(5, 8);
+        }
+        e.target.value = value;
+    });
+    
+    // Search CEP when user finishes typing
+    document.getElementById('cep').addEventListener('blur', function(e) {
+        const cep = e.target.value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            // Call the search function
+            searchCEP();
+        }
+    });
+    
+    // Format phone input
+    document.getElementById('contact_phone').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 0) {
+            value = '(' + value;
+        }
+        if (value.length > 3) {
+            value = value.slice(0, 3) + ') ' + value.slice(3);
+        }
+        if (value.length > 10) {
+            value = value.slice(0, 10) + '-' + value.slice(10);
+        }
+        if (value.length > 15) {
+            value = value.slice(0, 15);
+        }
+        e.target.value = value;
+    });
+    
+    // Initialize form
+    showStep(1);
+});
+</script>
+{% endblock %}

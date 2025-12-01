@@ -1,0 +1,632 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nossos Parceiros - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="mb-3">Nossos Parceiros</h1>
+            <p class="lead text-muted">
+                Conheça as empresas e marcas que confiam no Job Finder para conectar seus serviços aos nossos clientes.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="row mb-5 g-4">
+        <div class="col-md-3 col-6">
+            <div class="text-center p-4 bg-primary bg-opacity-10 rounded-3">
+                <div class="stats-number display-6 fw-bold text-primary">150+</div>
+                <div class="stats-label">Parceiros Ativos</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="text-center p-4 bg-success bg-opacity-10 rounded-3">
+                <div class="stats-number display-6 fw-bold text-success">50k+</div>
+                <div class="stats-label">Clientes Alcançados</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="text-center p-4 bg-warning bg-opacity-10 rounded-3">
+                <div class="stats-number display-6 fw-bold text-warning">98%</div>
+                <div class="stats-label">Satisfação</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="text-center p-4 bg-info bg-opacity-10 rounded-3">
+                <div class="stats-number display-6 fw-bold text-info">R$2M+</div>
+                <div class="stats-label">Transacionado</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Partners Benefits -->
+    <div class="row mb-5 g-4">
+        <div class="col-12">
+            <div class="modern-card border-0 shadow">
+                <div class="card-body p-4">
+                    <div class="row text-center g-4">
+                        <div class="col-md-4">
+                            <div class="modern-card border-0 shadow-sm h-100 position-relative overflow-hidden hover-lift">
+                                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.03) 0%, rgba(114, 9, 183, 0.02) 100%);"></div>
+                                <div class="card-body position-relative z-1 p-4">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 stats-icon modern-hover-lift" style="width: 70px; height: 70px;">
+                                            <i class="fas fa-users fa-2x text-primary"></i>
+                                        </div>
+                                        <h4 class="mb-3 fw-bold">Mais Clientes</h4>
+                                        <p class="text-muted mb-0">Acesse nossa base de milhares de clientes em busca de serviços</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="modern-card border-0 shadow-sm h-100 position-relative overflow-hidden hover-lift">
+                                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.03) 0%, rgba(67, 97, 238, 0.02) 100%);"></div>
+                                <div class="card-body position-relative z-1 p-4">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 stats-icon modern-hover-lift" style="width: 70px; height: 70px;">
+                                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                                        </div>
+                                        <h4 class="mb-3 fw-bold">Visibilidade</h4>
+                                        <p class="text-muted mb-0">Destaque sua marca para um público qualificado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="modern-card border-0 shadow-sm h-100 position-relative overflow-hidden hover-lift">
+                                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.03) 0%, rgba(67, 97, 238, 0.02) 100%);"></div>
+                                <div class="card-body position-relative z-1 p-4">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4 stats-icon modern-hover-lift" style="width: 70px; height: 70px;">
+                                            <i class="fas fa-percent fa-2x text-warning"></i>
+                                        </div>
+                                        <h4 class="mb-3 fw-bold">Vantagens Exclusivas</h4>
+                                        <p class="text-muted mb-0">Oferecemos condições especiais para parceiros</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Testimonials Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5 fw-bold">O Que Dizem Nossos Parceiros</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="d-flex mb-3">
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-muted"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Maria Silva</h5>
+                                    <small class="text-muted">CEO, TechSolutions</small>
+                                </div>
+                            </div>
+                            <p class="text-muted">"Desde que começamos a parceria com o Job Finder, nossa base de clientes cresceu 300%. A plataforma é intuitiva e os resultados são impressionantes!"</p>
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="d-flex mb-3">
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-muted"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Carlos Oliveira</h5>
+                                    <small class="text-muted">Diretor, ConstruMax</small>
+                                </div>
+                            </div>
+                            <p class="text-muted">"A visibilidade que ganhamos através do Job Finder transformou nosso negócio. A equipe de suporte é excepcional e sempre pronta para ajudar."</p>
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 border-0 shadow position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="d-flex mb-3">
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user text-muted"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Ana Costa</h5>
+                                    <small class="text-muted">Gerente, CleanPro</small>
+                                </div>
+                            </div>
+                            <p class="text-muted">"O Job Finder nos conectou a clientes que nunca teríamos alcançado sozinhos. O sistema de pagamento é seguro e as taxas são justas."</p>
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sponsors Grid -->
+    <div class="row g-4 mb-5">
+        {% for sponsor in sponsors %}
+        <div class="col-md-6 col-lg-4">
+            <div class="modern-card h-100 border-0 shadow hover-lift position-relative overflow-hidden">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                <div class="card-body text-center d-flex flex-column justify-content-center align-items-center position-relative z-1 p-4">
+                    {% if sponsor.logo %}
+                        <img src="{{ sponsor.logo.url }}" alt="{{ sponsor.name }}" class="img-fluid sponsor-logo mb-4" style="max-height: 100px; max-width: 200px;">
+                    {% else %}
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-4 stats-icon modern-hover-lift" style="width: 100px; height: 100px;">
+                            <i class="fas fa-building fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <h5 class="card-title fw-bold">{{ sponsor.name }}</h5>
+                    <p class="text-muted">{{ sponsor.description|truncatewords:20 }}</p>
+                    {% if sponsor.website %}
+                        <a href="{{ sponsor.website }}" class="modern-btn modern-btn-outline mt-auto rounded-pill px-4 py-2" target="_blank">
+                            <i class="fas fa-external-link-alt me-2"></i>Visitar Site
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="modern-card text-center">
+                <div class="card-body p-5">
+                    <div class="bg-light bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4 stats-icon modern-hover-lift" style="width: 100px; height: 100px;">
+                        <i class="fas fa-handshake fa-3x text-muted"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Nenhum parceiro cadastrado ainda</h5>
+                    <p class="text-muted mb-0">Em breve você poderá conhecer nossos parceiros.</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Partnership Tiers -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5 fw-bold">Níveis de Parceria</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="modern-card h-100 text-center border-0 shadow position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="mb-4">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-medal fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 fw-bold">Básico</h4>
+                            <ul class="text-start text-muted mb-4 ps-3">
+                                <li>Presença no diretório de parceiros</li>
+                                <li>Destaque em buscas relevantes</li>
+                                <li>Até 5% de desconto para clientes</li>
+                                <li>Suporte por email durante horário comercial</li>
+                            </ul>
+                            <div class="mb-4">
+                                <span class="display-6 fw-bold text-primary">Gratuito</span>
+                            </div>
+                            <a href="{% url 'partnership_details' 'basic' %}" class="modern-btn modern-btn-outline rounded-pill px-4 py-2">
+                                <i class="fas fa-arrow-right me-2"></i>Saiba Mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 text-center border-0 shadow position-relative overflow-hidden recommended-plan">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                        <div class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-1 rounded-start-pill fw-bold" style="transform: translate(20px, -10px);">
+                            <i class="fas fa-star me-1"></i>Recomendado
+                        </div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="mb-4">
+                                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-award fa-2x text-warning"></i>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 fw-bold">Premium</h4>
+                            <ul class="text-start text-muted mb-4 ps-3">
+                                <li>Todos os benefícios do plano Básico</li>
+                                <li>Destaque premium em resultados</li>
+                                <li>Até 10% de desconto para clientes</li>
+                                <li>Relatórios mensais de performance</li>
+                                <li>Suporte prioritário por email e chat</li>
+                            </ul>
+                            <div class="mb-4">
+                                <span class="display-6 fw-bold text-warning">R$ 299</span>
+                                <span class="text-muted">/mês</span>
+                            </div>
+                            <a href="{% url 'partnership_details' 'premium' %}" class="modern-btn modern-btn-warning rounded-pill px-4 py-2">
+                                <i class="fas fa-arrow-right me-2"></i>Saiba Mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card h-100 text-center border-0 shadow position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                        <div class="card-body position-relative z-1 p-4">
+                            <div class="mb-4">
+                                <div class="bg-purple bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center stats-icon modern-hover-lift" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-crown fa-2x text-purple"></i>
+                                </div>
+                            </div>
+                            <h4 class="mb-4 fw-bold">Platina</h4>
+                            <ul class="text-start text-muted mb-4 ps-3">
+                                <li>Todos os benefícios do plano Premium</li>
+                                <li>Posicionamento privilegiado</li>
+                                <li>Até 15% de desconto para clientes</li>
+                                <li>Suporte dedicado 24/7</li>
+                                <li>Campanhas personalizadas</li>
+                            </ul>
+                            <div class="mb-4">
+                                <span class="display-6 fw-bold text-purple">R$ 599</span>
+                                <span class="text-muted">/mês</span>
+                            </div>
+                            <a href="{% url 'partnership_details' 'platinum' %}" class="modern-btn modern-btn-outline rounded-pill px-4 py-2">
+                                <i class="fas fa-arrow-right me-2"></i>Saiba Mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Become a Partner -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary border-0 shadow partner-section">
+                <div class="card-body text-center py-5">
+                    <div class="border rounded-3 p-5" style="background-color: rgba(255, 255, 255, 0.9); border-color: #6f42c1 !important;">
+                        <h3 class="mb-4" style="color: #6f42c1 !important;"><i class="fas fa-handshake me-2"></i>Quer se tornar um parceiro?</h3>
+                        <p class="lead mb-5" style="color: #6f42c1 !important;">
+                            Junte-se à nossa rede de parceiros e alcance milhares de clientes em busca de serviços de qualidade.
+                        </p>
+                        <div class="d-flex justify-content-center gap-4 flex-wrap">
+                            <a href="{% url 'partnership_details' 'premium' %}" class="btn btn-light btn-lg px-5 py-3">
+                                <i class="fas fa-handshake me-2"></i>Saiba Mais
+                            </a>
+                            <!-- Contact button with email options -->
+                            <button class="btn btn-outline-light btn-lg px-5 py-3" data-bs-toggle="modal" data-bs-target="#contactModal">
+                                <i class="fas fa-envelope me-2"></i>Entrar em Contato
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Entrar em Contato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="partnerContactForm">
+                    <div class="mb-4">
+                        <label for="contactName" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control" id="contactName" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactEmail" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="contactEmail" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactCompany" class="form-label">Empresa</label>
+                        <input type="text" class="form-control" id="contactCompany" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactPhone" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="contactPhone" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactPlan" class="form-label">Plano de Interesse</label>
+                        <select class="form-select" id="contactPlan" required>
+                            <option value="">Selecione um plano</option>
+                            <option value="basic">Básico</option>
+                            <option value="premium">Premium</option>
+                            <option value="platinum">Platina</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="contactMessage" class="form-label">Mensagem</label>
+                        <textarea class="form-control" id="contactMessage" rows="5" placeholder="Conte-nos sobre sua empresa e como podemos trabalhar juntos..." required></textarea>
+                    </div>
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="contactConsent" required>
+                        <label class="form-check-label" for="contactConsent">Concordo com o tratamento dos meus dados conforme a Política de Privacidade</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-3">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional spacing styles -->
+<style>
+    /* Stats section */
+    .stats-number {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stats-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    /* Recommended plan highlight */
+    .recommended-plan {
+        transform: scale(1.05);
+        border: 2px solid #ffc107 !important;
+    }
+    
+    .recommended-plan:hover {
+        transform: scale(1.07) translateY(-5px);
+    }
+    
+    /* Add more spacing between content sections */
+    .mb-6 {
+        margin-bottom: 4rem !important;
+    }
+    
+    .p-5 {
+        padding: 2.5rem !important;
+    }
+    
+    .px-5 {
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
+    
+    .py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+    
+    /* Improve list spacing */
+    ul.ps-3 li {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Dark mode overrides for partner section */
+    html[data-theme='dark'] .partner-section {
+        background: linear-gradient(135deg, rgba(90, 50, 163, 0.9) 0%, rgba(58, 95, 214, 0.95) 100%) !important;
+    }
+
+    html[data-theme='dark'] .partner-section .border {
+        border-color: #bb86fc !important;
+    }
+
+    html[data-theme='dark'] .partner-section h3,
+    html[data-theme='dark'] .partner-section p,
+    html[data-theme='dark'] .partner-section .lead {
+        color: white !important;
+    }
+
+    html[data-theme='dark'] .partner-section .btn-light {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        color: #6f42c1 !important;
+        border-color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    html[data-theme='dark'] .partner-section .btn-light:hover {
+        background-color: white !important;
+        color: #5a32a3 !important;
+    }
+
+    html[data-theme='dark'] .partner-section .btn-outline-light {
+        border-color: rgba(255, 255, 255, 0.9) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    html[data-theme='dark'] .partner-section .btn-outline-light:hover {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        color: #6f42c1 !important;
+    }
+
+    /* Modal dark mode styles */
+    html[data-theme='dark'] .modal-content {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .modal-header {
+        border-bottom: 1px solid #444444;
+    }
+
+    html[data-theme='dark'] .modal-footer {
+        border-top: 1px solid #444444;
+    }
+
+    html[data-theme='dark'] .form-control {
+        background-color: #333333;
+        border: 1px solid #444444;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .form-control:focus {
+        background-color: #333333;
+        border-color: #bb86fc;
+        color: #e0e0e0;
+        box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+    }
+
+    html[data-theme='dark'] .form-select {
+        background-color: #333333;
+        border: 1px solid #444444;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .btn-primary {
+        background-color: #bb86fc;
+        border-color: #bb86fc;
+        color: #121212;
+    }
+
+    html[data-theme='dark'] .btn-primary:hover {
+        background-color: #d0a6ff;
+        border-color: #d0a6ff;
+        color: #121212;
+    }
+
+    /* Modern card dark mode styles */
+    html[data-theme='dark'] .modern-card {
+        background-color: #252525;
+        border: 1px solid #444444;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.3);
+    }
+
+    html[data-theme='dark'] .modern-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    html[data-theme='dark'] .text-muted {
+        color: #b0b0b0 !important;
+    }
+
+    html[data-theme='dark'] .bg-light {
+        background-color: #2d2d2d !important;
+    }
+
+    html[data-theme='dark'] .bg-primary {
+        background-color: #5a32a3 !important;
+    }
+
+    html[data-theme='dark'] .bg-warning {
+        background-color: #f6c23e !important;
+    }
+
+    html[data-theme='dark'] .bg-success {
+        background-color: #1cc88a !important;
+    }
+
+    html[data-theme='dark'] .text-primary {
+        color: #bb86fc !important;
+    }
+
+    html[data-theme='dark'] .text-warning {
+        color: #ffd54f !important;
+    }
+
+    html[data-theme='dark'] .text-success {
+        color: #4db6ac !important;
+    }
+
+    html[data-theme='dark'] .bg-opacity-10 {
+        --bs-bg-opacity: 0.1;
+    }
+
+    html[data-theme='dark'] .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    /* Stats section dark mode */
+    html[data-theme='dark'] .stats-number {
+        color: #fff !important;
+    }
+    
+    html[data-theme='dark'] .stats-label {
+        color: #b0b0b0 !important;
+    }
+    
+    /* Recommended plan dark mode */
+    html[data-theme='dark'] .recommended-plan {
+        border-color: #ffc107 !important;
+    }
+</style>
+
+<script>
+    // Format phone number input
+    document.addEventListener('input', function(e) {
+        if (e.target.id === 'contactPhone') {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) {
+                value = value.substring(0, 11);
+            }
+            if (value.length > 7) {
+                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (value.length > 6) {
+                value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+            } else if (value.length > 0) {
+                value = value.replace(/(\d{0,2})/, '($1');
+            }
+            e.target.value = value;
+        }
+    });
+
+    // Handle form submission
+    document.getElementById('partnerContactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const company = document.getElementById('contactCompany').value;
+        const phone = document.getElementById('contactPhone').value;
+        const plan = document.getElementById('contactPlan').value;
+        const message = document.getElementById('contactMessage').value;
+        
+        // Simple validation
+        if (!name || !email || !company || !phone || !plan || !message) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+        
+        // Show success message
+        alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        
+        // Reset form
+        this.reset();
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+        modal.hide();
+    });
+</script>
+{% endblock %}

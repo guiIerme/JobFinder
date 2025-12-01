@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Avaliações - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="dashboard-content-wrapper">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h2 mb-2">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            Avaliações
+                        </h1>
+                        <p class="text-muted">Veja o que seus clientes dizem sobre você</p>
+                    </div>
+                    <a href="{% url 'provider_dashboard' %}" class="btn btn-outline-primary rounded-pill">
+                        <i class="fas fa-arrow-left me-2"></i>Voltar ao Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas de Avaliações -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+                    <div class="display-3 fw-bold text-warning mb-2">{{ media_rating }}</div>
+                    <div class="text-warning mb-2">
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= media_rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="text-muted mb-0">Média Geral</p>
+                    <small class="text-muted">{{ total_avaliacoes }} avaliações</small>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card shadow-sm border-0 rounded-4 p-4">
+                    <h6 class="mb-3">Distribuição de Avaliações</h6>
+                    <div class="mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2" style="width: 80px;">5 estrelas</span>
+                            <div class="progress flex-grow-1" style="height: 20px;">
+                                <div class="progress-bar bg-warning" style="width: {{ percent_5 }}%"></div>
+                            </div>
+                            <span class="ms-2" style="width: 40px;">{{ ratings_5 }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2" style="width: 80px;">4 estrelas</span>
+                            <div class="progress flex-grow-1" style="height: 20px;">
+                                <div class="progress-bar bg-info" style="width: {{ percent_4 }}%"></div>
+                            </div>
+                            <span class="ms-2" style="width: 40px;">{{ ratings_4 }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2" style="width: 80px;">3 estrelas</span>
+                            <div class="progress flex-grow-1" style="height: 20px;">
+                                <div class="progress-bar bg-primary" style="width: {{ percent_3 }}%"></div>
+                            </div>
+                            <span class="ms-2" style="width: 40px;">{{ ratings_3 }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2" style="width: 80px;">2 estrelas</span>
+                            <div class="progress flex-grow-1" style="height: 20px;">
+                                <div class="progress-bar bg-secondary" style="width: {{ percent_2 }}%"></div>
+                            </div>
+                            <span class="ms-2" style="width: 40px;">{{ ratings_2 }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2" style="width: 80px;">1 estrela</span>
+                            <div class="progress flex-grow-1" style="height: 20px;">
+                                <div class="progress-bar bg-danger" style="width: {{ percent_1 }}%"></div>
+                            </div>
+                            <span class="ms-2" style="width: 40px;">{{ ratings_1 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Avaliações -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-white border-bottom py-3 rounded-top-4">
+                        <h5 class="mb-0">
+                            <i class="fas fa-comments me-2"></i>
+                            Avaliações Recentes
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        {% if avaliacoes %}
+                        {% for avaliacao in avaliacoes %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="mb-1">{{ avaliacao.customer.get_full_name|default:avaliacao.customer.username }}</h6>
+                                    <div class="text-warning mb-1">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= avaliacao.review.rating %}
+                                        <i class="fas fa-star"></i>
+                                        {% else %}
+                                        <i class="far fa-star"></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <small class="text-muted">{{ avaliacao.updated_at|date:"d/m/Y" }}</small>
+                            </div>
+                            {% if avaliacao.review.comment %}
+                            <p class="text-muted mb-2">{{ avaliacao.review.comment }}</p>
+                            {% endif %}
+                            <small class="text-muted">
+                                <i class="fas fa-briefcase me-1"></i>
+                                {% if avaliacao.service %}
+                                {{ avaliacao.service.name }}
+                                {% else %}
+                                Serviço Personalizado
+                                {% endif %}
+                            </small>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Nenhuma avaliação ainda</h5>
+                            <p class="text-muted">Complete serviços para receber avaliações dos clientes</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+    }
+</style>
+{% endblock %}

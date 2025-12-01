@@ -1,0 +1,1330 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar Serviço - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .solicitar-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .service-info-card {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-bottom: 2rem;
+    }
+
+    .form-control-modern {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e3e6f0;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+
+    .form-control-modern:focus {
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+
+    .btn-solicitar {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-solicitar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(111, 66, 193, 0.3);
+        color: white;
+    }
+
+    .btn-voltar {
+        background: #6c757d;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-voltar:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-proximo {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-proximo:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(28, 200, 138, 0.3);
+        color: white;
+    }
+
+    .btn-anterior {
+        background: #f8f9fc;
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: #5a5c69;
+        transition: all 0.3s ease;
+    }
+
+    .btn-anterior:hover {
+        background: #e3e6f0;
+        transform: translateY(-2px);
+        color: #5a5c69;
+    }
+
+    .required-field {
+        color: #e74a3b;
+    }
+
+    .success-message {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        color: white;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .error-message {
+        background: linear-gradient(135deg, #e74a3b, #f6c23e);
+        color: white;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #e3e6f0;
+        z-index: 1;
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        transition: width 0.3s ease;
+        z-index: 2;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 3;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e3e6f0;
+        color: #5a5c69;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .step.active .step-circle {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        color: white;
+    }
+
+    .step.completed .step-circle {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        color: white;
+    }
+
+    .step-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #5a5c69;
+        text-align: center;
+    }
+
+    .step.active .step-label {
+        color: #6f42c1;
+    }
+
+    .step.completed .step-label {
+        color: #1cc88a;
+    }
+
+    /* Form Steps */
+    .form-step {
+        display: none;
+    }
+
+    .form-step.active {
+        display: block;
+    }
+
+    /* Payment Methods */
+    .paymenthod {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+        border-color: #6f42c1;
+        background: rgba(111, 66, 193, 0.05);
+    }
+
+    .payment-method.selected {
+        border-color: #6f42c1;
+        background: rgba(111, 66, 193, 0.1);
+    }
+
+    .payment-method input[type="radio"] {
+        display: none;
+    }
+
+    /* Schedule Options */
+    .schedule-option {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .schedule-option:hover {
+        border-color: #1cc88a;
+        background: rgba(28, 200, 138, 0.05);
+    }
+
+    .schedule-option.selected {
+        border-color: #1cc88a;
+        background: rgba(28, 200, 138, 0.1);
+    }
+
+    .schedule-option input[type="radio"] {
+        display: none;
+    }
+
+    /* Summary */
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #6f42c1;
+    }
+
+    /* Payment Details */
+    .payment-details {
+        margin-top: 1.5rem;
+    }
+
+    .payment-detail {
+        padding: 1.5rem;
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        background: #f8f9fc;
+        margin-bottom: 1rem;
+    }
+
+    .payment-detail.active {
+        border-color: #6f42c1;
+        background: rgba(111, 66, 193, 0.05);
+    }
+
+    /* QR Code Container */
+    #qr-code-container {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: 2px dashed #e3e6f0;
+        border-radius: 10px;
+    }
+
+    .qr-code-placeholder {
+        width: 180px;
+        height: 180px;
+        background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+            linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+            linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        border: 2px solid #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Copy Button Animation */
+    .btn-copy-success {
+        background-color: #1cc88a !important;
+        border-color: #1cc88a !important;
+        color: white !important;
+    }
+
+    /* Bank Details Styling */
+    .bank-details {
+        background: white;
+        border: 1px solid #e3e6f0;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    /* Troco Calculator */
+    .troco-calculator {
+        background: rgba(28, 200, 138, 0.1);
+        border: 1px solid #1cc88a;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .solicitar-container {
+            padding: 15px;
+        }
+
+        .progress-steps {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="solicitar-container">
+    <!-- Header -->
+    <div class="d-flex align-items-center mb-4">
+        <a href="javascript:history.back()" class="btn btn-voltar me-3">
+            <i class="fas fa-arrow-left me-2"></i>
+            Voltar
+        </a>
+        <h1 class="mb-0">Solicitar Serviço</h1>
+    </div>
+
+    <!-- Mensagens -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-2"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Informações do Serviço -->
+    <div class="service-info-card">
+        <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-concierge-bell fa-2x me-3"></i>
+            <div>
+                <h3 class="mb-0">{{ service_name|default:"Serviço Personalizado" }}</h3>
+                <p class="mb-0 opacity-90">{{ service_description|default:"Descreva suas necessidades" }}</p>
+            </div>
+        </div>
+
+        {% if service_price and service_price != "0" %}
+        <div class="d-flex align-items-center">
+            <i class="fas fa-money-bill-wave me-2"></i>
+            <span class="h5 mb-0">Preço Estimado: R$ {{ service_price }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+        <div class="progress-line" id="progressLine"></div>
+        <div class="step active" data-step="1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Dados Pessoais</div>
+        </div>
+        <div class="step" data-step="2">
+            <div class="step-circle">2</div>
+            <div class="step-label">Endereço</div>
+        </div>
+        <div class="step" data-step="3">
+            <div class="step-circle">3</div>
+            <div class="step-label">Agendamento</div>
+        </div>
+        <div class="step" data-step="4">
+            <div class="step-circle">4</div>
+            <div class="step-label">Pagamento</div>
+        </div>
+        <div class="step" data-step="5">
+            <div class="step-circle">5</div>
+            <div class="step-label">Confirmação</div>
+        </div>
+    </div>
+
+    <!-- Formulário Multi-Etapas -->
+    <form method="post" action="{% url 'processar_solicitacao' %}" id="multiStepForm">
+        {% csrf_token %}
+
+        <!-- Dados do serviço (hidden) -->
+        <input type="hidden" name="servico_id" value="{{ service_id|default:'0' }}">
+        <input type="hidden" name="service_name" value="{{ service_name|default:'Serviço Personalizado' }}">
+        <input type="hidden" name="service_description" value="{{ service_description|default:'Serviço solicitado pelo cliente' }}">
+        <input type="hidden" name="service_price" value="{{ service_price|default:'0' }}">
+
+        <!-- Etapa 1: Dados Pessoais -->
+        <div class="form-card form-step active" id="step1">
+            <h4 class="mb-4">
+                <i class="fas fa-user me-2 text-primary"></i>
+                Dados Pessoais
+            </h4>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Nome Completo <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="nome_completo" id="nome_completo" value="{% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% endif %}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        CPF <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="cpf" id="cpf" placeholder="000.000.000-00" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Telefone <span class="required-field">*</span>
+                    </label>
+                    <input type="tel" class="form-control form-control-modern" name="telefone" id="telefone" placeholder="(11) 99999-9999" value="{% if user.is_authenticated %}{{ user.userprofile.phone }}{% endif %}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Email <span class="required-field">*</span>
+                    </label>
+                    <input type="email" class="form-control form-control-modern" name="email" id="email" value="{% if user.is_authenticated %}{{ user.email }}{% endif %}" required>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-proximo" onclick="nextStep()">
+                            Próximo
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 2: Endereço -->
+        <div class="form-card form-step" id="step2">
+            <h4 class="mb-4">
+                <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                Endereço de Atendimento
+            </h4>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">
+                        CEP <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="cep" id="cep" placeholder="00000-000" required>
+                </div>
+
+                <div class="col-md-8">
+                    <label class="form-label fw-bold">
+                        Endereço <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="endereco" id="endereco" placeholder="Rua, Avenida..." required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">
+                        Número <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="numero" id="numero" placeholder="123" required>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">
+                        Complemento
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="complemento" id="complemento" placeholder="Apto, Bloco...">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">
+                        Bairro <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="bairro" id="bairro" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <label class="form-label fw-bold">
+                        Cidade <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="cidade" id="cidade" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">
+                        Estado <span class="required-field">*</span>
+                    </label>
+                    <select class="form-control form-control-modern" name="estado" id="estado" required>
+                        <option value="">Selecione...</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-anterior" onclick="prevStep()">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn btn-proximo" onclick="nextStep()">
+                            Próximo
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 3: Agendamento -->
+        <div class="form-card form-step" id="step3">
+            <h4 class="mb-4">
+                <i class="fas fa-calendar-alt me-2 text-primary"></i>
+                Agendamento do Serviço
+            </h4>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Data Preferida <span class="required-field">*</span>
+                    </label>
+                    <input type="date" class="form-control form-control-modern" name="data_preferida" id="data_preferida" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Horário Preferido <span class="required-field">*</span>
+                    </label>
+                    <select class="form-control form-control-modern" name="horario_preferido" id="horario_preferido" required>
+                        <option value="">Selecione...</option>
+                        <option value="08:00">08:00</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Período Preferido
+                    </label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="schedule-option" onclick="selectSchedule(this, 'manha')">
+                                <input type="radio" name="periodo_preferido" value="manha">
+                                <div class="text-center">
+                                    <i class="fas fa-sun fa-2x text-warning mb-2"></i>
+                                    <h6>Manhã</h6>
+                                    <small class="text-muted">08:00 às 12:00</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="schedule-option" onclick="selectSchedule(this, 'tarde')">
+                                <input type="radio" name="periodo_preferido" value="tarde">
+                                <div class="text-center">
+                                    <i class="fas fa-cloud-sun fa-2x text-info mb-2"></i>
+                                    <h6>Tarde</h6>
+                                    <small class="text-muted">13:00 às 17:00</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="schedule-option" onclick="selectSchedule(this, 'flexivel')">
+                                <input type="radio" name="periodo_preferido" value="flexivel">
+                                <div class="text-center">
+                                    <i class="fas fa-clock fa-2x text-success mb-2"></i>
+                                    <h6>Flexível</h6>
+                                    <small class="text-muted">Qualquer horário</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Observações sobre o Agendamento
+                    </label>
+                    <textarea class="form-control form-control-modern" name="observacoes_agendamento" rows="3" placeholder="Alguma preferência específica de horário ou data?"></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-anterior" onclick="prevStep()">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn btn-proximo" onclick="nextStep()">
+                            Próximo
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 4: Pagamento -->
+        <div class="form-card form-step" id="step4">
+            <h4 class="mb-4">
+                <i class="fas fa-credit-card me-2 text-primary"></i>
+                Forma de Pagamento
+            </h4>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Escolha a forma de pagamento <span class="required-field">*</span>
+                    </label>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="payment-method" onclick="selectPayment(this, 'dinheiro')">
+                                <input type="radio" name="forma_pagamento" value="dinheiro" required>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-money-bill-wave fa-2x text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Dinheiro</h6>
+                                        <small class="text-muted">Pagamento na hora do serviço</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="payment-method" onclick="selectPayment(this, 'cartao')">
+                                <input type="radio" name="forma_pagamento" value="cartao" required>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Cartão</h6>
+                                        <small class="text-muted">Débito ou crédito</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="payment-method" onclick="selectPayment(this, 'pix')">
+                                <input type="radio" name="forma_pagamento" value="pix" required>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-qrcode fa-2x text-info me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">PIX</h6>
+                                        <small class="text-muted">Transferência instantânea</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="payment-method" onclick="selectPayment(this, 'transferencia')">
+                                <input type="radio" name="forma_pagamento" value="transferencia" required>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-university fa-2x text-warning me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Transferência</h6>
+                                        <small class="text-muted">TED ou DOC</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campos Específicos por Forma de Pagamento -->
+            <div class="payment-details mt-4">
+
+                <!-- Detalhes PIX -->
+                <div class="payment-detail" id="pix-details" style="display: none;">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-qrcode me-2"></i>Pagamento via PIX</h6>
+                        <p class="mb-0">Escaneie o QR Code abaixo ou use a chave PIX para realizar o pagamento</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center p-3 border rounded">
+                                <h6>QR Code PIX</h6>
+                                <div id="qr-code-container" class="mb-3">
+                                    <!-- QR Code será gerado aqui -->
+                                </div>
+                                <small class="text-muted">Escaneie com seu app do banco</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Chave PIX</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="pix-key" value="jobfinder@pix.com.br" readonly>
+                                <button class="btn btn-outline-secondary" type="button" onclick="copyPixKey()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+
+                            <label class="form-label fw-bold mt-3">Valor</label>
+                            <input type="text" class="form-control" id="pix-value" value="R$ {{ service_price|default:'A combinar' }}" readonly>
+
+                            <label class="form-label fw-bold mt-3">Identificador</label>
+                            <input type="text" class="form-control" id="pix-identifier" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes Cartão -->
+                <div class="payment-detail" id="cartao-details" style="display: none;">
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-credit-card me-2"></i>Pagamento com Cartão</h6>
+                        <p class="mb-0">O pagamento será processado na hora do serviço com a máquina do prestador</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tipo de Cartão</label>
+                            <select class="form-control form-control-modern" name="tipo_cartao">
+                                <option value="">Selecione...</option>
+                                <option value="debito">Cartão de Débito</option>
+                                <option value="credito">Cartão de Crédito</option>
+                                <option value="ambos">Débito ou Crédito (decidir na hora)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Parcelas (se crédito)</label>
+                            <select class="form-control form-control-modern" name="parcelas_cartao">
+                                <option value="1">À vista</option>
+                                <option value="2">2x sem juros</option>
+                                <option value="3">3x sem juros</option>
+                                <option value="4">4x sem juros</option>
+                                <option value="5">5x sem juros</option>
+                                <option value="6">6x sem juros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes Transferência -->
+                <div class="payment-detail" id="transferencia-details" style="display: none;">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-university me-2"></i>Transferência Bancária</h6>
+                        <p class="mb-0">Dados bancários para transferência TED ou DOC</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Banco</label>
+                            <input type="text" class="form-control" value="Banco do Brasil" readonly>
+
+                            <label class="form-label fw-bold mt-3">Agência</label>
+                            <input type="text" class="form-control" value="1234-5" readonly>
+
+                            <label class="form-label fw-bold mt-3">Conta</label>
+                            <input type="text" class="form-control" value="12345-6" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Favorecido</label>
+                            <input type="text" class="form-control" value="Job Finder Ltda" readonly>
+
+                            <label class="form-label fw-bold mt-3">CNPJ</label>
+                            <input type="text" class="form-control" value="12.345.678/0001-90" readonly>
+
+                            <label class="form-label fw-bold mt-3">Valor</label>
+                            <input type="text" class="form-control" value="R$ {{ service_price|default:'A combinar' }}" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhes Dinheiro -->
+                <div class="payment-detail" id="dinheiro-details" style="display: none;">
+                    <div class="alert alert-success">
+                        <h6><i class="fas fa-money-bill-wave me-2"></i>Pagamento em Dinheiro</h6>
+                        <p class="mb-0">O pagamento será feito diretamente ao prestador na conclusão do serviço</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Valor do Serviço</label>
+                            <input type="text" class="form-control" value="R$ {{ service_price|default:'A combinar' }}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Precisa de Troco?</label>
+                            <select class="form-control form-control-modern" name="precisa_troco" onchange="toggleTrocoDetails(this)">
+                                <option value="nao">Não, tenho o valor exato</option>
+                                <option value="sim">Sim, preciso de troco</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3" id="troco-details" style="display: none;">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Valor que você tem</label>
+                            <input type="text" class="form-control form-control-modern" name="valor_cliente" placeholder="R$ 0,00" onkeyup="calculateTroco()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Troco necessário</label>
+                            <input type="text" class="form-control" id="troco-calculado" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Observações sobre o Pagamento
+                    </label>
+                    <textarea class="form-control form-control-modern" name="observacoes_pagamento" rows="3" placeholder="Alguma observação sobre o pagamento?"></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-anterior" onclick="prevStep()">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="btn btn-proximo" onclick="nextStep()">
+                            Próximo
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Etapa 5: Confirmação -->
+        <div class="form-card form-step" id="step5">
+            <h4 class="mb-4">
+                <i class="fas fa-check-circle me-2 text-primary"></i>
+                Confirmação da Solicitação
+            </h4>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="mb-3">Resumo da Solicitação</h5>
+
+                    <div class="summary-item">
+                        <span>Serviço:</span>
+                        <span id="summary-service">{{ service_name|default:"Serviço Personalizado" }}</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Cliente:</span>
+                        <span id="summary-name">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Telefone:</span>
+                        <span id="summary-phone">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Endereço:</span>
+                        <span id="summary-address">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Data/Horário:</span>
+                        <span id="summary-schedule">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Pagamento:</span>
+                        <span id="summary-payment">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Valor Estimado:</span>
+                        <span>R$ {{ service_price|default:"A combinar" }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Observações Gerais
+                    </label>
+                    <textarea class="form-control form-control-modern" name="observacoes" rows="4" placeholder="Descreva detalhes específicos do serviço que você precisa..."></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-anterior" onclick="prevStep()">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Anterior
+                        </button>
+                        <button type="submit" class="btn btn-solicitar">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Confirmar Solicitação
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Informações Adicionais -->
+    <div class="mt-4 text-center text-muted">
+        <small>
+            <i class="fas fa-info-circle me-1"></i>
+            Após confirmar sua solicitação, entraremos em contato em até 24 horas.
+        </small>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    // Definir data mínima como hoje
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('data_preferida').setAttribute('min', today);
+    });
+
+    function nextStep() {
+        if (validateCurrentStep()) {
+            if (currentStep < totalSteps) {
+                // Marcar etapa atual como completa
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+
+                // Ocultar etapa atual
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+
+                // Avançar para próxima etapa
+                currentStep++;
+
+                // Mostrar próxima etapa
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+
+                // Atualizar barra de progresso
+                updateProgressBar();
+
+                // Atualizar resumo se for a última etapa
+                if (currentStep === 5) {
+                    updateSummary();
+                }
+            }
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            // Remover status da etapa atual
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+
+            // Voltar para etapa anterior
+            currentStep--;
+
+            // Mostrar etapa anterior
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+
+            // Atualizar barra de progresso
+            updateProgressBar();
+        }
+    }
+
+    function validateCurrentStep() {
+        const currentStepElement = document.getElementById(`step${currentStep}`);
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = '#e74a3b';
+                isValid = false;
+            } else {
+                field.style.borderColor = '#e3e6f0';
+            }
+        });
+
+        if (!isValid) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+        }
+
+        return isValid;
+    }
+
+    function updateProgressBar() {
+        const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        document.getElementById('progressLine').style.width = progressPercentage + '%';
+    }
+
+    function selectSchedule(element, value) {
+        // Remover seleção anterior
+        document.querySelectorAll('.schedule-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+
+        // Adicionar seleção atual
+        element.classList.add('selected');
+        element.querySelector('input[type="radio"]').checked = true;
+    }
+
+    function selectPayment(element, value) {
+        // Remover seleção anterior
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.classList.remove('selected');
+        });
+
+        // Ocultar todos os detalhes de pagamento
+        document.querySelectorAll('.payment-detail').forEach(detail => {
+            detail.style.display = 'none';
+            detail.classList.remove('active');
+        });
+
+        // Adicionar seleção atual
+        element.classList.add('selected');
+        element.querySelector('input[type="radio"]').checked = true;
+
+        // Mostrar detalhes específicos do pagamento
+        const detailElement = document.getElementById(value + '-details');
+        if (detailElement) {
+            detailElement.style.display = 'block';
+            detailElement.classList.add('active');
+
+            // Gerar QR Code se for PIX
+            if (value === 'pix') {
+                generatePixQRCode();
+            }
+        }
+    }
+
+    function updateSummary() {
+        // Atualizar resumo com dados preenchidos
+        document.getElementById('summary-name').textContent = document.getElementById('nome_completo').value || '-';
+        document.getElementById('summary-phone').textContent = document.getElementById('telefone').value || '-';
+
+        const endereco = document.getElementById('endereco').value;
+        const numero = document.getElementById('numero').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        document.getElementById('summary-address').textContent =
+            endereco && numero && cidade ? `${endereco}, ${numero} - ${cidade}/${estado}` : '-';
+
+        const data = document.getElementById('data_preferida').value;
+        const horario = document.getElementById('horario_preferido').value;
+        document.getElementById('summary-schedule').textContent =
+            data && horario ? `${data} às ${horario}` : '-';
+
+        const pagamento = document.querySelector('input[name="forma_pagamento"]:checked');
+        document.getElementById('summary-payment').textContent =
+            pagamento ? pagamento.value.charAt(0).toUpperCase() + pagamento.value.slice(1) : '-';
+    }
+
+    // Formatação automática de campos
+    document.addEventListener('DOMContentLoaded', function() {
+        // Formatação de telefone
+        const telefoneInput = document.getElementById('telefone');
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 11) {
+                    if (value.length <= 10) {
+                        value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                    } else {
+                        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    }
+                }
+                e.target.value = value;
+            });
+        }
+
+        // Formatação de CPF
+        const cpfInput = document.getElementById('cpf');
+        if (cpfInput) {
+            cpfInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                e.target.value = value;
+            });
+        }
+
+        // Formatação de CEP
+        const cepInput = document.getElementById('cep');
+        if (cepInput) {
+            cepInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+                e.target.value = value;
+            });
+
+            // Buscar endereço por CEP
+            cepInput.addEventListener('blur', function(e) {
+                const cep = e.target.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.erro) {
+                                document.getElementById('endereco').value = data.logradouro;
+                                document.getElementById('bairro').value = data.bairro;
+                                document.getElementById('cidade').value = data.localidade;
+                                document.getElementById('estado').value = data.uf;
+                            }
+                        })
+                        .catch(error => console.log('Erro ao buscar CEP:', error));
+                }
+            });
+        }
+    });
+
+    // Função para gerar QR Code PIX
+    function generatePixQRCode() {
+        const container = document.getElementById('qr-code-container');
+        const pixKey = document.getElementById('pix-key').value;
+        const pixValue = document.getElementById('pix-value').value;
+        const identifier = 'JF' + Date.now().toString().slice(-6); // Identificador único
+
+        // Atualizar identificador
+        document.getElementById('pix-identifier').value = identifier;
+
+        // Criar QR Code placeholder (em produção, usar biblioteca real de QR Code)
+        container.innerHTML = `
+            <div class="qr-code-placeholder">
+                <div>
+                    <i class="fas fa-qrcode fa-3x mb-2"></i><br>
+                    QR Code PIX<br>
+                    <small>Chave: ${pixKey}</small><br>
+                    <small>Valor: ${pixValue}</small><br>
+                    <small>ID: ${identifier}</small>
+                </div>
+            </div>
+        `;
+    }
+
+    // Função para copiar chave PIX
+    function copyPixKey() {
+        const pixKey = document.getElementById('pix-key');
+        pixKey.select();
+        pixKey.setSelectionRange(0, 99999);
+
+        navigator.clipboard.writeText(pixKey.value).then(function() {
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+
+            button.innerHTML = '<i class="fas fa-check"></i>';
+            button.classList.add('btn-copy-success');
+
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('btn-copy-success');
+            }, 2000);
+        });
+    }
+
+    // Função para mostrar/ocultar detalhes do troco
+    function toggleTrocoDetails(select) {
+        const trocoDetails = document.getElementById('troco-details');
+        if (select.value === 'sim') {
+            trocoDetails.style.display = 'block';
+        } else {
+            trocoDetails.style.display = 'none';
+            document.querySelector('input[name="valor_cliente"]').value = '';
+            document.getElementById('troco-calculado').value = '';
+        }
+    }
+
+    // Função para calcular troco
+    function calculateTroco() {
+        const servicePrice = parseFloat('{{ service_price|default:"0" }}') || 0;
+        const clientValue = parseFloat(event.target.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+        const troco = clientValue - servicePrice;
+
+        if (troco > 0) {
+            document.getElementById('troco-calculado').value = 'R$ ' + troco.toFixed(2).replace('.', ',');
+        } else {
+            document.getElementById('troco-calculado').value = 'Valor insuficiente';
+        }
+    }
+</script>
+
+<!-- Biblioteca QR Code (opcional - para QR Code real) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+    // Função melhorada para gerar QR Code real (se biblioteca estiver disponível)
+    function generateRealPixQRCode() {
+        if (typeof QRCode !== 'undefined') {
+            const container = document.getElementById('qr-code-container');
+            const pixKey = document.getElementById('pix-key').value;
+            const pixValue = document.getElementById('pix-value').value.replace('R$ ', '').replace(',', '.');
+            const identifier = document.getElementById('pix-identifier').value;
+
+            // Limpar container
+            container.innerHTML = '';
+
+            // Dados PIX simplificados (em produção, usar formato EMV correto)
+            const pixData = `PIX|${pixKey}|${pixValue}|${identifier}`;
+
+            // Gerar QR Code
+            QRCode.toCanvas(container, pixData, {
+                width: 180,
+                height: 180,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            }, function(error) {
+                if (error) {
+                    console.error('Erro ao gerar QR Code:', error);
+                    // Fallback para placeholder
+                    generatePixQRCode();
+                }
+            });
+        } else {
+            // Usar placeholder se biblioteca não estiver disponível
+            generatePixQRCode();
+        }
+    }
+
+    // Substituir função original se biblioteca estiver disponível
+    if (typeof QRCode !== 'undefined') {
+        generatePixQRCode = generateRealPixQRCode;
+    }
+</script>
+{% endblock %}

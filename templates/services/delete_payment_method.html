@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Excluir Método de Pagamento - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-danger text-white text-center py-4">
+                    <i class="fas fa-trash-alt fa-3x mb-3"></i>
+                    <h2 class="mb-0">Excluir Método de Pagamento</h2>
+                </div>
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Tem certeza que deseja excluir este método de pagamento?</h4>
+                        <p class="text-muted">Esta ação não pode ser desfeita.</p>
+                    </div>
+                    
+                    <div class="border rounded-3 p-4 bg-light mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 30px;">
+                                    <span class="small fw-bold">
+                                        {% if payment_method.payment_type == 'credit_card' %}VISA{% elif payment_method.payment_type == 'debit_card' %}DEBIT{% elif payment_method.payment_type == 'pix' %}PIX{% else %}BANK{% endif %}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="fw-bold">
+                                        {% if payment_method.card_number_last4 %}
+                                            •••• •••• •••• {{ payment_method.card_number_last4 }}
+                                        {% else %}
+                                            {{ payment_method.get_payment_type_display }}
+                                        {% endif %}
+                                    </div>
+                                    {% if payment_method.expiry_date %}
+                                    <div class="small text-muted">Expira em {{ payment_method.expiry_date|date:"m/y" }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if payment_method.is_default %}
+                            <span class="badge bg-success">Padrão</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <form method="POST" id="delete-payment-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="payment_method_id" value="{{ payment_method.id }}">
+                        
+                        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-4">
+                            <a href="{% url 'profile_new' %}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="fas fa-arrow-left me-2"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2" id="confirm-delete">
+                                <i class="fas fa-trash me-2"></i> Confirmar Exclusão
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('delete-payment-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Show confirmation dialog
+            if (!confirm('Tem certeza que deseja excluir permanentemente este método de pagamento?')) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Show loading state
+            const deleteButton = document.getElementById('confirm-delete');
+            const originalText = deleteButton.innerHTML;
+            deleteButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Excluindo...';
+            deleteButton.disabled = true;
+        });
+    }
+});
+</script>
+{% endblock %}

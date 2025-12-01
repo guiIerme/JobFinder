@@ -1,0 +1,748 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meus Pedidos - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --secondary-gradient: linear-gradient(135deg, #868f96 0%, #596164 100%);
+        --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --card-hover-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--card-shadow);
+        animation: slideDown 0.6s ease-out;
+    }
+
+    .page-header h2 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        margin: 0;
+        font-size: 2.5rem;
+    }
+
+    .stats-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.6s ease-out both;
+        border-top: 4px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .stats-card.card-primary {
+        border-top-color: #667eea;
+    }
+
+    .stats-card.card-primary:hover::before {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        opacity: 1;
+    }
+
+    .stats-card.card-warning {
+        border-top-color: #f093fb;
+    }
+
+    .stats-card.card-warning:hover::before {
+        background: linear-gradient(135deg, rgba(240, 147, 251, 0.05) 0%, rgba(245, 87, 108, 0.05) 100%);
+        opacity: 1;
+    }
+
+    .stats-card.card-info {
+        border-top-color: #4facfe;
+    }
+
+    .stats-card.card-info:hover::before {
+        background: linear-gradient(135deg, rgba(79, 172, 254, 0.05) 0%, rgba(0, 242, 254, 0.05) 100%);
+        opacity: 1;
+    }
+
+    .stats-card.card-success {
+        border-top-color: #11998e;
+    }
+
+    .stats-card.card-success:hover::before {
+        background: linear-gradient(135deg, rgba(17, 153, 142, 0.05) 0%, rgba(56, 239, 125, 0.05) 100%);
+        opacity: 1;
+    }
+
+    .stats-number {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stats-card.card-warning .stats-number {
+        background: var(--warning-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stats-card.card-info .stats-number {
+        background: var(--info-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stats-card.card-success .stats-number {
+        background: var(--success-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .s tats-label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .filter-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.4s both;
+        margin-bottom: 2rem;
+    }
+
+    .filter-btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filter-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .filter-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .filter-btn.active {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .filter-btn-all {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .filter-btn-all.outline {
+        background: white;
+        color: #667eea;
+        border-color: #667eea;
+    }
+
+    .filter-btn-all.outline:hover {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .filter-btn-pending {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .filter-btn-pending.outline {
+        background: white;
+        color: #f093fb;
+        border-color: #f093fb;
+    }
+
+    .filter-btn-pending.outline:hover {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .filter-btn-scheduled {
+        background: var(--info-gradient);
+        color: white;
+    }
+
+    .filter-btn-scheduled.outline {
+        background: white;
+        color: #4facfe;
+        border-color: #4facfe;
+    }
+
+    .filter-btn-scheduled.outline:hover {
+        background: var(--info-gradient);
+        color: white;
+    }
+
+    .filter-btn-completed {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .filter-btn-completed.outline {
+        background: white;
+        color: #11998e;
+        border-color: #11998e;
+    }
+
+    .filter-btn-completed.outline:hover {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .filter-btn-cancelled {
+        background: var(--secondary-gradient);
+        color: white;
+    }
+
+    .filter-btn-cancelled.outline {
+        background: white;
+        color: #868f96;
+        border-color: #868f96;
+    }
+
+    .filter-btn-cancelled.outline:hover {
+        background: var(--secondary-gradient);
+        color: white;
+    }
+
+    .request-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.6s ease-out both;
+        margin-bottom: 1.5rem;
+        border-left: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .request-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -100px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        opacity: 0.05;
+        transition: all 0.6s ease;
+    }
+
+    .request-card:hover {
+        transform: translateX(10px);
+        box-shadow: var(--card-hover-shadow);
+    }
+
+    .request-card:hover::before {
+        right: -50px;
+        opacity: 0.1;
+    }
+
+    .request-card.status-pending {
+        border-left-color: #f093fb;
+    }
+
+    .request-card.status-pending::before {
+        background: var(--warning-gradient);
+    }
+
+    .request-card.status-scheduled {
+        border-left-color: #4facfe;
+    }
+
+    .request-card.status-scheduled::before {
+        background: var(--info-gradient);
+    }
+
+    .request-card.status-completed {
+        border-left-color: #11998e;
+    }
+
+    .request-card.status-completed::before {
+        background: var(--success-gradient);
+    }
+
+    .request-card.status-cancelled {
+        border-left-color: #868f96;
+    }
+
+    .request-card.status-cancelled::before {
+        background: var(--secondary-gradient);
+    }
+
+    .request-card.status-contacted {
+        border-left-color: #667eea;
+    }
+
+    .request-card.status-contacted::before {
+        background: var(--primary-gradient);
+    }
+
+    .request-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-left: 1rem;
+    }
+
+    .status-badge.badge-pending {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .status-badge.badge-scheduled {
+        background: var(--info-gradient);
+        color: white;
+    }
+
+    .status-badge.badge-completed {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .status-badge.badge-cancelled {
+        background: var(--secondary-gradient);
+        color: white;
+    }
+
+    .status-badge.badge-contacted {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .request-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .request-info-item {
+        display: flex;
+        align-items: start;
+        gap: 0.5rem;
+        color: #555;
+        font-size: 0.95rem;
+    }
+
+    .request-info-item i {
+        color: #667eea;
+        margin-top: 0.2rem;
+        min-width: 20px;
+    }
+
+    .re quest-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 2px solid #f0f0f0;
+        margin-top: 1rem;
+    }
+
+    .request-date {
+        font-size: 0.85rem;
+        color: #999;
+    }
+
+    .btn-details {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 0.7rem 2rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-details:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .empty-state {
+        background: white;
+        border-radius: 20px;
+        padding: 4rem 2rem;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        animation: fadeInUp 0.6s ease-out 0.6s both;
+    }
+
+    .empty-state i {
+        font-size: 5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state h4 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .btn-search {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 3rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .btn-search:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .col-md-3:nth-child(1) .stats-card {
+        animation-delay: 0.1s;
+    }
+
+    .col-md-3:nth-child(2) .stats-card {
+        animation-delay: 0.2s;
+    }
+
+    .col-md-3:nth-child(3) .stats-card {
+        animation-delay: 0.3s;
+    }
+
+    .col-md-3:nth-child(4) .stats-card {
+        animation-delay: 0.4s;
+    }
+
+    .request-card:nth-child(1) {
+        animation-delay: 0.5s;
+    }
+
+    .request-card:nth-child(2) {
+        animation-delay: 0.6s;
+    }
+
+    .request-card:nth-child(3) {
+        animation-delay: 0.7s;
+    }
+
+    .request-card:nth-child(4) {
+        animation-delay: 0.8s;
+    }
+
+    .request-card:nth-child(5) {
+        animation-delay: 0.9s;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+        }
+
+        .filter-btn-group {
+            flex-direction: column;
+        }
+
+        .filter-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .request-meta {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h2>
+                    <i class="fas fa-clipboard-list me-3"></i>
+                    Meus Pedidos
+                </h2>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="stats-card card-primary">
+                        <div class="stats-number">{{ total }}</div>
+                        <div class="stats-label">Total</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stats-card card-warning">
+                        <div class="stats-number">{{ pendentes }}</div>
+                        <div class="stats-label">Pendentes</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stats-card card-info">
+                        <div class="stats-number">{{ agendadas }}</div>
+                        <div class="stats-label">Agendadas</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stats-card card-success">
+                        <div class="stats-number">{{ concluidas }}</div>
+                        <div class="stats-label">Concluídas</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filter-card">
+                <div class="filter-btn-group">
+                    <a href="{% url 'meus_pedidos' %}" class="filter-btn filter-btn-all {% if not status_filter %}active{% else %}outline{% endif %}">
+                        <i class="fas fa-list me-2"></i>
+                        Todos
+                    </a>
+                    <a href="{% url 'meus_pedidos' %}?status=pending" class="filter-btn filter-btn-pending {% if status_filter == 'pending' %}active{% else %}outline{% endif %}">
+                        <i class="fas fa-clock me-2"></i>
+                        Pendentes
+                    </a>
+                    <a href="{% url 'meus_pedidos' %}?status=scheduled" class="filter-btn filter-btn-scheduled {% if status_filter == 'scheduled' %}active{% else %}outline{% endif %}">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Agendadas
+                    </a>
+                    <a href="{% url 'meus_pedidos' %}?status=completed" class="filter-btn filter-btn-completed {% if status_filter == 'completed' %}active{% else %}outline{% endif %}">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Concluídas
+                    </a>
+                    <a href="{% url 'meus_pedidos' %}?status=cancelled" class="filter-btn filter-btn-cancelled {% if status_filter == 'cancelled' %}active{% else %}outline{% endif %}">
+                        <i class="fas fa-times-circle me-2"></i>
+                        Canceladas
+                    </a>
+                </div>
+            </div>
+
+            <!-- Lista de Solicitações -->
+            {% if solicitacoes %}
+            <div class="row">
+                <div class="col-12">
+                    {% for solicitacao in solicitacoes %}
+                    <div class="request-card status-{{ solicitacao.status }}">
+                        <div class="request-title">
+                            {{ solicitacao.service_name }}
+                            <span class="status-badge badge-{{ solicitacao.status }}">
+                                {{ solicitacao.get_status_display }}
+                            </span>
+                        </div>
+
+                        <div class="request-info">
+                            <div class="request-info-item">
+                                <i class="fas fa-user-tie"></i>
+                                <div>
+                                    <strong>Prestador:</strong>
+                                    {% if solicitacao.provider %}
+                                    {% if solicitacao.provider.first_name %}
+                                    {{ solicitacao.provider.first_name }} {{ solicitacao.provider.last_name }}
+                                    {% else %}
+                                    {{ solicitacao.provider.username }}
+                                    {% endif %}
+                                    {% else %}
+                                    <span style="color: #999;">Não atribuído</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="request-info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>
+                                    <strong>Data:</strong>
+                                    {{ solicitacao.preferred_date|date:"d/m/Y" }}
+                                    {% if solicitacao.preferred_time %}
+                                    às {{ solicitacao.preferred_time|time:"H:i" }}
+                                    {% elif solicitacao.preferred_period %}
+                                    - {{ solicitacao.get_preferred_period_display }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="request-info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong>Endereço:</strong>
+                                    {{ solicitacao.address_street }}, {{ solicitacao.address_number }} -
+                                    {{ solicitacao.address_neighborhood }}, {{ solicitacao.address_city }}/{{ solicitacao.address_state }}
+                                </div>
+                            </div>
+
+                            <div class="request-info-item">
+                                <i class="fas fa-credit-card"></i>
+                                <div>
+                                    <strong>Pagamento:</strong>
+                                    {{ solicitacao.get_payment_method_display }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="request-meta">
+                            <div class="request-date">
+                                <i class="fas fa-clock me-1"></i>
+                                Solicitado em {{ solicitacao.created_at|date:"d/m/Y H:i" }}
+                            </div>
+                            <a href="{% url 'acompanhar_solicitacao' solicitacao.id %}" class="btn-details">
+                                <i class="fas fa-eye"></i>
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h4>Nenhuma solicitação encontrada</h4>
+                <p>Você ainda não fez nenhuma solicitação de serviço.</p>
+                <a href="{% url 'search_new' %}" class="btn-search">
+                    <i class="fas fa-search"></i>
+                    Buscar Serviços
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

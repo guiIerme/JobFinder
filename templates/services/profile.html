@@ -1,0 +1,625 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meu Perfil - Job Finder{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Meu Perfil</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1><i class="fas fa-user"></i> Meu Perfil</h1>
+            <p class="lead">Gerencie suas informações pessoais, veja seus pedidos e configure suas preferências</p>
+        </div>
+    </div>
+
+    <!-- User Profile Summary Cards -->
+    <div class="row mt-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center profile-card">
+                <div class="card-body">
+                    <i class="fas fa-shopping-cart fa-2x text-primary mb-2"></i>
+                    <h5 class="card-title">Pedidos</h5>
+                    <p class="card-text display-6">{{ user_orders.count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center profile-card">
+                <div class="card-body">
+                    <i class="fas fa-credit-card fa-2x text-success mb-2"></i>
+                    <h5 class="card-title">Pagamentos</h5>
+                    <p class="card-text display-6">{{ payment_methods.count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center profile-card">
+                <div class="card-body">
+                    <i class="fas fa-star fa-2x text-warning mb-2"></i>
+                    <h5 class="card-title">Avaliações</h5>
+                    <p class="card-text display-6">{{ user_profile.review_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card text-center profile-card">
+                <div class="card-body">
+                    <i class="fas fa-calendar-check fa-2x text-info mb-2"></i>
+                    <h5 class="card-title">Serviços</h5>
+                    <p class="card-text display-6">12</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Profile Information -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Informações Pessoais</h5>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#editProfileForm" aria-expanded="false" aria-controls="editProfileForm">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="collapse" id="editProfileForm">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- Profile Picture Section -->
+                            <div class="text-center mb-4">
+                                <div class="position-relative d-inline-block">
+                                    {% if user_profile.avatar %}
+                                    <img src="{{ user_profile.avatar.url }}" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                                    {% else %}
+                                    <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; font-size: 3rem;">
+                                        {{ user.first_name|slice:":1"|default:user.username|slice:":1" }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="position-absolute bottom-0 end-0">
+                                        <label for="avatar" class="btn btn-primary rounded-circle p-2 shadow" style="width: 40px; height: 40px; cursor: pointer;">
+                                            <i class="fas fa-camera"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <input type="file" id="avatar" name="avatar" class="d-none" accept="image/*">
+                                <p class="mt-2 text-muted small">Clique no ícone da câmera para alterar sua foto</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ user_profile.phone }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="birthDate" class="form-label">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="birthDate" name="birth_date" value="{{ user_profile.birth_date|date:'Y-m-d' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="zipCode" class="form-label">CEP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="zipCode" name="zip_code" value="{{ user_profile.zip_code }}" placeholder="00000-000">
+                                    <button class="btn btn-outline-secondary" type="button" id="searchCep">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="address" name="address" value="{{ user_profile.address }}">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="number" class="form-label">Número</label>
+                                    <input type="text" class="form-control" id="number" name="number" value="{{ user_profile.number }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="complement" class="form-label">Complemento</label>
+                                    <input type="text" class="form-control" id="complement" name="complement" value="{{ user_profile.complement }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="city" class="form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="{{ user_profile.city }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="state" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="state" name="state" value="{{ user_profile.state }}">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#editProfileForm" aria-expanded="false" aria-controls="editProfileForm">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Profile Display Mode -->
+                    <div id="profileDisplay">
+                        <div class="text-center mb-4">
+                            {% if user_profile.avatar %}
+                            <img src="{{ user_profile.avatar.url }}" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                            {% else %}
+                            <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; font-size: 3rem;">
+                                {{ user.first_name|slice:":1"|default:user.username|slice:":1" }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3"><strong>Nome:</strong></div>
+                            <div class="col-sm-9">{{ user.get_full_name|default:user.username }}</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3"><strong>E-mail:</strong></div>
+                            <div class="col-sm-9">{{ user.email }}</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3"><strong>Telefone:</strong></div>
+                            <div class="col-sm-9">{{ user_profile.phone|default:"Não informado" }}</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3"><strong>Data de Nascimento:</strong></div>
+                            <div class="col-sm-9">{{ user_profile.birth_date|date:"d/m/Y"|default:"Não informado" }}</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3"><strong>Endereço:</strong></div>
+                            <div class="col-sm-9">
+                                {% if user_profile.address %}
+                                {{ user_profile.address }}, {{ user_profile.number }}{% if user_profile.complement %}, {{ user_profile.complement }}{% endif %}<br>
+                                {{ user_profile.city }} - {{ user_profile.state }}, {{ user_profile.zip_code }}
+                                {% else %}
+                                Não informado
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-3"><strong>Membro desde:</strong></div>
+                            <div class="col-sm-9">{{ user.date_joined|date:"d/m/Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences and Settings -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-cog"></i> Preferências</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_preferences">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="darkMode" name="dark_mode" {% if user_profile.dark_mode %}checked{% endif %}>
+                            <label class="form-check-label" for="darkMode">Modo Escuro</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" name="email_notifications" {% if user_profile.email_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="emailNotifications">Notificações por E-mail</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="promotionalEmails" name="promotional_emails" {% if user_profile.promotional_emails %}checked{% endif %}>
+                            <label class="form-check-label" for="promotionalEmails">E-mails Promocionais</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="pushNotifications" name="push_notifications" {% if user_profile.push_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="pushNotifications">Notificações Push</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Preferências
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders and Payment Methods -->
+        <div class="col-md-6">
+            <!-- Payment Methods -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-credit-card"></i> Métodos de Pagamento</h5>
+                    <a href="{% url 'add_payment_method' %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Adicionar
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if payment_methods %}
+                    {% for method in payment_methods %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                        <div>
+                            <strong>{{ method.get_payment_type_display }}</strong>
+                            {% if method.card_number_last4 %}
+                            <div class="text-muted">****{{ method.card_number_last4 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if method.is_default %}
+                            <span class="badge bg-success">Padrão</span>
+                            {% endif %}
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-muted">Nenhum método de pagamento cadastrado.</p>
+                    <a href="{% url 'add_payment_method' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Adicionar Método de Pagamento
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-list"></i> Meus Pedidos Recentes</h5>
+                    <a href="{% url 'my_orders' %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-list"></i> Ver Todos
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if user_orders %}
+                    {% for order in user_orders|slice:":5" %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>Pedido #{{ order.id }}</strong>
+                                <div class="small text-muted">
+                                    {% if order.service %}
+                                    {{ order.service.name }}
+                                    {% else %}
+                                    Serviço Personalizado
+                                    {% endif %}
+                                </div>
+                                <div class="small text-muted">
+                                    Profissional: {{ order.professional.get_full_name|default:order.professional.username }}
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div>R$ {{ order.total_price }}</div>
+                                <span class="badge bg-{% if order.status == 'pending' %}warning{% elif order.status == 'confirmed' %}primary{% elif order.status == 'in_progress' %}info{% elif order.status == 'completed' %}success{% else %}danger{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="small text-muted">
+                            {{ order.scheduled_date|date:"d/m/Y H:i" }}
+                        </div>
+
+                        {% if order.status == 'completed' %}
+                        {% if order.review %}
+                        <div class="mt-2 p-2 bg-light rounded">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong class="me-2">Avaliado:</strong>
+                                <div class="text-warning">
+                                    {% for i in "12345" %}
+                                    {% if forloop.counter <= order.review.rating %}
+                                    <i class="fas fa-star"></i>
+                                    {% else %}
+                                    <i class="far fa-star"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if order.review.comment %}
+                            <div class="small text-muted mt-1">{{ order.review.comment|truncatewords:15 }}</div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-warning" onclick="openReviewModal({{ order.id }}, '{{ order.professional.get_full_name|default:order.professional.username }}')">
+                                <i class="fas fa-star me-1"></i>Avaliar Profissional
+                            </button>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-list"></i> Ver Todos os Pedidos
+                        </a>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Você ainda não fez nenhum pedido.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Procurar Serviços
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Account Security -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt"></i> Segurança da Conta</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <strong>Alterar Senha</strong>
+                            <div class="text-muted small">Atualize sua senha regularmente para manter sua conta segura</div>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-key"></i> Alterar
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <strong>Minhas Conquistas</strong>
+                            <div class="text-muted small">Veja suas conquistas e progrida para desbloquear novas recompensas</div>
+                        </div>
+                        <a href="{% url 'user_achievements' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-trophy"></i> Ver
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>Autenticação de Dois Fatores</strong>
+                            <div class="text-muted small">Adicione uma camada extra de segurança à sua conta</div>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="twoFactorAuth">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // CEP search functionality
+    document.getElementById('searchCep').addEventListener('click', function() {
+        const cep = document.getElementById('zipCode').value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            // In a real application, you would call a CEP API here
+            // For now, we'll just show an example
+            alert('Em uma aplicação real, isso buscaria o endereço automaticamente com base no CEP.');
+        } else {
+            alert('Por favor, insira um CEP válido (8 dígitos)');
+        }
+    });
+
+    // Preview avatar when selected
+    document.getElementById('avatar').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                // Find the avatar image or placeholder and update it
+                const avatarImg = document.querySelector('.avatar-placeholder');
+                const avatarContainer = avatarImg ? avatarImg.parentElement : document.querySelector('img[alt="Profile Picture"]').parentElement;
+
+                // Create new image element
+                const img = document.createElement('img');
+                img.src = event.target.result;
+                img.alt = 'Profile Picture';
+                img.className = 'rounded-circle';
+                img.style.width = '120px';
+                img.style.height = '120px';
+                img.style.objectFit = 'cover';
+
+                // Replace the placeholder with the image
+                if (avatarImg) {
+                    avatarContainer.replaceChild(img, avatarImg);
+                } else {
+                    const existingImg = document.querySelector('img[alt="Profile Picture"]');
+                    avatarContainer.replaceChild(img, existingImg);
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    // Toggle dark mode
+    document.getElementById('darkMode').addEventListener('change', function() {
+        // In a real application, this would update the user preference in the backend
+        if (this.checked) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    });
+</script>
+{% endblock %}
+
+<! -- Modal de Avaliação -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">
+                        <i class="fas fa-star text-warning me-2"></i>Avaliar Profissional
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        {% csrf_token %}
+                        <input type="hidden" id="reviewOrderId" name="order_id">
+
+                        <div class="mb-3 text-center">
+                            <p class="mb-2">Avaliando: <strong id="professionalName"></strong></p>
+                            <p class="text-muted small">Como foi sua experiência com este profissional?</p>
+                        </div>
+
+                        <div class="mb-4 text-center">
+                            <label class="form-label fw-bold">Classificação</label>
+                            <div class="rating-stars" id="ratingStars">
+                                <i class="far fa-star fs-2 mx-1" data-rating="1"></i>
+                                <i class="far fa-star fs-2 mx-1" data-rating="2"></i>
+                                <i class="far fa-star fs-2 mx-1" data-rating="3"></i>
+                                <i class="far fa-star fs-2 mx-1" data-rating="4"></i>
+                                <i class="far fa-star fs-2 mx-1" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="ratingValue" name="rating" value="0">
+                            <div id="ratingError" class="text-danger small mt-2" style="display: none;">
+                                Por favor, selecione uma classificação
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reviewComment" class="form-label">Comentário (opcional)</label>
+                            <textarea class="form-control" id="reviewComment" name="comment" rows="4" placeholder="Conte-nos sobre sua experiência..."></textarea>
+                            <div class="form-text">Compartilhe detalhes sobre o serviço prestado</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="submitReview()">
+                        <i class="fas fa-paper-plane me-1"></i>Enviar Avaliação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = 0;
+        let reviewModal;
+
+        // Initialize modal
+        document.addEventListener('DOMContentLoaded', function() {
+            reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+
+            // Rating stars functionality
+            const stars = document.querySelectorAll('#ratingStars i');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.getAttribute('data-rating'));
+                    document.getElementById('ratingValue').value = selectedRating;
+                    document.getElementById('ratingError').style.display = 'none';
+                    updateStars(selectedRating);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    updateStars(rating);
+                });
+            });
+
+            document.getElementById('ratingStars').addEventListener('mouseleave', function() {
+                updateStars(selectedRating);
+            });
+        });
+
+        function updateStars(rating) {
+            const stars = document.querySelectorAll('#ratingStars i');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'text-warning');
+                } else {
+                    star.classList.remove('fas', 'text-warning');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        function openReviewModal(orderId, professionalName) {
+            document.getElementById('reviewOrderId').value = orderId;
+            document.getElementById('professionalName').textContent = professionalName;
+            document.getElementById('reviewComment').value = '';
+            selectedRating = 0;
+            document.getElementById('ratingValue').value = 0;
+            document.getElementById('ratingError').style.display = 'none';
+            updateStars(0);
+            reviewModal.show();
+        }
+
+        function submitReview() {
+            const orderId = document.getElementById('reviewOrderId').value;
+            const rating = document.getElementById('ratingValue').value;
+            const comment = document.getElementById('reviewComment').value;
+
+            // Validate rating
+            if (rating == 0) {
+                document.getElementById('ratingError').style.display = 'block';
+                return;
+            }
+
+            // Get CSRF token
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // Submit review
+            fetch(`/submit-review/${orderId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: `rating=${rating}&comment=${encodeURIComponent(comment)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        reviewModal.hide();
+                        alert('Avaliação enviada com sucesso!');
+                        location.reload();
+                    } else {
+                        alert('Erro ao enviar avaliação: ' + (data.error || 'Erro desconhecido'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao enviar avaliação. Por favor, tente novamente.');
+                });
+        }
+    </script>
+
+    <style>
+        .rating-stars i {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .rating-stars i:hover {
+            transform: scale(1.2);
+        }
+
+        .profile-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>

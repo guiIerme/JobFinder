@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Financeiro - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="dashboard-content-wrapper">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h2 mb-2">
+                            <i class="fas fa-dollar-sign text-success me-2"></i>
+                            Financeiro
+                        </h1>
+                        <p class="text-muted">Acompanhe suas receitas e transações</p>
+                    </div>
+                    <a href="{% url 'provider_dashboard' %}" class="btn btn-outline-primary rounded-pill">
+                        <i class="fas fa-arrow-left me-2"></i>Voltar ao Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards de Resumo Financeiro -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+                    <div class="text-success mb-2">
+                        <i class="fas fa-wallet fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">R$ {{ receita_total|floatformat:2 }}</h3>
+                    <p class="text-muted mb-0">Receita Total</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-calendar-alt fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">R$ {{ receita_mes_atual|floatformat:2 }}</h3>
+                    <p class="text-muted mb-0">Este Mês</p>
+                    <small class="text-muted">{{ mes_atual }}</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+                    <div class="{% if crescimento_percentual >= 0 %}text-success{% else %}text-danger{% endif %} mb-2">
+                        <i class="fas fa-chart-line fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        {% if crescimento_percentual >= 0 %}+{% endif %}{{ crescimento_percentual }}%
+                    </h3>
+                    <p class="text-muted mb-0">Crescimento</p>
+                    <small class="text-muted">vs mês anterior</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+                    <div class="text-info mb-2">
+                        <i class="fas fa-check-circle fa-3x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ pedidos_concluidos }}</h3>
+                    <p class="text-muted mb-0">Serviços Concluídos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status dos Pedidos -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-white border-bottom py-3 rounded-top-4">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tasks me-2"></i>
+                            Status dos Pedidos
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <div class="p-3">
+                                    <div class="display-4 fw-bold text-success mb-2">{{ pedidos_concluidos }}</div>
+                                    <p class="text-muted mb-0">Concluídos</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3">
+                                    <div class="display-4 fw-bold text-primary mb-2">{{ pedidos_em_andamento }}</div>
+                                    <p class="text-muted mb-0">Em Andamento</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3">
+                                    <div class="display-4 fw-bold text-warning mb-2">{{ pedidos_pendentes }}</div>
+                                    <p class="text-muted mb-0">Pendentes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Últimas Transações -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-white border-bottom py-3 rounded-top-4">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history me-2"></i>
+                            Últimas Transações
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        {% if ultimas_transacoes %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Cliente</th>
+                                        <th>Serviço</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transacao in ultimas_transacoes %}
+                                    <tr>
+                                        <td>{{ transacao.updated_at|date:"d/m/Y H:i" }}</td>
+                                        <td>{{ transacao.customer.get_full_name|default:transacao.customer.username }}</td>
+                                        <td>
+                                            {% if transacao.service %}
+                                            {{ transacao.service.name }}
+                                            {% else %}
+                                            Serviço Personalizado
+                                            {% endif %}
+                                        </td>
+                                        <td class="fw-bold text-success">R$ {{ transacao.total_price|floatformat:2 }}</td>
+                                        <td>
+                                            <span class="badge bg-success">Concluído</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Nenhuma transação ainda</h5>
+                            <p class="text-muted">Complete serviços para ver suas transações aqui</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+    }
+</style>
+{% endblock %}

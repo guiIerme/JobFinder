@@ -1,0 +1,1779 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meu Perfil - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Profile Header -->
+    <div class="text-center mb-5 position-relative overflow-hidden modern-rounded-lg shadow-lg p-4 p-md-5 bg-gradient-primary text-white">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.9) 0%, rgba(114, 9, 183, 0.95) 100%);"></div>
+        <div class="position-relative z-1">
+            <div class="profile-image-container mb-4">
+                {% if user.userprofile.avatar %}
+                    <div class="position-relative d-inline-block">
+                        <img src="{{ user.userprofile.avatar.url }}" alt="Profile Picture" class="modern-rounded-circle shadow-lg" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid rgba(255, 255, 255, 0.3);">
+                        <div class="position-absolute bottom-0 end-0">
+                            <label for="avatar" class="modern-btn modern-btn-light modern-rounded-circle p-2 shadow" style="width: 40px; height: 40px; cursor: pointer;">
+                                <i class="fas fa-camera text-primary"></i>
+                            </label>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="position-relative d-inline-block">
+                        <div class="avatar-placeholder bg-white text-primary d-flex align-items-center justify-content-center modern-rounded-circle shadow-lg" style="width: 120px; height: 120px; font-size: 3rem; font-weight: var(--font-weight-bold); border: 4px solid rgba(255, 255, 255, 0.3);">
+                            {{ user.first_name|slice:":1"|default:"U" }}{{ user.last_name|slice:":1"|default:"U" }}
+                        </div>
+                        <div class="position-absolute bottom-0 end-0">
+                            <label for="avatar" class="modern-btn modern-btn-light modern-rounded-circle p-2 shadow" style="width: 40px; height: 40px; cursor: pointer;">
+                                <i class="fas fa-camera text-primary"></i>
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <input type="file" id="avatar" name="avatar" class="d-none" accept="image/*">
+            <h2 class="mb-2 fw-bold">{{ user.get_full_name|default:user.username }}</h2>
+            <p class="mb-1 opacity-90">{{ user.email }}</p>
+            <p class="mb-3 small opacity-75">
+                <i class="fas fa-user me-1"></i>
+                {% if user.userprofile.user_type == 'professional' %}Profissional{% else %}Cliente{% endif %}
+                {% if user.userprofile.rating %}
+                    <span class="ms-3">
+                        <i class="fas fa-star text-warning"></i>
+                        {{ user.userprofile.rating|floatformat:1 }}
+                    </span>
+                {% endif %}
+            </p>
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <span class="modern-badge bg-white text-primary fs-6 rounded-pill px-3 py-1 fw-bold">
+                    <i class="fas fa-calendar-alt me-1"></i>
+                    Membro desde {{ user.date_joined|date:"M Y" }}
+                </span>
+                {% if user.userprofile.user_type == 'professional' %}
+                    <span class="modern-badge bg-success text-white fs-6 rounded-pill px-3 py-1 fw-bold">
+                        <i class="fas fa-check-circle me-1"></i>
+                        Verificado
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="modern-card text-center stat-card border-0 shadow hover-lift h-100 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.05) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <i class="fas fa-clock fa-2x"></i>
+                    </div>
+                    <div class="display-4 mb-2 fw-bold text-primary">12</div>
+                    <p class="text-muted mb-0">Serviços Realizados</p>
+                    <div class="progress mt-3" style="height: 5px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
+                    </div>
+                    <small class="text-muted">+2 este mês</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="modern-card text-center stat-card border-0 shadow hover-lift h-100 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(67, 97, 238, 0.05) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <i class="fas fa-star fa-2x"></i>
+                    </div>
+                    <div class="display-4 mb-2 fw-bold text-warning">4.8</div>
+                    <p class="text-muted mb-0">Avaliação Média</p>
+                    <div class="mt-3">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    </div>
+                    <small class="text-muted">24 avaliações</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="modern-card text-center stat-card border-0 shadow hover-lift h-100 overflow-hidden position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(67, 97, 238, 0.05) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <i class="fas fa-user fa-2x"></i>
+                    </div>
+                    <div class="display-4 mb-2 fw-bold text-success">Jan 2024</div>
+                    <p class="text-muted mb-0">Membro desde</p>
+                    <div class="mt-3">
+                        <span class="badge bg-success">Ativo</span>
+                    </div>
+                    <small class="text-muted">Há 1 ano e 9 meses</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Personal Information -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-primary">
+                        <i class="fas fa-user me-2"></i>
+                        <span>Informações Pessoais</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <form id="profile-form">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Nome Completo</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <input type="text" class="modern-form-control form-control form-control-lg border-end-0" id="fullName" name="full_name" value="{{ user.get_full_name|default:user.username }}" readonly>
+                                <button class="modern-btn modern-btn-outline-primary rounded-pill rounded-start border-start-0 edit-btn" type="button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Email</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </span>
+                                <input type="email" class="modern-form-control form-control form-control-lg border-end-0" id="email" name="email" value="{{ user.email }}" readonly>
+                                <button class="modern-btn modern-btn-outline-primary rounded-pill rounded-start border-start-0 edit-btn" type="button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Telefone</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-phone text-primary"></i>
+                                </span>
+                                <input type="tel" class="modern-form-control form-control form-control-lg border-end-0" id="phone" name="phone" value="{{ user.userprofile.phone|default:'' }}" readonly placeholder="(11) 99999-9999">
+                                <button class="modern-btn modern-btn-outline-primary rounded-pill rounded-start border-start-0 edit-btn" type="button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Data de Nascimento</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                </span>
+                                <input type="date" class="modern-form-control form-control form-control-lg border-end-0" id="birthDate" name="birth_date" value="{{ user.userprofile.birth_date|date:'Y-m-d'|default:'' }}" readonly>
+                                <button class="modern-btn modern-btn-outline-primary rounded-pill rounded-start border-start-0 edit-btn" type="button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="modern-btn modern-btn-primary modern-btn-lg w-100 rounded-pill fw-bold py-3">
+                            <i class="fas fa-save me-2"></i> Salvar Alterações
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Address -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-info">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>Endereço</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <form id="address-form">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">CEP</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <input type="text" class="modern-form-control form-control form-control-lg border-end-0" id="zip_code" name="zip_code" value="{{ user.userprofile.zip_code|default:'' }}" placeholder="00000-000">
+                                <button class="modern-btn modern-btn-outline-info rounded-pill rounded-start border-start-0" type="button" id="searchCep">
+                                    <i class="fas fa-search me-1"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Rua</label>
+                            <input type="text" class="modern-form-control form-control form-control-lg rounded-pill" id="address" name="address" placeholder="Rua das Flores, 123" value="{{ user.userprofile.address|default:'' }}">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Número</label>
+                                <input type="text" class="modern-form-control form-control form-control-lg rounded-pill" id="number" name="number" value="{{ user.userprofile.number|default:'' }}">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Complemento</label>
+                                <input type="text" class="modern-form-control form-control form-control-lg rounded-pill" id="complement" name="complement" value="{{ user.userprofile.complement|default:'' }}" placeholder="Apartamento, bloco, etc.">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Cidade</label>
+                                <input type="text" class="modern-form-control form-control form-control-lg rounded-pill" id="city" name="city" placeholder="São Paulo" value="{{ user.userprofile.city|default:'' }}">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Estado</label>
+                                <select class="modern-form-control form-select form-control-lg rounded-pill" id="state" name="state">
+                                    <option value="">Selecione</option>
+                                    <option value="AC" {% if user.userprofile.state == 'AC' %}selected{% endif %}>Acre</option>
+                                    <option value="AL" {% if user.userprofile.state == 'AL' %}selected{% endif %}>Alagoas</option>
+                                    <option value="AP" {% if user.userprofile.state == 'AP' %}selected{% endif %}>Amapá</option>
+                                    <option value="AM" {% if user.userprofile.state == 'AM' %}selected{% endif %}>Amazonas</option>
+                                    <option value="BA" {% if user.userprofile.state == 'BA' %}selected{% endif %}>Bahia</option>
+                                    <option value="CE" {% if user.userprofile.state == 'CE' %}selected{% endif %}>Ceará</option>
+                                    <option value="DF" {% if user.userprofile.state == 'DF' %}selected{% endif %}>Distrito Federal</option>
+                                    <option value="ES" {% if user.userprofile.state == 'ES' %}selected{% endif %}>Espírito Santo</option>
+                                    <option value="GO" {% if user.userprofile.state == 'GO' %}selected{% endif %}>Goiás</option>
+                                    <option value="MA" {% if user.userprofile.state == 'MA' %}selected{% endif %}>Maranhão</option>
+                                    <option value="MT" {% if user.userprofile.state == 'MT' %}selected{% endif %}>Mato Grosso</option>
+                                    <option value="MS" {% if user.userprofile.state == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
+                                    <option value="MG" {% if user.userprofile.state == 'MG' %}selected{% endif %}>Minas Gerais</option>
+                                    <option value="PA" {% if user.userprofile.state == 'PA' %}selected{% endif %}>Pará</option>
+                                    <option value="PB" {% if user.userprofile.state == 'PB' %}selected{% endif %}>Paraíba</option>
+                                    <option value="PR" {% if user.userprofile.state == 'PR' %}selected{% endif %}>Paraná</option>
+                                    <option value="PE" {% if user.userprofile.state == 'PE' %}selected{% endif %}>Pernambuco</option>
+                                    <option value="PI" {% if user.userprofile.state == 'PI' %}selected{% endif %}>Piauí</option>
+                                    <option value="RJ" {% if user.userprofile.state == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                                    <option value="RN" {% if user.userprofile.state == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
+                                    <option value="RS" {% if user.userprofile.state == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
+                                    <option value="RO" {% if user.userprofile.state == 'RO' %}selected{% endif %}>Rondônia</option>
+                                    <option value="RR" {% if user.userprofile.state == 'RR' %}selected{% endif %}>Roraima</option>
+                                    <option value="SC" {% if user.userprofile.state == 'SC' %}selected{% endif %}>Santa Catarina</option>
+                                    <option value="SP" {% if user.userprofile.state == 'SP' %}selected{% endif %}>São Paulo</option>
+                                    <option value="SE" {% if user.userprofile.state == 'SE' %}selected{% endif %}>Sergipe</option>
+                                    <option value="TO" {% if user.userprofile.state == 'TO' %}selected{% endif %}>Tocantins</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="modern-btn modern-btn-info modern-btn-lg w-100 rounded-pill fw-bold py-3 text-white">
+                            <i class="fas fa-save me-2"></i> Salvar Endereço
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Settings -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-danger">
+                        <i class="fas fa-lock me-2"></i>
+                        <span>Segurança</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <form id="security-form">
+                        <div class="mb-4">
+                            <label for="current_password" class="form-label fw-bold">Senha Atual</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-lock text-danger"></i>
+                                </span>
+                                <input type="password" class="modern-form-control form-control form-control-lg border-end-0" id="current_password" name="current_password" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="new_password" class="form-label fw-bold">Nova Senha</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-key text-danger"></i>
+                                </span>
+                                <input type="password" class="modern-form-control form-control form-control-lg border-end-0" id="new_password" name="new_password" required>
+                            </div>
+                            <div class="form-text">Sua senha deve ter pelo menos 8 caracteres.</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label fw-bold">Confirmar Nova Senha</label>
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-key text-danger"></i>
+                                </span>
+                                <input type="password" class="modern-form-control form-control form-control-lg border-end-0" id="confirm_password" name="confirm_password" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="modern-btn modern-btn-danger modern-btn-lg w-100 rounded-pill fw-bold py-3">
+                            <i class="fas fa-key me-2"></i> Alterar Senha
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notification Settings -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-warning">
+                        <i class="fas fa-bell me-2"></i>
+                        <span>Notificações</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <form id="notifications-form">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Notificações por E-mail</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" {% if user.userprofile.email_notifications %}checked{% endif %}>
+                                <label class="form-check-label" for="emailNotifications">Receber notificações por e-mail</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="promotionalEmails" {% if user.userprofile.promotional_emails %}checked{% endif %}>
+                                <label class="form-check-label" for="promotionalEmails">Receber e-mails promocionais</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="securityAlerts" {% if user.userprofile.security_alerts %}checked{% endif %}>
+                                <label class="form-check-label" for="securityAlerts">Receber alertas de segurança</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Notificações Push</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="pushNotifications" {% if user.userprofile.push_notifications %}checked{% endif %}>
+                                <label class="form-check-label" for="pushNotifications">Receber notificações push</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="pushMessages" {% if user.userprofile.push_messages %}checked{% endif %}>
+                                <label class="form-check-label" for="pushMessages">Receber mensagens de chat</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="modern-btn modern-btn-warning modern-btn-lg w-100 rounded-pill fw-bold py-3 text-white">
+                            <i class="fas fa-save me-2"></i> Salvar Preferências
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preferences -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-success">
+                        <i class="fas fa-sliders-h me-2"></i>
+                        <span>Preferências</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <form id="preferences-form">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Idioma</label>
+                            <select class="modern-form-control form-select form-control-lg rounded-pill">
+                                <option>Português (Brasil)</option>
+                                <option>English</option>
+                                <option>Español</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Fuso Horário</label>
+                            <select class="modern-form-control form-select form-control-lg rounded-pill">
+                                <option>America/Sao_Paulo</option>
+                                <option>America/New_York</option>
+                                <option>Europe/London</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="darkMode" {% if user.userprofile.dark_mode %}checked{% endif %}>
+                            <label class="form-check-label fw-bold" for="darkMode">Modo escuro</label>
+                        </div>
+                        
+                        <button type="submit" class="modern-btn modern-btn-success modern-btn-lg w-100 rounded-pill fw-bold py-3 text-white">
+                            <i class="fas fa-save me-2"></i> Salvar Preferências
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-success">
+                        <i class="fas fa-credit-card me-2"></i>
+                        <span>Métodos de Pagamento</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <!-- Payment methods will be listed here -->
+                    {% for payment_method in payment_methods %}
+                    <div class="modern-card border rounded-3 p-4 mb-4 shadow-sm" id="payment-method-{{ payment_method.id }}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded me-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 40px;">
+                                    <span class="small fw-bold">
+                                        {% if payment_method.payment_type == 'credit_card' %}VISA{% elif payment_method.payment_type == 'debit_card' %}DEBIT{% elif payment_method.payment_type == 'pix' %}PIX{% else %}BANK{% endif %}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="fw-bold fs-5">
+                                        {% if payment_method.card_number_last4 %}
+                                            •••• •••• •••• {{ payment_method.card_number_last4 }}
+                                        {% else %}
+                                            {{ payment_method.get_payment_type_display }}
+                                        {% endif %}
+                                    </div>
+                                    {% if payment_method.expiry_date %}
+                                    <div class="small text-muted">Expira em {{ payment_method.expiry_date|date:"m/y" }}</div>
+                                    {% endif %}
+                                    {% if payment_method.is_default %}
+                                    <span class="badge bg-success mt-1">Padrão</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <button class="modern-btn modern-btn-outline-secondary rounded-pill edit-payment-btn me-2" data-id="{{ payment_method.id }}">
+                                    <i class="fas fa-edit me-2"></i> Editar
+                                </button>
+                                <button class="modern-btn modern-btn-outline-danger rounded-pill delete-payment-btn" data-id="{{ payment_method.id }}">
+                                    <i class="fas fa-trash me-2"></i> Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-credit-card fa-3x text-muted mb-3"></i>
+                        <h5 class="mb-2">Nenhum método de pagamento cadastrado</h5>
+                        <p class="text-muted mb-4">Adicione um método de pagamento para facilitar suas compras</p>
+                    </div>
+                    {% endfor %}
+                    
+                    <button class="modern-btn modern-btn-outline-success modern-btn-lg w-100 rounded-pill fw-bold py-3" data-bs-toggle="modal" data-bs-target="#addPaymentMethodModal">
+                        <i class="fas fa-plus me-2"></i> Adicionar Novo Cartão
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Account Actions -->
+        <div class="col-lg-6 mb-5">
+            <div class="modern-card border-0 shadow h-100 overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-warning">
+                        <i class="fas fa-cog me-2"></i>
+                        <span>Configurações da Conta</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'help_support' %}" class="modern-btn modern-btn-outline-info modern-btn-lg rounded-pill fw-bold py-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-question-circle me-2"></i> Ajuda e Suporte
+                        </a>
+                        <button class="modern-btn modern-btn-outline-secondary modern-btn-lg rounded-pill fw-bold py-3 d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                            <i class="fas fa-lock me-2"></i> Alterar Senha
+                        </button>
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="modern-btn modern-btn-outline-danger modern-btn-lg w-100 rounded-pill fw-bold py-3 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-sign-out-alt me-2"></i> Sair
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service History -->
+        <div class="col-12 mb-5">
+            <div class="modern-card border-0 shadow overflow-hidden position-relative">
+                <div class="modern-card-header bg-white border-bottom py-3 position-relative z-1">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-dark">
+                        <i class="fas fa-history me-2"></i>
+                        <span>Histórico de Serviços</span>
+                    </h5>
+                </div>
+                <div class="card-body position-relative z-1">
+                    <div class="table-responsive">
+                        <table class="modern-table modern-table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Serviço</th>
+                                    <th>Data</th>
+                                    <th>Profissional</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                    <th>Avaliação</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-bottom">
+                                    <td class="fw-bold">Reparo Hidráulico</td>
+                                    <td>15/09/2025</td>
+                                    <td>Carlos Silva</td>
+                                    <td class="fw-bold">R$ 150,00</td>
+                                    <td><span class="modern-badge bg-success px-3 py-2 rounded-pill">Concluído</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            <span>4.5</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-primary rounded-pill" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-warning rounded-pill" title="Avaliar serviço">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-bold">Montagem de Móveis</td>
+                                    <td>22/09/2025</td>
+                                    <td>Maria Oliveira</td>
+                                    <td class="fw-bold">R$ 200,00</td>
+                                    <td><span class="modern-badge bg-warning px-3 py-2 rounded-pill">Em Andamento</span></td>
+                                    <td>
+                                        <span class="text-muted">-</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-primary rounded-pill" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-info rounded-pill" title="Cancelar serviço">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-bold">Pintura de Parede</td>
+                                    <td>30/09/2025</td>
+                                    <td>João Pereira</td>
+                                    <td class="fw-bold">R$ 350,00</td>
+                                    <td><span class="modern-badge bg-info px-3 py-2 rounded-pill">Agendado</span></td>
+                                    <td>
+                                        <span class="text-muted">-</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-primary rounded-pill" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-info rounded-pill" title="Reagendar">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-bold">Limpeza Residencial</td>
+                                    <td>05/10/2025</td>
+                                    <td>Ana Costa</td>
+                                    <td class="fw-bold">R$ 120,00</td>
+                                    <td><span class="modern-badge bg-success px-3 py-2 rounded-pill">Concluído</span></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            <span>5.0</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-primary rounded-pill" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="modern-btn modern-btn-sm modern-btn-outline-warning rounded-pill" title="Avaliar serviço">
+                                                <i class="fas fa-star"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="{% url 'service_history_new' %}" class="modern-btn modern-btn-outline-dark rounded-pill fw-bold px-4 py-2">
+                            <i class="fas fa-eye me-2"></i>Ver Todo Histórico
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Payment Method Modal -->
+<div class="modal fade" id="addPaymentMethodModal" tabindex="-1" aria-labelledby="addPaymentMethodModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modern-modal-content rounded-3">
+            <div class="modern-modal-header">
+                <h5 class="modal-title" id="addPaymentMethodModalLabel">Adicionar Método de Pagamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPaymentMethodForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="paymentType" class="form-label">Tipo de Pagamento</label>
+                        <select class="modern-form-control form-select rounded-pill" id="paymentType" name="payment_type">
+                            <option value="credit_card">Cartão de Crédito</option>
+                            <option value="debit_card">Cartão de Débito</option>
+                            <option value="pix">PIX</option>
+                            <option value="bank_transfer">Transferência Bancária</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="cardFields">
+                        <label for="cardNumber" class="form-label">Número do Cartão</label>
+                        <div class="input-group">
+                            <input type="text" class="modern-form-control form-control rounded-pill" id="cardNumber" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+                            <span class="input-group-text rounded-pill" id="cardBrandIcon">
+                                <i class="fas fa-credit-card"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" id="cardDetailsFields">
+                        <div class="col-md-6 mb-3">
+                            <label for="expiryDate" class="form-label">Data de Expiração</label>
+                            <input type="text" class="modern-form-control form-control rounded-pill" id="expiryDate" name="expiry_date" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="password" class="modern-form-control form-control rounded-pill" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cardholderName" class="form-label">Nome do Titular</label>
+                        <input type="text" class="modern-form-control form-control rounded-pill" id="cardholderName" name="cardholder_name" placeholder="Nome como está no cartão">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="saveCard" name="save_card" checked>
+                        <label class="form-check-label" for="saveCard">Salvar este cartão para futuras compras</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modern-modal-footer">
+                <button type="button" class="modern-btn modern-btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="modern-btn modern-btn-primary rounded-pill" id="savePaymentMethodBtn">Adicionar Cartão</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Payment Method Modal -->
+<div class="modal fade" id="editPaymentMethodModal" tabindex="-1" aria-labelledby="editPaymentMethodModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modern-modal-content rounded-3">
+            <div class="modern-modal-header">
+                <h5 class="modal-title" id="editPaymentMethodModalLabel">Editar Método de Pagamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPaymentMethodForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="editPaymentMethodId" name="payment_method_id">
+                    <div class="mb-3">
+                        <label for="editPaymentType" class="form-label">Tipo de Pagamento</label>
+                        <select class="modern-form-control form-select rounded-pill" id="editPaymentType" name="payment_type">
+                            <option value="credit_card">Cartão de Crédito</option>
+                            <option value="debit_card">Cartão de Débito</option>
+                            <option value="pix">PIX</option>
+                            <option value="bank_transfer">Transferência Bancária</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="editCardFields">
+                        <label for="editCardNumber" class="form-label">Número do Cartão</label>
+                        <div class="input-group">
+                            <input type="text" class="modern-form-control form-control rounded-pill" id="editCardNumber" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+                            <span class="input-group-text rounded-pill" id="editCardBrandIcon">
+                                <i class="fas fa-credit-card"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" id="editCardDetailsFields">
+                        <div class="col-md-6 mb-3">
+                            <label for="editExpiryDate" class="form-label">Data de Expiração</label>
+                            <input type="text" class="modern-form-control form-control rounded-pill" id="editExpiryDate" name="expiry_date" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCvv" class="form-label">CVV</label>
+                            <input type="password" class="modern-form-control form-control rounded-pill" id="editCvv" name="cvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCardholderName" class="form-label">Nome do Titular</label>
+                        <input type="text" class="modern-form-control form-control rounded-pill" id="editCardholderName" name="cardholder_name" placeholder="Nome como está no cartão">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="editSaveCard" name="save_card" checked>
+                        <label class="form-check-label" for="editSaveCard">Salvar este cartão para futuras compras</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modern-modal-footer">
+                <button type="button" class="modern-btn modern-btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="modern-btn modern-btn-primary rounded-pill" id="updatePaymentMethodBtn">Atualizar Cartão</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 auto;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.stat-icon {
+    width: 70px;
+    height: 70px;
+}
+
+.card-header {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+.btn-pill {
+    border-radius: 50rem !important;
+}
+
+.table th {
+    font-weight: 600;
+}
+
+.badge {
+    padding: 0.5em 0.75em;
+}
+
+.modern-card {
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modern-btn {
+    transition: all 0.2s ease;
+}
+
+.modern-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modern-form-control {
+    border: none;
+    padding: 0.75rem 1.25rem;
+}
+
+.modern-form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-radius: 50rem;
+}
+
+.input-group-text {
+    border: none !important;
+    background-color: #f8f9fa !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+}
+
+.modern-modal-content {
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.modern-modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+}
+
+.modern-modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+}
+
+.stat-card {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.modern-badge {
+    display: inline-block;
+}
+
+.table-responsive {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.modern-table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.progress {
+    border-radius: 50rem;
+}
+
+.progress-bar {
+    border-radius: 50rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .profile-image-container {
+        margin-top: 1rem;
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .modern-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn {
+        margin-bottom: 0.5rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Edit button functionality
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.closest('.input-group').querySelector('input');
+            if (input.hasAttribute('readonly')) {
+                input.removeAttribute('readonly');
+                input.focus();
+                this.innerHTML = '<i class="fas fa-check"></i>';
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-outline-success');
+            } else {
+                input.setAttribute('readonly', 'readonly');
+                this.innerHTML = '<i class="fas fa-edit"></i>';
+                this.classList.remove('btn-outline-success');
+                this.classList.add('btn-outline-primary');
+                
+                // In a real application, you would save the changes here
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success('Informações atualizadas com sucesso!');
+                } else {
+                    alert('Informações atualizadas com sucesso!');
+                }
+            }
+        });
+    });
+    
+    // Avatar preview functionality
+    document.getElementById('avatar').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                // Find the avatar image or placeholder and update it
+                const avatarImg = document.querySelector('.avatar-placeholder');
+                const avatarContainer = avatarImg ? avatarImg.parentElement : document.querySelector('img[alt="Profile Picture"]').parentElement;
+                
+                // Create new image element
+                const img = document.createElement('img');
+                img.src = event.target.result;
+                img.alt = 'Profile Picture';
+                img.className = 'rounded-circle shadow';
+                img.style.width = '120px';
+                img.style.height = '120px';
+                img.style.objectFit = 'cover';
+                
+                // Replace the placeholder with the image
+                if (avatarImg) {
+                    avatarContainer.replaceChild(img, avatarImg);
+                } else {
+                    const existingImg = document.querySelector('img[alt="Profile Picture"]');
+                    avatarContainer.replaceChild(img, existingImg);
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+    
+    // CEP search functionality
+    document.getElementById('searchCep').addEventListener('click', function() {
+        const cep = document.getElementById('zip_code').value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            // Show loading state
+            const searchBtn = this;
+            const originalText = searchBtn.innerHTML;
+            searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Buscando...';
+            searchBtn.disabled = true;
+            
+            // Make API call to ViaCEP service
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        if (typeof window.notifications !== 'undefined') {
+                            window.notifications.error('CEP não encontrado. Por favor, verifique o número e tente novamente.');
+                        } else {
+                            alert('CEP não encontrado. Por favor, verifique o número e tente novamente.');
+                        }
+                        return;
+                    }
+                    
+                    // Populate fields with returned data
+                    document.getElementById('address').value = data.logradouro || '';
+                    document.getElementById('city').value = data.localidade || '';
+                    
+                    // Set state value by finding the option that matches the UF
+                    const stateSelect = document.getElementById('state');
+                    for (let i = 0; i < stateSelect.options.length; i++) {
+                        if (stateSelect.options[i].value === data.uf) {
+                            stateSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    // Show success message
+                    if (typeof window.notifications !== 'undefined') {
+                        window.notifications.success('CEP encontrado com sucesso!');
+                    } else {
+                        alert('CEP encontrado com sucesso!');
+                    }
+                })
+                .catch(error => {
+                    if (typeof window.notifications !== 'undefined') {
+                        window.notifications.error('Erro ao buscar CEP. Por favor, tente novamente.');
+                    } else {
+                        alert('Erro ao buscar CEP. Por favor, tente novamente.');
+                    }
+                })
+                .finally(() => {
+                    // Restore button
+                    searchBtn.innerHTML = originalText;
+                    searchBtn.disabled = false;
+                });
+        } else {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Por favor, insira um CEP válido com 8 dígitos.');
+            } else {
+                alert('Por favor, insira um CEP válido com 8 dígitos.');
+            }
+        }
+    });
+    
+    // Format CEP input
+    document.getElementById('zip_code').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 5) {
+            value = value.substring(0, 5) + '-' + value.substring(5, 8);
+        }
+        e.target.value = value;
+    });
+    
+    // Form submission handlers
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        formData.append('update_profile', '1');
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
+        submitBtn.disabled = true;
+        
+        // Submit form via AJAX
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Perfil atualizado com sucesso!');
+                } else {
+                    alert(data.message || 'Perfil atualizado com sucesso!');
+                }
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao atualizar o perfil');
+                } else {
+                    alert(data.message || 'Erro ao atualizar o perfil');
+                }
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao atualizar o perfil');
+            } else {
+                alert('Erro ao atualizar o perfil');
+            }
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    document.getElementById('address-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        formData.append('update_profile', '1');
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
+        submitBtn.disabled = true;
+        
+        // Submit form via AJAX
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Endereço atualizado com sucesso!');
+                } else {
+                    alert(data.message || 'Endereço atualizado com sucesso!');
+                }
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao atualizar o endereço');
+                } else {
+                    alert(data.message || 'Erro ao atualizar o endereço');
+                }
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao atualizar o endereço');
+            } else {
+                alert('Erro ao atualizar o endereço');
+            }
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    document.getElementById('security-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        formData.append('change_password', '1');
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Alterando...';
+        submitBtn.disabled = true;
+        
+        // Submit form via AJAX
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Senha alterada com sucesso!');
+                } else {
+                    alert(data.message || 'Senha alterada com sucesso!');
+                }
+                
+                // Reset form
+                this.reset();
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao alterar a senha');
+                } else {
+                    alert(data.message || 'Erro ao alterar a senha');
+                }
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao alterar a senha');
+            } else {
+                alert('Erro ao alterar a senha');
+            }
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    document.getElementById('notifications-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        formData.append('update_notifications', '1');
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
+        submitBtn.disabled = true;
+        
+        // Submit form via AJAX
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Preferências de notificação atualizadas com sucesso!');
+                } else {
+                    alert(data.message || 'Preferências de notificação atualizadas com sucesso!');
+                }
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao atualizar as preferências de notificação');
+                } else {
+                    alert(data.message || 'Erro ao atualizar as preferências de notificação');
+                }
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao atualizar as preferências de notificação');
+            } else {
+                alert('Erro ao atualizar as preferências de notificação');
+            }
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    document.getElementById('preferences-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Add CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        formData.append('update_preferences', '1');
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
+        submitBtn.disabled = true;
+        
+        // Submit form via AJAX
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Preferências atualizadas com sucesso!');
+                } else {
+                    alert(data.message || 'Preferências atualizadas com sucesso!');
+                }
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao atualizar as preferências');
+                } else {
+                    alert(data.message || 'Erro ao atualizar as preferências');
+                }
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao atualizar as preferências');
+            } else {
+                alert('Erro ao atualizar as preferências');
+            }
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+    
+    // Add hover effect to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+            this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '';
+        });
+    });
+    
+    // Payment method type change handler
+    document.getElementById('paymentType').addEventListener('change', function() {
+        const cardFields = document.getElementById('cardFields');
+        const cardDetailsFields = document.getElementById('cardDetailsFields');
+        if (this.value === 'credit_card' || this.value === 'debit_card') {
+            cardFields.style.display = 'block';
+            cardDetailsFields.style.display = 'flex';
+        } else {
+            cardFields.style.display = 'none';
+            cardDetailsFields.style.display = 'none';
+        }
+    });
+    
+    // Format card number input
+    document.getElementById('cardNumber').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // Format as xxxx xxxx xxxx xxxx
+        if (value.length > 4) value = value.substring(0, 4) + ' ' + value.substring(4);
+        if (value.length > 9) value = value.substring(0, 9) + ' ' + value.substring(9);
+        if (value.length > 14) value = value.substring(0, 14) + ' ' + value.substring(14);
+        
+        e.target.value = value.substring(0, 19);
+        
+        // Detect card brand
+        detectCardBrand(value.replace(/\s/g, ''));
+    });
+    
+    // Format expiry date input
+    document.getElementById('expiryDate').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        
+        e.target.value = value.substring(0, 5);
+    });
+    
+    // Format CVV input
+    document.getElementById('cvv').addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+    });
+    
+    // Detect card brand and update icon
+    function detectCardBrand(cardNumber) {
+        const iconElement = document.getElementById('cardBrandIcon').querySelector('i');
+        
+        if (cardNumber.startsWith('4')) {
+            iconElement.className = 'fab fa-cc-visa text-primary';
+        } else if (cardNumber.startsWith('5') || cardNumber.startsWith('2')) {
+            iconElement.className = 'fab fa-cc-mastercard text-danger';
+        } else if (cardNumber.startsWith('3')) {
+            iconElement.className = 'fab fa-cc-amex text-info';
+        } else {
+            iconElement.className = 'fas fa-credit-card';
+        }
+    }
+    
+    // Edit payment method type change handler
+    document.getElementById('editPaymentType').addEventListener('change', function() {
+        const cardFields = document.getElementById('editCardFields');
+        const cardDetailsFields = document.getElementById('editCardDetailsFields');
+        if (this.value === 'credit_card' || this.value === 'debit_card') {
+            cardFields.style.display = 'block';
+            cardDetailsFields.style.display = 'flex';
+        } else {
+            cardFields.style.display = 'none';
+            cardDetailsFields.style.display = 'none';
+        }
+    });
+    
+    // Format edit card number input
+    document.getElementById('editCardNumber').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // Format as xxxx xxxx xxxx xxxx
+        if (value.length > 4) value = value.substring(0, 4) + ' ' + value.substring(4);
+        if (value.length > 9) value = value.substring(0, 9) + ' ' + value.substring(9);
+        if (value.length > 14) value = value.substring(0, 14) + ' ' + value.substring(14);
+        
+        e.target.value = value.substring(0, 19);
+        
+        // Detect card brand
+        detectEditCardBrand(value.replace(/\s/g, ''));
+    });
+    
+    // Format edit expiry date input
+    document.getElementById('editExpiryDate').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        
+        e.target.value = value.substring(0, 5);
+    });
+    
+    // Format edit CVV input
+    document.getElementById('editCvv').addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+    });
+    
+    // Detect card brand and update icon for edit form
+    function detectEditCardBrand(cardNumber) {
+        const iconElement = document.getElementById('editCardBrandIcon').querySelector('i');
+        
+        if (cardNumber.startsWith('4')) {
+            iconElement.className = 'fab fa-cc-visa text-primary';
+        } else if (cardNumber.startsWith('5') || cardNumber.startsWith('2')) {
+            iconElement.className = 'fab fa-cc-mastercard text-danger';
+        } else if (cardNumber.startsWith('3')) {
+            iconElement.className = 'fab fa-cc-amex text-info';
+        } else {
+            iconElement.className = 'fas fa-credit-card';
+        }
+    }
+    
+    // Save payment method
+    document.getElementById('savePaymentMethodBtn').addEventListener('click', function() {
+        // Validate form before submission
+        if (!validatePaymentForm()) {
+            return;
+        }
+        
+        const form = document.getElementById('addPaymentMethodForm');
+        const formData = new FormData(form);
+        
+        // Show loading state
+        const saveBtn = this;
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...';
+        saveBtn.disabled = true;
+        
+        // Add AJAX call to save payment method
+        fetch('{% url "add_payment_method" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal and show success message
+                bootstrap.Modal.getInstance(document.getElementById('addPaymentMethodModal')).hide();
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Método de pagamento adicionado com sucesso!');
+                } else {
+                    alert(data.message || 'Método de pagamento adicionado com sucesso!');
+                }
+                // Reload the page to show the new payment method
+                location.reload();
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao adicionar método de pagamento');
+                } else {
+                    alert(data.message || 'Erro ao adicionar método de pagamento');
+                }
+                
+                // Reset button state
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao adicionar método de pagamento');
+            } else {
+                alert('Erro ao adicionar método de pagamento');
+            }
+            
+            // Reset button state
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        });
+    });
+    
+    // Validate payment form
+    function validatePaymentForm() {
+        const paymentType = document.getElementById('paymentType').value;
+        
+        if (paymentType === 'credit_card' || paymentType === 'debit_card') {
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const cardholderName = document.getElementById('cardholderName').value.trim();
+            
+            // Validate card number (simple Luhn algorithm check)
+            if (!validateCardNumber(cardNumber)) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Número do cartão inválido');
+                } else {
+                    alert('Número do cartão inválido');
+                }
+                return false;
+            }
+            
+            // Validate expiry date
+            if (!validateExpiryDate(expiryDate)) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Data de expiração inválida ou expirada');
+                } else {
+                    alert('Data de expiração inválida ou expirada');
+                }
+                return false;
+            }
+            
+            // Validate CVV
+            if (cvv.length < 3 || cvv.length > 4) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('CVV inválido');
+                } else {
+                    alert('CVV inválido');
+                }
+                return false;
+            }
+            
+            // Validate cardholder name
+            if (cardholderName.length < 3) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Nome do titular inválido');
+                } else {
+                    alert('Nome do titular inválido');
+                }
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // Simple Luhn algorithm for card number validation
+    function validateCardNumber(cardNumber) {
+        if (cardNumber.length < 13 || cardNumber.length > 19) return false;
+        
+        let sum = 0;
+        let isEven = false;
+        
+        for (let i = cardNumber.length - 1; i >= 0; i--) {
+            let digit = parseInt(cardNumber.charAt(i));
+            
+            if (isEven) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            
+            sum += digit;
+            isEven = !isEven;
+        }
+        
+        return sum % 10 === 0;
+    }
+    
+    // Validate expiry date
+    function validateExpiryDate(expiryDate) {
+        if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiryDate)) return false;
+        
+        const [month, year] = expiryDate.split('/').map(Number);
+        const now = new Date();
+        const currentYear = now.getFullYear() % 100;
+        const currentMonth = now.getMonth() + 1;
+        
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Edit payment method buttons
+    document.querySelectorAll('.edit-payment-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const paymentMethodId = this.getAttribute('data-id');
+            // In a real implementation, you would fetch the payment method details
+            // and populate the edit form. For now, we'll just show the modal.
+            document.getElementById('editPaymentMethodId').value = paymentMethodId;
+            const modal = new bootstrap.Modal(document.getElementById('editPaymentMethodModal'));
+            modal.show();
+        });
+    });
+    
+    // Update payment method
+    document.getElementById('updatePaymentMethodBtn').addEventListener('click', function() {
+        // Validate form before submission
+        if (!validateEditPaymentForm()) {
+            return;
+        }
+        
+        const form = document.getElementById('editPaymentMethodForm');
+        const formData = new FormData(form);
+        
+        // Show loading state
+        const updateBtn = this;
+        const originalText = updateBtn.innerHTML;
+        updateBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Atualizando...';
+        updateBtn.disabled = true;
+        
+        // Add AJAX call to update payment method
+        fetch('{% url "edit_payment_method" 0 %}'.replace('0', document.getElementById('editPaymentMethodId').value), {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal and show success message
+                bootstrap.Modal.getInstance(document.getElementById('editPaymentMethodModal')).hide();
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.success(data.message || 'Método de pagamento atualizado com sucesso!');
+                } else {
+                    alert(data.message || 'Método de pagamento atualizado com sucesso!');
+                }
+                // Reload the page to show the updated payment method
+                location.reload();
+            } else {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error(data.message || 'Erro ao atualizar método de pagamento');
+                } else {
+                    alert(data.message || 'Erro ao atualizar método de pagamento');
+                }
+                
+                // Reset button state
+                updateBtn.innerHTML = originalText;
+                updateBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            if (typeof window.notifications !== 'undefined') {
+                window.notifications.error('Erro ao atualizar método de pagamento');
+            } else {
+                alert('Erro ao atualizar método de pagamento');
+            }
+            
+            // Reset button state
+            updateBtn.innerHTML = originalText;
+            updateBtn.disabled = false;
+        });
+    });
+    
+    // Validate edit payment form
+    function validateEditPaymentForm() {
+        const paymentType = document.getElementById('editPaymentType').value;
+        
+        if (paymentType === 'credit_card' || paymentType === 'debit_card') {
+            const cardNumber = document.getElementById('editCardNumber').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('editExpiryDate').value;
+            const cvv = document.getElementById('editCvv').value;
+            const cardholderName = document.getElementById('editCardholderName').value.trim();
+            
+            // Validate card number (simple Luhn algorithm check)
+            if (!validateCardNumber(cardNumber)) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Número do cartão inválido');
+                } else {
+                    alert('Número do cartão inválido');
+                }
+                return false;
+            }
+            
+            // Validate expiry date
+            if (!validateExpiryDate(expiryDate)) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Data de expiração inválida ou expirada');
+                } else {
+                    alert('Data de expiração inválida ou expirada');
+                }
+                return false;
+            }
+            
+            // Validate CVV
+            if (cvv.length < 3 || cvv.length > 4) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('CVV inválido');
+                } else {
+                    alert('CVV inválido');
+                }
+                return false;
+            }
+            
+            // Validate cardholder name
+            if (cardholderName.length < 3) {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Nome do titular inválido');
+                } else {
+                    alert('Nome do titular inválido');
+                }
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // Handle avatar form submission
+    document.getElementById('avatar').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const formData = new FormData();
+            formData.append('avatar', e.target.files[0]);
+            formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+            
+            // Submit avatar via AJAX
+            fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (typeof window.notifications !== 'undefined') {
+                        window.notifications.success(data.message || 'Foto de perfil atualizada com sucesso!');
+                    } else {
+                        alert(data.message || 'Foto de perfil atualizada com sucesso!');
+                    }
+                } else {
+                    if (typeof window.notifications !== 'undefined') {
+                        window.notifications.error(data.message || 'Erro ao atualizar a foto de perfil');
+                    } else {
+                        alert(data.message || 'Erro ao atualizar a foto de perfil');
+                    }
+                }
+            })
+            .catch(error => {
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Erro ao atualizar a foto de perfil');
+                } else {
+                    alert('Erro ao atualizar a foto de perfil');
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Adicionar Serviço Personalizado - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus-circle"></i> Adicionar Serviço Personalizado</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome do Serviço</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Ex: Reparo especializado de eletrodomésticos" required>
+                            <div class="form-text">Dê um nome claro e descritivo para o seu serviço</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição Detalhada</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Descreva detalhadamente o serviço que você oferece, incluindo especificações técnicas, materiais utilizados, etc." required></textarea>
+                            <div class="form-text">Inclua informações importantes como materiais usados, garantia, processo de trabalho, etc.</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="category" class="form-label">Categoria</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="repair">Reparo</option>
+                                    <option value="assembly">Montagem</option>
+                                    <option value="plumbing">Encanamento</option>
+                                    <option value="electrical">Elétrica</option>
+                                    <option value="cleaning">Limpeza</option>
+                                    <option value="painting">Pintura</option>
+                                    <option value="other">Outros</option>
+                                </select>
+                                <div class="form-text">Escolha a categoria mais apropriada para o seu serviço</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="estimated_price" class="form-label">Preço Estimado (R$)</label>
+                                <input type="number" class="form-control" id="estimated_price" name="estimated_price" placeholder="0.00" step="0.01" min="0" required>
+                                <div class="form-text">Preço médio cobrado por este serviço</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="estimated_duration" class="form-label">Duração Estimada (horas)</label>
+                            <input type="number" class="form-control" id="estimated_duration" name="estimated_duration" placeholder="2" min="1" required>
+                            <div class="form-text">Tempo médio necessário para completar este serviço</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="is_active" class="form-label">Status</label>
+                            <select class="form-select" id="is_active" name="is_active">
+                                <option value="true" selected>Ativo</option>
+                                <option value="false">Inativo</option>
+                            </select>
+                            <div class="form-text">Defina se o serviço estará disponível para solicitações</div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle"></i> Dicas para um bom serviço</h6>
+                            <ul class="mb-0">
+                                <li>Seja específico na descrição do serviço</li>
+                                <li>Defina um preço competitivo e justo</li>
+                                <li>Indique claramente a duração do serviço</li>
+                                <li>Mencione materiais inclusos no preço</li>
+                                <li>Destaque diferenciais como garantia ou atendimento especial</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Adicionar Serviço
+                            </button>
+                            {% if request.GET.admin %}
+                                <a href="{% url 'admin_provider_services' request.GET.provider %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Voltar ao Painel
+                                </a>
+                            {% else %}
+                                <a href="{% url 'provider_dashboard' %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Voltar ao Painel
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Format currency input
+    document.getElementById('estimated_price').addEventListener('input', function(e) {
+        let value = e.target.value;
+        if (value && !isNaN(value)) {
+            e.target.value = parseFloat(value).toFixed(2);
+        }
+    });
+</script>
+{% endblock %}

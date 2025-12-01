@@ -1,0 +1,4120 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponse, JsonResponse
+from django.db.models import Q
+from django.db import models
+from .models import Service, UserProfile, Order, Sponsor, PaymentMethod, CustomService, Chat, Message, ProfileChange
+from datetime import timedelta
+
+
+# Import the chat views
+from .chat_views import chat_list, chat_room, create_chat
+
+# Import health check
+from .health import health_check
+
+@login_required
+def ai_dashboard(request):
+    """AI Dashboard for continuous website improvement"""
+    # Check if user is admin
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para acessar esta página')
+        return redirect('login')
+        
+    try:
+        user_profile = request.user.userprofile
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado - você não tem permissão para acessar esta página')
+            return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Erro desconhecido: {str(e)}')
+        return redirect('home')
+    
+    # Import AI modules
+    from .ml_analytics import WebsiteOptimizer
+    from .personalization import PersonalizationEngine
+    from .content_generator import ContentGenerator
+    
+    # Initialize AI modules
+    optimizer = WebsiteOptimizer()
+    personalization = PersonalizationEngine()
+    content_generator = ContentGenerator()
+    
+    # Get analytics data
+    analytics_data = optimizer.analyze_user_behavior()
+    
+    # Get AI suggestions
+    suggestions = optimizer.suggest_improvements()
+    
+    # Get user preferences for sample user
+    user_preferences = personalization.get_user_preferences("sample_user")
+    
+    # Generate sample content
+    sample_content = content_generator.generate_service_description("Elétrica")
+    
+    # Example of how to record user interaction data
+    # In a real application, this would be done automatically by the middleware
+    # optimizer.collect_user_data(
+    #     user_id=str(request.user.id),
+    #     page_visited=request.path,
+    #     time_spent=120,  # This would be calculated automatically
+    #     actions_taken=["view", "click"],
+    #     converted=False
+    # )
+    
+    return render(request, 'services/ai_dashboard.html', {
+        'analytics_data': analytics_data,
+        'suggestions': suggestions,
+        'user_preferences': user_preferences,
+        'sample_content': sample_content
+    })
+
+
+@login_required
+def profile_view(request):
+    """User profile page with complete profile information, order history, and settings"""
+    try:
+        # Get or create user profile
+        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+        
+        # Get user's orders
+        user_orders = Order.objects.filter(customer=request.user).order_by('-created_at')
+        
+        # Get user's payment methods
+        payment_methods = PaymentMethod.objects.filter(user=request.user)
+        
+        # Handle POST requests for profile updates
+        if request.method == 'POST':
+            # Update profile information
+            user_profile.phone = request.POST.get('phone', user_profile.phone)
+            user_profile.address = request.POST.get('address', user_profile.address)
+            user_profile.number = request.POST.get('number', user_profile.number)
+            user_profile.complement = request.POST.get('complement', user_profile.complement)
+            user_profile.city = request.POST.get('city', user_profile.city)
+            user_profile.state = request.POST.get('state', user_profile.state)
+            user_profile.zip_code = request.POST.get('zip_code', user_profile.zip_code)
+            user_profile.birth_date = request.POST.get('birth_date', user_profile.birth_date)
+            
+            # Handle avatar upload
+            if 'avatar' in request.FILES:
+                user_profile.avatar = request.FILES['avatar']
+            
+            user_profile.save()
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('profile')
+        
+        context = {
+            'user_profile': user_profile,
+            'user_orders': user_orders,
+            'payment_methods': payment_methods,
+        }
+        return render(request, 'services/profile.html', context)
+    except Exception as e:
+        messages.error(request, f'Erro ao carregar o perfil: {str(e)}')
+        return redirect('home')
+
+
+def blog_list(request):
+    """Display list of published blog posts"""
+    from .models import BlogPost
+    from django.db.models import Q
+    
+    # Get published blog posts
+    posts = BlogPost.objects.filter(status='published').select_related('author')
+    
+    # Apply search filter if provided
+    search_query = request.GET.get('search')
+    if search_query:
+        posts = posts.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query) |
+            Q(excerpt__icontains=search_query)
+        )
+    
+    # Apply category filter if provided
+    category_filter = request.GET.get('category')
+    if category_filter:
+        posts = posts.filter(category=category_filter)
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(posts, 6)  # Show 6 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Get categories for filter dropdown
+    categories = dict(CustomService.CATEGORY_CHOICES)
+    
+    return render(request, 'services/blog_list.html', {
+        'posts': page_obj,
+        'categories': categories,
+        'search_query': search_query,
+        'category_filter': category_filter,
+    })
+
+
+# Example of how to use AI modules in other views
+def home(request):
+    """Home page for regular users - shows available services"""
+    # If user is authenticated and is a provider, redirect to provider dashboard
+    if request.user.is_authenticated:
+        try:
+            user_profile = request.user.userprofile
+            if user_profile.user_type == 'professional':
+                return redirect('provider_dashboard')
+        except Exception as e:
+            # Handle the case where the database columns don't exist yet
+            if "no such column" in str(e):
+                # Create a default user profile if columns are missing
+                try:
+                    user_profile = UserProfile.objects.create(user=request.user)
+                except:
+                    pass
+            pass
+    
+    services = Service.objects.filter(is_active=True)
+    custom_services = CustomService.objects.filter(is_active=True)
+    
+    # Example of personalization in action
+    # In a real application, this would be done by the context processor
+    personalized_content = None
+    if request.user.is_authenticated:
+        try:
+            from .personalization import PersonalizationEngine
+            personalization = PersonalizationEngine()
+            user_id = str(request.user.id)
+            
+            # Record user interaction (this would normally be done by middleware)
+            personalization.record_user_interaction(
+                user_id=user_id,
+                page_visited="/",
+                interaction_type="view"
+            )
+            
+            # Get personalized recommendations
+            recommendations = personalization.recommend_content(user_id, current_page="/")
+            if recommendations:
+                # For demonstration, we'll just use the first recommendation
+                personalized_content = recommendations[0] if recommendations else None
+        except Exception:
+            # Silently fail to avoid breaking the application
+            pass
+
+    
+    return render(request, 'services/home.html', {
+        'services': services,
+        'custom_services': custom_services,
+        'personalized_content': personalized_content
+    })
+
+
+def providers_by_service(request, service_category):
+    """Show providers by service category"""
+    # Get all providers who have offered custom services in this category
+    providers_queryset = User.objects.filter(
+        custom_services__category=service_category,
+        custom_services__is_active=True
+    ).distinct()
+    
+    # Apply rating filter if provided
+    rating_filter = request.GET.get('rating')
+    if rating_filter:
+        try:
+            min_rating = float(rating_filter)
+            # Filter providers with rating >= min_rating
+            providers_queryset = providers_queryset.filter(userprofile__rating__gte=min_rating)
+        except (ValueError, TypeError):
+            pass
+    
+    # Get the category display name
+    category_name = dict(Service.CATEGORY_CHOICES).get(service_category, service_category)
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(providers_queryset, 12)  # Show 12 providers per page
+    page_number = request.GET.get('page')
+    providers = paginator.get_page(page_number)
+    
+    return render(request, 'services/providers_by_service.html', {
+        'providers': providers,
+        'category': service_category,
+        'category_name': category_name,
+        'rating_filter': rating_filter
+    })
+
+
+@login_required
+def all_professionals(request):
+    """Show all professionals across all service categories"""
+    # Get all providers who have offered custom services
+    providers_queryset = User.objects.filter(
+        custom_services__is_active=True
+    ).distinct()
+    
+    # Apply filters if provided
+    category_filter = request.GET.get('category')
+    if category_filter:
+        providers_queryset = providers_queryset.filter(custom_services__category=category_filter)
+    
+    rating_filter = request.GET.get('rating')
+    if rating_filter:
+        try:
+            min_rating = float(rating_filter)
+            # Filter providers with rating >= min_rating
+            providers_queryset = providers_queryset.filter(userprofile__rating__gte=min_rating)
+        except (ValueError, TypeError):
+            pass
+    
+    search_filter = request.GET.get('search')
+    if search_filter:
+        providers_queryset = providers_queryset.filter(
+            Q(first_name__icontains=search_filter) | 
+            Q(last_name__icontains=search_filter) | 
+            Q(username__icontains=search_filter)
+        )
+    
+    # Apply price filters
+    price_min = request.GET.get('price_min', '').strip()
+    price_max = request.GET.get('price_max', '').strip()
+    
+    if price_min:
+        try:
+            min_price = float(price_min)
+            providers_queryset = providers_queryset.filter(custom_services__estimated_price__gte=min_price)
+        except (ValueError, TypeError):
+            pass
+    
+    if price_max:
+        try:
+            max_price = float(price_max)
+            providers_queryset = providers_queryset.filter(custom_services__estimated_price__lte=max_price)
+        except (ValueError, TypeError):
+            pass
+    
+    # Apply location filter
+    location_filter = request.GET.get('location', '').strip()
+    if location_filter:
+        providers_queryset = providers_queryset.filter(
+            Q(userprofile__city__icontains=location_filter) |
+            Q(userprofile__state__icontains=location_filter)
+        )
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(providers_queryset, 12)  # Show 12 providers per page
+    page_number = request.GET.get('page')
+    providers = paginator.get_page(page_number)
+    
+    # Get all categories for filter dropdown
+    categories = Service.CATEGORY_CHOICES
+    
+    return render(request, 'services/all_professionals.html', {
+        'providers': providers,
+        'categories': categories,
+        'category_filter': category_filter,
+        'rating_filter': rating_filter,
+        'search_filter': search_filter,
+        'price_min': price_min,
+        'price_max': price_max,
+        'location_filter': location_filter
+    })
+
+
+def provider_profile(request, provider_id):
+    """Provider profile page"""
+    try:
+        provider = User.objects.get(id=provider_id)
+        user_profile = provider.userprofile
+        custom_services = CustomService.objects.filter(provider=provider, is_active=True)
+        
+        # Calculate provider statistics
+        try:
+            provider_orders = Order.objects.filter(professional=provider)
+            total_orders = provider_orders.count()
+            completed_orders = provider_orders.filter(status='completed').count()
+            
+            # Calculate average rating (simulated)
+            average_rating = float(user_profile.rating) if user_profile.rating else 4.7
+            if total_orders > 0:
+                average_rating = float(user_profile.rating) if user_profile.rating else 4.7
+            else:
+                average_rating = 0
+            
+            # Calculate total services
+            total_services = custom_services.count()
+            
+            # Simulate other statistics
+            response_time = "2 horas"
+            cancellation_rate = "2%"
+            rehire_rate = "85%"
+        except Exception:
+            # Fallback values if there are errors
+            total_orders = 0
+            completed_orders = 0
+            average_rating = float(user_profile.rating) if user_profile.rating else 0
+
+            total_services = custom_services.count()
+            response_time = "2 horas"
+            cancellation_rate = "2%"
+            rehire_rate = "85%"
+            
+        return render(request, 'services/provider_profile.html', {
+            'provider': provider,
+            'user_profile': user_profile,
+            'custom_services': custom_services,
+            'total_orders': total_orders,
+            'completed_orders': completed_orders,
+            'average_rating': average_rating,
+            'total_services': total_services,
+            'response_time': response_time,
+            'cancellation_rate': cancellation_rate,
+            'rehire_rate': rehire_rate
+        })
+    except User.DoesNotExist:
+        messages.error(request, 'Prestador não encontrado')
+        return redirect('home')
+    except Exception as e:
+        messages.error(request, 'Perfil do prestador não encontrado')
+        return redirect('home')
+
+
+@login_required
+def profile_changes(request):
+    """Display profile changes for the current user"""
+    # Get profile changes for the current user
+    changes = request.user.profilechange_set.all().order_by('-created_at')
+    
+    return render(request, 'services/profile_changes.html', {
+        'changes': changes
+    })
+
+
+@login_required
+def admin_profile_changes(request):
+    """Display all profile changes (admin only)"""
+    # Check if user is admin
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para acessar esta página')
+        return redirect('login')
+        
+    try:
+        user_profile = request.user.userprofile
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado - você não tem permissão para acessar esta página')
+            return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Erro desconhecido: {str(e)}')
+        return redirect('home')
+    
+    # Get all profile changes
+    changes = ProfileChange.objects.all().order_by('-created_at')
+    
+    return render(request, 'services/admin_profile_changes.html', {
+        'changes': changes
+    })
+
+def login_view(request):
+    """Login page"""
+    # If user is already authenticated, redirect to home
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        remember_me = request.POST.get('remember', False)
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            
+            # Handle "remember me" functionality
+            if remember_me:
+                # Keep session for 2 weeks
+                request.session.set_expiry(1209600)
+            else:
+                # Expire session when browser closes
+                request.session.set_expiry(0)
+            
+            return redirect('home')
+        else:
+            messages.error(request, 'Nome de usuário ou senha inválidos')
+    
+    return render(request, 'services/login.html')
+
+def register_view(request):
+    """Registration page - now accessible to everyone"""
+    # Remove the admin-only restriction - allow public registration
+    # Only redirect to login if there's a technical issue
+    
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password_confirm = request.POST['password_confirm']
+        user_type = request.POST.get('user_type', 'customer')
+        
+        if password != password_confirm:
+            messages.error(request, 'As senhas não coincidem')
+            return render(request, 'registration/clean_register.html')
+        
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Nome de usuário já existe')
+            return render(request, 'registration/clean_register.html')
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'E-mail já cadastrado')
+            return render(request, 'registration/clean_register.html')
+        
+        # Create user
+        user = User.objects.create_user(username=username, email=email, password=password)
+        
+        # Create user profile
+        try:
+            UserProfile.objects.create(user=user, user_type=user_type)
+        except Exception as e:
+            # Handle the case where the database columns don't exist yet
+            if "no such column" in str(e):
+                # Try to create profile without the new fields
+                try:
+                    profile = UserProfile(user=user, user_type=user_type)
+                    profile.save(update_fields=['user', 'user_type', 'created_at', 'updated_at'])
+                except:
+                    pass
+            else:
+                raise e
+        
+        messages.success(request, f'Conta criada com sucesso para {username}')
+        return redirect('login')
+    
+    return render(request, 'registration/clean_register.html')
+
+def logout_view(request):
+    """Logout view"""
+    logout(request)
+    messages.success(request, 'Você saiu da sua conta com sucesso.')
+    return redirect('home')
+
+@login_required
+
+@login_required
+def profile_new(request):
+    """Enhanced profile page with all settings merged"""
+    try:
+        user_profile = request.user.userprofile
+    except Exception:
+        # Create a default user profile if it doesn't exist
+        user_profile = UserProfile()
+        user_profile.user = request.user
+        user_profile.save()
+    
+    # Get user's payment methods
+    payment_methods = PaymentMethod.objects.filter(user=request.user)
+    
+    if request.method == 'POST':
+        # Handle different form submissions based on hidden fields
+        if 'change_password' in request.POST:
+            # Change password
+            current_password = request.POST.get('current_password', '')
+            new_password = request.POST.get('new_password', '')
+            confirm_password = request.POST.get('confirm_password', '')
+            
+            # Verify current password
+            if not request.user.check_password(current_password):
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'message': 'Senha atual incorreta!'})
+                else:
+                    messages.error(request, 'Senha atual incorreta!')
+                    return redirect('profile_new')
+            
+            # Check if new passwords match
+            if new_password != confirm_password:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'message': 'As novas senhas não coincidem!'})
+                else:
+                    messages.error(request, 'As novas senhas não coincidem!')
+                    return redirect('profile_new')
+            
+            # Check password strength
+            if len(new_password) < 8:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'message': 'A nova senha deve ter pelo menos 8 caracteres!'})
+                else:
+                    messages.error(request, 'A nova senha deve ter pelo menos 8 caracteres!')
+                    return redirect('profile_new')
+            
+            # Update password
+            request.user.set_password(new_password)
+            request.user.save()
+            
+            # Log the user in with the new password
+            from django.contrib.auth import login
+            login(request, request.user)
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'message': 'Senha alterada com sucesso!'})
+            else:
+                messages.success(request, 'Senha alterada com sucesso!')
+                return redirect('profile_new')
+        else:
+            # Update profile information (this handles both personal info and address)
+            # Personal info fields
+            phone = request.POST.get('phone', '')
+            birth_date = request.POST.get('birth_date', '')
+            
+            # Address fields
+            zip_code = request.POST.get('zip_code', '')
+            address = request.POST.get('address', '')
+            number = request.POST.get('number', '')
+            complement = request.POST.get('complement', '')
+            city = request.POST.get('city', '')
+            state = request.POST.get('state', '')
+            
+            # Update profile fields
+            if phone:
+                user_profile.phone = phone
+            if birth_date:
+                user_profile.birth_date = birth_date
+            if zip_code:
+                user_profile.zip_code = zip_code
+            if address:
+                user_profile.address = address
+            if number:
+                user_profile.number = number
+            if complement:
+                user_profile.complement = complement
+            if city:
+                user_profile.city = city
+            if state:
+                user_profile.state = state
+                
+            user_profile.save()
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'message': 'Perfil atualizado com sucesso!'})
+            else:
+                messages.success(request, 'Perfil atualizado com sucesso!')
+                return redirect('profile_new')
+    
+    # For GET requests, just render the page
+    return render(request, 'services/profile_new.html', {
+        'user_profile': user_profile,
+        'payment_methods': payment_methods
+    })
+
+
+@login_required
+def add_payment_method(request):
+    """Add a payment method"""
+    if request.method == 'POST':
+        # Check if it's an AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                payment_type = request.POST.get('payment_type')
+                card_number_last4 = request.POST.get('card_number_last4', '')
+                cardholder_name = request.POST.get('cardholder_name', '')
+                expiry_date = request.POST.get('expiry_date', '')
+                
+                # Validate required fields based on payment type
+                if payment_type in ['credit_card', 'debit_card']:
+                    if not card_number_last4:
+                        return JsonResponse({
+                            'success': False, 
+                            'message': 'Os últimos 4 dígitos do cartão são obrigatórios'
+                        })
+                    if not cardholder_name:
+                        return JsonResponse({
+                            'success': False, 
+                            'message': 'Nome do titular é obrigatório'
+                        })
+                
+                # Create payment method
+                payment_method = PaymentMethod.objects.create(
+                    user=request.user,
+                    payment_type=payment_type,
+                    card_number_last4=card_number_last4,
+                    cardholder_name=cardholder_name
+                )
+                
+                # Parse and save expiry date if provided
+                if expiry_date:
+                    try:
+                        # Parse expiry date (MM/YY format)
+                        month, year = map(int, expiry_date.split('/'))
+                        # Assume year 20XX if year is less than 50, otherwise 19XX
+                        if year < 50:
+                            year += 2000
+                        else:
+                            year += 1900
+                        # Set to first day of the month
+                        from datetime import date
+                        payment_method.expiry_date = date(year, month, 1)
+                        payment_method.save()
+                    except Exception:
+                        pass  # Invalid date format, continue without saving date
+                
+                return JsonResponse({
+                    'success': True, 
+                    'message': 'Método de pagamento adicionado com sucesso',
+                    'payment_method_id': payment_method.id
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'Erro ao adicionar método de pagamento: ' + str(e)
+                })
+        else:
+            # Regular form submission
+            payment_type = request.POST.get('payment_type')
+            card_number_last4 = request.POST.get('card_number_last4', '')
+            cardholder_name = request.POST.get('cardholder_name', '')
+            expiry_date = request.POST.get('expiry_date', '')
+            
+            # Validate required fields
+            if not payment_type:
+                messages.error(request, 'Tipo de pagamento é obrigatório')
+                return redirect('profile_new')
+            
+            if payment_type in ['credit_card', 'debit_card']:
+                if not card_number_last4:
+                    messages.error(request, 'Os últimos 4 dígitos do cartão são obrigatórios')
+                    return redirect('profile_new')
+                if not cardholder_name:
+                    messages.error(request, 'Nome do titular é obrigatório')
+                    return redirect('profile_new')
+            
+            try:
+                # Create payment method
+                payment_method = PaymentMethod.objects.create(
+                    user=request.user,
+                    payment_type=payment_type,
+                    card_number_last4=card_number_last4,
+                    cardholder_name=cardholder_name
+                )
+                
+                # Parse and save expiry date if provided
+                if expiry_date:
+                    try:
+                        # Parse expiry date (MM/YY format)
+                        month, year = map(int, expiry_date.split('/'))
+                        # Assume year 20XX if year is less than 50, otherwise 19XX
+                        if year < 50:
+                            year += 2000
+                        else:
+                            year += 1900
+                        # Set to first day of the month
+                        from datetime import date
+                        payment_method.expiry_date = date(year, month, 1)
+                        payment_method.save()
+                    except Exception:
+                        pass  # Invalid date format, continue without saving date
+                
+                messages.success(request, 'Método de pagamento adicionado com sucesso')
+                return redirect('profile_new')
+            except Exception as e:
+                messages.error(request, 'Erro ao adicionar método de pagamento: ' + str(e))
+                return redirect('profile_new')
+    
+    return render(request, 'services/add_payment_method.html')
+
+@login_required
+def save_zip_code(request):
+    """Save ZIP code to user profile"""
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        zip_code = request.POST.get('zip_code', '').replace('-', '')
+        
+        if len(zip_code) != 8:
+            return JsonResponse({'success': False, 'message': 'CEP inválido'})
+        
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile.zip_code = zip_code
+            user_profile.save()
+            
+            return JsonResponse({'success': True, 'message': 'CEP salvo com sucesso no seu perfil'})
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Perfil não encontrado'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': 'Erro ao salvar CEP'})
+    
+    return JsonResponse({'success': False, 'message': 'Método não permitido'})
+
+@login_required
+def sponsors_view(request):
+    """Sponsors page"""
+    sponsors = Sponsor.objects.filter(is_active=True)
+    return render(request, 'services/sponsors.html', {'sponsors': sponsors})
+
+@login_required
+def provider_dashboard(request):
+    """Provider dashboard"""
+    # Check if user is a provider
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'professional':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    except Exception as e:
+        # Handle the case where the database columns don't exist yet
+        if "no such column" in str(e):
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+        else:
+            raise e
+    
+    # Get provider's services (for now, we'll show all services)
+    services = Service.objects.filter(is_active=True)
+    
+    # Get provider's custom services with error handling for decimal issues
+    custom_services = []
+    try:
+        custom_services = CustomService.objects.filter(provider=request.user, is_active=True)
+        # Force evaluation to catch decimal errors
+        list(custom_services)
+    except Exception as e:
+        # Handle decimal conversion errors
+        custom_services = []
+        messages.error(request, 'Erro ao carregar serviços personalizados. Alguns dados podem estar corrompidos.')
+    
+    # Get provider's orders
+    try:
+        provider_orders = Order.objects.filter(professional=request.user).order_by('-created_at')[:10]
+    except Exception as e:
+        # Handle decimal conversion errors
+        provider_orders = []
+        messages.error(request, 'Erro ao carregar pedidos. Alguns dados podem estar corrompidos.')
+    
+    # Calculate statistics
+    total_orders = 0
+    completed_orders = 0
+    pending_orders = 0
+    total_earnings = 0
+    
+    try:
+        all_provider_orders = Order.objects.filter(professional=request.user)
+        total_orders = all_provider_orders.count()
+        completed_orders = all_provider_orders.filter(status='completed').count()
+        pending_orders = all_provider_orders.exclude(status='completed').count()
+        
+        # Calculate total earnings (handling decimal errors)
+        for order in all_provider_orders:
+            try:
+                total_earnings += float(order.total_price)
+            except:
+                # Skip orders with decimal conversion issues
+                pass
+    except Exception as e:
+        # Handle decimal conversion errors
+        messages.error(request, 'Erro ao calcular estatísticas. Alguns dados podem estar corrompidos.')
+    
+    # Calculate rating statistics
+    total_ratings = 0
+    average_rating = 0
+    try:
+        # In a real application, you would have a ratings model
+        # For now, we'll simulate some rating data
+        total_ratings = min(total_orders, 50)  # Simulate up to 50 ratings
+        average_rating = 4.7 if total_ratings > 0 else 0  # Simulate 4.7 average rating
+    except Exception as e:
+        pass
+    
+    return render(request, 'services/provider_dashboard.html', {
+        'services': services,
+        'custom_services': custom_services,
+        'provider_orders': provider_orders,
+        'total_orders': total_orders,
+        'completed_orders': completed_orders,
+        'pending_orders': pending_orders,
+        'total_earnings': total_earnings,
+        'total_ratings': total_ratings,
+        'average_rating': average_rating
+    })
+
+@login_required
+def provider_ai_insights(request):
+    """AI-powered insights for providers"""
+    # Check if user is a provider
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'professional':
+            return JsonResponse({'error': 'Acesso negado'}, status=403)
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'Acesso negado'}, status=403)
+    except Exception as e:
+        return JsonResponse({'error': 'Erro desconhecido'}, status=500)
+    
+    # Get provider's data
+    try:
+        custom_services = CustomService.objects.filter(provider=request.user, is_active=True)
+        all_provider_orders = Order.objects.filter(professional=request.user)
+        total_orders = all_provider_orders.count()
+        completed_orders = all_provider_orders.filter(status='completed').count()
+        average_rating = 4.7 if total_orders > 0 else 0  # Simulated rating
+    except Exception as e:
+        return JsonResponse({'error': 'Erro ao carregar dados'}, status=500)
+    
+    # AI-Powered Features Data
+    # 1. Performance Insights Data
+    performance_data = {
+        'revenue_growth': 18,  # Simulated data
+        'on_time_completion': 92,
+        'average_rating': average_rating,
+        'completion_rate': (completed_orders / total_orders * 100) if total_orders > 0 else 0
+    }
+    
+    # 2. Revenue Prediction Data
+    historical_revenue = [1200, 1900, 1500, 2200, 1800, 2500]  # Simulated data
+    
+    # 3. Provider Profile Data for AI Analysis
+    provider_profile = {
+        'services': list(custom_services),
+        'competitiveness': 0.65,  # Simulated competitiveness score
+        'total_orders': total_orders,
+        'completed_orders': completed_orders,
+        'average_rating': average_rating
+    }
+    
+    # Generate AI insights
+    insights = generate_performance_insights(performance_data)
+    revenue_prediction = predict_revenue(historical_revenue, provider_profile)
+    recommendations = generate_personalized_recommendations(provider_profile, {})
+    
+    return JsonResponse({
+        'insights': insights,
+        'revenue_prediction': revenue_prediction,
+        'recommendations': recommendations
+    })
+
+def generate_performance_insights(user_data):
+    """Generate performance insights for the provider"""
+    insights = []
+    
+    # Revenue trend analysis
+    if user_data['revenue_growth'] > 15:
+        insights.append({
+            'type': 'success',
+            'title': 'Excelente Crescimento',
+            'message': f"Sua receita aumentou {user_data['revenue_growth']}% este mês. Continue oferecendo serviços de qualidade!",
+            'action': 'Ver detalhes'
+        })
+    
+    # Efficiency analysis
+    if user_data['on_time_completion'] > 90:
+        insights.append({
+            'type': 'info',
+            'title': 'Alta Eficiência',
+            'message': f"Você concluiu {user_data['on_time_completion']}% dos pedidos no prazo. Isso demonstra profissionalismo.",
+            'action': 'Manter desempenho'
+        })
+    
+    # Rating analysis
+    if user_data['average_rating'] > 4.5:
+        insights.append({
+            'type': 'warning',
+            'title': 'Excelente Reputação',
+            'message': f"Sua avaliação média é {user_data['average_rating']}/5.0. Continue mantendo esse padrão de qualidade!",
+            'action': 'Ver avaliações'
+        })
+    
+    # Completion rate analysis
+    if user_data['completion_rate'] < 80:
+        insights.append({
+            'type': 'danger',
+            'title': 'Oportunidade de Melhoria',
+            'message': f"Sua taxa de conclusão está em {user_data['completion_rate']:.1f}%. Considere revisar seus processos para melhorar.",
+            'action': 'Ver pedidos'
+        })
+    
+    return insights
+
+def predict_revenue(historical_data, user_profile):
+    """Predict future revenue based on historical data"""
+    # Simple moving average prediction
+    def calculate_average_growth(data):
+        if len(data) < 2:
+            return 0
+        total_growth = 0
+        for i in range(1, len(data)):
+            total_growth += (data[i] - data[i-1]) / data[i-1]
+        return total_growth / (len(data) - 1)
+    
+    def calculate_confidence_score(data):
+        # Simple confidence calculation based on data points
+        if len(data) < 3:
+            return 0.3  # Low confidence
+        if len(data) < 6:
+            return 0.6  # Medium confidence
+        return 0.9  # High confidence
+    
+    def generate_recommendations(avg_growth, profile):
+        recommendations = []
+        if avg_growth > 0.1:
+            recommendations.append({
+                'type': 'success',
+                'title': 'Crescimento Sustentável',
+                'description': 'Seu crescimento mensal é consistente. Considere expandir sua área de atendimento.',
+                'action': 'Expandir serviços'
+            })
+        elif avg_growth < 0:
+            recommendations.append({
+                'type': 'danger',
+                'title': 'Oportunidade de Recuperação',
+                'description': 'Seu crescimento está negativo. Foque em melhorar a satisfação do cliente.',
+                'action': 'Ver feedbacks'
+            })
+        if len(profile.get('services', [])) < 3:
+            recommendations.append({
+                'type': 'info',
+                'title': 'Diversificação de Serviços',
+                'description': 'Você oferece poucos serviços. Considere adicionar novas categorias para aumentar sua receita.',
+                'action': 'Adicionar serviço'
+            })
+        return recommendations
+    
+    avg_monthly_growth = calculate_average_growth(historical_data)
+    current_revenue = historical_data[-1] if historical_data else 0
+    
+    predictions = {
+        'next_month': current_revenue * (1 + avg_monthly_growth),
+        'three_months': current_revenue * pow(1 + avg_monthly_growth, 3),
+        'six_months': current_revenue * pow(1 + avg_monthly_growth, 6)
+    }
+    
+    return {
+        'predictions': predictions,
+        'confidence': calculate_confidence_score(historical_data),
+        'recommendations': generate_recommendations(avg_monthly_growth, user_profile)
+    }
+
+def generate_personalized_recommendations(provider_profile, market_data):
+    """Generate personalized recommendations for the provider"""
+    recommendations = []
+    
+    # Recommend new service categories based on market demand
+    def analyze_market_trends(data):
+        # Simulated market trend analysis
+        return [
+            {'id': 'cleaning', 'name': 'Limpeza', 'growth': 15},
+            {'id': 'electrical', 'name': 'Elétrica', 'growth': 12},
+            {'id': 'plumbing', 'name': 'Encanamento', 'growth': 10},
+            {'id': 'painting', 'name': 'Pintura', 'growth': 8}
+        ]
+    
+    trending_categories = analyze_market_trends(market_data)
+    provider_categories = [s.category for s in provider_profile.get('services', [])]
+    
+    for category in trending_categories:
+        if category['id'] not in provider_categories:
+            recommendations.append({
+                'type': 'service_opportunity',
+                'title': f"Oportunidade: {category['name']}",
+                'description': f"Alta demanda detectada para serviços de {category['name']} (+{category['growth']}% em 30 dias)",
+                'action': 'Adicionar serviço'
+            })
+    
+    # Recommend pricing adjustments
+    if provider_profile.get('competitiveness', 1.0) < 0.7:
+        recommendations.append({
+            'type': 'pricing',
+            'title': 'Oportunidade de Repricing',
+            'description': 'Seus preços estão acima da média do mercado. Considere ajustar para aumentar sua competitividade.',
+            'action': 'Analisar preços'
+        })
+    
+    return recommendations
+
+@login_required
+def add_custom_service(request):
+    """Add a custom service"""
+    # Check if user is admin or provider
+    is_admin = False
+    provider_id = None
+    
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type == 'admin':
+            is_admin = True
+            # If admin, check if a provider ID was specified
+            provider_id = request.GET.get('provider')
+        elif user_profile.user_type != 'professional':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    except Exception as e:
+        # Handle the case where the database columns don't exist yet
+        if "no such column" in str(e):
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+        else:
+            raise e
+    
+    if request.method == 'POST':
+        name = request.POST['name']
+        description = request.POST['description']
+        category = request.POST['category']
+        estimated_price = request.POST['estimated_price']
+        estimated_duration_hours = request.POST['estimated_duration']
+        is_active = request.POST.get('is_active', 'true') == 'true'
+        
+        # Determine the provider (current user or specified provider for admin)
+        provider = request.user
+        if is_admin and provider_id:
+            try:
+                provider = User.objects.get(id=provider_id)
+            except User.DoesNotExist:
+                messages.error(request, 'Prestador não encontrado')
+                return redirect('admin_providers_list')
+        
+        # Create custom service
+        CustomService.objects.create(
+            name=name,
+            description=description,
+            category=category,
+            estimated_price=estimated_price,
+            estimated_duration=timedelta(hours=int(estimated_duration_hours)),
+            provider=provider,
+            is_active=is_active
+        )
+        
+        messages.success(request, 'Serviço personalizado adicionado com sucesso')
+        if is_admin and provider_id:
+            return redirect('admin_provider_services', provider_id=provider_id)
+        else:
+            return redirect('provider_dashboard')
+    
+    return render(request, 'services/add_custom_service.html')
+
+
+@login_required
+def edit_custom_service(request, service_id):
+    """Edit a custom service"""
+    # Check if user is admin or provider
+    is_admin = False
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type == 'admin':
+            is_admin = True
+        elif user_profile.user_type != 'professional':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    
+    # Get the custom service - if admin, no need to check ownership
+    try:
+        if is_admin:
+            custom_service = CustomService.objects.get(id=service_id)
+        else:
+            custom_service = CustomService.objects.get(id=service_id, provider=request.user)
+    except CustomService.DoesNotExist:
+        messages.error(request, 'Serviço não encontrado')
+        if is_admin:
+            return redirect('admin_providers_list')
+        else:
+            return redirect('provider_dashboard')
+    
+    if request.method == 'POST':
+        custom_service.name = request.POST['name']
+        custom_service.description = request.POST['description']
+        custom_service.category = request.POST['category']
+        custom_service.estimated_price = request.POST['estimated_price']
+        custom_service.estimated_duration = timedelta(hours=int(request.POST['estimated_duration']))
+        custom_service.is_active = 'is_active' in request.POST
+        custom_service.save()
+        
+        messages.success(request, 'Serviço personalizado atualizado com sucesso')
+        if is_admin:
+            return redirect('admin_provider_services', provider_id=custom_service.provider.id)
+        else:
+            return redirect('provider_dashboard')
+    
+    return render(request, 'services/edit_custom_service.html', {
+        'custom_service': custom_service,
+        'is_admin': is_admin
+    })
+
+
+@login_required
+def remove_custom_service(request, service_id):
+    """Remove a custom service"""
+    # Check if user is admin or provider
+    is_admin = False
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type == 'admin':
+            is_admin = True
+        elif user_profile.user_type != 'professional':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    
+    # Get the custom service - if admin, no need to check ownership
+    try:
+        if is_admin:
+            custom_service = CustomService.objects.get(id=service_id)
+        else:
+            custom_service = CustomService.objects.get(id=service_id, provider=request.user)
+    except CustomService.DoesNotExist:
+        messages.error(request, 'Serviço não encontrado')
+        if is_admin:
+            return redirect('admin_providers_list')
+        else:
+            return redirect('provider_dashboard')
+    
+    if request.method == 'POST':
+        custom_service.delete()
+        messages.success(request, 'Serviço personalizado removido com sucesso')
+        if is_admin:
+            return redirect('admin_provider_services', provider_id=custom_service.provider.id)
+        else:
+            return redirect('provider_dashboard')
+    
+    return render(request, 'services/remove_custom_service.html', {
+        'custom_service': custom_service,
+        'is_admin': is_admin
+    })
+
+
+@login_required
+def admin_dashboard(request):
+    """Admin dashboard"""
+    # Check if user is admin
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    except Exception as e:
+        # Handle the case where the database columns don't exist yet
+        if "no such column" in str(e):
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+        else:
+            raise e
+    
+    # Get dashboard data
+    total_users = User.objects.count()
+    total_services = Service.objects.count()
+    total_orders = Order.objects.count()
+    total_sponsors = Sponsor.objects.filter(is_active=True).count()
+    
+    # Get recent orders
+    recent_orders = Order.objects.select_related('customer', 'service').order_by('-created_at')[:10]
+    
+    
+    return render(request, 'services/admin_dashboard.html', {
+        'total_users': total_users,
+        'total_services': total_services,
+        'total_orders': total_orders,
+        'total_sponsors': total_sponsors,
+        'recent_orders': recent_orders
+    })
+
+
+@login_required
+def requested_services(request):
+    """Show requested services"""
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'customer':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    
+    requested_services = Order.objects.select_related('service').filter(customer=request.user)
+    return render(request, 'services/requested_services.html', {'requested_services': requested_services})
+
+
+@login_required
+def request_custom_service(request):
+    """Request a custom service with new interface"""
+    # Check if user is a customer
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'customer':
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Acesso negado'})
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'message': 'Acesso negado'})
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    
+    if request.method == 'POST':
+        # Get form data
+        custom_service_id = request.POST.get('custom_service')
+        scheduled_datetime = request.POST.get('scheduled_datetime')
+        time_preference = request.POST.get('time_preference')
+        urgency = request.POST.get('urgency')
+        address = request.POST.get('address')
+        number = request.POST.get('number')
+        complement = request.POST.get('complement', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        cep = request.POST.get('cep', '')
+        problem_description = request.POST.get('problem_description', '')
+        notes = request.POST.get('notes', '')
+        accessibility_needs = request.POST.get('accessibility_needs')
+        insurance_required = request.POST.get('insurance_required')
+        terms_accepted = request.POST.get('terms_accepted')
+        
+        # Validate required fields
+        missing_fields = []
+        if not custom_service_id:
+            missing_fields.append('serviço')
+        if not scheduled_datetime:
+            missing_fields.append('data e hora preferidas')
+        if not address:
+            missing_fields.append('endereço')
+        if not number:
+            missing_fields.append('número')
+        if not city:
+            missing_fields.append('cidade')
+        if not state:
+            missing_fields.append('estado')
+        if not terms_accepted:
+            missing_fields.append('aceite dos termos e condições')
+            
+        if missing_fields:
+            error_message = f'Por favor, preencha os seguintes campos obrigatórios: {", ".join(missing_fields)}.'
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': error_message})
+            messages.error(request, error_message)
+            # Get all custom services for the dropdown
+            custom_services = CustomService.objects.filter(is_active=True)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_services': custom_services
+            })
+        
+        # Get the custom service
+        try:
+            custom_service = CustomService.objects.select_related('provider').get(id=custom_service_id)
+        except CustomService.DoesNotExist:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Serviço não encontrado'})
+            messages.error(request, 'Serviço não encontrado')
+            # Get all custom services for the dropdown
+            custom_services = CustomService.objects.filter(is_active=True)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_services': custom_services
+            })
+        
+        # Combine date and time
+        from datetime import datetime
+        try:
+            scheduled_datetime_obj = datetime.strptime(scheduled_datetime, "%Y-%m-%dT%H:%M")
+        except ValueError:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Data ou hora inválida'})
+            messages.error(request, 'Data ou hora inválida')
+            # Get all custom services for the dropdown
+            custom_services = CustomService.objects.filter(is_active=True)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_services': custom_services
+            })
+        
+        # Check if scheduled date is in the future
+        from datetime import datetime
+        from django.utils import timezone
+        now = timezone.now()
+        if scheduled_datetime_obj.replace(tzinfo=now.tzinfo) < now:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'A data e hora devem ser futuras'})
+            messages.error(request, 'A data e hora devem ser futuras')
+            # Get all custom services for the dropdown
+            custom_services = CustomService.objects.filter(is_active=True)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_services': custom_services
+            })
+        
+        # Combine address components
+        address_components = [address, number]
+        if complement:
+            address_components.append(complement)
+        full_address = ', '.join(address_components)
+        
+        if city:
+            full_address += f", {city}"
+        if state:
+            full_address += f", {state}"
+        if cep:
+            full_address += f", {cep}"
+
+        
+        # Combine notes and problem description
+        full_notes = problem_description
+        if notes:
+            if full_notes:
+                full_notes += f"\n\nObservações: {notes}"
+            else:
+                full_notes = notes
+        
+        # Add special requirements to notes
+        special_requirements = []
+        if accessibility_needs:
+            special_requirements.append("Precisa de profissional com experiência em acessibilidade")
+        if insurance_required:
+            special_requirements.append("Precisa de profissional com seguro de responsabilidade civil")
+        
+        if special_requirements:
+            special_notes = "Requisitos especiais: " + "; ".join(special_requirements)
+            if full_notes:
+                full_notes += f"\n\n{special_notes}"
+            else:
+                full_notes = special_notes
+        
+        # Create order
+        try:
+            order = Order.objects.create(
+                customer=request.user,
+                service=None,  # No standard service for custom services
+                professional=custom_service.provider,
+                scheduled_date=scheduled_datetime_obj,
+                address=full_address,
+                notes=full_notes,
+                total_price=custom_service.estimated_price
+            )
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True, 
+                    'message': 'Solicitação de serviço enviada com sucesso!',
+                    'redirect_url': reverse('order_confirmation', args=[order.id])
+                })
+            messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+            return redirect('order_confirmation', order_id=order.id)
+        except Exception as e:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Erro ao criar solicitação. Por favor, tente novamente.'})
+            messages.error(request, 'Erro ao criar solicitação. Por favor, tente novamente.')
+            # Get all custom services for the dropdown
+            custom_services = CustomService.objects.filter(is_active=True)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_services': custom_services
+            })
+    
+    # For GET requests, show the form with all custom services
+    custom_services = CustomService.objects.filter(is_active=True)
+    return render(request, 'services/request_custom_service.html', {
+        'custom_services': custom_services
+    })
+
+
+@login_required
+def order_confirmation(request, order_id):
+    """Order confirmation"""
+    order = Order.objects.get(id=order_id)
+    
+    return render(request, 'services/order_confirmation.html', {
+        'order': order
+    })
+
+
+@login_required
+def edit_payment_method(request, payment_method_id):
+    """Edit a payment method"""
+    try:
+        payment_method = PaymentMethod.objects.get(id=payment_method_id, user=request.user)
+    except PaymentMethod.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False, 
+                'message': 'Método de pagamento não encontrado'
+            })
+        else:
+            messages.error(request, 'Método de pagamento não encontrado')
+            return redirect('profile_new')
+    
+    if request.method == 'POST':
+        # Check if it's an AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                payment_type = request.POST.get('payment_type')
+                card_number = request.POST.get('card_number', '')
+                cardholder_name = request.POST.get('cardholder_name', '')
+                expiry_date = request.POST.get('expiry_date', '')
+                save_card = request.POST.get('save_card', 'true')
+                
+                # Validate required fields based on payment type
+                if payment_type in ['credit_card', 'debit_card']:
+                    if not cardholder_name:
+                        return JsonResponse({
+                            'success': False, 
+                            'message': 'Nome do titular é obrigatório'
+                        })
+                
+                # Update payment method
+                payment_method.payment_type = payment_type
+                payment_method.cardholder_name = cardholder_name
+                
+                # Extract last 4 digits of card number if provided
+                if card_number:
+                    # Remove spaces and extract last 4 digits
+                    card_number_clean = card_number.replace(' ', '')
+                    if len(card_number_clean) >= 4:
+                        payment_method.card_number_last4 = card_number_clean[-4:]
+                
+                # Parse and save expiry date if provided
+                if expiry_date:
+                    try:
+                        # Parse expiry date (MM/YY format)
+                        from datetime import datetime
+                        month, year = map(int, expiry_date.split('/'))
+                        # Assume year 20XX if year is less than 50, otherwise 19XX
+                        if year < 50:
+                            year += 2000
+                        else:
+                            year += 1900
+                        # Set to first day of the month
+                        from datetime import date
+                        payment_method.expiry_date = date(year, month, 1)
+                    except Exception:
+                        pass  # Invalid date format, keep existing date
+                else:
+                    payment_method.expiry_date = None
+
+                payment_method.save()
+
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Método de pagamento atualizado com sucesso'
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Erro ao atualizar método de pagamento: ' + str(e)
+                })
+        else:
+            # Regular form submission
+            payment_type = request.POST.get('payment_type')
+            card_number_last4 = request.POST.get('card_number_last4', '')
+            cardholder_name = request.POST.get('cardholder_name', '')
+            expiry_date = request.POST.get('expiry_date', '')
+            
+            # Validate required fields
+            if not payment_type:
+                messages.error(request, 'Tipo de pagamento é obrigatório')
+                return redirect('profile_new')
+
+            # Update payment method
+            payment_method.payment_type = payment_type
+            payment_method.card_number_last4 = card_number_last4
+            payment_method.cardholder_name = cardholder_name
+
+            # Parse and save expiry date if provided
+            if expiry_date:
+                try:
+                    # Parse expiry date (MM/YY format)
+                    from datetime import datetime
+                    month, year = map(int, expiry_date.split('/'))
+                    # Assume year 20XX if year is less than 50, otherwise 19XX
+                    if year < 50:
+                        year += 2000
+                    else:
+                        year += 1900
+                    # Set to first day of the month
+                    from datetime import date
+                    payment_method.expiry_date = date(year, month, 1)
+                except Exception:
+                    pass  # Invalid date format, keep existing date
+            else:
+                payment_method.expiry_date = None
+
+            payment_method.save()
+
+            messages.success(request, 'Método de pagamento atualizado com sucesso')
+            return redirect('profile_new')
+
+    # For GET requests, return the edit form
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Return JSON data for AJAX requests
+        return JsonResponse({
+            'success': True,
+            'payment_method': {
+                'id': payment_method.id,
+                'payment_type': payment_method.payment_type,
+                'card_number_last4': payment_method.card_number_last4,
+                'cardholder_name': payment_method.cardholder_name,
+                'expiry_date': payment_method.expiry_date.strftime('%m/%y') if payment_method.expiry_date else ''
+            }
+        })
+
+    return render(request, 'services/edit_payment_method.html', {
+        'payment_method': payment_method
+    })
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from .models import CustomService, Order, PaymentMethod, UserProfile
+
+
+
+
+
+@login_required
+def delete_payment_method(request, payment_method_id):
+    """Delete a payment method"""
+    try:
+        payment_method = PaymentMethod.objects.get(id=payment_method_id, user=request.user)
+    except PaymentMethod.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'message': 'Método de pagamento não encontrado'
+            })
+        else:
+            messages.error(request, 'Método de pagamento não encontrado')
+            return redirect('profile_new')
+    else:
+        payment_method.delete()
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False, 
+                'message': 'Método de pagamento não encontrado'
+            })
+        else:
+            messages.error(request, 'Método de pagamento não encontrado')
+            return redirect('profile_new')
+
+    if request.method == 'POST':
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            try:
+                payment_method.delete()
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Método de pagamento removido com sucesso'
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Erro ao remover método de pagamento: ' + str(e)
+                })
+        else:
+            try:
+                payment_method.delete()
+                messages.success(request, 'Método de pagamento removido com sucesso')
+            except Exception as e:
+                messages.error(request, 'Erro ao remover método de pagamento: ' + str(e))
+            return redirect('profile_new')
+    else:
+        # For GET requests, show the confirmation page
+        return render(request, 'services/delete_payment_method.html', {
+            'payment_method': payment_method
+        })
+
+
+@login_required
+def request_service_from_search(request, custom_service_id):
+    """Request a custom service from search results with multi-step form"""
+    # Check if user is a customer
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'customer':
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Acesso negado. Apenas clientes podem solicitar serviços.'})
+            messages.error(request, 'Acesso negado. Apenas clientes podem solicitar serviços.')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'message': 'Acesso negado. Perfil de usuário não encontrado.'})
+        messages.error(request, 'Acesso negado. Perfil de usuário não encontrado.')
+        return redirect('home')
+
+    try:
+        custom_service = CustomService.objects.select_related('provider').get(id=custom_service_id)
+    except CustomService.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'message': 'Serviço não encontrado. O serviço pode ter sido removido.'})
+        messages.error(request, 'Serviço não encontrado. O serviço pode ter sido removido.')
+        return redirect('search_new')
+
+    if request.method == 'POST':
+        # Get form data
+        scheduled_datetime = request.POST.get('scheduled_datetime')
+        time_preference = request.POST.get('time_preference')
+        urgency = request.POST.get('urgency')
+        address = request.POST.get('address')
+        number = request.POST.get('number')
+        complement = request.POST.get('complement', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        cep = request.POST.get('cep', '')
+        contact_name = request.POST.get('contact_name', '')
+        contact_phone = request.POST.get('contact_phone', '')
+        contact_email = request.POST.get('contact_email', '')
+        notes = request.POST.get('notes', '')
+        accessibility_needs = request.POST.get('accessibility_needs')
+        insurance_required = request.POST.get('insurance_required')
+        terms_accepted = request.POST.get('terms_accepted')
+
+        # Validate required fields
+        missing_fields = []
+        if not scheduled_datetime:
+            missing_fields.append('data e hora preferidas')
+        if not address:
+            missing_fields.append('endereço')
+        if not number:
+            missing_fields.append('número')
+        if not city:
+            missing_fields.append('cidade')
+        if not state:
+            missing_fields.append('estado')
+        if not contact_name:
+            missing_fields.append('nome completo')
+        if not contact_phone:
+            missing_fields.append('telefone')
+        if not contact_email:
+            missing_fields.append('e-mail')
+        if not terms_accepted:
+            missing_fields.append('aceite dos termos e condições')
+
+        if missing_fields:
+            error_message = f'Por favor, preencha os seguintes campos obrigatórios: {", ".join(missing_fields)}.'
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': error_message,
+                    'errors': {
+                        'missing_fields': missing_fields
+                    }
+                })
+            messages.error(request, error_message)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Validate email format
+        import re
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        if not re.match(email_regex, contact_email):
+            error_message = 'Por favor, informe um e-mail válido.'
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': error_message,
+                    'errors': {
+                        'contact_email': 'Formato de e-mail inválido'
+                    }
+                })
+            messages.error(request, error_message)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Validate phone format (Brazilian format)
+        phone_regex = r'^\(?[0-9]{2}\)? [0-9]{4,5}-[0-9]{4}$'
+        if not re.match(phone_regex, contact_phone):
+            error_message = 'Por favor, informe um telefone válido no formato (61) 98196-1144.'
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': error_message,
+                    'errors': {
+                        'contact_phone': 'Formato de telefone inválido'
+                    }
+                })
+            messages.error(request, error_message)
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Combine date and time
+        from datetime import datetime
+        try:
+            scheduled_datetime_obj = datetime.strptime(scheduled_datetime, "%Y-%m-%dT%H:%M")
+        except ValueError:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'Data ou hora inválida. Por favor, selecione uma data e hora válidas.',
+                    'errors': {
+                        'scheduled_datetime': 'Formato de data/hora inválido'
+                    }
+                })
+            messages.error(request, 'Data ou hora inválida. Por favor, selecione uma data e hora válidas.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Check if scheduled date is in the future
+        from datetime import datetime
+        if scheduled_datetime_obj < datetime.now():
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'A data e hora devem ser futuras. Por favor, selecione uma data futura.',
+                    'errors': {
+                        'scheduled_datetime': 'A data deve ser futura'
+                    }
+                })
+            messages.error(request, 'A data e hora devem ser futuras. Por favor, selecione uma data futura.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Combine address components
+        address_components = [address, number]
+        if complement:
+            address_components.append(complement)
+        full_address = ', '.join(address_components)
+
+        if city:
+            full_address += f", {city}"
+        if state:
+            full_address += f", {state}"
+        if cep:
+            full_address += f", {cep}"
+
+        # Add special requirements to notes
+        special_requirements = []
+        if accessibility_needs:
+            special_requirements.append("Precisa de profissional com experiência em acessibilidade")
+        if insurance_required:
+            special_requirements.append("Precisa de profissional com seguro de responsabilidade civil")
+
+        if special_requirements:
+            special_notes = "Requisitos especiais: " + "; ".join(special_requirements)
+            if notes:
+                notes += f"\n\n{special_notes}"
+            else:
+                notes = special_notes
+
+        # Create order
+        try:
+            order = Order.objects.create(
+                customer=request.user,
+                service=None,  # No standard service for custom services
+                professional=custom_service.provider,
+                scheduled_date=scheduled_datetime_obj,
+                address=full_address,
+                notes=notes,
+                total_price=custom_service.estimated_price,
+                contact_name=contact_name,
+                contact_phone=contact_phone,
+                contact_email=contact_email
+            )
+
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Solicitação de serviço enviada com sucesso!',
+                    'redirect_url': reverse('order_confirmation', args=[order.id])
+                })
+            messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+            return redirect('order_confirmation', order_id=order.id)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f'Error creating order: {e}')
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Erro ao criar solicitação. Por favor, tente novamente mais tarde.'})
+            messages.error(request, 'Erro ao criar solicitação. Por favor, tente novamente mais tarde.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+    # For GET requests, show the form
+    return render(request, 'services/request_custom_service.html', {
+        'custom_service': custom_service
+    })
+
+
+@login_required
+def request_custom_service(request, custom_service_id):
+    """Request a custom service with a dedicated page"""
+    # Check if user is a customer
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'customer':
+            messages.error(request, 'Acesso negado. Apenas clientes podem solicitar serviços.')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado. Perfil de usuário não encontrado.')
+        return redirect('home')
+
+    try:
+        custom_service = CustomService.objects.select_related('provider').get(id=custom_service_id)
+    except CustomService.DoesNotExist:
+        messages.error(request, 'Serviço não encontrado. O serviço pode ter sido removido.')
+        return redirect('search_new')
+
+    if request.method == 'POST':
+        # Get form data
+        scheduled_datetime = request.POST.get('scheduled_datetime')
+        time_preference = request.POST.get('time_preference')
+        urgency = request.POST.get('urgency')
+        address = request.POST.get('address')
+        number = request.POST.get('number')
+        complement = request.POST.get('complement', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        cep = request.POST.get('cep', '')
+        contact_name = request.POST.get('contact_name', '')
+        contact_phone = request.POST.get('contact_phone', '')
+        contact_email = request.POST.get('contact_email', '')
+        notes = request.POST.get('notes', '')
+        accessibility_needs = request.POST.get('accessibility_needs')
+        insurance_required = request.POST.get('insurance_required')
+        terms_accepted = request.POST.get('terms_accepted')
+
+        # Validate required fields
+        missing_fields = []
+        if not scheduled_datetime:
+            missing_fields.append('data e hora preferidas')
+        if not address:
+            missing_fields.append('endereço')
+        if not number:
+            missing_fields.append('número')
+        if not city:
+            missing_fields.append('cidade')
+        if not state:
+            missing_fields.append('estado')
+        if not contact_name:
+            missing_fields.append('nome completo')
+        if not contact_phone:
+            missing_fields.append('telefone')
+        if not contact_email:
+            missing_fields.append('e-mail')
+        if not terms_accepted:
+            missing_fields.append('aceite dos termos e condições')
+
+        if missing_fields:
+            error_message = f'Por favor, preencha os seguintes campos obrigatórios: {", ".join(missing_fields)}.'
+            messages.error(request, error_message)
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+        # Validate email format
+        import re
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        if not re.match(email_regex, contact_email):
+            messages.error(request, 'Por favor, informe um e-mail válido.')
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+        # Validate phone format (Brazilian format)
+        phone_regex = r'^\(?[0-9]{2}\)? [0-9]{4,5}-[0-9]{4}$'
+        if not re.match(phone_regex, contact_phone):
+            messages.error(request, 'Por favor, informe um telefone válido no formato (61) 98196-1144.')
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+        # Combine date and time
+        from datetime import datetime
+        try:
+            scheduled_datetime_obj = datetime.strptime(scheduled_datetime, "%Y-%m-%dT%H:%M")
+        except ValueError:
+            messages.error(request, 'Data ou hora inválida. Por favor, selecione uma data e hora válidas.')
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+        # Check if scheduled date is in the future
+        from datetime import datetime
+        if scheduled_datetime_obj < datetime.now():
+            messages.error(request, 'A data e hora devem ser futuras. Por favor, selecione uma data futura.')
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+        # Combine address components
+        address_components = [address, number]
+        if complement:
+            address_components.append(complement)
+        full_address = ', '.join(address_components)
+
+        if city:
+            full_address += f", {city}"
+        if state:
+            full_address += f", {state}"
+        if cep:
+            full_address += f", {cep}"
+
+        # Add special requirements to notes
+        special_requirements = []
+        if accessibility_needs:
+            special_requirements.append("Precisa de profissional com experiência em acessibilidade")
+        if insurance_required:
+            special_requirements.append("Precisa de profissional com seguro de responsabilidade civil")
+
+        if special_requirements:
+            special_notes = "Requisitos especiais: " + "; ".join(special_requirements)
+            if notes:
+                notes += f"\n\n{special_notes}"
+            else:
+                notes = special_notes
+
+        # Create order
+        try:
+            order = Order.objects.create(
+                customer=request.user,
+                service=None,  # No standard service for custom services
+                professional=custom_service.provider,
+                scheduled_date=scheduled_datetime_obj,
+                address=full_address,
+                notes=notes,
+                total_price=custom_service.estimated_price,
+                contact_name=contact_name,
+                contact_phone=contact_phone,
+                contact_email=contact_email
+            )
+
+            messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+            return redirect('order_confirmation', order_id=order.id)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f'Error creating order: {e}')
+            messages.error(request, 'Erro ao criar solicitação. Por favor, tente novamente mais tarde.')
+            return render(request, 'services/request_service_new.html', {
+                'custom_service': custom_service
+            })
+
+    # For GET requests, show the form
+    return render(request, 'services/request_service_new.html', {
+        'custom_service': custom_service
+    })
+
+
+@login_required
+def order_confirmation(request, order_id):
+    """Order confirmation page"""
+    order = Order.objects.select_related('service', 'customer').get(id=order_id)
+
+    # Enviar notificação de confirmação
+    try:
+        from .notifications import NotificationService
+        NotificationService.send_order_confirmation(request.user, order)
+    except:
+        pass  # Silently fail to avoid breaking the flow
+
+    return render(request, 'services/order_confirmation.html', {'order': order})
+
+
+@login_required
+def order_payment(request, order_id):
+    """Order payment page"""
+    order = Order.objects.select_related('service', 'customer').get(id=order_id)
+
+    # Check if the order belongs to the current user
+    if order.customer != request.user:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+
+    # Get user's payment methods
+    payment_methods = PaymentMethod.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+        # In a real application, you would process the payment here
+        # For now, we'll just update the order status
+        order.status = 'confirmed'
+        order.save()
+
+        messages.success(request, 'Pagamento realizado com sucesso!')
+        return redirect('order_confirmation', order_id=order.id)
+
+    return render(request, 'services/order_payment.html', {
+        'order': order,
+        'payment_methods': payment_methods
+    })
+
+
+@login_required
+def requested_services(request):
+    """Requested services page - shows all services requested by the user"""
+    # Get user's orders
+    user_orders = Order.objects.filter(customer=request.user).order_by('-created_at')
+
+    if request.method == 'POST':
+        # Handle bulk payment
+        order_ids = request.POST.getlist('order_ids')
+        if order_ids:
+            # Store selected order IDs in session for payment page
+            request.session['bulk_payment_order_ids'] = order_ids
+            return redirect('bulk_payment')
+        else:
+            messages.error(request, 'Por favor, selecione pelo menos um pedido para pagar.')
+
+    return render(request, 'services/requested_services.html', {
+        'user_orders': user_orders
+    })
+
+
+@login_required
+def bulk_payment(request):
+    """Bulk payment page for multiple orders"""
+    # Get order IDs from session
+    order_ids = request.session.get('bulk_payment_order_ids', [])
+
+    if not order_ids:
+        messages.error(request, 'Nenhum pedido selecionado para pagamento.')
+        return redirect('requested_services')
+
+    # Get selected orders
+    selected_orders = Order.objects.filter(
+        id__in=order_ids,
+        customer=request.user,
+        status='pending'
+    )
+
+    if not selected_orders:
+        messages.error(request, 'Pedidos selecionados não são válidos ou já foram pagos.')
+        return redirect('requested_services')
+
+    # Calculate total amount
+    total_amount = sum(order.total_price for order in selected_orders)
+
+    # Get user's payment methods
+    payment_methods = PaymentMethod.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+
+        # In a real application, you would process the payment here
+        # For now, we'll just update the order statuses
+        for order in selected_orders:
+            order.status = 'confirmed'
+            order.save()
+
+        # Clear session data
+        if 'bulk_payment_order_ids' in request.session:
+            del request.session['bulk_payment_order_ids']
+
+        messages.success(request, f'Pagamento de R$ {total_amount:.2f} realizado com sucesso para {selected_orders.count()} pedido(s)!')
+        return redirect('requested_services')
+
+    return render(request, 'services/bulk_payment.html', {
+        'selected_orders': selected_orders,
+        'total_amount': total_amount,
+        'payment_methods': payment_methods
+    })
+
+
+@login_required
+def admin_dashboard(request):
+    """Admin dashboard page"""
+    if not request.user.is_superuser:
+        messages.error(request, 'Acesso negado')
+        return redirect('home')
+    
+    # Total users
+    total_users = User.objects.count()
+    
+    # Total services
+    total_services = CustomService.objects.filter(is_active=True).count()
+    
+    # Total orders
+    total_orders = Order.objects.count()
+    
+    # Total sponsors
+    total_sponsors = Sponsor.objects.count()
+    
+    # Recent orders
+    recent_orders = Order.objects.all().order_by('-created_at')[:10]
+    
+    return render(request, 'services/admin_dashboard.html', {
+        'total_users': total_users,
+        'total_services': total_services,
+        'total_orders': total_orders,
+        'total_sponsors': total_sponsors,
+        'recent_orders': recent_orders
+    })
+
+
+# REMOVED: Service request functions have been removed as per requirements
+
+
+@login_required
+def requested_services(request):
+    """Requested services page - shows all services requested by the user"""
+    # Get user's orders
+    user_orders = Order.objects.filter(customer=request.user).order_by('-created_at')
+
+    if request.method == 'POST':
+        # Handle bulk payment
+        order_ids = request.POST.getlist('order_ids')
+        if order_ids:
+            # Store selected order IDs in session for payment page
+            request.session['bulk_payment_order_ids'] = order_ids
+            return redirect('bulk_payment')
+        else:
+            messages.error(request, 'Por favor, selecione pelo menos um pedido para pagar.')
+
+    return render(request, 'services/requested_services.html', {
+        'user_orders': user_orders
+    })
+
+
+import logging
+
+
+def search_new(request):
+    """New search page with database integration"""
+    print("Search view called")  # Debug print
+    
+    # Get search parameters from GET request
+    search_query = request.GET.get('search', '').strip()
+    category_filter = request.GET.get('category', '').strip()
+    rating_filter = request.GET.get('rating', '').strip()
+    price_min = request.GET.get('price_min', '').strip()
+    price_max = request.GET.get('price_max', '').strip()
+    location_filter = request.GET.get('location', '').strip()
+    
+    # Start with all active custom services
+    custom_services_queryset = CustomService.objects.filter(is_active=True).select_related('provider__userprofile')
+    print(f"Total services in queryset: {custom_services_queryset.count()}")  # Debug print
+    
+    # Apply search query filter
+    if search_query:
+        custom_services_queryset = custom_services_queryset.filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(provider__first_name__icontains=search_query) |
+            Q(provider__last_name__icontains=search_query) |
+            Q(provider__username__icontains=search_query)
+        )
+    
+    # Apply category filter
+    if category_filter:
+        custom_services_queryset = custom_services_queryset.filter(category=category_filter)
+    
+    # Apply rating filter
+    if rating_filter:
+        # Convert rating filter to minimum rating
+        try:
+            min_rating = float(rating_filter)
+            custom_services_queryset = custom_services_queryset.filter(provider__userprofile__rating__gte=min_rating)
+        except (ValueError, TypeError):
+            pass
+    
+    # Apply price filters
+    if price_min:
+        try:
+            min_price = float(price_min)
+            custom_services_queryset = custom_services_queryset.filter(estimated_price__gte=min_price)
+        except (ValueError, TypeError):
+            pass
+    
+    if price_max:
+        try:
+            max_price = float(price_max)
+            custom_services_queryset = custom_services_queryset.filter(estimated_price__lte=max_price)
+        except (ValueError, TypeError):
+            pass
+    
+    # Apply location filter
+    if location_filter:
+        custom_services_queryset = custom_services_queryset.filter(
+            Q(provider__userprofile__city__icontains=location_filter) |
+            Q(provider__userprofile__state__icontains=location_filter)
+        )
+    
+    # Get all categories for the filter dropdown
+    categories = CustomService.CATEGORY_CHOICES
+    
+    # Order by rating (highest first) and then by price (lowest first)
+    custom_services_queryset = custom_services_queryset.order_by('-provider__userprofile__rating', 'estimated_price')
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(custom_services_queryset, 12)  # Show 12 services per page
+    page_number = request.GET.get('page')
+    custom_services = paginator.get_page(page_number)
+    
+    # Debug information
+    print(f"Services on current page: {len(custom_services)}")
+    
+    context = {
+        'custom_services': custom_services,
+        'categories': categories,
+        'search_query': search_query,
+        'category_filter': category_filter,
+        'rating_filter': rating_filter,
+        'price_min': price_min,
+        'price_max': price_max,
+        'location_filter': location_filter,
+    }
+    
+    print("Rendering search template")  # Debug print
+    return render(request, 'services/search_new.html', context)
+
+
+@login_required
+@login_required
+def request_service(request, service_id):
+    """Request a service - now works with the modal"""
+    # For GET requests, we'll redirect to home since we're using a modal now
+    if request.method == 'GET':
+        return redirect('home')
+    
+    # For POST requests, process the form data (this should be handled by the modal)
+    # Process the form data
+    cep = request.POST.get('cep', '')
+    address = request.POST.get('address', '')
+    number = request.POST.get('number', '')
+    complement = request.POST.get('complement', '')
+    city = request.POST.get('city', '')
+    state = request.POST.get('state', '')
+    date = request.POST.get('date', '')
+    time = request.POST.get('time', '')
+    urgency = request.POST.get('urgency', 'normal')
+    description = request.POST.get('description', '')
+    notes = request.POST.get('notes', '')
+    
+    # Combine address components
+    full_address = f"{address}, {number}"
+    if complement:
+        full_address += f", {complement}"
+    full_address += f", {city} - {state}, {cep}"
+    
+    # Combine date and time
+    scheduled_datetime = f"{date} {time}"
+    
+    # In a real application, you would:
+    # 1. Save this data to the database
+    # 2. Associate it with the logged-in user
+    # 3. Process payment
+    # 4. Send confirmation email
+    # 5. Redirect to confirmation page
+    
+    # For demonstration, we'll create a mock order
+    # In a real implementation, you would save to the database
+    order_id = 123  # This would be the actual order ID from the database
+    
+    messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+    
+    # Redirect to confirmation page
+    return redirect('order_confirmation', order_id=order_id)
+
+
+def submit_service_review(request, order_id):
+    """API endpoint to submit a service review"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    try:
+        # Get the order
+        order = Order.objects.get(id=order_id, customer=request.user)
+        
+        # Check if order is completed
+        if order.status != 'completed':
+            return JsonResponse({'error': 'Only completed orders can be reviewed'}, status=400)
+        
+        # Get review data
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '')
+        
+        # Validate rating
+        try:
+            rating = int(rating)
+            if rating < 1 or rating > 5:
+                raise ValueError()
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid rating value'}, status=400)
+        
+        # In a real implementation, you would:
+        # 1. Save the review to the database
+        # 2. Update the provider's rating
+        # 3. Update the provider's review count
+        
+        # For now, we'll just return a success response
+        return JsonResponse({
+            'success': True,
+            'message': 'Review submitted successfully'
+        })
+        
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+def get_service_details(request, service_id):
+    """API endpoint to get service details for the modal"""
+    try:
+        # Get the custom service with related data
+        custom_service = CustomService.objects.select_related('provider__userprofile').get(id=service_id, is_active=True)
+        
+        # Prepare the response data
+        provider_profile = getattr(custom_service.provider, 'userprofile', None)
+        provider_rating = str(provider_profile.rating) if provider_profile and provider_profile.rating else '0.0'
+        provider_review_count = getattr(provider_profile, 'review_count', 0) if provider_profile else 0
+        
+        data = {
+            'id': custom_service.id,
+            'name': custom_service.name,
+            'description': custom_service.description,
+            'category': custom_service.get_category_display(),
+            'price': str(custom_service.estimated_price),
+            'rating': provider_rating,
+            'review_count': provider_review_count,
+            'provider': {
+                'id': custom_service.provider.id,
+                'name': custom_service.provider.get_full_name() or custom_service.provider.username,
+                'first_name': custom_service.provider.first_name,
+                'last_name': custom_service.provider.last_name,
+                'rating': provider_rating,
+                'review_count': provider_review_count,
+            }
+        }
+        
+        return JsonResponse(data)
+    except CustomService.DoesNotExist:
+        return JsonResponse({'error': 'Service not found'}, status=404)
+    except Exception as e:
+        # Log the error for debugging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f'Error fetching service details for service {service_id}: {e}')
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+def service_history_new(request):
+    """New service history page"""
+    try:
+        # Get user's orders with related data
+        user_orders_query = Order.objects.filter(customer=request.user).select_related(
+            'service', 'professional'
+        ).order_by('-created_at')
+        
+        # Try to also select professional profile if it exists
+        try:
+            user_orders_query = user_orders_query.select_related('professional__userprofile')
+        except Exception:
+            pass  # If userprofile doesn't exist, continue without it
+        
+        # Get all user orders for statistics using annotations for better performance
+        from django.db.models import Count, Q
+        order_stats = Order.objects.filter(customer=request.user).aggregate(
+            total=Count('id'),
+            completed=Count('id', filter=Q(status='completed')),
+            in_progress=Count('id', filter=Q(status='in_progress')),
+            cancelled=Count('id', filter=Q(status='cancelled'))
+        )
+        
+        total_orders = order_stats['total']
+        completed_orders = order_stats['completed']
+        in_progress_orders = order_stats['in_progress']
+        cancelled_orders = order_stats['cancelled']
+        
+        # Get filter parameters
+        period = request.GET.get('period', 'all')
+        status = request.GET.get('status', 'all')
+        service_search = request.GET.get('service', '')
+        
+        # Apply filters
+        if period != 'all':
+            from datetime import datetime, timedelta
+            now = datetime.now()
+            if period == '30_days':
+                start_date = now - timedelta(days=30)
+                user_orders_query = user_orders_query.filter(created_at__gte=start_date)
+            elif period == '3_months':
+                start_date = now - timedelta(days=90)
+                user_orders_query = user_orders_query.filter(created_at__gte=start_date)
+            elif period == '6_months':
+                start_date = now - timedelta(days=180)
+                user_orders_query = user_orders_query.filter(created_at__gte=start_date)
+            elif period == '1_year':
+                start_date = now - timedelta(days=365)
+                user_orders_query = user_orders_query.filter(created_at__gte=start_date)
+        
+        if status != 'all':
+            user_orders_query = user_orders_query.filter(status=status)
+        
+        if service_search:
+            user_orders_query = user_orders_query.filter(
+                Q(service__name__icontains=service_search) |
+                Q(professional__first_name__icontains=service_search) |
+                Q(professional__last_name__icontains=service_search)
+            )
+        
+        # Add pagination
+        from django.core.paginator import Paginator
+        paginator = Paginator(user_orders_query, 10)  # Show 10 orders per page
+        page_number = request.GET.get('page')
+        user_orders = paginator.get_page(page_number)
+        
+    except Exception as e:
+        # Handle any database errors
+        if "no such column" in str(e):
+            # Return empty result set if columns don't exist
+            from django.core.paginator import Paginator
+            paginator = Paginator([], 10)
+            user_orders = paginator.get_page(1)
+            total_orders = 0
+            completed_orders = 0
+            in_progress_orders = 0
+            cancelled_orders = 0
+        else:
+            # Re-raise the exception if it's not related to missing columns
+            raise e
+    
+    return render(request, 'services/service_history_new.html', {
+        'user_orders': user_orders,
+        'total_orders': total_orders,
+        'completed_orders': completed_orders,
+        'in_progress_orders': in_progress_orders,
+        'cancelled_orders': cancelled_orders
+    })
+
+
+def sponsors_new(request):
+    """New sponsors page"""
+    sponsors = Sponsor.objects.filter(is_active=True)
+    return render(request, 'services/sponsors_new.html')
+
+
+def partnership_details(request, level):
+    """Display details for a specific partnership level"""
+    # Partnership level details
+    partnership_levels = {
+        'basic': {
+            'name': 'Básico',
+            'icon': 'fa-medal',
+            'description': 'O nível Básico é perfeito para empresas que estão começando a expandir sua presença no mercado de serviços domésticos.',
+            'benefits': [
+                'Presença no diretório de parceiros',
+                'Destaque em buscas relevantes',
+                'Até 5% de desconto para clientes',
+                'Acesso ao painel de parceiro básico',
+                'Suporte por email durante horário comercial'
+            ],
+            'price': 'Gratuito',
+            'call_to_action': 'Torne-se um parceiro Básico'
+        },
+        'premium': {
+            'name': 'Premium',
+            'icon': 'fa-award',
+            'description': 'O nível Premium é ideal para empresas que desejam maximizar sua visibilidade e atrair mais clientes.',
+            'benefits': [
+                'Todos os benefícios do plano Básico',
+                'Destaque premium em resultados',
+                'Até 10% de desconto para clientes',
+                'Relatórios mensais de performance',
+                'Destaque em newsletters',
+                'Suporte prioritário por email e chat',
+                'Acesso ao painel de parceiro avançado'
+            ],
+            'price': 'R$ 299/mês',
+            'call_to_action': 'Torne-se um parceiro Premium'
+        },
+        'platinum': {
+            'name': 'Platina',
+            'icon': 'fa-crown',
+            'description': 'O nível Platina é nosso pacote mais completo, oferecendo máxima visibilidade e suporte personalizado.',
+            'benefits': [
+                'Todos os benefícios do plano Premium',
+                'Posicionamento privilegiado',
+                'Até 15% de desconto para clientes',
+                'Suporte dedicado 24/7',
+                'Campanhas personalizadas',
+                'Destaque em todas as newsletters',
+                'Acesso ao painel de parceiro premium',
+                'Consultoria estratégica mensal',
+                'Participação em eventos exclusivos'
+            ],
+            'price': 'R$ 599/mês',
+            'call_to_action': 'Torne-se um parceiro Platina'
+        }
+    }
+    
+    # Get the requested level details or return 404
+    if level not in partnership_levels:
+        from django.http import Http404
+        raise Http404("Nível de parceria não encontrado")
+    
+    level_data = partnership_levels[level]
+    
+    return render(request, 'services/partnership_details.html', {
+        'level': level,
+        'level_data': level_data
+    })
+
+
+def admin_dashboard_new(request):
+    """New admin dashboard page"""
+    # Check if user is admin
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para acessar esta página')
+        return redirect('login')
+        
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado - você não tem permissão para acessar esta página')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado - perfil de usuário não encontrado')
+        return redirect('home')
+    except Exception as e:
+        # Handle the case where the database columns don't exist yet
+        if "no such column" in str(e):
+            messages.error(request, 'Acesso negado - erro no banco de dados')
+            return redirect('home')
+        else:
+            messages.error(request, f'Erro desconhecido: {str(e)}')
+            return redirect('home')
+    
+    # Get dashboard data using annotations for better performance
+    from django.db.models import Count, Sum, Q
+    
+    # Get counts in a single query
+    user_counts = UserProfile.objects.values('user_type').annotate(count=Count('user_type'))
+    user_type_counts = {item['user_type']: item['count'] for item in user_counts}
+    
+    total_users = User.objects.count()
+    total_services = Service.objects.count()
+    total_orders = Order.objects.count()
+    total_sponsors = Sponsor.objects.filter(is_active=True).count()
+    
+    # Get counts by user type
+    professionals_count = user_type_counts.get('professional', 0)
+    customers_count = user_type_counts.get('customer', 0)
+    admins_count = user_type_counts.get('admin', 0)
+    
+    # Calculate revenue more efficiently
+    total_revenue = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0
+    
+    # Get recent orders (real data) with optimized query
+    recent_orders = Order.objects.select_related('customer', 'service').order_by('-created_at')[:5]
+    
+    # Get recent users (real data) with optimized query
+    recent_users = User.objects.select_related('userprofile').order_by('-date_joined')[:5]
+    
+    return render(request, 'services/admin_dashboard_new.html', {
+        'users_count': total_users,
+        'services_count': total_services,
+        'orders_count': total_orders,
+        'sponsors_count': total_sponsors,
+        'professionals_count': professionals_count,
+        'customers_count': customers_count,
+        'admins_count': admins_count,
+        'revenue': f"{total_revenue/1000:.1f}k" if total_revenue >= 1000 else str(total_revenue),
+        'recent_orders': recent_orders,
+        'recent_users': recent_users
+    })
+
+
+def about(request):
+    """About page"""
+    return render(request, 'services/about.html')
+
+
+def help_support(request):
+    """Help and Support page"""
+    return render(request, 'services/help_support.html')
+
+def contact(request):
+    """Contact page"""
+    return render(request, 'services/contact.html')
+
+
+def faq(request):
+    """FAQ page"""
+    return render(request, 'services/faq.html')
+
+
+def information(request):
+    """Information hub page"""
+    return render(request, 'services/information.html')
+
+
+def terms(request):
+    """Terms of service page"""
+    return render(request, 'services/terms.html')
+
+
+def robots_txt(request):
+    """
+    Serve o arquivo robots.txt
+    """
+    return render(request, 'robots.txt', content_type='text/plain')
+
+def sitemap_xml(request):
+    """
+    Serve o arquivo sitemap.xml
+    """
+    return render(request, 'sitemap.xml', content_type='application/xml')
+
+
+@login_required
+def admin_provider_services(request, provider_id):
+    """Admin view to manage a specific provider's services"""
+    # Check if user is admin
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para acessar esta página')
+        return redirect('login')
+        
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado - você não tem permissão para acessar esta página')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado - perfil de usuário não encontrado')
+        return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Erro desconhecido: {str(e)}')
+        return redirect('home')
+    
+    # Get the provider
+    try:
+        provider = User.objects.get(id=provider_id)
+        provider_profile = UserProfile.objects.get(user=provider)
+    except User.DoesNotExist:
+        messages.error(request, 'Prestador não encontrado')
+        return redirect('admin_providers_list')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Perfil do prestador não encontrado')
+        return redirect('admin_providers_list')
+    
+    # Get provider's custom services
+    custom_services = CustomService.objects.filter(provider=provider)
+    
+    # Filter active services
+    active_services = custom_services.filter(is_active=True)
+    
+    return render(request, 'services/admin_provider_services.html', {
+        'provider': provider,
+        'provider_profile': provider_profile,
+        'custom_services': custom_services,
+        'active_services': active_services
+    })
+
+
+@login_required
+def admin_providers_list(request):
+    """Admin view to list all providers"""
+    # Check if user is admin
+    if not request.user.is_authenticated:
+        messages.error(request, 'Você precisa estar logado para acessar esta página')
+        return redirect('login')
+        
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'admin':
+            messages.error(request, 'Acesso negado - você não tem permissão para acessar esta página')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Acesso negado - perfil de usuário não encontrado')
+        return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Erro desconhecido: {str(e)}')
+        return redirect('home')
+    
+    # Get all providers
+    providers = User.objects.filter(userprofile__user_type='professional').select_related('userprofile')
+    
+    return render(request, 'services/admin_providers_list.html', {
+        'providers': providers
+    })
+
+
+def update_user_location(request):
+    """Update user's location coordinates"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    try:
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        
+        # Validate coordinates
+        try:
+            lat = float(latitude)
+            lng = float(longitude)
+            
+            # Validate ranges
+            if lat < -90 or lat > 90:
+                return JsonResponse({'error': 'Invalid latitude value'}, status=400)
+            
+            if lng < -180 or lng > 180:
+                return JsonResponse({'error': 'Invalid longitude value'}, status=400)
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid coordinates'}, status=400)
+        
+        # Update user profile
+        try:
+            user_profile = request.user.userprofile
+            user_profile.latitude = lat
+            user_profile.longitude = lng
+            user_profile.save(update_fields=['latitude', 'longitude'])
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Location updated successfully'
+            })
+        except Exception as e:
+            return JsonResponse({'error': 'Failed to update location'}, status=500)
+        
+    except Exception as e:
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+def get_nearby_professionals(request):
+    """Get nearby professionals based on user's location"""
+    try:
+        # Try to get user's location
+        user_lat = None
+        user_lng = None
+        user_location_set = False
+        
+        try:
+            user_profile = request.user.userprofile
+            if user_profile.latitude and user_profile.longitude:
+                user_lat = float(user_profile.latitude)
+                user_lng = float(user_profile.longitude)
+                user_location_set = True
+        except:
+            pass
+        
+        # Get parameters
+        service_category = request.GET.get('category', '')
+        max_distance = float(request.GET.get('max_distance', 50))  # Default 50km
+        
+        # Get all professionals
+        professionals = UserProfile.objects.filter(user_type='professional')
+        
+        # Filter by category if provided
+        if service_category:
+            professionals = professionals.filter(
+                user__custom_services__category=service_category
+            ).distinct()
+        
+        # If user location is not set, return all professionals with a message
+        if not user_location_set:
+            all_professionals = []
+            for prof in professionals:
+                # Get professional's services
+                services = prof.user.custom_services.filter(is_active=True)
+                
+                all_professionals.append({
+                    'id': prof.user.id,
+                    'username': prof.user.username,
+                    'name': prof.user.get_full_name() or prof.user.username,
+                    'rating': float(prof.rating),
+                    'review_count': prof.review_count,
+                    'latitude': float(prof.latitude) if prof.latitude else None,
+                    'longitude': float(prof.longitude) if prof.longitude else None,
+                    'distance': None,  # No distance calculation without user location
+                    'services': [
+                        {
+                            'id': service.id,
+                            'name': service.name,
+                            'category': service.get_category_display(),
+                            'price': float(service.estimated_price) if service.estimated_price else 0.0
+                        }
+                        for service in services
+                    ]
+                })
+            
+            return JsonResponse({
+                'success': True,
+                'professionals': all_professionals,
+                'count': len(all_professionals),
+                'message': 'Localização do usuário não definida. Mostrando todos os profissionais.'
+            })
+        
+        # Calculate distances and filter by proximity
+        nearby_professionals = []
+        for prof in professionals:
+            if prof.latitude and prof.longitude:
+                prof_lat = float(prof.latitude)
+                prof_lng = float(prof.longitude)
+                
+                # Calculate distance using haversine formula
+                distance = calculate_distance(user_lat, user_lng, prof_lat, prof_lng)
+                
+                if distance <= max_distance:
+                    # Get professional's services
+                    services = prof.user.custom_services.filter(is_active=True)
+                    
+                    nearby_professionals.append({
+                        'id': prof.user.id,
+                        'username': prof.user.username,
+                        'name': prof.user.get_full_name() or prof.user.username,
+                        'rating': float(prof.rating),
+                        'review_count': prof.review_count,
+                        'latitude': float(prof.latitude),
+                        'longitude': float(prof.longitude),
+                        'distance': round(distance, 2),
+                        'services': [
+                            {
+                                'id': service.id,
+                                'name': service.name,
+                                'category': service.get_category_display(),
+                                'price': float(service.estimated_price) if service.estimated_price else 0.0
+                            }
+                            for service in services
+                        ]
+                    })
+        
+        # Sort by distance
+        nearby_professionals.sort(key=lambda x: x['distance'] if x['distance'] is not None else float('inf'))
+        
+        return JsonResponse({
+            'success': True,
+            'professionals': nearby_professionals,
+            'count': len(nearby_professionals)
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+def calculate_distance(lat1, lon1, lat2, lon2):
+    """Calculate distance between two points using haversine formula"""
+    from math import radians, cos, sin, asin, sqrt
+    
+    # Convert decimal degrees to radians
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    
+    # Haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 6371  # Radius of earth in kilometers
+    return c * r
+
+
+@login_required
+def map_view(request):
+    """Display map with nearby professionals"""
+    return render(request, 'services/map_view.html')
+
+
+@login_required
+def submit_review(request, order_id):
+    """Submit a review for a completed order"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    try:
+        # Get the order and ensure it belongs to the current user and is completed
+        order = Order.objects.get(id=order_id, customer=request.user, status='completed')
+        
+        # Check if review already exists
+        if hasattr(order, 'review'):
+            return JsonResponse({'error': 'Review already submitted for this order'}, status=400)
+        
+        # Get review data
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '').strip()
+        
+        # Validate rating
+        try:
+            rating = int(rating)
+            if rating < 1 or rating > 5:
+                raise ValueError()
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid rating value. Must be between 1 and 5.'}, status=400)
+        
+        # Create the review
+        review = Review.objects.create(
+            order=order,
+            customer=request.user,
+            professional=order.professional,
+            rating=rating,
+            comment=comment,
+            is_verified=True  # In a real app, this would be verified through some process
+        )
+        
+        # Update professional's rating and review count
+        try:
+            professional_profile = UserProfile.objects.get(user=order.professional)
+            # Calculate new average rating
+            total_reviews = professional_profile.review_count
+            current_rating = float(professional_profile.rating)
+            
+            # New average = (current_rating * total_reviews + new_rating) / (total_reviews + 1)
+            new_rating = (current_rating * total_reviews + rating) / (total_reviews + 1)
+            
+            professional_profile.rating = new_rating
+            professional_profile.review_count = total_reviews + 1
+            professional_profile.save(update_fields=['rating', 'review_count'])
+        except UserProfile.DoesNotExist:
+            # If professional profile doesn't exist, create one
+            UserProfile.objects.create(
+                user=order.professional,
+                user_type='professional',
+                rating=rating,
+                review_count=1
+            )
+        except Exception:
+            # If there's any error updating the profile, continue without failing
+            pass
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Review submitted successfully',
+            'rating': review.rating,
+            'comment': review.comment,
+            'created_at': review.created_at.isoformat()
+        })
+        
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found or not eligible for review'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+def get_professional_reviews(request, professional_id):
+    """Get all reviews for a professional"""
+    try:
+        professional = User.objects.get(id=professional_id)
+        reviews = Review.objects.filter(professional=professional).select_related('customer', 'order').order_by('-created_at')
+        
+        # Prepare reviews data
+        reviews_data = []
+        for review in reviews:
+            reviews_data.append({
+                'id': review.id,
+                'rating': review.rating,
+                'comment': review.comment,
+                'created_at': review.created_at.isoformat(),
+                'customer': {
+                    'username': review.customer.username,
+                    'first_name': review.customer.first_name,
+                    'last_name': review.customer.last_name
+                },
+                'order': {
+                    'id': review.order.id,
+                    'service_name': review.order.service.name if review.order.service else 'Custom Service'
+                }
+            })
+        
+        # Get professional profile for rating info
+        try:
+            profile = UserProfile.objects.get(user=professional)
+            professional_rating = float(profile.rating)
+            review_count = profile.review_count
+        except UserProfile.DoesNotExist:
+            professional_rating = 0
+            review_count = 0
+        
+        return JsonResponse({
+            'success': True,
+            'reviews': reviews_data,
+            'professional_rating': professional_rating,
+            'review_count': review_count
+        })
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Professional not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+
+def privacy(request):
+    """Privacy policy page"""
+    return render(request, 'services/privacy.html')
+
+
+def schedule_service(request):
+    """Service scheduling page"""
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'Você precisa estar logado para agendar um serviço'})
+        messages.error(request, 'Você precisa estar logado para agendar um serviço')
+        return redirect('login')
+    
+    # Get service details from query parameters or session
+    service_id = request.GET.get('service_id')
+    service_name = request.GET.get('service_name', 'Serviço Personalizado')
+    service_description = request.GET.get('service_description', 'Descrição do serviço')
+    service_price = request.GET.get('service_price', '0.00')
+    service_category = request.GET.get('service_category', 'Outros')
+    
+    # Check if continuing from a pending order
+    order_id = request.GET.get('order_id')
+    existing_order = None
+    if order_id:
+        try:
+            existing_order = Order.objects.get(id=order_id, customer=request.user, status='pending')
+            # Pre-fill form data from existing order
+            service_name = existing_order.service.name if existing_order.service else 'Serviço Personalizado'
+            service_description = existing_order.service.description if existing_order.service else 'Serviço solicitado diretamente ao profissional'
+            service_price = str(existing_order.total_price)
+        except Order.DoesNotExist:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'Pedido não encontrado ou não está pendente'})
+            messages.error(request, 'Pedido não encontrado ou não está pendente')
+            return redirect('service_history_new')
+    
+    # If it's a POST request, process the form
+    if request.method == 'POST':
+        # Process the scheduling form
+        scheduled_datetime = request.POST.get('scheduled-datetime')
+        time_preference = request.POST.get('time-preference')
+        urgency = request.POST.get('urgency')
+        zip_code = request.POST.get('zip-code')
+        address = request.POST.get('address')
+        number = request.POST.get('number')
+        complement = request.POST.get('complement')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        problem_description = request.POST.get('problem-description')
+        additional_notes = request.POST.get('additional-notes')
+        accessibility_needs = request.POST.get('accessibility-needs')
+        insurance_required = request.POST.get('insurance-required')
+        terms_accepted = request.POST.get('terms-accepted')
+        
+        # Validate required fields
+        if not all([scheduled_datetime, address, number, city, state, terms_accepted]):
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'error': 'Por favor, preencha todos os campos obrigatórios'})
+            messages.error(request, 'Por favor, preencha todos os campos obrigatórios')
+            return render(request, 'services/schedule_service.html', {
+                'service_id': service_id,
+                'service_name': service_name,
+                'service_description': service_description,
+                'service_price': service_price,
+                'service_category': service_category,
+                'existing_order': existing_order
+            })
+        
+        # In a real application, you would:
+        # 1. Save the scheduling information to the database
+        # 2. Associate it with the logged-in user
+        # 3. Send confirmation email
+        # 4. Notify the service provider
+        
+        # For now, we'll just add a success message
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True, 
+                'message': 'Agendamento realizado com sucesso! Você receberá uma confirmação por e-mail.',
+                'redirect_url': reverse('service_history_new')
+            })
+        
+        messages.success(request, 'Agendamento realizado com sucesso! Você receberá uma confirmação por e-mail.')
+        
+        # Redirect to service history page
+        return redirect('service_history_new')
+    
+    # For GET requests, show the scheduling form
+    return render(request, 'services/schedule_service.html', {
+        'service_id': service_id,
+        'service_name': service_name,
+        'service_description': service_description,
+        'service_price': service_price,
+        'service_category': service_category,
+        'existing_order': existing_order
+    })
+
+
+def custom_404(request, exception):
+    """Custom 404 error page"""
+    return render(request, '404.html', status=404)
+
+def custom_500(request):
+    """Custom 500 error page"""
+    return render(request, '500.html', status=500)
+
+def test_template(request):
+    """Test view to check if template loading works"""
+    try:
+        from django.template.loader import get_template
+        template = get_template('registration/login.html')
+        return HttpResponse(f"Template found: {template}")
+    except Exception as e:
+        return HttpResponse(f"Error loading template: {e}")
+
+def test_service_display(request, custom_service_id):
+    """Test view to debug service display issues"""
+    try:
+        custom_service = CustomService.objects.select_related('provider').get(id=custom_service_id)
+        print(f"DEBUG: Found service {custom_service.name} with ID {custom_service.id}")
+        print(f"DEBUG: Provider username: {custom_service.provider.username}")
+        print(f"DEBUG: Provider full name: {custom_service.provider.get_full_name()}")
+        print(f"DEBUG: Service price: {custom_service.estimated_price}")
+        return render(request, 'services/test_service.html', {
+            'custom_service': custom_service
+        })
+    except CustomService.DoesNotExist:
+        return render(request, 'services/test_service.html', {
+            'error': 'Service not found'
+        })
+    except Exception as e:
+        return render(request, 'services/test_service.html', {
+            'error': f'Error: {str(e)}'
+        })
+
+
+@login_required
+def service_detail(request, order_id):
+    """View a service detail"""
+    try:
+        order = Order.objects.get(
+            id=order_id, customer=request.user
+        )
+    except Order.DoesNotExist:
+        messages.error(request, 'Pedido não encontrado')
+        return redirect('service_history_new')
+    
+    return render(request, 'services/service_detail.html', {
+        'order': order
+    })
+
+
+@login_required
+def cancel_order(request, order_id):
+    """Cancel an order"""
+    print(f"Cancel order called with order_id: {order_id}")  # Debug print
+    try:
+        order = Order.objects.get(id=order_id, customer=request.user)
+        
+        # Only allow cancellation of pending orders
+        if order.status != 'pending':
+            messages.error(request, 'Este pedido não pode ser cancelado.')
+            return redirect('service_history_new')
+        
+        # Update order status
+        order.status = 'cancelled'
+        order.save()
+        
+        messages.success(request, 'Pedido cancelado com sucesso!')
+    except Order.DoesNotExist:
+        messages.error(request, 'Pedido não encontrado.')
+    
+    return redirect('service_history_new')
+
+
+@login_required
+def submit_service_request(request):
+    """Handle service request submission via AJAX for existing services"""
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
+    
+    try:
+        # Parse JSON data
+        import json
+        data = json.loads(request.body)
+        
+        # Extract form data
+        service_id = data.get('service_id')
+        custom_service_id = data.get('custom_service_id')
+        scheduled_date = data.get('scheduled_date')
+        address = data.get('address')
+        notes = data.get('notes')
+        
+        # Validate required fields
+        if not scheduled_date or not address:
+            return JsonResponse({'success': False, 'message': 'Por favor, preencha todos os campos obrigatórios.'})
+        
+        # Get the service (either standard or custom)
+        service = None
+        custom_service = None
+        provider = None
+        
+        if service_id:
+            try:
+                service = Service.objects.get(id=service_id)
+            except Service.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Serviço não encontrado.'})
+        elif custom_service_id:
+            try:
+                custom_service = CustomService.objects.get(id=custom_service_id)
+                provider = custom_service.provider
+            except CustomService.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Serviço personalizado não encontrado.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Nenhum serviço especificado.'})
+        
+        # Create service request (using the existing Order model)
+        order = Order.objects.create(
+            customer=request.user,
+            service=service,
+            professional=provider,
+            scheduled_date=scheduled_date,
+            address=address,
+            notes=notes,
+            total_price=custom_service.estimated_price if custom_service else service.base_price,
+            status='pending'
+        )
+        
+        # Create notification for provider if it's a custom service
+        if provider:
+            # Create notification for provider
+            Notification.objects.create(
+                user=provider,
+                sender=request.user,
+                notification_type='service_request',
+                title='Nova Solicitação de Serviço',
+                message=f'Nova solicitação de serviço: {custom_service.name if custom_service else service.name} por {request.user.username}',
+                related_object_id=order.id,
+                related_object_type='Order'
+            )
+        
+        # Create notification for admin
+        admin_user = User.objects.filter(is_superuser=True).first()
+        if admin_user:
+            Notification.objects.create(
+                user=admin_user,
+                sender=request.user,
+                notification_type='service_request',
+                title='Nova Solicitação de Serviço',
+                message=f'Nova solicitação de serviço: {custom_service.name if custom_service else service.name} por {request.user.username}',
+                related_object_id=order.id,
+                related_object_type='Order'
+            )
+        
+        return JsonResponse({
+            'success': True, 
+            'message': 'Solicitação enviada com sucesso!',
+            'order_id': order.id
+        })
+        
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': f'Erro ao processar solicitação: {str(e)}'})
+
+
+@login_required
+def provider_service_requests(request):
+    """Show service requests for providers"""
+    # Check if user is a provider
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'professional':
+            return JsonResponse({'success': False, 'message': 'Acesso negado'}, status=403)
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Perfil não encontrado'}, status=404)
+    
+    # Get service requests assigned to this provider
+    service_requests = ServiceRequest.objects.filter(
+        provider=request.user,
+        status__in=['pending', 'accepted']
+    ).order_by('-created_at')
+    
+    # Format data for JSON response
+    requests_data = []
+    for req in service_requests:
+        requests_data.append({
+            'id': req.id,
+            'title': req.title,
+            'description': req.description,
+            'category': req.get_category_display(),
+            'scheduled_date': req.scheduled_date.isoformat(),
+            'address': req.address,
+            'notes': req.notes,
+            'status': req.get_status_display(),
+            'customer_name': req.customer.get_full_name() or req.customer.username,
+            'created_at': req.created_at.isoformat()
+        })
+    
+    return JsonResponse({
+        'success': True,
+        'service_requests': requests_data
+    })
+
+
+@login_required
+def update_service_request_status(request, request_id):
+    """Update service request status (accept/reject)"""
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'message': 'Method not allowed'}, status=405)
+    
+    try:
+        # Check if user is a provider
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'professional':
+            return JsonResponse({'success': False, 'message': 'Acesso negado'}, status=403)
+        
+        # Get the service request
+        service_request = ServiceRequest.objects.get(id=request_id)
+        
+        # Check if this provider is assigned to the request
+        if service_request.provider != request.user:
+            return JsonResponse({'success': False, 'message': 'Acesso negado'}, status=403)
+        
+        # Get action from request
+        import json
+        data = json.loads(request.body)
+        action = data.get('action')  # 'accept' or 'reject'
+        rejection_reason = data.get('rejection_reason', '')
+        
+        # Update status
+        if action == 'accept':
+            service_request.status = 'accepted'
+            message = 'Solicitação aceita com sucesso!'
+        elif action == 'reject':
+            service_request.status = 'rejected'
+            service_request.rejection_reason = rejection_reason
+            message = 'Solicitação rejeitada.'
+        else:
+            return JsonResponse({'success': False, 'message': 'Ação inválida'})
+        
+        service_request.save()
+        
+        # Create notification for customer
+        Notification.objects.create(
+            user=service_request.customer,
+            sender=request.user,
+            notification_type=f'service_{action}',
+            title=f'Solicitação de Serviço {action.capitalize()}',
+            message=f'Sua solicitação "{service_request.title}" foi {action}a pelo prestador {request.user.username}.',
+            related_object_id=service_request.id,
+            related_object_type='ServiceRequest'
+        )
+        
+        return JsonResponse({
+            'success': True, 
+            'message': message,
+            'status': service_request.get_status_display()
+        })
+        
+    except ServiceRequest.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Solicitação não encontrada'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': f'Erro ao processar solicitação: {str(e)}'})
+
+
+@login_required
+def notification_demo(request):
+    return render(request, 'services/notification_demo.html')
+
+
+@login_required
+def provider_service_requests_page(request):
+    """Page to show service requests for providers"""
+    # Check if user is a provider
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+        if user_profile.user_type != 'professional':
+            messages.error(request, 'Acesso negado')
+            return redirect('home')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Perfil não encontrado')
+        return redirect('home')
+    
+    return render(request, 'services/provider_service_requests.html')
+
+
+def notifications_view(request):
+    """Display user notifications"""
+    # For now, we'll just render a simple template
+    # This can be expanded later to show actual notifications
+    return render(request, 'services/notifications.html', {
+        'notifications': []
+    })
+
+
+def simple_test(request, custom_service_id):
+    """Very simple test view"""
+    try:
+        from services.models import CustomService
+        custom_service = CustomService.objects.get(id=custom_service_id)
+        return render(request, 'services/simple_test.html', {
+            'custom_service': custom_service
+        })
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}")
+
+
+
+
+
+# Service Request Views
+
+@login_required
+def request_service(request, service_id):
+    """Request a service - handles the multi-step modal process"""
+    if request.method == 'GET':
+        # For GET requests, we'll redirect to home since we're using a modal now
+        return redirect('home')
+    
+    if request.method == 'POST':
+        try:
+            # Get the service
+            service = Service.objects.get(id=service_id)
+            
+            # Process the form data
+            cep = request.POST.get('cep', '')
+            address = request.POST.get('address', '')
+            number = request.POST.get('number', '')
+            complement = request.POST.get('complement', '')
+            city = request.POST.get('city', '')
+            state = request.POST.get('state', '')
+            date = request.POST.get('date', '')
+            time = request.POST.get('time', '')
+            urgency = request.POST.get('urgency', 'normal')
+            description = request.POST.get('description', '')
+            notes = request.POST.get('notes', '')
+            payment_method_id = request.POST.get('payment_method', '')
+            
+            # Combine address components
+            full_address = f"{address}, {number}"
+            if complement:
+                full_address += f", {complement}"
+            full_address += f", {city} - {state}, {cep}"
+            
+            # Combine date and time
+            scheduled_datetime = f"{date} {time}"
+            
+            # Calculate total price based on urgency
+            total_price = service.base_price
+            if urgency == 'urgent':
+                total_price *= Decimal('1.3')  # 30% increase
+            elif urgency == 'emergency':
+                total_price *= Decimal('1.5')  # 50% increase
+            
+            # Create the order
+            order = Order.objects.create(
+                customer=request.user,
+                service=service,
+                scheduled_date=scheduled_datetime,
+                address=full_address,
+                notes=notes,
+                total_price=total_price
+            )
+            
+            # If a payment method was selected, associate it with the order
+            if payment_method_id:
+                try:
+                    payment_method = PaymentMethod.objects.get(id=payment_method_id, user=request.user)
+                    order.payment_method = payment_method
+                    order.save()
+                except PaymentMethod.DoesNotExist:
+                    pass  # Handle error case
+            
+            # Save the payment method to user profile if it's a new one
+            payment_type = request.POST.get('payment_type', '')
+            card_number_last4 = request.POST.get('card_number_last4', '')
+            cardholder_name = request.POST.get('cardholder_name', '')
+            expiry_date = request.POST.get('expiry_date', '')
+            set_as_default = request.POST.get('set_as_default', False)
+            
+            if payment_type and card_number_last4:
+                # Create new payment method
+                payment_method = PaymentMethod.objects.create(
+                    user=request.user,
+                    payment_type=payment_type,
+                    card_number_last4=card_number_last4,
+                    cardholder_name=cardholder_name,
+                    expiry_date=expiry_date if expiry_date else None,
+                    is_default=set_as_default
+                )
+                
+                # Associate with order
+                order.payment_method = payment_method
+                order.save()
+                
+                # If set as default, update other payment methods
+                if set_as_default:
+                    PaymentMethod.objects.filter(user=request.user, is_default=True).exclude(id=payment_method.id).update(is_default=False)
+            
+            messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+            
+            # Return JSON response for AJAX requests
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Solicitação de serviço enviada com sucesso!',
+                    'redirect_url': reverse('order_confirmation', args=[order.id])
+                })
+            
+            # Redirect to confirmation page
+            return redirect('order_confirmation', order_id=order.id)
+            
+        except Service.DoesNotExist:
+            messages.error(request, 'Serviço não encontrado')
+            return redirect('home')
+        except Exception as e:
+            messages.error(request, f'Erro ao processar solicitação: {str(e)}')
+            return redirect('home')
+
+@login_required
+def request_custom_service(request):
+    """Request a custom service - handles the multi-step modal process"""
+    if request.method == 'POST':
+        try:
+            # Process the form data
+            service_name = request.POST.get('service_name', '')
+            cep = request.POST.get('cep', '')
+            address = request.POST.get('address', '')
+            number = request.POST.get('number', '')
+            complement = request.POST.get('complement', '')
+            city = request.POST.get('city', '')
+            state = request.POST.get('state', '')
+            date = request.POST.get('date', '')
+
+            # Create the order and handle any errors
+            order = create_order(request.user, service_name, cep, address, number, complement, city, state, date)
+
+            # Redirect to payment page
+            return redirect('order_payment', order_id=order.id)
+
+        except Exception as e:
+            messages.error(request, f'Erro ao processar solicitação: {str(e)}')
+            return redirect('home')
+
+@login_required
+def order_payment(request, order_id):
+    """Handle order payment - multi-step process"""
+    try:
+        order = Order.objects.get(id=order_id, user=request.user)
+        payment_methods = get_payment_methods()
+        if request.method == 'POST':
+            # Process the payment details and update the order status
+            payment_data = {
+                'amount': order.total_price,
+                'method': request.POST.get('payment_method', '')
+            }
+            update_order_status(order, payment_data)
+            return render(request, 'services/order_confirmation.html', {
+                'order': order,
+                'redirect_url': reverse('order_confirmation', args=[order.id])
+            })
+            
+            # Redirect to confirmation page
+            return redirect('order_confirmation', order_id=order.id)
+            
+        return render(request, 'services/order_payment.html', {
+            'order': order,
+            'payment_methods': payment_methods
+        })
+    except Order.DoesNotExist:
+        messages.error(request, 'Pedido não encontrado')
+        return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Erro ao processar pagamento: {str(e)}')
+        return redirect('home')
+
+
+@login_required
+def profile_view(request):
+    """Request a custom service - handles the multi-step modal process"""
+    try:
+        if request.method == 'POST':
+            # Process the form data
+            service_name = request.POST.get('service_name', '')
+            cep = request.POST.get('cep', '')
+            address = request.POST.get('address', '')
+            number = request.POST.get('number', '')
+            complement = request.POST.get('complement', '')
+            city = request.POST.get('city', '')
+            state = request.POST.get('state', '')
+            date = request.POST.get('date', '')
+            time = request.POST.get('time', '')
+            urgency = request.POST.get('urgency', 'normal')
+            description = request.POST.get('description', '')
+            notes = request.POST.get('notes', '')
+            payment_method_id = request.POST.get('payment_method', '')
+            
+            # Combine address components
+            full_address = f"{address}, {number}"
+            if complement:
+                full_address += f", {complement}"
+            full_address += f", {city} - {state}, {cep}"
+            
+            # Combine date and time
+            scheduled_datetime = f"{date} {time}"
+            
+            # For custom services, we'll use a default price
+            total_price = Decimal('100.00')  # Default price
+            if urgency == 'urgent':
+                total_price *= Decimal('1.3')  # 30% increase
+            elif urgency == 'emergency':
+                total_price *= Decimal('1.5')  # 50% increase
+            
+            # Create a custom service
+            custom_service = CustomService.objects.create(
+                name=service_name,
+                description=description,
+                category='other',  # Default category
+                estimated_price=total_price,
+                provider=None  # Will be assigned later
+            )
+            
+            # Create the order
+            order = Order.objects.create(
+                customer=request.user,
+                service=None,  # No standard service
+                scheduled_date=scheduled_datetime,
+                address=full_address,
+                notes=notes,
+                total_price=total_price
+            )
+            
+            # If a payment method was selected, associate it with the order
+            if payment_method_id:
+                try:
+                    payment_method = PaymentMethod.objects.get(id=payment_method_id, user=request.user)
+                    order.payment_method = payment_method
+                    order.save()
+                except PaymentMethod.DoesNotExist:
+                    pass  # Handle error case
+            
+            # Save the payment method to user profile if it's a new one
+            payment_type = request.POST.get('payment_type', '')
+            card_number_last4 = request.POST.get('card_number_last4', '')
+            cardholder_name = request.POST.get('cardholder_name', '')
+            expiry_date = request.POST.get('expiry_date', '')
+            set_as_default = request.POST.get('set_as_default', False)
+            
+            if payment_type and card_number_last4:
+                # Create new payment method
+                payment_method = PaymentMethod.objects.create(
+                    user=request.user,
+                    payment_type=payment_type,
+                    card_number_last4=card_number_last4,
+                    cardholder_name=cardholder_name,
+                    expiry_date=expiry_date if expiry_date else None,
+                    is_default=set_as_default
+                )
+                
+                # Associate with order
+                order.payment_method = payment_method
+                order.save()
+                
+                # If set as default, update other payment methods
+                if set_as_default:
+                    PaymentMethod.objects.filter(user=request.user, is_default=True).exclude(id=payment_method.id).update(is_default=False)
+            
+            messages.success(request, 'Solicitação de serviço personalizado enviada com sucesso!')
+            
+            # Return JSON response for AJAX requests
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Solicitação de serviço personalizado enviada com sucesso!',
+                    'redirect_url': reverse('order_confirmation', args=[order.id])
+                })
+            
+            # Redirect to confirmation page
+            return redirect('order_confirmation', order_id=order.id)
+    except Exception as e:
+            messages.error(request, f'Erro ao processar solicitação: {str(e)}')
+            return JsonResponse({
+                'success': False,
+                'message': f'Erro ao processar solicitação: {str(e)}'
+            }) if request.headers.get('X-Requested-With') == 'XMLHttpRequest' else redirect('home')
+
+
+@login_required
+def schedule_service(request):
+    """Schedule a service"""
+    if request.method == 'POST':
+        # Process scheduling form
+        service_id = request.POST.get('service_id')
+        scheduled_date = request.POST.get('scheduled_date')
+        
+        try:
+            service = Service.objects.get(id=service_id)
+            
+            # Create order
+            order = Order.objects.create(
+                customer=request.user,
+                service=service,
+                scheduled_date=scheduled_date,
+                total_price=service.base_price
+            )
+            
+            messages.success(request, 'Serviço agendado com sucesso!')
+            return redirect('order_confirmation', order_id=order.id)
+        except Service.DoesNotExist:
+            messages.error(request, 'Serviço não encontrado')
+        except Exception as e:
+            messages.error(request, f'Erro ao agendar serviço: {str(e)}')
+    
+    return redirect('home')
+
+@login_required
+def order_confirmation(request, order_id):
+    """Display order confirmation"""
+    try:
+        order = Order.objects.get(id=order_id, customer=request.user)
+        return render(request, 'services/order_confirmation.html', {
+            'order': order
+        })
+    except Order.DoesNotExist:
+        messages.error(request, 'Pedido não encontrado')
+        return redirect('home')
+
+@login_required
+def order_payment(request, order_id):
+    """Process order payment"""
+    try:
+        order = Order.objects.get(id=order_id, customer=request.user)
+        
+        if request.method == 'POST':
+            # Process payment
+            payment_method_id = request.POST.get('payment_method')
+            
+            if payment_method_id:
+                try:
+                    payment_method = PaymentMethod.objects.get(id=payment_method_id, user=request.user)
+                    order.payment_method = payment_method
+                    order.save()
+                    
+                    messages.success(request, 'Pagamento processado com sucesso!')
+                    return redirect('order_confirmation', order_id=order.id)
+                except PaymentMethod.DoesNotExist:
+                    messages.error(request, 'Método de pagamento não encontrado')
+            else:
+                messages.error(request, 'Por favor, selecione um método de pagamento')
+        
+        # Get user's payment methods
+        payment_methods = PaymentMethod.objects.filter(user=request.user)
+        
+        return render(request, 'services/order_payment.html', {
+            'order': order,
+            'payment_methods': payment_methods
+        })
+
+
+@login_required
+def profile_view(request):
+    """User profile page with complete profile information, order history, and settings"""
+    try:
+        # Get or create user profile
+        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+        
+        # Get user's orders
+        user_orders = Order.objects.filter(customer=request.user).order_by('-created_at')
+        
+        # Get user's payment methods
+        payment_methods = PaymentMethod.objects.filter(user=request.user)
+        
+        # Handle POST requests for profile updates
+        if request.method == 'POST':
+            # Update profile information
+            user_profile.phone = request.POST.get('phone', user_profile.phone)
+            user_profile.address = request.POST.get('address', user_profile.address)
+            user_profile.number = request.POST.get('number', user_profile.number)
+            user_profile.complement = request.POST.get('complement', user_profile.complement)
+            user_profile.city = request.POST.get('city', user_profile.city)
+            user_profile.state = request.POST.get('state', user_profile.state)
+            user_profile.zip_code = request.POST.get('zip_code', user_profile.zip_code)
+            user_profile.birth_date = request.POST.get('birth_date', user_profile.birth_date)
+            
+            # Handle avatar upload
+            if 'avatar' in request.FILES:
+                user_profile.avatar = request.FILES['avatar']
+            
+            user_profile.save()
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('profile')
+        
+        context = {
+            'user_profile': user_profile,
+            'user_orders': user_orders,
+            'payment_methods': payment_methods,
+        }
+        return render(request, 'services/profile.html', context)
+    except Exception as e:
+        messages.error(request, f'Erro ao carregar o perfil: {str(e)}')
+        return redirect('home')
+
+
+def blog_list(request):
+    """Display list of published blog posts"""
+    from .models import BlogPost
+    from django.db.models import Q
+    
+    # Get published blog posts
+    posts = BlogPost.objects.filter(status='published').select_related('author')
+    
+    # Apply search filter if provided
+    search_query = request.GET.get('search')
+    if search_query:
+        posts = posts.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query) |
+            Q(excerpt__icontains=search_query)
+        )
+    
+    # Apply category filter if provided
+    category_filter = request.GET.get('category')
+    if category_filter:
+        posts = posts.filter(category=category_filter)
+    
+    # Add pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(posts, 6)  # Show 6 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Get categories for filter dropdown
+    categories = dict(CustomService.CATEGORY_CHOICES)
+    
+    return render(request, 'services/blog_list.html', {
+        'posts': page_obj,
+        'categories': categories,
+        'search_query': search_query,
+        'category_filter': category_filter,
+    })
+
+
+def blog_post_detail(request, slug):
+    """Display a single blog post"""
+    from .models import BlogPost
+    
+    try:
+        post = BlogPost.objects.select_related('author').get(slug=slug, status='published')
+        
+        # Increment view count
+        post.views += 1
+        post.save(update_fields=['views'])
+        
+        # Get related posts (same category, excluding current post)
+        related_posts = BlogPost.objects.filter(
+            category=post.category, 
+            status='published'
+        ).exclude(id=post.id)[:3]
+        
+        return render(request, 'services/blog_post_detail.html', {
+            'post': post,
+            'related_posts': related_posts,
+        })
+    except BlogPost.DoesNotExist:
+        messages.error(request, 'Post não encontrado')
+        return redirect('blog_list')
+
+
+def ai_suggestions(request):
+    """Provide AI-powered suggestions based on user behavior"""
+    try:
+        # Import AI modules
+        from .ml_analytics import WebsiteOptimizer
+        from .personalization import PersonalizationEngine
+        from .content_generator import ContentGenerator
+        
+        # Initialize AI modules
+        optimizer = WebsiteOptimizer()
+        personalization = PersonalizationEngine()
+        content_generator = ContentGenerator()
+        
+        # Get user ID (if authenticated) or session key
+        user_id = str(request.user.id) if request.user.is_authenticated else request.session.session_key
+        
+        # Get personalized recommendations
+        recommendations = personalization.recommend_content(user_id, current_page=request.path)
+        
+        # Get trending services
+        trending_services = optimizer.get_trending_services()
+        
+        # Generate personalized content
+        personalized_content = None
+        if request.user.is_authenticated:
+            user_profile = getattr(request.user, 'userprofile', None)
+            if user_profile:
+                personalized_content = content_generator.generate_personalized_content(
+                    user_profile.user_type, 
+                    user_profile.city if user_profile.city else "São Paulo"
+                )
+        
+        return JsonResponse({
+            'success': True,
+            'recommendations': recommendations,
+            'trending_services': list(trending_services.values_list('name', flat=True)) if trending_services else [],
+            'personalized_content': personalized_content
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        })
+
+
+@login_required
+def user_achievements(request):
+    """Display user achievements and progress"""
+    from .models import UserAchievement
+    from django.db.models import Q, F
+    
+    try:
+        # Get user's achievements
+        user_achievements = UserAchievement.objects.filter(user=request.user).select_related('achievement')
+        
+        # Calculate total points
+        total_points = sum(ua.achievement.points for ua in user_achievements if ua.is_earned)
+        
+        # Get next potential achievements
+        from django.db.models import Q
+        next_achievements = UserAchievement.objects.filter(
+            user=request.user
+        ).filter(
+            Q(progress__lt=F('target')) | Q(progress=0)
+        ).select_related('achievement')[:5]
+        
+        return render(request, 'services/user_achievements.html', {
+            'user_achievements': user_achievements,
+            'total_points': total_points,
+            'next_achievements': next_achievements,
+        })
+    except Exception as e:
+        messages.error(request, f'Erro ao carregar conquistas: {str(e)}')
+        return redirect('profile')
+
+
+def request_custom_service(request, service_id):
+    """Handle custom service requests"""
+    try:
+        custom_service = CustomService.objects.get(id=service_id)
+    except CustomService.DoesNotExist:
+        messages.error(request, 'Serviço não encontrado')
+        return redirect('custom_services_list')
+    except Exception as e:
+        messages.error(request, f'Erro ao carregar o serviço: {str(e)}')
+        return redirect('custom_services_list')
+
+    if request.method == 'POST':
+        # Get form data
+        contact_name = request.POST.get('contact_name')
+        contact_phone = request.POST.get('contact_phone')
+        contact_email = request.POST.get('contact_email')
+        address = request.POST.get('address')
+        number = request.POST.get('number')
+        complement = request.POST.get('complement')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        cep = request.POST.get('cep')
+        notes = request.POST.get('notes')
+        date = request.POST.get('date')
+        time = request.POST.get('time')
+        accessibility_needs = request.POST.get('accessibility_needs') == 'on'
+        insurance_required = request.POST.get('insurance_required') == 'on'
+
+        # Combine date and time
+        scheduled_datetime_str = f"{date} {time}"
+        try:
+            scheduled_datetime_obj = datetime.strptime(scheduled_datetime_str, '%Y-%m-%d %H:%M')
+        except ValueError:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'Formato de data/hora inválido',
+                    'errors': {
+                        'scheduled_datetime': 'Formato de data/hora inválido'
+                    }
+                })
+            messages.error(request, 'Data ou hora inválida. Por favor, selecione uma data e hora válidas.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Check if scheduled date is in the future
+        from datetime import datetime
+        if scheduled_datetime_obj < datetime.now():
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'A data e hora devem ser futuras. Por favor, selecione uma data futura.',
+                    'errors': {
+                        'scheduled_datetime': 'A data deve ser futura'
+                    }
+                })
+            messages.error(request, 'A data e hora devem ser futuras. Por favor, selecione uma data futura.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+        # Combine address components
+        address_components = [address, number]
+        if complement:
+            address_components.append(complement)
+        full_address = ', '.join(address_components)
+
+        if city:
+            full_address += f", {city}"
+        if state:
+            full_address += f", {state}"
+        if cep:
+            full_address += f", {cep}"
+
+        # Add special requirements to notes
+        special_requirements = []
+        if accessibility_needs:
+            special_requirements.append("Precisa de profissional com experiência em acessibilidade")
+        if insurance_required:
+            special_requirements.append("Precisa de profissional com seguro de responsabilidade civil")
+
+
+        if special_requirements:
+            special_notes = "Requisitos especiais: " + "; ".join(special_requirements)
+            if notes:
+                notes += f"\n\n{special_notes}"
+            else:
+                notes = special_notes
+
+        # Create order
+        try:
+            order = Order.objects.create(
+                customer=request.user,
+                service=None,  # No standard service for custom services
+                professional=custom_service.provider,
+                scheduled_date=scheduled_datetime_obj,
+                address=full_address,
+                notes=notes,
+                total_price=custom_service.estimated_price,
+                contact_name=contact_name,
+                contact_phone=contact_phone,
+                contact_email=contact_email
+            )
+
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Solicitação de serviço enviada com sucesso!',
+                    'redirect_url': reverse('order_confirmation', args=[order.id])
+                })
+            messages.success(request, 'Solicitação de serviço enviada com sucesso!')
+            return redirect('order_confirmation', order_id=order.id)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f'Error creating order: {e}')
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'message': 'Erro ao criar solicitação. Por favor, tente novamente mais tarde.'})
+            messages.error(request, 'Erro ao criar solicitação. Por favor, tente novamente mais tarde.')
+            return render(request, 'services/request_custom_service.html', {
+                'custom_service': custom_service
+            })
+
+    # For GET requests, show the form
+    return render(request, 'services/request_custom_service.html', {
+        'custom_service': custom_service
+    })
+
+def robots_txt(request):
+    """
+    Serve o arquivo robots.txt
+    """
+    return render(request, 'robots.txt', content_type='text/plain')
+
+def sitemap_xml(request):
+    """
+    Serve o arquivo sitemap.xml
+    """
+    return render(request, 'sitemap.xml', content_type='application/xml')

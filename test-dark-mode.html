@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Dark Mode</title>
+    <style>
+        html[data-theme='light'] {
+            background-color: white;
+            color: black;
+        }
+
+        html[data-theme='dark'] {
+            background-color: #121212;
+            color: white;
+        }
+
+        .test-button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: 2px solid;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        html[data-theme='light'] .test-button {
+            background: white;
+            color: black;
+            border-color: black;
+        }
+
+        html[data-theme='dark'] .test-button {
+            background: #333;
+            color: white;
+            border-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Teste do Dark Mode</h1>
+    <p>Tema atual: <span id="current-theme">light</span></p>
+
+    <button id="darkModeToggle" class="test-button">
+        <i class="fas fa-moon"></i> Alternar Tema
+    </button>
+
+    <div>
+        <p>Este é um teste para verificar se o dark mode está funcionando corretamente.</p>
+        <p>Clique no botão acima para alternar entre os temas.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Teste Dark Mode iniciado');
+
+            const button = document.getElementById('darkModeToggle');
+            const themeDisplay = document.getElementById('current-theme');
+
+            // Função para alternar tema
+            function toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                console.log('Alternando de', currentTheme, 'para', newTheme);
+
+                document.documentElement.setAttribute('data-theme', newTheme);
+                themeDisplay.textContent = newTheme;
+
+                // Salvar no localStorage
+                localStorage.setItem('theme', newTheme);
+
+                return newTheme;
+            }
+
+            // Carregar tema salvo
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeDisplay.textContent = savedTheme;
+
+            // Adicionar evento de clique
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleTheme();
+            });
+
+            console.log('Teste configurado. Tema inicial:', savedTheme);
+        });
+    </script>
+</body>
+
+</html>

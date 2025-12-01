@@ -1,0 +1,1610 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load math_extras %}
+
+{% block title %}Painel do Prestador - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="dashboard-content-wrapper">
+        <!-- Header Section with Enhanced Visual Design -->
+        <div class="row mb-5 g-4">
+            <div class="col-12">
+                <div class="dashboard-header-card rounded-4 p-4 p-md-5 position-relative overflow-hidden">
+                    <div class="header-overlay"></div>
+                    <div class="header-content position-relative z-1">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 mb-4 mb-lg-0">
+                                <h1 class="dashboard-title mb-3">Painel do Prestador</h1>
+                                <p class="dashboard-subtitle mb-0">Gerencie seus serviços e pedidos de forma eficiente</p>
+                            </div>
+                            <div class="col-lg-4 text-lg-end">
+                                <div class="d-flex flex-wrap gap-3 justify-content-lg-end">
+                                    <a href="{% url 'add_custom_service' %}" class="btn btn-light btn-lg rounded-pill px-4 py-3 fw-bold shadow-sm">
+                                        <i class="fas fa-plus me-2"></i>Adicionar Serviço
+                                    </a>
+                                    <button class="btn btn-light btn-lg rounded-pill px-4 py-3 fw-bold shadow-sm" id="refreshDashboard">
+                                        <i class="fas fa-sync-alt me-2"></i>Atualizar
+                                    </button>
+                                    <button class="btn btn-light btn-lg rounded-pill px-4 py-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                        <i class="fas fa-cog me-2"></i>Configurações
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="section-card rounded-4 shadow-sm">
+                    <div class="card-body py-4">
+                        <h3 class="section-title mb-4">Ações Rápidas</h3>
+                        <div class="quick-actions-grid">
+                            <a href="{% url 'add_custom_service' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-concierge-bell fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Novo Serviço</h5>
+                            </a>
+                            <a href="{% url 'provider_agendamento' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-calendar-plus fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Agendamento</h5>
+                            </a>
+                            <a href="{% url 'solicitacoes_prestador' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-info bg-opacity-10 text-info rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-inbox fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Solicitações</h5>
+                            </a>
+                            <a href="{% url 'provider_avaliacoes' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-warning bg-opacity-10 text-warning rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-star fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Avaliações</h5>
+                            </a>
+                            <a href="{% url 'provider_financeiro' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-danger bg-opacity-10 text-danger rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Financeiro</h5>
+                            </a>
+                            <a href="{% url 'provider_relatorios' %}" class="quick-action-item rounded-3 p-4 text-center text-decoration-none">
+                                <div class="quick-action-icon bg-secondary bg-opacity-10 text-secondary rounded-circle mx-auto mb-3">
+                                    <i class="fas fa-chart-bar fa-2x"></i>
+                                </div>
+                                <h5 class="mb-0 fw-semibold">Relatórios</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats Cards -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="section-title mb-4">Visão Geral</h3>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stat-card h-100 rounded-3 shadow-sm border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="stat-label mb-1">Pedidos Hoje</h6>
+                                <h3 class="stat-value mb-0 count-up modern-count-animation fw-bold" data-target="{{ provider_orders|length|default:0 }}">0</h3>
+                            </div>
+                            <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                                <i class="fas fa-calendar-day fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>Meta: 8</span>
+                            <span>75%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stat-card h-100 rounded-3 shadow-sm border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="stat-label mb-1">Receita Hoje</h6>
+                                <h3 class="stat-value mb-0 fw-bold">R$ <span class="count-up" data-target="850">0</span></h3>
+                            </div>
+                            <div class="stat-icon bg-success bg-opacity-10 text-success rounded-circle p-3">
+                                <i class="fas fa-money-bill-wave fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>Meta: R$ 1.200</span>
+                            <span>60%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stat-card h-100 rounded-3 shadow-sm border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="stat-label mb-1">Mensagens</h6>
+                                <h3 class="stat-value mb-0 count-up modern-count-animation fw-bold" data-target="3">0</h3>
+                            </div>
+                            <div class="stat-icon bg-info bg-opacity-10 text-info rounded-circle p-3">
+                                <i class="fas fa-comment-dots fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 30%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>Novas: 1</span>
+                            <span>30%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stat-card h-100 rounded-3 shadow-sm border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="stat-label mb-1">Avaliações</h6>
+                                <h3 class="stat-value mb-0 fw-bold">
+                                    <span class="count-up" data-target="{{ average_rating|floatformat:0 }}">0</span>,
+                                    <span class="count-up-decimal" data-target="{{ average_rating|floatformat:1|slice:":-1"|slice:":-1" }}">0</span>
+                                </h3>
+                            </div>
+                            <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-circle p-3">
+                                <i class="fas fa-star fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 90%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>4.7 média</span>
+                            <span>90%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solicitações de Serviço Section -->
+        <div class="row mb-5">
+            {% include 'services/widget_solicitacoes_resumo.html' %}
+
+            <!-- Outros widgets podem ser adicionados aqui -->
+            <div class="col-lg-6 mb-4">
+                <div class="section-card rounded-4 shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="section-title mb-4">
+                            <i class="fas fa-chart-line text-success me-2"></i>
+                            Desempenho Mensal
+                        </h4>
+                        <div class="text-center py-4">
+                            <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Gráfico de desempenho em breve</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Insights Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="section-card rounded-4 shadow-sm">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                            <h3 class="section-title mb-0">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                <span>Insights de Desempenho</span>
+                            </h3>
+                            <button class="btn btn-outline-primary rounded-pill px-4">
+                                <i class="fas fa-sync-alt me-2"></i>Atualizar Insights
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body py-4">
+                        <div class="row g-4" id="performanceInsightsContainer">
+                            <div class="col-md-4">
+                                <div class="insight-card rounded-3 p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="insight-icon bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Crescimento</h5>
+                                    </div>
+                                    <p class="text-muted small mb-3">Sua receita aumentou 15% este mês comparado ao mês passado. Continue oferecendo serviços de qualidade!</p>
+                                    <div class="progress rounded-pill mb-2" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between small">
+                                        <span>Meta: R$ 5.000</span>
+                                        <span class="fw-semibold">R$ 3.750</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="insight-card rounded-3 p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="insight-icon bg-warning bg-opacity-10 text-warning rounded-circle p-2 me-3">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Avaliações</h5>
+                                    </div>
+                                    <p class="text-muted small mb-3">Sua classificação média é 4.7/5.0. Excelente trabalho! Mantenha essa qualidade.</p>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-2 text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="fw-semibold">4.7</span>
+                                    </div>
+                                    <div class="small text-success">
+                                        <i class="fas fa-arrow-up me-1"></i>
+                                        <span>+0.2 desde o mês passado</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="insight-card rounded-3 p-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="insight-icon bg-info bg-opacity-10 text-info rounded-circle p-2 me-3">
+                                            <i class="fas fa-bolt"></i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Eficiência</h5>
+                                    </div>
+                                    <p class="text-muted small mb-3">Você concluiu 92% dos pedidos no prazo. Isso demonstra profissionalismo.</p>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-2">
+                                            <span class="badge bg-info rounded-pill">+5%</span>
+                                        </div>
+                                        <span class="fw-semibold">92% no prazo</span>
+                                    </div>
+                                    <div class="small text-success">
+                                        <i class="fas fa-arrow-up me-1"></i>
+                                        <span>+3% desde o mês passado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="section-card rounded-4 shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <h3 class="section-title mb-0">
+                            <i class="fas fa-chart-bar me-2 text-primary"></i>
+                            <span>Receita Mensal</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-4">
+                        <canvas id="revenueChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="section-card rounded-4 shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <h3 class="section-title mb-0">
+                            <i class="fas fa-chart-pie me-2 text-info"></i>
+                            <span>Status dos Pedidos</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-4">
+                        <canvas id="ordersChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <!-- Custom Services -->
+            <div class="col-lg-8">
+                <div class="section-card rounded-4 shadow-sm">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                            <h3 class="section-title mb-0">
+                                <i class="fas fa-concierge-bell me-2 text-success"></i>
+                                <span>Meus Serviços</span>
+                            </h3>
+                            <div class="d-flex flex-column flex-sm-row gap-2 w-100 w-md-auto">
+                                <div class="input-group input-group-sm rounded-pill overflow-hidden" style="max-width: 300px;">
+                                    <input type="text" class="form-control border-end-0" id="serviceSearch" placeholder="Buscar serviços..." aria-label="Buscar serviços">
+                                    <button class="btn btn-outline-primary border-start-0 rounded-pill rounded-start-0" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <a href="{% url 'add_custom_service' %}" class="btn btn-primary rounded-pill px-4 py-2">
+                                    <i class="fas fa-plus me-1"></i> Adicionar Serviço
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body py-4">
+                        {% if custom_services %}
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill active" data-filter="all">Todos</button>
+                            <button class="btn btn-sm btn-outline-success rounded-pill" data-filter="active">Ativos</button>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill" data-filter="inactive">Inativos</button>
+                            <button class="btn btn-sm btn-outline-info rounded-pill" data-filter="popular">Mais Solicitados</button>
+                        </div>
+                        <div class="row g-4" id="servicesContainer">
+                            {% for service in custom_services %}
+                            <div class="col-md-6 service-item" data-status="{% if service.is_active %}active{% else %}inactive{% endif %}">
+                                <div class="service-card rounded-3 p-4 h-100">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title mb-0">{{ service.name }}</h5>
+                                        <span class="badge {% if service.is_active %}bg-success{% else %}bg-secondary{% endif %} rounded-pill">
+                                            {% if service.is_active %}Ativo{% else %}Inativo{% endif %}
+                                        </span>
+                                    </div>
+                                    <p class="card-text text-muted small mb-4">{{ service.description|truncatewords:15 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <span class="fw-bold text-primary">R$ {{ service.estimated_price|floatformat:2 }}</span>
+                                        <span class="text-muted small">
+                                            <i class="fas fa-clock me-1"></i>
+                                            {{ service.estimated_duration|date:"H:i" }}h
+                                        </span>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url 'edit_custom_service' service.id %}" class="btn btn-sm btn-outline-primary rounded-pill flex-fill">
+                                            <i class="fas fa-edit me-1"></i> Editar
+                                        </a>
+                                        <a href="{% url 'remove_custom_service' service.id %}" class="btn btn-sm btn-outline-danger rounded-pill flex-fill">
+                                            <i class="fas fa-trash me-1"></i> Remover
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="service-placeholder-icon bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4 mx-auto">
+                                <i class="fas fa-concierge-bell fa-3x"></i>
+                            </div>
+                            <h4 class="mb-3">Nenhum serviço cadastrado</h4>
+                            <p class="text-muted mb-4">Você ainda não adicionou nenhum serviço personalizado.</p>
+                            <a href="{% url 'add_custom_service' %}" class="btn btn-primary rounded-pill px-4 py-2">
+                                <i class="fas fa-plus me-1"></i> Adicionar seu primeiro serviço
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="col-lg-4">
+                <div class="section-card rounded-4 shadow-sm mb-5">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <h3 class="section-title mb-0">
+                            <i class="fas fa-chart-line me-2 text-warning"></i>
+                            <span>Desempenho Financeiro</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-4">
+                        <div class="metrics-grid">
+                            <div class="metric-item text-center p-3 rounded-3">
+                                <div class="metric-icon bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                    <i class="fas fa-wallet fa-lg"></i>
+                                </div>
+                                <h6 class="text-muted mb-1">Receita Total</h6>
+                                <div class="display-6 fw-bold">R$ {{ total_earnings|floatformat:2|default:"0,00" }}</div>
+                                <div class="text-success small mt-1">
+                                    <i class="fas fa-arrow-up me-1"></i> 8% desde o mês passado
+                                </div>
+                            </div>
+                            <div class="metric-item text-center p-3 rounded-3">
+                                <div class="metric-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <h6 class="text-muted mb-1">Pedidos Concluídos</h6>
+                                <div class="display-6 fw-bold count-up" data-target="{{ completed_orders }}">0</div>
+                                <div class="text-success small mt-1">
+                                    <i class="fas fa-arrow-up me-1"></i> 15% desde o mês passado
+                                </div>
+                            </div>
+                            <div class="metric-item text-center p-3 rounded-3">
+                                <div class="metric-icon bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                    <i class="fas fa-tasks fa-lg"></i>
+                                </div>
+                                <h6 class="text-muted mb-1">Pedidos Pendentes</h6>
+                                <div class="display-6 fw-bold count-up" data-target="{{ pending_orders }}">0</div>
+                                <div class="text-warning small mt-1">
+                                    <i class="fas fa-arrow-down me-1"></i> 5% desde o mês passado
+                                </div>
+                            </div>
+                            <div class="metric-item text-center p-3 rounded-3">
+                                <div class="metric-icon bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                    <i class="fas fa-percentage fa-lg"></i>
+                                </div>
+                                <h6 class="text-muted mb-1">Taxa de Conclusão</h6>
+                                <div class="display-6 fw-bold">
+                                    {% if total_orders > 0 %}
+                                    {{ completed_orders|percentage:total_orders|floatformat:0 }}%
+                                    {% else %}
+                                    0%
+                                    {% endif %}
+                                </div>
+                                <div class="text-success small mt-1">
+                                    <i class="fas fa-arrow-up me-1"></i> 3% desde o mês passado
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="section-card rounded-4 shadow-sm">
+                    <div class="card-header bg-white border-bottom py-4 rounded-top-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                            <h3 class="section-title mb-0">
+                                <i class="fas fa-history me-2 text-info"></i>
+                                <span>Pedidos Recentes</span>
+                            </h3>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">
+                                <i class="fas fa-eye me-1"></i> Ver Todos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body py-4">
+                        {% if provider_orders %}
+                        <div class="orders-list">
+                            {% for order in provider_orders %}
+                            <div class="order-item border-bottom pb-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-size: 0.8rem;">
+                                            {{ order.customer.first_name|slice:":1"|default:order.customer.username|slice:":1" }}
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-semibold">{{ order.customer.get_full_name|default:order.customer.username }}</h6>
+                                            <p class="mb-0 text-muted small">#{{ order.id }}</p>
+                                        </div>
+                                    </div>
+                                    <span class="badge 
+                                        {% if order.status == 'completed' %}bg-success
+                                        {% elif order.status == 'in_progress' %}bg-info
+                                        {% elif order.status == 'confirmed' %}bg-warning
+                                        {% elif order.status == 'pending' %}bg-secondary
+                                        {% elif order.status == 'cancelled' %}bg-danger
+                                        {% endif %} rounded-pill">
+                                        {% if order.status == 'pending' %}Pendente
+                                        {% elif order.status == 'confirmed' %}Confirmado
+                                        {% elif order.status == 'in_progress' %}Em andamento
+                                        {% elif order.status == 'completed' %}Concluído
+                                        {% elif order.status == 'cancelled' %}Cancelado
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-1 text-muted small">
+                                            {% if order.service %}
+                                            {{ order.service.name }}
+                                            {% else %}
+                                            Serviço Personalizado
+                                            {% endif %}
+                                        </p>
+                                        <p class="mb-0 text-muted small">{{ order.created_at|date:"d/m/Y H:i" }}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <h6 class="mb-0 fw-bold text-primary">R$ {{ order.total_price|floatformat:2 }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link rounded-pill" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link rounded-pill" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link rounded-pill" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link rounded-pill" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link rounded-pill" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <div class="order-placeholder-icon bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto">
+                                <i class="fas fa-history fa-2x"></i>
+                            </div>
+                            <h5 class="mb-2">Nenhum pedido encontrado</h5>
+                            <p class="text-muted">Você ainda não recebeu nenhum pedido.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title" id="settingsModalLabel">Configurações do Prestador</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-fill border-0 rounded-0" id="settingsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active py-4" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">
+                            <i class="fas fa-user me-2"></i>Geral
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link py-4" id="availability-tab" data-bs-toggle="tab" data-bs-target="#availability" type="button" role="tab">
+                            <i class="fas fa-calendar me-2"></i>Disponibilidade
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link py-4" id="preferences-tab" data-bs-toggle="tab" data-bs-target="#preferences" type="button" role="tab">
+                            <i class="fas fa-cog me-2"></i>Preferências
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link py-4" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab">
+                            <i class="fas fa-bell me-2"></i>Notificações
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content p-4" id="settingsTabContent">
+                    <!-- General Settings -->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                        <form method="POST" action="{% url 'profile_new' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="update_profile" value="1">
+                            <div class="mb-5">
+                                <h5 class="fw-bold text-primary mb-4">Informações do Perfil</h5>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Nome Completo</label>
+                                        <input type="text" name="full_name" class="form-control form-control-lg rounded-pill" value="{{ user.get_full_name|default:user.username }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Nome do Negócio</label>
+                                        <input type="text" name="business_name" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.business_name }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Telefone</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.phone }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">E-mail</label>
+                                        <input type="email" name="email" class="form-control form-control-lg rounded-pill" value="{{ user.email }}" readonly>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label fw-semibold">Especialidades</label>
+                                        <input type="text" name="specialties" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.specialties }}" placeholder="Ex: Elétrica, Hidráulica, Pintura">
+                                        <small class="text-muted">Separe as especialidades por vírgula</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-4">Área de Atuação</h5>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Cidade</label>
+                                        <input type="text" name="city" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.city }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Estado</label>
+                                        <input type="text" name="state" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.state }}" maxlength="2" placeholder="SP">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">CEP</label>
+                                        <input type="text" name="zip_code" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.zip_code }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Raio de Atendimento (km)</label>
+                                        <select name="service_radius" class="form-select form-select-lg rounded-pill">
+                                            <option value="5" {% if user.userprofile.service_radius == 5 %}selected{% endif %}>5 km</option>
+                                            <option value="10" {% if user.userprofile.service_radius == 10 %}selected{% endif %}>10 km</option>
+                                            <option value="15" {% if user.userprofile.service_radius == 15 %}selected{% endif %}>15 km</option>
+                                            <option value="20" {% if user.userprofile.service_radius == 20 %}selected{% endif %}>20 km</option>
+                                            <option value="30" {% if user.userprofile.service_radius == 30 %}selected{% endif %}>30 km</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Availability Settings -->
+                    <div class="tab-pane fade" id="availability" role="tabpanel">
+                        <form method="POST" action="{% url 'profile_new' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="update_availability" value="1">
+                            <div class="mb-5">
+                                <h5 class="fw-bold text-primary mb-4">Status Online</h5>
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Visível para clientes</h6>
+                                        <p class="text-muted mb-0">Clientes podem ver seu perfil e enviar solicitações</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="is_available" id="onlineStatusSwitch" {% if user.userprofile.is_available %}checked{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <h5 class="fw-bold text-primary mb-4">Horário de Funcionamento</h5>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Horário de Trabalho</label>
+                                    <textarea name="business_hours" class="form-control rounded-3" rows="3" placeholder="Ex: Segunda a Sexta: 8h às 18h&#10;Sábado: 8h às 12h">{{ user.userprofile.business_hours }}</textarea>
+                                    <small class="text-muted">Descreva seus horários de atendimento</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-4">Informações Adicionais</h5>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Anos de Experiência</label>
+                                    <input type="number" name="experience_years" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.experience_years }}" min="0">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Tempo Médio de Resposta (horas)</label>
+                                    <input type="number" name="response_time_hours" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.response_time_hours }}" min="1">
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Preferences Settings -->
+                    <div class="tab-pane fade" id="preferences" role="tabpanel">
+                        <form method="POST" action="{% url 'profile_new' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="update_preferences" value="1">
+                            <div class="mb-5">
+                                <h5 class="fw-bold text-primary mb-4">Preferências de Trabalho</h5>
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Conta Premium</h6>
+                                        <p class="text-muted mb-0">Recursos avançados e destaque no perfil</p>
+                                    </div>
+                                    <div>
+                                        {% if user.userprofile.is_premium %}
+                                        <span class="badge bg-success rounded-pill px-3 py-2">Ativo</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary rounded-pill px-3 py-2">Inativo</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Perfil Verificado</h6>
+                                        <p class="text-muted mb-0">Selo de verificação no perfil</p>
+                                    </div>
+                                    <div>
+                                        {% if user.userprofile.is_verified %}
+                                        <span class="badge bg-success rounded-pill px-3 py-2"><i class="fas fa-check me-1"></i>Verificado</span>
+                                        {% else %}
+                                        <span class="badge bg-warning rounded-pill px-3 py-2">Pendente</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Modo escuro</h6>
+                                        <p class="text-muted mb-0">Tema escuro para o painel</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="dark_mode" id="darkMode" {% if user.userprofile.dark_mode %}checked{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-4">Informações Profissionais</h5>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Biografia</label>
+                                    <textarea name="bio" class="form-control rounded-3" rows="4" placeholder="Conte um pouco sobre você e sua experiência profissional">{{ user.userprofile.bio }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Certificações</label>
+                                    <textarea name="certifications" class="form-control rounded-3" rows="3" placeholder="Liste suas certificações e qualificações">{{ user.userprofile.certifications }}</textarea>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Website</label>
+                                        <input type="url" name="website_url" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.website_url }}" placeholder="https://seusite.com">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">LinkedIn</label>
+                                        <input type="url" name="linkedin_url" class="form-control form-control-lg rounded-pill" value="{{ user.userprofile.linkedin_url }}" placeholder="https://linkedin.com/in/seuperfil">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Notifications Settings -->
+                    <div class="tab-pane fade" id="notifications" role="tabpanel">
+                        <form method="POST" action="{% url 'profile_new' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="update_notifications" value="1">
+                            <div class="mb-5">
+                                <h5 class="fw-bold text-primary mb-4">Configurações de Notificação</h5>
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Notificações Push</h6>
+                                        <p class="text-muted mb-0">Receber notificações no navegador</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="push_notifications" id="pushNotifications" {% if user.userprofile.push_notifications %}checked{% endif %}>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Notificações de Mensagens</h6>
+                                        <p class="text-muted mb-0">Alertas de novas mensagens</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="push_messages" id="pushMessages" {% if user.userprofile.push_messages %}checked{% endif %}>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Notificações por e-mail</h6>
+                                        <p class="text-muted mb-0">Receber notificações por e-mail</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="email_notifications" id="emailNotifications" {% if user.userprofile.email_notifications %}checked{% endif %}>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light mb-4">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">E-mails Promocionais</h6>
+                                        <p class="text-muted mb-0">Receber ofertas e novidades</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="promotional_emails" id="promotionalEmails" {% if user.userprofile.promotional_emails %}checked{% endif %}>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light">
+                                    <div>
+                                        <h6 class="fw-semibold mb-1">Alertas de Segurança</h6>
+                                        <p class="text-muted mb-0">Notificações sobre atividades da conta</p>
+                                    </div>
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input class="form-check-input" type="checkbox" name="security_alerts" id="securityAlerts" {% if user.userprofile.security_alerts %}checked{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary mb-4">Preferências de Idioma</h5>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Idioma</label>
+                                    <select name="language" class="form-select form-select-lg rounded-pill">
+                                        <option value="pt-br" {% if user.userprofile.language == 'pt-br' %}selected{% endif %}>Português (Brasil)</option>
+                                        <option value="en" {% if user.userprofile.language == 'en' %}selected{% endif %}>English</option>
+                                        <option value="es" {% if user.userprofile.language == 'es' %}selected{% endif %}>Español</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Fuso Horário</label>
+                                    <select name="timezone" class="form-select form-select-lg rounded-pill">
+                                        <option value="America/Sao_Paulo" {% if user.userprofile.timezone == 'America/Sao_Paulo' %}selected{% endif %}>Brasília (GMT-3)</option>
+                                        <option value="America/Manaus" {% if user.userprofile.timezone == 'America/Manaus' %}selected{% endif %}>Manaus (GMT-4)</option>
+                                        <option value="America/Noronha" {% if user.userprofile.timezone == 'America/Noronha' %}selected{% endif %}>Fernando de Noronha (GMT-2)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="form-text mt-3">Notificações serão enviadas apenas durante este horário</div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal-footer border-0 rounded-bottom-4 bg-light p-4">
+    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Fechar</button>
+    <button type="button" class="btn btn-primary rounded-pill px-4">Salvar Alterações</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Count up animation for stats
+        const countUpElements = document.querySelectorAll('.count-up');
+        countUpElements.forEach(element => {
+            const target = parseInt(element.getAttribute('data-target'));
+            if (!isNaN(target)) {
+                const duration = 2000; // ms
+                const increment = target / (duration / 16); // 60fps
+                let current = 0;
+
+                const updateCount = () => {
+                    current += increment;
+                    if (current < target) {
+                        element.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        element.textContent = target;
+                    }
+                };
+
+                // Start animation when element is in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCount();
+                            observer.unobserve(element);
+                        }
+                    });
+                }, {
+                    threshold: 0.5
+                });
+
+                observer.observe(element);
+            }
+        });
+
+        // Refresh dashboard
+        const refreshBtn = document.getElementById('refreshDashboard');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const originalClass = icon.className;
+                icon.className = 'fas fa-spinner fa-spin me-2';
+
+                // Simulate refresh
+                setTimeout(() => {
+                    icon.className = originalClass;
+                    // In a real app, you would reload data here
+                }, 1000);
+            });
+        }
+
+        // Initialize charts
+        // Revenue Chart (Bar Chart)
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                datasets: [{
+                    label: 'Receita (R$)',
+                    data: [1200, 1900, 1500, 2200, 1800, 2500, 2100, 2800, 2400, 3100, 2700, 3500],
+                    backgroundColor: 'rgba(111, 66, 193, 0.7)',
+                    borderColor: 'rgba(111, 66, 193, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Orders Chart (Pie Chart)
+        const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+        const ordersChart = new Chart(ordersCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Concluídos', 'Pendentes', 'Em Andamento', 'Cancelados'],
+                datasets: [{
+                    data: [65, 10, 15, 10],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.7)',
+                        'rgba(108, 117, 125, 0.7)',
+                        'rgba(23, 162, 184, 0.7)',
+                        'rgba(220, 53, 69, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(108, 117, 125, 1)',
+                        'rgba(23, 162, 184, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Service filtering functionality
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const serviceItems = document.querySelectorAll('.service-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                serviceItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'block';
+                    } else if (filter === 'active') {
+                        item.style.display = item.getAttribute('data-status') === 'active' ? 'block' : 'none';
+                    } else if (filter === 'inactive') {
+                        item.style.display = item.getAttribute('data-status') === 'inactive' ? 'block' : 'none';
+                    } else if (filter === 'popular') {
+                        // In a real implementation, this would filter by popularity
+                        item.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        // Service search functionality
+        const serviceSearch = document.getElementById('serviceSearch');
+        if (serviceSearch) {
+            serviceSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+
+                serviceItems.forEach(item => {
+                    const serviceName = item.querySelector('.card-title').textContent.toLowerCase();
+                    const serviceDescription = item.querySelector('.card-text').textContent.toLowerCase();
+
+                    if (serviceName.includes(searchTerm) || serviceDescription.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Order status filtering
+        const orderStatusFilter = document.getElementById('orderStatusFilter');
+        const orderRows = document.querySelectorAll('.order-row');
+
+        if (orderStatusFilter) {
+            orderStatusFilter.addEventListener('change', function() {
+                const status = this.value;
+
+                orderRows.forEach(row => {
+                    if (status === 'all') {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = row.getAttribute('data-status') === status ? '' : 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+<style>
+    /* Enhanced Visual Design Styles */
+
+    /* Content Wrapper - Centralização */
+    .dashboard-content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 2rem;
+    }
+
+    /* Header Section */
+    .dashboard-header-card {
+        background: linear-gradient(135deg, #6f42c1 0%, #7209b7 100%);
+        color: white;
+        box-shadow: 0 10px 30px rgba(111, 66, 193, 0.3);
+        transition: all 0.3s ease;
+        padding: 3rem 2.5rem;
+    }
+
+    .dashboard-header-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(111, 66, 193, 0.4);
+    }
+
+    .header-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(111, 66, 193, 0.9) 0%, rgba(114, 9, 183, 0.9) 100%);
+    }
+
+    .dashboard-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .dashboard-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 400;
+    }
+
+    /* Section Cards */
+    .section-card {
+        background: white;
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+    }
+
+    .section-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .section-card .card-body {
+        padding: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0;
+    }
+
+    /* Quick Actions */
+    .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 2rem;
+    }
+
+    .quick-action-item {
+        background: #f8f9fc;
+        transition: all 0.3s ease;
+        color: #2c3e50;
+        border: 1px solid #e9ecef;
+    }
+
+    .quick-action-item:hover {
+        background: #6f42c1;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(111, 66, 193, 0.2);
+        border-color: #6f42c1;
+    }
+
+    .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .quick-action-item:hover .quick-action-icon {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+
+    /* Stat Cards */
+    .stat-card {
+        background: white;
+        transition: all 0.3s ease;
+        border: none;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .stat-card .card-body {
+        padding: 2rem !important;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: scale(1.1);
+    }
+
+    /* Insight Cards */
+    .insight-card {
+        background: #f8f9fc;
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+        height: 100%;
+    }
+
+    .insight-card:hover {
+        background: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        border-color: #6f42c1;
+    }
+
+    .insight-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    /* Service Cards */
+    .service-card {
+        background: white;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        padding: 2rem;
+        height: 100%;
+    }
+
+    .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-color: #6f42c1;
+    }
+
+    .service-placeholder-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .metric-item {
+        background: #f8f9fc;
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+        height: 100%;
+    }
+
+    .metric-item:hover {
+        background: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-color: #6f42c1;
+    }
+
+    .metric-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    /* Orders List */
+    .order-item {
+        padding: 1.25rem 0;
+    }
+
+    .order-item:first-child {
+        padding-top: 0;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .order-placeholder-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Modal Enhancements */
+    .modal-content {
+        border: none;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-weight: 500;
+        color: #6c757d;
+        transition: all 0.3s ease;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #6f42c1;
+        border-bottom: 3px solid #6f42c1;
+        background-color: transparent;
+    }
+
+    .nav-tabs .nav-link:hover {
+        border-bottom: 3px solid rgba(111, 66, 193, 0.3);
+        color: #6f42c1;
+    }
+
+    /* Form Controls */
+    .form-control,
+    .form-select {
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.15);
+    }
+
+    /* Buttons */
+    .btn {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .btn-primary {
+        background-color: #6f42c1;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #5a32a3;
+        color: white;
+    }
+
+    /* Badges */
+    .badge {
+        font-weight: 500;
+        padding: 0.5em 1em;
+    }
+
+    /* Pagination */
+    .page-link {
+        border: none;
+        color: #6f42c1;
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        border-radius: 50rem !important;
+        transition: all 0.3s ease;
+    }
+
+    .page-link:hover {
+        background-color: rgba(111, 66, 193, 0.1);
+        color: #5a32a3;
+    }
+
+    .page-item.active .page-link {
+        background-color: #6f42c1;
+        color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1600px) {
+        .dashboard-content-wrapper {
+            max-width: 1300px;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        .dashboard-content-wrapper {
+            max-width: 1200px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .dashboard-content-wrapper {
+            max-width: 100%;
+            padding: 0 1.5rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .metrics-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid {
+            padding: 2rem 1rem;
+        }
+
+        .dashboard-content-wrapper {
+            padding: 0 1rem;
+        }
+
+        .dashboard-header-card {
+            padding: 2.5rem 2rem !important;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .modal-dialog {
+            margin: 1rem;
+        }
+
+        .section-card {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container-fluid {
+            padding: 1.5rem 0.75rem;
+        }
+
+        .dashboard-content-wrapper {
+            padding: 0 0.75rem;
+        }
+
+        .dashboard-header-card {
+            padding: 2rem 1.5rem !important;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+
+        .header-content .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .stat-card .card-body {
+            padding: 1.75rem !important;
+        }
+
+        .section-card .card-body {
+            padding: 2rem !important;
+        }
+
+        .service-card {
+            padding: 1.75rem !important;
+        }
+
+        .metrics-grid {
+            gap: 1.25rem;
+        }
+
+        .metric-item {
+            padding: 1.5rem !important;
+        }
+
+        .order-item .avatar-placeholder {
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .nav-tabs .nav-link {
+            padding: 1rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .section-card {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    /* Dark Mode Support */
+    html[data-theme='dark'] .section-card,
+    html[data-theme='dark'] .stat-card,
+    html[data-theme='dark'] .service-card,
+    html[data-theme='dark'] .insight-card,
+    html[data-theme='dark'] .metric-item {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .section-title,
+    html[data-theme='dark'] .stat-value {
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .stat-label,
+    html[data-theme='dark'] .form-control,
+    html[data-theme='dark'] .form-select {
+        color: #adb5bd;
+    }
+
+    html[data-theme='dark'] .form-control,
+    html[data-theme='dark'] .form-select {
+        background-color: #3d3d3d;
+        border-color: #4d4d4d;
+    }
+
+    html[data-theme='dark'] .quick-action-item {
+        background: #3d3d3d;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .quick-action-item:hover {
+        background: #6f42c1;
+    }
+
+    html[data-theme='dark'] .modal-content {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+    }
+
+    html[data-theme='dark'] .modal-header {
+        background-color: #1a1a1a;
+    }
+
+    html[data-theme='dark'] .modal-footer {
+        background-color: #3d3d3d;
+    }
+
+    html[data-theme='dark'] .nav-tabs .nav-link {
+        color: #adb5bd;
+    }
+
+    html[data-theme='dark'] .nav-tabs .nav-link.active {
+        color: #6f42c1;
+    }
+</style>
+</file>

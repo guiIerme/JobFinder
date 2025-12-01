@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title_admin %}{{ title }}{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header d-flex justify-content-between align-items-center">
+    <div>
+        <h2>{% if subtitle %}{{ subtitle }}{% else %}{{ title }}{% endif %}</h2>
+        {% block breadcrumbs %}
+        <nav class="admin-breadcrumb" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+                {% if title %}<li class="breadcrumb-item active" aria-current="page">{{ title }}</li>{% endif %}
+            </ol>
+        </nav>
+        {% endblock %}
+    </div>
+    <div>
+        {% block object-tools %}{% endblock %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card admin-card">
+            <div class="card-body">
+                {% block messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endblock messages %}
+                
+                {% block content_title %}{% if title %}<h3>{{ title }}</h3>{% endif %}{% endblock %}
+                
+                {% block content %}
+                {{ content }}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

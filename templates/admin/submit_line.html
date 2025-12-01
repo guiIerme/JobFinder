@@ -1,0 +1,39 @@
+{% load i18n admin_urls %}
+<div class="d-flex justify-content-between mt-4">
+    <div>
+        {% block submit-row %}
+            {% if show_save %}
+                <button type="submit" name="_save" class="admin-btn admin-btn-primary">
+                    <i class="fas fa-save me-1"></i> {% trans 'Save' %}
+                </button>
+            {% endif %}
+            
+            {% if show_save_and_continue %}
+                <button type="submit" name="_continue" class="admin-btn admin-btn-outline-primary">
+                    {% if can_change %}{% trans 'Save and continue editing' %}{% else %}{% trans 'Save and add another' %}{% endif %}
+                </button>
+            {% endif %}
+            
+            {% if show_save_and_add_another %}
+                <button type="submit" name="_addanother" class="admin-btn admin-btn-outline-primary">
+                    <i class="fas fa-plus me-1"></i> {% trans 'Save and add another' %}
+                </button>
+            {% endif %}
+            
+            {% if show_delete_link and original %}
+                {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+                <a href="{% add_preserved_filters delete_url %}" class="admin-btn admin-btn-outline-danger">
+                    <i class="fas fa-trash me-1"></i> {% trans "Delete" %}
+                </a>
+            {% endif %}
+        {% endblock %}
+    </div>
+    
+    <div>
+        {% if show_close %}
+            <a href="{% url 'admin:index' %}" class="admin-btn admin-btn-secondary">
+                <i class="fas fa-times me-1"></i> {% trans 'Close' %}
+            </a>
+        {% endif %}
+    </div>
+</div>

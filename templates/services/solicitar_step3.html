@@ -1,0 +1,427 @@
+{% extends 'services/solicitar_base.html' %}
+
+{% block step_content %}
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="fas fa-credit-card me-2"></i>
+        Forma de Pagamento
+    </h4>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" id="step3Form">
+        {% csrf_token %}
+
+        <!-- Resumo do Valor -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <i class="fas fa-calculator me-2"></i>
+                            Resumo do Valor
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Serviço:</strong> {{ service.name }}</p>
+                                <p class="mb-1"><strong>Prestador:</strong> {{ service.provider.user.get_full_name }}</p>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <h5 class="text-primary mb-0">
+                                    <i class="fas fa-tag me-2"></i>
+                                    R$ {{ service.price }}
+                                </h5>
+                                <small class="text-muted">Valor estimado</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métodos de Pagamento -->
+        <h5 class="mb-3">
+            <i class="fas fa-wallet me-2"></i>
+            Escolha a Forma de Pagamento
+        </h5>
+
+        <div class="row">
+            <!-- Dinheiro -->
+            <div class="col-md-6 mb-3">
+                <div class="card payment-option" data-payment="dinheiro">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_cash" value="dinheiro" {% if form_data.payment_method == 'dinheiro' %}checked{% endif %}>
+                            <label class="form-check-label w-100" for="payment_cash">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-money-bill-wave fa-2x text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Dinheiro</h6>
+                                        <small class="text-muted">Pagamento no local</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cartão -->
+            <div class="col-md-6 mb-3">
+                <div class="card payment-option" data-payment="cartao">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_card" value="cartao" {% if form_data.payment_method == 'cartao' %}checked{% endif %}>
+                            <label class="form-check-label w-100" for="payment_card">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-credit-card fa-2x tee-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Cartão</h6>
+                                        <small class="text-muted">Débito ou crédito</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIX -->
+            <div class="col-md-6 mb-3">
+                <div class="card payment-option" data-payment="pix">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_pix" value="pix" {% if form_data.payment_method == 'pix' %}checked{% endif %}>
+                            <label class="form-check-label w-100" for="payment_pix">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-qrcode fa-2x text-warning me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">PIX</h6>
+                                        <small class="text-muted">Transferência instantânea</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transferência -->
+            <div class="col-md-6 mb-3">
+                <div class="card payment-option" data-payment="transferencia">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_transfer" value="transferencia" {% if form_data.payment_method == 'transferencia' %}selected{% endif %}>
+                            <label class="form-check-label w-100" for="payment_transfer">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-university fa-2x text-info me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">Transferência</h6>
+                                        <small class="text-muted">TED/DOC bancário</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalhes do Pagamento - Dinheiro -->
+        <div id="cash-details" class="payment-details" style="display: none;">
+            <div class="card border-success">
+                <div class="card-body">
+                    <h6 class="card-title text-success">
+                        <i class="fas fa-money-bill-wave me-2"></i>
+                        Detalhes do Pagamento em Dinheiro
+                    </h6>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="needs_change" name="needs_change" {% if form_data.needs_change %}checked{% endif %}>
+                        <label class="form-check-label" for="needs_change">
+                            Preciso de troco
+                        </label>
+                    </div>
+
+                    <div id="change-amount" style="display: none;">
+                        <label for="client_money_amount" class="form-label">
+                            Valor que você tem para pagamento
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="client_money_amount" name="client_money_amount" step="0.01" value="{{ form_data.client_money_amount }}" placeholder="0,00">
+                        </div>
+                        <div class="form-text">
+                            Informe o valor para que o prestador possa levar o troco adequado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalhes do Pagamento - Cartão -->
+        <div id="card-details" class="payment-details" style="display: none;">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h6 class="card-title text-primary">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Detalhes do Pagamento no Cartão
+                    </h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="card_type" class="form-label">Tipo de Cartão</label>
+                            <select class="form-select" id="card_type" name="card_type">
+                                <option value="">Selecione</option>
+                                <option value="debito" {% if form_data.card_type == 'debito' %}selected{% endif %}>
+                                    Débito
+                                </option>
+                                <option value="credito" {% if form_data.card_type == 'credito' %}selected{% endif %}>
+                                    Crédito
+                                </option>
+                                <option value="ambos" {% if form_data.card_type == 'ambos' %}selected{% endif %}>
+                                    Ambos (decidir na hora)
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="card_installments" class="form-label">Parcelas (se crédito)</label>
+                            <select class="form-select" id="card_installments" name="card_installments">
+                                <option value="1" {% if form_data.card_installments == 1 %}selected{% endif %}>
+                                    À vista
+                                </option>
+                                <option value="2" {% if form_data.card_installments == 2 %}selected{% endif %}>
+                                    2x sem juros
+                                </option>
+                                <option value="3" {% if form_data.card_installments == 3 %}selected{% endif %}>
+                                    3x sem juros
+                                </option>
+                                <option value="4" {% if form_data.card_installments == 4 %}selected{% endif %}>
+                                    4x sem juros
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalhes do Pagamento - PIX -->
+        <div id="pix-details" class="payment-details" style="display: none;">
+            <div class="card border-warning">
+                <div class="card-body">
+                    <h6 class="card-title text-warning">
+                        <i class="fas fa-qrcode me-2"></i>
+                        Detalhes do Pagamento via PIX
+                    </h6>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        O prestador fornecerá a chave PIX após a confirmação do serviço.
+                    </div>
+
+                    <label for="pix_identifier" class="form-label">
+                        Sua chave PIX (opcional - para recebimento de comprovante)
+                    </label>
+                    <input type="text" class="form-control" id="pix_identifier" name="pix_identifier" value="{{ form_data.pix_identifier }}" placeholder="CPF, email, telefone ou chave aleatória">
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalhes do Pagamento - Transferência -->
+        <div id="transfer-details" class="payment-details" style="display: none;">
+            <div class="card border-info">
+                <div class="card-body">
+                    <h6 class="card-title text-info">
+                        <i class="fas fa-university me-2"></i>
+                        Detalhes da Transferência Bancária
+                    </h6>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Os dados bancários do prestador serão fornecidos após a confirmação do serviço.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Observações sobre Pagamento -->
+        <div class="mb-4">
+            <label for="payment_notes" class="form-label">
+                <i class="fas fa-sticky-note me-1"></i>
+                Observações sobre o Pagamento
+            </label>
+            <textarea class="form-control" id="payment_notes" name="payment_notes" rows="3" placeholder="Informações adicionais sobre a forma de pagamento...">{{ form_data.payment_notes }}</textarea>
+        </div>
+
+        <!-- Navegação -->
+        <div class="navigation-buttons">
+            <div>
+                <a href="{% url 'solicitar_step2' %}" class="btn btn-outline-secondary btn-navigation">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar: Agendamento
+                </a>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-navigation">
+                    Próximo: Confirmação
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Informações sobre Pagamento -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card border-success">
+            <div class="card-body">
+                <h6 class="card-title text-success">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Segurança no Pagamento
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-check text-success me-2"></i>Pague apenas após o serviço</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Prestadores verificados</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Suporte disponível</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Garantia de qualidade</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-info">
+            <div class="card-body">
+                <h6 class="card-title text-info">
+                    <i class="fas fa-question-circle me-2"></i>
+                    Dúvidas sobre Pagamento?
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-phone text-info me-2"></i>Central de Atendimento</li>
+                    <li><i class="fas fa-envelope text-info me-2"></i>Suporte por email</li>
+                    <li><i class="fas fa-comments text-info me-2"></i>Chat online</li>
+                    <li><i class="fas fa-book text-info me-2"></i>FAQ completo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentOptions = document.querySelectorAll('input[name="payment_method"]');
+        const paymentDetails = document.querySelectorAll('.payment-details');
+        const needsChangeCheckbox = document.getElementById('needs_change');
+        const changeAmountDiv = document.getElementById('change-amount');
+
+        // Função para mostrar/ocultar detalhes do pagamento
+        function togglePaymentDetails() {
+            // Ocultar todos os detalhes
+            paymentDetails.forEach(detail => {
+                detail.style.display = 'none';
+            });
+
+            // Mostrar detalhes do método selecionado
+            const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedMethod) {
+                const detailsId = selectedMethod.value + '-details';
+                const detailsElement = document.getElementById(detailsId);
+                if (detailsElement) {
+                    detailsElement.style.display = 'block';
+                }
+            }
+        }
+
+        // Adicionar event listeners aos métodos de pagamento
+        paymentOptions.forEach(option => {
+            option.addEventListener('change', togglePaymentDetails);
+
+            // Adicionar efeito visual ao card
+            option.addEventListener('change', function() {
+                document.querySelectorAll('.payment-option').forEach(card => {
+                    card.classList.remove('border-primary', 'bg-light');
+                });
+
+                if (this.checked) {
+                    const card = this.closest('.payment-option');
+                    card.classList.add('border-primary', 'bg-light');
+                }
+            });
+        });
+
+        // Mostrar/ocultar campo de troco
+        if (needsChangeCheckbox) {
+            needsChangeCheckbox.addEventListener('change', function() {
+                if (changeAmountDiv) {
+                    changeAmountDiv.style.display = this.checked ? 'block' : 'none';
+                }
+            });
+
+            // Verificar estado inicial
+            if (needsChangeCheckbox.checked && changeAmountDiv) {
+                changeAmountDiv.style.display = 'block';
+            }
+        }
+
+        // Inicializar estado dos detalhes
+        togglePaymentDetails();
+
+        // Marcar card selecionado inicialmente
+        const selectedOption = document.querySelector('input[name="payment_method"]:checked');
+        if (selectedOption) {
+            const card = selectedOption.closest('.payment-option');
+            card.classList.add('border-primary', 'bg-light');
+        }
+
+        // Validação do formulário
+        const form = document.getElementById('step3Form');
+        form.addEventListener('submit', function(e) {
+            const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+
+            if (!selectedPayment) {
+                e.preventDefault();
+                alert('Por favor, selecione uma forma de pagamento.');
+                return false;
+            }
+
+            // Validações específicas por método
+            if (selectedPayment.value === 'cartao') {
+                const cardType = document.getElementById('card_type').value;
+                if (!cardType) {
+                    e.preventDefault();
+                    alert('Por favor, selecione o tipo de cartão.');
+                    return false;
+                }
+            }
+
+            if (selectedPayment.value === 'dinheiro' && needsChangeCheckbox.checked) {
+                const moneyAmount = document.getElementById('client_money_amount').value;
+                const servicePrice = {
+                    {
+                        service.price
+                    }
+                };
+
+                if (!moneyAmount || parseFloat(moneyAmount) <= servicePrice) {
+                    e.preventDefault();
+                    alert('O valor informado deve ser maior que o valor do serviço para que seja possível dar o troco.');
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

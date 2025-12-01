@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Template Não Encontrado - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="mb-4">
+                <i class="fas fa-file-code fa-5x text-info animate__animated animate__fadeIn"></i>
+            </div>
+            <h1 class="display-1 fw-bold mb-3 animate__animated animate__fadeIn">TPL</h1>
+            <h2 class="mb-4 animate__animated animate__fadeInUp">Template Não Encontrado</h2>
+            <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                Oops! O template solicitado não pôde ser encontrado.
+            </p>
+            <p class="text-muted mb-5 animate__animated animate__fadeInUp animate__delay-2s">
+                Isso geralmente acontece durante o desenvolvimento ou quando um link está incorreto.
+            </p>
+            
+            <div class="d-flex justify-content-center gap-3 flex-wrap animate__animated animate__fadeInUp animate__delay-3s">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="fas fa-home me-2"></i>Ir para a Página Inicial
+                </a>
+                <a href="{% url 'search_new' %}" class="btn btn-outline-primary btn-lg shadow-sm">
+                    <i class="fas fa-search me-2"></i>Buscar Profissionais
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-outline-secondary btn-lg shadow-sm">
+                    <i class="fas fa-envelope me-2"></i>Entrar em Contato
+                </a>
+                <button class="btn btn-outline-danger btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#errorAlertModal">
+                    <i class="fas fa-exclamation-circle me-2"></i>Reportar Problema
+                </button>
+            </div>
+            
+            <!-- Additional Help Section -->
+            <div class="mt-5 p-4 bg-light rounded-3 animate__animated animate__fadeInUp animate__delay-4s">
+                <h5 class="mb-3"><i class="fas fa-cogs me-2 text-info"></i>Para Desenvolvedores</h5>
+                <p class="mb-0">
+                    Se você é um desenvolvedor, verifique se o template existe no diretório correto
+                    e se o nome do arquivo está correto. Você também pode verificar os logs do servidor
+                    para mais detalhes sobre este erro.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include the error alert form -->
+{% include 'error_alert_form.html' with error_type='Template Error' error_message='Template não encontrado' %}
+
+<!-- Add custom styles for this page -->
+<style>
+    .animate__animated.animate__delay-1s {
+        animation-delay: 0.5s;
+    }
+    .animate__animated.animate__delay-2s {
+        animation-delay: 1s;
+    }
+    .animate__animated.animate__delay-3s {
+        animation-delay: 1.5s;
+    }
+    .animate__animated.animate__delay-4s {
+        animation-delay: 2s;
+    }
+    
+    .display-1 {
+        font-weight: 800;
+        background: linear-gradient(45deg, #17a2b8, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-lg:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .bg-light {
+        background-color: rgba(0,0,0,0.03) !important;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+</style>
+
+<!-- Add Animate.css for animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<!-- Add micro-interaction script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effect to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Add pulse animation to the TPL text
+    const tplText = document.querySelector('.display-1');
+    setInterval(() => {
+        tplText.classList.toggle('animate__pulse');
+    }, 3000);
+});
+</script>
+{% endblock %}

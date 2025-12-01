@@ -1,0 +1,539 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meus Pedidos - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="dashboard-content-wrapper">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h2 mb-2">
+                            <i class="fas fa-clipboard-list text-primary me-2"></i>
+                            Meus Pedidos
+                        </h1>
+                        <p class="text-muted">Acompanhe o andamento e histórico dos seus serviços</p>
+                    </div>
+                    <a href="{% url 'home' %}" class="btn btn-primary rounded-pill">
+                        <i class="fas fa-plus me-2"></i>Novo Pedido
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card shadow-sm border-0 rounded-4 text-center p-3">
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-clock fa-2x"></i>
+                    </div>
+                    <h3 class="mb-1">{{ stats.pending }}</h3>
+                    <p class="text-muted mb-0 small">Pendentes</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card shadow-sm border-0 rounded-4 text-center p-3">
+                    <div class="text-info mb-2">
+                        <i class="fas fa-spinner fa-2x"></i>
+                    </div>
+                    <h3 class="mb-1">{{ stats.in_progress }}</h3>
+                    <p class="text-muted mb-0 small">Em Andamento</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card shadow-sm border-0 rounded-4 text-center p-3">
+                    <div class="text-success mb-2">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                    <h3 class="mb-1">{{ stats.completed }}</h3>
+                    <p class="text-muted mb-0 small">Concluídos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card shadow-sm border-0 rounded-4 text-center p-3">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-list fa-2x"></i>
+                    </div>
+                    <h3 class="mb-1">{{ stats.total }}</h3>
+                    <p class="text-muted mb-0 small">Total</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Status</label>
+                        <select name="status" class="form-select rounded-pill">
+                            <option value="">Todos</option>
+                            <option value="pending" {% if filter_status == 'pending' %}selected{% endif %}>Pendente</option>
+                            <option value="confirmed" {% if filter_status == 'confirmed' %}selected{% endif %}>Confirmado</option>
+                            <option value="in_progress" {% if filter_status == 'in_progress' %}selected{% endif %}>Em Andamento</option>
+                            <option value="completed" {% if filter_status == 'completed' %}selected{% endif %}>Concluído</option>
+                            <option value="cancelled" {% if filter_status == 'cancelled' %}selected{% endif %}>Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Período</label>
+                        <select name="period" class="form-select rounded-pill">
+                            <option value="">Todos</option>
+                            <option value="today" {% if filter_period == 'today' %}selected{% endif %}>Hoje</option>
+                            <option value="week" {% if filter_period == 'week' %}selected{% endif %}>Esta Semana</option>
+                            <option value="month" {% if filter_period == 'month' %}selected{% endif %}>Este Mês</option>
+                            <option value="year" {% if filter_period == 'year' %}selected{% endif %}>Este Ano</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Buscar</label>
+                        <input type="text" name="search" class="form-control rounded-pill" placeholder="Buscar por serviço ou profissional..." value="{{ search_query }}">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary rounded-pill w-100">
+                            <i class="fas fa-search me-1"></i>Filtrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Pedidos -->
+        <div class="row">
+            <div class="col-12">
+                {% if orders %}
+                {% for order in orders %}
+                <div class="card shadow-sm border-0 rounded-4 mb-3">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <!-- Informações do Pedido -->
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <i class="fas fa-briefcase text-primary me-2"></i>
+                                            {% if order.service %}
+                                            {{ order.service.name }}
+                                            {% else %}
+                                            Serviço Personalizado
+                                            {% endif %}
+                                        </h5>
+                                        <p class="text-muted mb-0 small">Pedido #{{ order.id }} - {{ order.created_at|date:"d/m/Y H:i" }}</p>
+                                    </div>
+                                    <span class="badge rounded-pill px-3 py-2 bg-{% if order.status == 'pending' %}warning{% elif order.status == 'confirmed' %}primary{% elif order.status == 'in_progress' %}info{% elif order.status == 'completed' %}success{% else %}danger{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </div>
+
+                                <!-- Profissional -->
+                                {% if order.professional %}
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="me-3">
+                                        {% if order.professional.userprofile.avatar %}
+                                        <img src="{{ order.professional.userprofile.avatar.url }}" alt="{{ order.professional.get_full_name }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% else %}
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ order.professional.get_full_name|default:order.professional.username }}</h6>
+                                        <div class="text-warning small">
+                                            {% if order.professional.userprofile.rating %}
+                                            {% for i in "12345" %}
+                                            {% if forloop.counter <= order.professional.userprofile.rating %}
+                                            <i class="fas fa-star"></i>
+                                            {% else %}
+                                            <i class="far fa-star"></i>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <span class="text-muted">({{ order.professional.userprofile.review_count }} avaliações)</span>
+                                            {% else %}
+                                            <span class="text-muted">Sem avaliações</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="alert alert-info mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Aguardando atribuição de profissional
+                                </div>
+                                {% endif %}
+
+                                <!-- Detalhes -->
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            <strong>Data:</strong> {{ order.scheduled_date|date:"d/m/Y H:i" }}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="fas fa-map-marker-alt me-1"></i>
+                                            <strong>Local:</strong> {{ order.address|truncatewords:5 }}
+                                        </small>
+                                    </div>
+                                </div>
+
+                                {% if order.service_description %}
+                                <div class="mb-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        <strong>Descrição:</strong> {{ order.service_description|truncatewords:20 }}
+                                    </small>
+                                </div>
+                                {% endif %}
+
+                                <!-- Barra de Progresso -->
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <small class="text-muted">Progresso</small>
+                                        <small class="text-muted">
+                                            {% if order.status == 'pending' %}0%
+                                            {% elif order.status == 'confirmed' %}25%
+                                            {% elif order.status == 'in_progress' %}50%
+                                            {% elif order.status == 'completed' %}100%
+                                            {% else %}0%
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-{% if order.status == 'completed' %}success{% elif order.status == 'in_progress' %}info{% else %}warning{% endif %}" style="width: {% if order.status == 'pending' %}0%{% elif order.status == 'confirmed' %}25%{% elif order.status == 'in_progress' %}50%{% elif order.status == 'completed' %}100%{% else %}0%{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ações e Preço -->
+                            <div class="col-md-4">
+                                <div class="text-end mb-3">
+                                    <h4 class="text-primary mb-0">R$ {{ order.total_price }}</h4>
+                                    <small class="text-muted">
+                                        {% if order.payment_method %}
+                                        {{ order.payment_method.get_payment_type_display }}
+                                        {% else %}
+                                        A definir
+                                        {% endif %}
+                                    </small>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'order_details' order.id %}" class="btn btn-outline-primary rounded-pill btn-sm">
+                                        <i class="fas fa-eye me-1"></i>Ver Detalhes
+                                    </a>
+
+                                    {% if order.status == 'completed' and order.professional %}
+                                    {% if order.review %}
+                                    <button class="btn btn-success rounded-pill btn-sm" disabled>
+                                        <i class="fas fa-check me-1"></i>Avaliado
+                                    </button>
+                                    {% else %}
+                                    <button class="btn btn-warning rounded-pill btn-sm" onclick="openReviewModal({{ order.id }}, '{{ order.professional.get_full_name|default:order.professional.username }}')">
+                                        <i class="fas fa-star me-1"></i>Avaliar
+                                    </button>
+                                    {% endif %}
+                                    {% endif %}
+
+                                    {% if order.status == 'pending' or order.status == 'confirmed' %}
+                                    <button class="btn btn-outline-danger rounded-pill btn-sm" onclick="cancelOrder({{ order.id }})">
+                                        <i class="fas fa-times me-1"></i>Cancelar
+                                    </button>
+                                    {% endif %}
+
+                                    {% with order.chat_set.first as chat %}
+                                    {% if chat %}
+                                    <a href="{% url 'chat_room' chat.id %}" class="btn btn-outline-secondary rounded-pill btn-sm">
+                                        <i class="fas fa-comments me-1"></i>Chat
+                                    </a>
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Paginação -->
+                {% if orders.has_other_pages %}
+                <nav aria-label="Navegação de pedidos">
+                    <ul class="pagination justify-content-center">
+                        {% if orders.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link rounded-pill me-2" href="?page={{ orders.previous_page_number }}{% if filter_status %}&status={{ filter_status }}{% endif %}{% if filter_period %}&period={{ filter_period }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in orders.paginator.page_range %}
+                        {% if orders.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link rounded-pill mx-1">{{ num }}</span>
+                        </li>
+                        {% elif num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link rounded-pill mx-1" href="?page={{ num }}{% if filter_status %}&status={{ filter_status }}{% endif %}{% if filter_period %}&period={{ filter_period }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if orders.has_next %}
+                        <li class="page-item">
+                            <a class="page-link rounded-pill ms-2" href="?page={{ orders.next_page_number }}{% if filter_status %}&status={{ filter_status }}{% endif %}{% if filter_period %}&period={{ filter_period }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+                {% else %}
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-clipboard-list fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum pedido encontrado</h4>
+                        <p class="text-muted">Você ainda não fez nenhum pedido ou não há pedidos com os filtros selecionados.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary rounded-pill mt-3">
+                            <i class="fas fa-search me-2"></i>Procurar Serviços
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Avaliação -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">
+                    <i class="fas fa-star text-warning me-2"></i>Avaliar Profissional
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="reviewOrderId" name="order_id">
+
+                    <div class="mb-3 text-center">
+                        <p class="mb-2">Avaliando: <strong id="professionalName"></strong></p>
+                        <p class="text-muted small">Como foi sua experiência com este profissional?</p>
+                    </div>
+
+                    <div class="mb-4 text-center">
+                        <label class="form-label fw-bold">Classificação</label>
+                        <div class="rating-stars" id="ratingStars">
+                            <i class="far fa-star fs-2 mx-1" data-rating="1"></i>
+                            <i class="far fa-star fs-2 mx-1" data-rating="2"></i>
+                            <i class="far fa-star fs-2 mx-1" data-rating="3"></i>
+                            <i class="far fa-star fs-2 mx-1" data-rating="4"></i>
+                            <i class="far fa-star fs-2 mx-1" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="ratingValue" name="rating" value="0">
+                        <div id="ratingError" class="text-danger small mt-2" style="display: none;">
+                            Por favor, selecione uma classificação
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="reviewComment" class="form-label">Comentário (opcional)</label>
+                        <textarea class="form-control" id="reviewComment" name="comment" rows="4" placeholder="Conte-nos sobre sua experiência..."></textarea>
+                        <div class="form-text">Compartilhe detalhes sobre o serviço prestado</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Cancelar
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill" onclick="submitReview()">
+                    <i class="fas fa-paper-plane me-1"></i>Enviar Avaliação
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    .rating-stars i {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .rating-stars i:hover {
+        transform: scale(1.2);
+    }
+
+    .progress {
+        border-radius: 10px;
+        background-color: #e9ecef;
+    }
+
+    .progress-bar {
+        border-radius: 10px;
+    }
+</style>
+
+<script>
+    let selectedRating = 0;
+    let reviewModal;
+
+    // Initialize modal
+    document.addEventListener('DOMContentLoaded', function() {
+        reviewModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+
+        // Rating stars functionality
+        const stars = document.querySelectorAll('#ratingStars i');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                document.getElementById('ratingValue').value = selectedRating;
+                document.getElementById('ratingError').style.display = 'none';
+                updateStars(selectedRating);
+            });
+
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                updateStars(rating);
+            });
+        });
+
+        document.getElementById('ratingStars').addEventListener('mouseleave', function() {
+            updateStars(selectedRating);
+        });
+    });
+
+    function updateStars(rating) {
+        const stars = document.querySelectorAll('#ratingStars i');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.remove('far');
+                star.classList.add('fas', 'text-warning');
+            } else {
+                star.classList.remove('fas', 'text-warning');
+                star.classList.add('far');
+            }
+        });
+    }
+
+    function openReviewModal(orderId, professionalName) {
+        document.getElementById('reviewOrderId').value = orderId;
+        document.getElementById('professionalName').textContent = professionalName;
+        document.getElementById('reviewComment').value = '';
+        selectedRating = 0;
+        document.getElementById('ratingValue').value = 0;
+        document.getElementById('ratingError').style.display = 'none';
+        updateStars(0);
+        reviewModal.show();
+    }
+
+    function submitReview() {
+        const orderId = document.getElementById('reviewOrderId').value;
+        const rating = document.getElementById('ratingValue').value;
+        const comment = document.getElementById('reviewComment').value;
+
+        // Validate rating
+        if (rating == 0) {
+            document.getElementById('ratingError').style.display = 'block';
+            return;
+        }
+
+        // Get CSRF token
+        const csrftoken = getCookie('csrftoken');
+
+        // Submit review
+        fetch(`/submit-review/${orderId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrftoken
+                },
+                body: `rating=${rating}&comment=${encodeURIComponent(comment)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    reviewModal.hide();
+                    alert('Avaliação enviada com sucesso!');
+                    location.reload();
+                } else {
+                    alert('Erro ao enviar avaliação: ' + (data.error || 'Erro desconhecido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao enviar avaliação. Por favor, tente novamente.');
+            });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function cancelOrder(orderId) {
+        if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+            const csrftoken = getCookie('csrftoken');
+
+            fetch(`/cancel-order/${orderId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Pedido cancelado com sucesso!');
+                        location.reload();
+                    } else {
+                        alert('Erro ao cancelar pedido: ' + (data.error || 'Erro desconhecido'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao cancelar pedido. Por favor, tente novamente.');
+                });
+        }
+    }
+</script>
+{% endblock %}

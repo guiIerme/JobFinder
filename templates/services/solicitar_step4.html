@@ -1,0 +1,388 @@
+{% extends 'services/solicitar_base.html' %}
+
+{% block step_content %}
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="fas fa-check-circle me-2"></i>
+        Confirmação da Solicitação
+    </h4>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Resumo Completo -->
+    <div class="row">
+        <!-- Dados do Serviço -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-concierge-bell me-2"></i>
+                        Serviço Solicitado
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">{{ service.name }}</h6>
+                    <p class="card-text text-muted small">{{ service.description|truncatewords:15 }}</p>
+                    <hr>
+                    <p class="mb-2">
+                        <strong>Prestador:</strong><br>
+                        {{ service.provider.user.get_full_name }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Valor Estimado:</strong><br>
+                        <span class="h5 text-primary">R$ {{ service.price }}</span>
+                    </p>
+                    <p class="mb-0">
+                        <strong>Descrição Detalhada:</strong><br>
+                        <small class="text-muted">{{ step1_data.service_description }}</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados do Cliente -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-user me-2"></i>
+                        Dados do Cliente
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Nome:</strong><br> {{ step1_data.contact_name }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Email:</strong><br>
+                        {{ step1_data.contact_email }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Telefone:</strong><br>
+                        {{ step1_data.contact_phone }}
+                    </p>
+                    {% if step1_data.contact_cpf %}
+                    <p class="mb-2">
+                        <strong>CPF:</strong><br>
+                        {{ step1_data.contact_cpf }}
+                    </p>
+                    {% endif %}
+                    <p class="mb-0">
+                        <strong>Urgência:</strong><br>
+                        <span class="badge bg-{% if step1_data.urgency == 'urgent' %}danger{% elif step1_data.urgency == 'high' %}warning{% elif step1_data.urgency == 'medium' %}info{% else %}secondary{% endif %}">
+                            {% if step1_data.urgency == 'urgent' %}Urgente
+                            {% elif step1_data.urgency == 'high' %}Alta
+                            {% elif step1_data.urgency == 'medium' %}Média
+                            {% else %}Baixa{% endif %}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados do Agendamento -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Agendamento
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Data Preferida:</strong><br>
+                        {{ step2_data.preferred_date|date:"d/m/Y" }}
+                    </p>
+                    {% if step2_data.preferred_time %}
+                    <p class="mb-2">
+                        <strong>Horário:</strong><br>
+                        {{ step2_data.preferred_time }}
+                    </p>
+                    {% endif %}
+                    {% if step2_data.preferred_period %}
+                    <p class="mb-2">
+                        <strong>Período Alternativo:</strong><br>
+                        {% if step2_data.preferred_period == 'manha' %}Manhã (08:00 - 12:00)
+                        {% elif step2_data.preferred_period == 'tarde' %}Tarde (13:00 - 18:00)
+                        {% else %}Flexível{% endif %}
+                    </p>
+                    {% endif %}
+                    <hr>
+                    <p class="mb-1"><strong>Endereço:</strong></p>
+                    <address class="small">
+                        {{ step2_data.address_street }}, {{ step2_data.address_number }}<br>
+                        {% if step2_data.address_complement %}{{ step2_data.address_complement }}<br>{% endif %}
+                        {{ step2_data.address_neighborhood }}<br>
+                        {{ step2_data.address_city }} - {{ step2_data.address_state }}<br>
+                        CEP: {{ step2_data.address_cep }}
+                    </address>
+                    {% if step2_data.reference_point %}
+                    <p class="mb-0">
+                        <strong>Referência:</strong><br>
+                        <small class="text-muted">{{ step2_data.reference_point }}</small>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados do Pagamento -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Pagamento
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Método:</strong><br>
+                        {% if step3_data.payment_method == 'dinheiro' %}
+                        <i class="fas fa-money-bill-wave text-success me-2"></i>Dinheiro
+                        {% elif step3_data.payment_method == 'cartao' %}
+                        <i class="fas fa-credit-card text-primary me-2"></i>Cartão
+                        {% elif step3_data.payment_method == 'pix' %}
+                        <i class="fas fa-qrcode text-warning me-2"></i>PIX
+                        {% else %}
+                        <i class="fas fa-university text-info me-2"></i>Transferência
+                        {% endif %}
+                    </p>
+
+                    {% if step3_data.payment_method == 'dinheiro' %}
+                    {% if step3_data.needs_change %}
+                    <p class="mb-2">
+                        <strong>Troco:</strong><br>
+                        Valor disponível: R$ {{ step3_data.client_money_amount }}<br>
+                        <small class="text-success">Troco: R$ {{ troco_calculado }}</small>
+                    </p>
+                    {% else %}
+                    <p class="mb-2">
+                        <small class="text-muted">Valor exato</small>
+                    </p>
+                    {% endif %}
+                    {% elif step3_data.payment_method == 'cartao' %}
+                    <p class="mb-2">
+                        <strong>Tipo:</strong>
+                        {% if step3_data.card_type == 'debito' %}Débito
+                        {% elif step3_data.card_type == 'credito' %}Crédito
+                        {% else %}Débito ou Crédito{% endif %}
+                    </p>
+                    {% if step3_data.card_installments > 1 %}
+                    <p class="mb-2">
+                        <strong>Parcelas:</strong> {{ step3_data.card_installments }}x sem juros
+                    </p>
+                    {% endif %}
+                    {% elif step3_data.payment_method == 'pix' %}
+                    {% if step3_data.pix_identifier %}
+                    <p class="mb-2">
+                        <strong>Sua chave PIX:</strong><br>
+                        <small class="text-muted">{{ step3_data.pix_identifier }}</small>
+                    </p>
+                    {% endif %}
+                    {% endif %}
+
+                    {% if step3_data.payment_notes %}
+                    <hr>
+                    <p class="mb-0">
+                        <strong>Observações:</strong><br>
+                        <small class="text-muted">{{ step3_data.payment_notes }}</small>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Observações Gerais -->
+    {% if step1_data.notes or step2_data.schedule_notes %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="mb-0">
+                <i class="fas fa-sticky-note me-2"></i>
+                Observações Adicionais
+            </h6>
+        </div>
+        <div class="card-body">
+            {% if step1_data.notes %}
+            <p class="mb-2">
+                <strong>Observações Gerais:</strong><br>
+                {{ step1_data.notes }}
+            </p>
+            {% endif %}
+            {% if step2_data.schedule_notes %}
+            <p class="mb-0">
+                <strong>Observações do Agendamento:</strong><br>
+                {{ step2_data.schedule_notes }}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Termos e Confirmação -->
+    <form method="post" id="confirmForm">
+        {% csrf_token %}
+
+        <div class="card border-warning mb-4">
+            <div class="card-body">
+                <h6 class="card-title text-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Importante - Leia Antes de Confirmar
+                </h6>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="terms_service" name="terms_service" required>
+                    <label class="form-check-label" for="terms_service">
+                        Confirmo que li e aceito os
+                        <a href="{% url 'terms' %}" target="_blank">Termos de Uso</a>
+                        da plataforma *
+                    </label>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="data_accuracy" name="data_accuracy" required>
+                    <label class="form-check-label" for="data_accuracy">
+                        Confirmo que todos os dados informados estão corretos *
+                    </label>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="payment_agreement" name="payment_agreement" required>
+                    <label class="form-check-label" for="payment_agreement">
+                        Estou ciente da forma de pagamento escolhida e concordo com os valores *
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="contact_permission" name="contact_permission" required>
+                    <label class="form-check-label" for="contact_permission">
+                        Autorizo o prestador a entrar em contato pelos dados fornecidos *
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação Final -->
+        <div class="navigation-buttons">
+            <div>
+                <a href="{% url 'solicitar_step3' %}" class="btn btn-outline-secondary btn-navigation">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar: Pagamento
+                </a>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success btn-navigation btn-lg" id="confirmButton">
+                    <i class="fas fa-check me-2"></i>
+                    Confirmar Solicitação
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Próximos Passos -->
+<div class="card border-info mt-4">
+    <div class="card-body">
+        <h6 class="card-title text-info">
+            <i class="fas fa-info-circle me-2"></i>
+            O que acontece após a confirmação?
+        </h6>
+        <div class="row">
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-paper-plane fa-2x text-primary mb-2"></i>
+                <p class="small mb-0"><strong>1. Notificação</strong><br>O prestador recebe sua solicitação</p>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-phone fa-2x text-success mb-2"></i>
+                <p class="small mb-0"><strong>2. Contato</strong><br>Ele entrará em contato em até 24h</p>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-handshake fa-2x text-warning mb-2"></i>
+                <p class="small mb-0"><strong>3. Acordo</strong><br>Vocês acertam os detalhes finais</p>
+            </div>
+            <div class="col-md-3 text-center mb-3">
+                <i class="fas fa-tools fa-2x text-info mb-2"></i>
+                <p class="small mb-0"><strong>4. Serviço</strong><br>O trabalho é realizado conforme combinado</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('confirmForm');
+        const confirmButton = document.getElementById('confirmButton');
+        const checkboxes = form.querySelectorAll('input[type="checkbox"][required]');
+
+        // Função para verificar se todos os checkboxes obrigatórios estão marcados
+        function updateConfirmButton() {
+            let allChecked = true;
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                }
+            });
+
+            confirmButton.disabled = !allChecked;
+
+            if (allChecked) {
+                confirmButton.classList.remove('btn-secondary');
+                confirmButton.classList.add('btn-success');
+            } else {
+                confirmButton.classList.remove('btn-success');
+                confirmButton.classList.add('btn-secondary');
+            }
+        }
+
+        // Adicionar event listeners aos checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateConfirmButton);
+        });
+
+        // Estado inicial
+        updateConfirmButton();
+
+        // Confirmação antes do envio
+        form.addEventListener('submit', function(e) {
+            const isConfirmed = confirm(
+                'Tem certeza que deseja confirmar esta solicitação?\n\n' +
+                'Após a confirmação, o prestador será notificado e entrará em contato com você.'
+            );
+
+            if (!isConfirmed) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Desabilitar botão para evitar duplo clique
+            confirmButton.disabled = true;
+            confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processando...';
+        });
+
+        // Animação de entrada dos cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
+</script>
+{% endblock %}

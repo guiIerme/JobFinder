@@ -1,0 +1,398 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Conversas - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-5 gap-3">
+        <div class="d-flex align-items-center">
+            <a href="{% url 'home' %}" class="modern-btn modern-btn-outline me-3 rounded-circle">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3 stats-icon modern-hover-lift">
+                    <i class="fas fa-comments fa-lg text-primary"></i>
+                </div>
+                <h2 class="mb-2 fw-bold">Conversas</h2>
+                <p class="text-muted mb-0">Suas conversas com profissionais</p>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="modern-btn modern-btn-outline rounded-pill px-4" id="refreshChats">
+                <i class="fas fa-sync-alt me-2"></i> Atualizar
+            </button>
+            <div class="dropdown">
+                <button class="modern-btn modern-btn-primary dropdown-toggle rounded-pill px-4" type="button" id="chatFiltersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter me-2"></i> Filtros
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="chatFiltersDropdown">
+                    <li><a class="dropdown-item" href="#" data-filter="all">Todas as conversas</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="unread">Não lidas</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="recent">Recentes</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" data-filter="by-service">Por serviço</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search and Filters -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="modern-card border-0 shadow">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-search text-primary"></i>
+                                </span>
+                                <input type="text" class="modern-form-control form-control border-end-0 ps-2" id="chatSearch" placeholder="Buscar conversas...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-list text-primary"></i>
+                                </span>
+                                <select class="modern-form-control form-select border-end-0 rounded-pill" id="serviceCategoryFilter">
+                                    <option value="">Todas as categorias</option>
+                                    <option value="cleaning">Limpeza</option>
+                                    <option value="repair">Reparos</option>
+                                    <option value="installation">Instalação</option>
+                                    <option value="maintenance">Manutenção</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="modern-input-group input-group rounded-pill overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-sort text-primary"></i>
+                                </span>
+                                <select class="modern-form-control form-select border-end-0 rounded-pill" id="sortBy">
+                                    <option value="recent">Mais recentes</option>
+                                    <option value="unread">Não lidas primeiro</option>
+                                    <option value="name">Nome</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row mb-5 g-4">
+        <div class="col-md-3 animate-card">
+            <div class="modern-card border-0 shadow h-100 rounded-3 overflow-hidden position-relative hover-lift">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(114, 9, 183, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1 fw-bold">Total de Conversas</h5>
+                            <h2 class="mb-2 modern-count-animation fw-bold" data-count="{{ chats|length }}">0</h2>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 stats-icon modern-hover-lift">
+                            <i class="fas fa-comments fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 animate-card">
+            <div class="modern-card border-0 shadow h-100 rounded-3 overflow-hidden position-relative hover-lift">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(76, 201, 240, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1 fw-bold">Mensagens Não Lidas</h5>
+                            <h2 class="mb-2 modern-count-animation fw-bold" data-count="5">0</h2>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3 stats-icon modern-hover-lift">
+                            <i class="fas fa-envelope fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 animate-card">
+            <div class="modern-card border-0 shadow h-100 rounded-3 overflow-hidden position-relative hover-lift">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(114, 9, 183, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1 fw-bold">Conversas Ativas</h5>
+                            <h2 class="mb-2 modern-count-animation fw-bold" data-count="12">0</h2>
+                        </div>
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3 stats-icon modern-hover-lift">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 animate-card">
+            <div class="modern-card border-0 shadow h-100 rounded-3 overflow-hidden position-relative hover-lift">
+                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.05) 0%, rgba(67, 97, 238, 0.03) 100%);"></div>
+                <div class="card-body position-relative z-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="text-muted mb-1 fw-bold">Média de Resposta</h5>
+                            <h2 class="mb-2 fw-bold">2h 15m</h2>
+                        </div>
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3 stats-icon modern-hover-lift">
+                            <i class="fas fa-clock fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat List -->
+    <div class="row">
+        {% if chats %}
+            {% for chat in chats %}
+            <div class="col-md-12 mb-3 chat-item" data-chat-id="{{ chat.id }}" data-service-category="{{ chat.order.service.category|default:'general' }}">
+                <div class="card h-100 shadow-sm chat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="position-relative">
+                                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                         style="width: 50px; height: 50px; color: white; font-weight: bold;">
+                                        {% if chat.professional == request.user %}
+                                            {{ chat.customer.first_name|slice:":1"|default:"C" }}{{ chat.customer.last_name|slice:":1"|default:"U" }}
+                                        {% else %}
+                                            {{ chat.professional.first_name|slice:":1"|default:"P" }}{{ chat.professional.last_name|slice:":1"|default:"U" }}
+                                        {% endif %}
+                                    </div>
+                                    {% if chat.unread_count > 0 %}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ chat.unread_count }}
+                                        <span class="visually-hidden">mensagens não lidas</span>
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">
+                                        {% if chat.professional == request.user %}
+                                            {{ chat.customer.get_full_name|default:chat.customer.username }}
+                                        {% else %}
+                                            {{ chat.professional.get_full_name|default:chat.professional.username }}
+                                        {% endif %}
+                                    </h5>
+                                    <p class="text-muted mb-0">
+                                        {% if chat.order %}
+                                            {{ chat.order.service.name|default:"Serviço personalizado" }}
+                                        {% else %}
+                                            Conversa
+                                        {% endif %}
+                                    </p>
+                                    {% if chat.latest_message %}
+                                    <small class="text-muted">
+                                        <span class="last-message-preview">{{ chat.latest_message.content|truncatewords:10 }}</span>
+                                    </small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                {% if chat.latest_message %}
+                                    <small class="text-muted">{{ chat.latest_message.timestamp|date:"d/m/Y H:i" }}</small>
+                                {% endif %}
+                                <div class="mt-2">
+                                    <a href="{% url 'chat_room' chat.id %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-comment"></i> Abrir
+                                    </a>
+                                    <button class="btn btn-outline-secondary btn-sm ms-1" title="Arquivar conversa">
+                                        <i class="fas fa-archive"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <!-- Empty State -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                    <h4>Nenhuma conversa encontrada</h4>
+                    <p class="text-muted">Você ainda não iniciou nenhuma conversa com profissionais.</p>
+                    <a href="{% url 'search_new' %}" class="btn btn-primary">
+                        <i class="fas fa-search me-1"></i> Buscar Profissionais
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Pagination -->
+    <nav aria-label="Navegação da lista de conversas">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Próximo</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<style>
+.animate-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.animate-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.chat-card {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.chat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    border-left: 3px solid #7c3aed;
+}
+
+.chat-card.unread {
+    background-color: rgba(124, 58, 237, 0.05);
+}
+
+.count-up {
+    display: inline-block;
+}
+
+/* Refresh button animation */
+#refreshChats i {
+    transition: transform 0.3s ease;
+}
+
+#refreshChats i.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.last-message-preview {
+    display: block;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Refresh chats
+    document.getElementById('refreshChats').addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        icon.classList.add('fa-spin');
+        setTimeout(() => {
+            icon.classList.remove('fa-spin');
+            // In a real application, you would refresh the data here
+            location.reload();
+        }, 1000);
+    });
+    
+    // Filter dropdown items
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const filter = this.getAttribute('data-filter');
+            // In a real application, you would apply the filter
+            alert(`Aplicando filtro: ${filter}`);
+        });
+    });
+    
+    // Search functionality
+    document.getElementById('chatSearch').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        document.querySelectorAll('.chat-item').forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+    
+    // Category filter
+    document.getElementById('serviceCategoryFilter').addEventListener('change', function() {
+        const category = this.value;
+        if (category === '') {
+            document.querySelectorAll('.chat-item').forEach(item => {
+                item.style.display = '';
+            });
+        } else {
+            document.querySelectorAll('.chat-item').forEach(item => {
+                if (item.getAttribute('data-service-category') === category) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    });
+    
+    // Sort functionality
+    document.getElementById('sortBy').addEventListener('change', function() {
+        const sortBy = this.value;
+        // In a real application, you would sort the chats
+        alert(`Ordenando por: ${sortBy}`);
+    });
+    
+    // Count up animation
+    const countUpElements = document.querySelectorAll('.count-up');
+    countUpElements.forEach(element => {
+        const target = parseInt(element.getAttribute('data-target'));
+        let count = 0;
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        
+        const timer = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+                count = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(count);
+        }, 16);
+    });
+    
+    // Add animation classes with delay
+    const animateCards = document.querySelectorAll('.animate-card');
+    animateCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('visible');
+        }, index * 150);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limiting Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .log {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .log-entry {
+            padding: 5px;
+            margin-bottom: 5px;
+            border-left: 3px solid #4CAF50;
+            padding-left: 10px;
+        }
+
+        .log-entry.error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+
+        .log-entry.warning {
+            border-left-color: #ff9800;
+            background: #fff3e0;
+        }
+
+        .timestamp {
+            color: #999;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚦 Rate Limiting Demo</h1>
+        <p class="subtitle">Test the rate limiting functionality by making multiple requests</p>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Requests Made</div>
+                <div class="stat-value" id="requestCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Remaining</div>
+                <div class="stat-value" id="remaining">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Limit</div>
+                <div class="stat-value" id="limit">-</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="makeRequest()">Make Single Request</button>
+            <button onclick="makeMultipleRequests(10)">Make 10 Requests</button>
+            <button onclick="makeMultipleRequests(50)">Make 50 Requests</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+
+        <h3>Request Log</h3>
+        <div class="log" id="log">
+            <div class="log-entry">
+                <span class="timestamp">Ready</span>
+                <span>Click a button above to start testing rate limiting</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let requestCount = 0;
+        const endpoint = '/search/'; // Change this to test different endpoints
+
+        function getTimestamp() {
+            const now = new Date();
+            return now.toLocaleTimeString();
+        }
+
+        function addLogEntry(message, type = 'info') {
+            const log = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `<span class="timestamp">${getTimestamp()}</span><span>${message}</span>`;
+            log.insertBefore(entry, log.firstChild);
+        }
+
+        function updateStats(limit, remaining) {
+            document.getElementById('requestCount').textContent = requestCount;
+            document.getElementById('limit').textContent = limit || '-';
+            document.getElementById('remaining').textContent = remaining || '-';
+        }
+
+        async function makeRequest() {
+            try {
+                const response = await fetch(endpoint);
+                requestCount++;
+
+                const limit = response.headers.get('X-RateLimit-Limit');
+                const remaining = response.headers.get('X-RateLimit-Remaining');
+                const reset = response.headers.get('X-RateLimit-Reset');
+
+                updateStats(limit, remaining);
+
+                if (response.status === 429) {
+                    const data = await response.json();
+                    addLogEntry(
+                        `⚠️ Rate limit exceeded! Retry after: ${data.error.details.retry_after}s`,
+                        'error'
+                    );
+                } else {
+                    addLogEntry(
+                        `✓ Request ${requestCount} successful (${response.status}) - Remaining: ${remaining}/${limit}`,
+                        'info'
+                    );
+                }
+            } catch (error) {
+                addLogEntry(`✗ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function makeMultipleRequests(count) {
+            addLogEntry(`Starting ${count} requests...`, 'warning');
+
+            for (let i = 0; i < count; i++) {
+                await makeRequest();
+                // Small delay to avoid overwhelming the browser
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            addLogEntry(`Completed ${count} requests`, 'warning');
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            addLogEntry('Log cleared', 'info');
+        }
+    </script>
+</body>
+
+</html>

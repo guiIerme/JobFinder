@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Animation Engine</title>
+    <link rel="stylesheet" href="static/css/admin-dashboard-animations.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .test-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            margin-top: 0;
+            color: #667eea;
+        }
+
+        .stats-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .stats-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .stats-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn-test {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            margin: 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        #performance-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1 style="color: white; text-align: center;">Animation Engine Test Suite</h1>
+
+        <!-- Test 1: CounterAnimator -->
+        <div class="test-section">
+            <h2>1. CounterAnimator Test</h2>
+            <p>Numbers should animate from 0 to target value:</p>
+            <div class="stats-card glass-card">
+                <div class="stats-label">Total Users</div>
+                <div class="stats-number" data-counter="1250">0</div>
+            </div>
+            <div class="stats-card glass-card">
+                <div class="stats-label">Active Providers</div>
+                <div class="stats-number" data-counter="487">0</div>
+            </div>
+            <div class="stats-card glass-card">
+                <div class="stats-label">Total Requests</div>
+                <div class="stats-number" data-counter="3842">0</div>
+            </div>
+        </div>
+
+        <!-- Test 2: RippleEffect -->
+        <div class="test-section">
+            <h2>2. RippleEffect Test</h2>
+            <p>Click buttons to see ripple effect:</p>
+            <button class="btn-test" data-ripple>Click Me!</button>
+            <button class="btn-test" data-ripple>Ripple Effect</button>
+            <button class="btn-test" data-ripple>Test Button</button>
+        </div>
+
+        <!-- Test 3: AnimationObserver -->
+        <div class="test-section">
+            <h2>3. AnimationObserver Test</h2>
+            <p>Scroll down to see elements animate when they enter viewport:</p>
+            <div class="animated-box" data-animate="fadeInUp"></div>
+            <div class="animated-box" data-animate="slideInRight"></div>
+            <div class="animated-box" data-animate="scaleIn"></div>
+            <br>
+            <div class="animated-box" data-animate="fadeInUp"></div>
+            <div class="animated-box" data-animate="slideInRight"></div>
+            <div class="animated-box" data-animate="scaleIn"></div>
+        </div>
+
+        <!-- Test 4: PerformanceMonitor -->
+        <div class="test-section">
+            <h2>4. PerformanceMonitor Test</h2>
+            <p>Performance monitoring is active. Check console for logs.</p>
+            <div id="performance-stats">
+                <div>Current FPS: <span id="fps">--</span></div>
+                <div>Average FPS: <span id="avg-fps">--</span></div>
+                <div>Frame Count: <span id="frame-count">--</span></div>
+                <div>Performance Mode: <span id="perf-mode">--</span></div>
+            </div>
+            <button class="btn-test" onclick="showPerformanceStats()">Update Stats</button>
+        </div>
+    </div>
+
+    <script src="static/js/admin-dashboard-animations.js"></script>
+    <script>
+        // Store performance monitor reference
+        let performanceMonitor;
+
+        // Override initDashboard to capture monitor reference
+        document.addEventListener('DOMContentLoaded', function() {
+            const result = initDashboard();
+            if (result && result.performanceMonitor) {
+                performanceMonitor = result.performanceMonitor;
+            }
+        });
+
+        function showPerformanceStats() {
+            if (performanceMonitor) {
+                const stats = performanceMonitor.getStats();
+                document.getElementById('fps').textContent = stats.currentFPS;
+                document.getElementById('avg-fps').textContent = stats.averageFPS;
+                document.getElementById('frame-count').textContent = stats.frameCount;
+                document.getElementById('perf-mode').textContent = stats.performanceMode ? 'Active' : 'Inactive';
+            }
+        }
+
+        // Update stats every 2 seconds
+        setInterval(showPerformanceStats, 2000);
+    </script>
+</body>
+
+</html>

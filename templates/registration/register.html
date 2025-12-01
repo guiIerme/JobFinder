@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrar - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card register-card">
+                <div class="card-header text-center">
+                    <h3><i class="fas fa-user-plus"></i> Criar Conta</h3>
+                    <p class="text-muted">Registro restrito a administradores</p>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="POST" class="register-form">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nome de Usuário</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Escolha um nome de usuário" required>
+                            </div>
+                            <div class="form-text">Use apenas letras, números e underscores.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Crie uma senha segura" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password_confirm" class="form-label">Confirmar Senha</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirme sua senha" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePasswordConfirm">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle"></i> Requisitos para criação de senha</h6>
+                            <ul class="mb-0">
+                                <li>No mínimo 8 caracteres</li>
+                                <li>Pelo menos uma letra maiúscula</li>
+                                <li>Pelo menos uma letra minúscula</li>
+                                <li>Pelo menos um número</li>
+                                <li>Pelo menos um caractere especial (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="user_type" class="form-label">Tipo de Conta</label>
+                            <select class="form-select" id="user_type" name="user_type">
+                                <option value="customer" selected>Cliente (Solicitar Serviços)</option>
+                                <option value="professional">Profissional (Prestar Serviços)</option>
+                                <option value="admin">Administrador (Gerenciar Sistema)</option>
+                            </select>
+                            <div class="form-text">Você pode alterar isso depois nas configurações do perfil.</div>
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                            <label class="form-check-label" for="terms">
+                                Concordo com os <a href="{% url 'terms' %}" class="text-decoration-none">Termos de Serviço</a> e <a href="{% url 'privacy' %}" class="text-decoration-none">Política de Privacidade</a>
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-register">
+                                <i class="fas fa-user-plus"></i> Criar Conta
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Acesso restrito - Apenas administradores podem criar novas contas.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Toggle password visibility for password field
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordField = document.getElementById('password');
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Toggle eye icon
+        const icon = this.querySelector('i');
+        if (type === 'password') {
+            icon.className = 'fas fa-eye';
+        } else {
+            icon.className = 'fas fa-eye-slash';
+        }
+    });
+    
+    // Toggle password visibility for confirm password field
+    document.getElementById('togglePasswordConfirm').addEventListener('click', function() {
+        const passwordField = document.getElementById('password_confirm');
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Toggle eye icon
+        const icon = this.querySelector('i');
+        if (type === 'password') {
+            icon.className = 'fas fa-eye';
+        } else {
+            icon.className = 'fas fa-eye-slash';
+        }
+    });
+</script>
+{% endblock %}

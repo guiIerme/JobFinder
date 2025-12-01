@@ -1,0 +1,688 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Histórico de Serviços - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #6f42c1;
+        --secondary-color: #4e73df;
+        --success-color: #1cc88a;
+        --info-color: #36b9cc;
+        --warning-color: #f6c23e;
+        --danger-color: #e74a3b;
+        --dark-color: #5a5c69;
+        --light-color: #f8f9fc;
+        --border-radius: 12px;
+        --box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        --transition: all 0.3s ease-in-out;
+    }
+
+    .service-history-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .service-history-header {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        border-radius: var(--border-radius);
+        color: white;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+    }
+
+    .service-history-header:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .service-history-header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        transform: rotate(30deg);
+    }
+
+    .stat-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        position: relative;
+        padding: 1.5rem;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+    }
+
+    .filter-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+
+    .filter-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .filter-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e3e6f0;
+        background-color: #f8f9fc;
+        font-weight: 700;
+    }
+
+    .filter-body {
+        padding: 2rem;
+    }
+
+    .form-control-modern {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d3e2;
+        transition: var(--transition);
+        margin-bottom: 1rem;
+    }
+
+    .form-control-modern:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+
+    .btn-modern {
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+    }
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary-modern {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-primary-modern:hover {
+        background-color: #5a32a3;
+        color: white;
+    }
+
+    .btn-outline-modern {
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
+    }
+
+    .btn-outline-modern:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .service-history-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .service-history-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .payment-method-card {
+        border-radius: var(--border-radius);
+        border: 1px solid #e3e6f0;
+        transition: var(--transition);
+        margin-bottom: 1.5rem;
+        padding: 2rem;
+    }
+
+    .payment-method-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .count-animation {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .stats-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.5rem;
+    }
+
+    .section-spacing {
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .service-history-container {
+            padding: 15px;
+        }
+        
+        .service-history-header {
+            padding: 1.5rem;
+        }
+        
+        .filter-body {
+            padding: 1.5rem;
+        }
+        
+        .btn-modern {
+            padding: 0.6rem 1rem;
+        }
+        
+        .stat-card {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .service-history-card {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method-card {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .service-history-container {
+            padding: 10px;
+        }
+        
+        .service-history-header {
+            padding: 1rem;
+        }
+        
+        .filter-body {
+            padding: 1rem;
+        }
+        
+        .stat-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="service-history-container">
+    <!-- Header -->
+    <div class="service-history-header">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.9) 0%, rgba(114, 9, 183, 0.95) 100%);"></div>
+            <div class="position-relative z-1">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="{% url 'home' %}" class="btn btn-light rounded-circle me-3 shadow" aria-label="Voltar para a página inicial">
+                        <i class="fas fa-arrow-left text-primary"></i>
+                    </a>
+                    <div>
+                        <h1 class="mb-0 fw-bold">Histórico de Serviços</h1>
+                        <p class="mb-0 opacity-90">Veja todos os serviços solicitados</p>
+                    </div>
+                </div>
+            </div>
+            <div class="position-relative z-1">
+                <!-- REMOVED: Service scheduling functionality has been removed as per requirements -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Overview -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow rounded-lg bg-light">
+                <div class="card-body py-4">
+                    <div class="row text-center g-4">
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="fas fa-clipboard-list fa-2x"></i>
+                                </div>
+                                <h3 class="mb-1 fw-bold d-flex align-items-center display-6">
+                                    <span class="count-up count-animation" data-target="{{ total_orders }}">0</span>
+                                </h3>
+                                <p class="text-muted mb-0">Total</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="stats-icon bg-success bg-opacity-10 text-success">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <h3 class="mb-1 fw-bold d-flex align-items-center display-6">
+                                    <span class="count-up count-animation" data-target="{{ completed_orders }}">0</span>
+                                </h3>
+                                <p class="text-muted mb-0">Concluídos</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="stats-icon bg-warning bg-opacity-10 text-warning">
+                                    <i class="fas fa-clock fa-2x"></i>
+                                </div>
+                                <h3 class="mb-1 fw-bold d-flex align-items-center display-6">
+                                    <span class="count-up count-animation" data-target="{{ in_progress_orders }}">0</span>
+                                </h3>
+                                <p class="text-muted mb-0">Em Andamento</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="stats-icon bg-danger bg-opacity-10 text-danger">
+                                    <i class="fas fa-times-circle fa-2x"></i>
+                                </div>
+                                <h3 class="mb-1 fw-bold d-flex align-items-center display-6">
+                                    <span class="count-up count-animation" data-target="{{ cancelled_orders }}">0</span>
+                                </h3>
+                                <p class="text-muted mb-0">Cancelados</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="filter-card mb-5 shadow border-0 overflow-hidden">
+        <div class="filter-header bg-white border-bottom py-3">
+            <h5 class="mb-0 d-flex align-items-center fw-bold text-primary">
+                <i class="fas fa-filter me-2"></i>
+                <span>Filtros</span>
+            </h5>
+        </div>
+        <div class="filter-body">
+            <form method="GET" class="row g-4" id="filter-form">
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label fw-bold">Período</label>
+                    <select name="period" class="form-control form-control-modern rounded-pill">
+                        <option value="all" {% if request.GET.period == 'all' %}selected{% endif %}>Todos</option>
+                        <option value="30_days" {% if request.GET.period == '30_days' %}selected{% endif %}>Últimos 30 dias</option>
+                        <option value="3_months" {% if request.GET.period == '3_months' %}selected{% endif %}>Últimos 3 meses</option>
+                        <option value="6_months" {% if request.GET.period == '6_months' %}selected{% endif %}>Últimos 6 meses</option>
+                        <option value="1_year" {% if request.GET.period == '1_year' %}selected{% endif %}>Último ano</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label fw-bold">Status</label>
+                    <select name="status" class="form-control form-control-modern rounded-pill">
+                        <option value="all" {% if request.GET.status == 'all' %}selected{% endif %}>Todos</option>
+                        <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pendente</option>
+                        <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmado</option>
+                        <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>Em andamento</option>
+                        <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Concluído</option>
+                        <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>Cancelado</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-9">
+                    <label class="form-label fw-bold">Serviço</label>
+                    <div class="input-group rounded-pill overflow-hidden">
+                        <span class="input-group-text bg-light border-0">
+                            <i class="fas fa-search text-primary"></i>
+                        </span>
+                        <input type="text" name="service" class="form-control form-control-modern border-start-0" placeholder="Buscar por serviço..." value="{{ request.GET.service }}">
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-3 d-flex align-items-end">
+                    <button class="btn btn-modern btn-primary-modern w-100 rounded-pill py-3 fw-bold" type="submit">
+                        <i class="fas fa-filter me-1"></i> Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Service History -->
+    <div class="row">
+        {% if user_orders %}
+            {% for order in user_orders %}
+            <div class="col-12 mb-4">
+                <div class="service-history-card shadow border-0 overflow-hidden modern-hover-lift position-relative">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.02) 0%, rgba(114, 9, 183, 0.01) 100%);"></div>
+                    <div class="card-body position-relative z-1">
+                        <div class="d-flex flex-column flex-md-row">
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-column flex-md-row justify-content-between">
+                                    <div class="mb-3 mb-md-0">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <h4 class="mb-0 me-3 fw-bold">
+                                                {% if order.service %}
+                                                    {{ order.service.name }}
+                                                {% elif order.professional %}
+                                                    Serviço com {{ order.professional.get_full_name|default:order.professional.username }}
+                                                {% else %}
+                                                    Serviço Personalizado
+                                                {% endif %}
+                                            </h4>
+                                            <span class="badge 
+                                                {% if order.status == 'completed' %}bg-success
+                                                {% elif order.status == 'in_progress' %}bg-info
+                                                {% elif order.status == 'confirmed' %}bg-warning
+                                                {% elif order.status == 'pending' %}bg-secondary
+                                                {% elif order.status == 'cancelled' %}bg-danger
+                                                {% endif %} px-3 py-2 rounded-pill fw-bold">
+                                                {% if order.status == 'pending' %}Pendente
+                                                {% elif order.status == 'confirmed' %}Confirmado
+                                                {% elif order.status == 'in_progress' %}Em andamento
+                                                {% elif order.status == 'completed' %}Concluído
+                                                {% elif order.status == 'cancelled' %}Cancelado
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <p class="text-muted mb-3">
+                                            {% if order.service %}
+                                                {{ order.service.description }}
+                                            {% else %}
+                                                Serviço solicitado diretamente ao profissional
+                                            {% endif %}
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-4 mb-3">
+                                            <div class="d-flex align-items-center text-muted">
+                                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
+                                                    <i class="fas fa-calendar text-primary"></i>
+                                                </div>
+                                                <span>{{ order.scheduled_date|date:"d/m/Y \à\s H:i" }}</span>
+                                            </div>
+                                            <div class="d-flex align-items-center text-muted">
+                                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
+                                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                                </div>
+                                                <span>{{ order.address }}</span>
+                                            </div>
+                                            {% if order.professional %}
+                                            <div class="d-flex align-items-center text-muted">
+                                                <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
+                                                    <i class="fas fa-user text-primary"></i>
+                                                </div>
+                                                <span>{{ order.professional.get_full_name|default:order.professional.username }}</span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-md-end">
+                                        <div class="display-5 fw-bold text-primary">R$ {{ order.total_price|floatformat:2 }}</div>
+                                        <div class="text-muted small">ID: #{{ order.id }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if order.professional and order.professional.userprofile %}
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mt-4 pt-4 border-top position-relative z-1">
+                            <div class="mb-3 mb-md-0">
+                                <div class="d-flex align-items-center">
+                                    {% if order.professional.userprofile.avatar %}
+                                        <img src="{{ order.professional.userprofile.avatar.url }}" alt="Profile Picture" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-weight: bold;">
+                                            {{ order.professional.first_name|slice:":1"|default:"U" }}{{ order.professional.last_name|slice:":1"|default:"U" }}
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="fw-bold">{{ order.professional.get_full_name|default:order.professional.username }}</div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            <span>
+                                                {{ order.professional.userprofile.rating|floatformat:1 }} 
+                                                ({{ order.professional.userprofile.review_count }} avaliações)
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex gap-2 flex-wrap">
+                                {% if order.professional %}
+                                <a href="{% url 'create_chat' order.id %}" class="btn btn-modern btn-outline-modern rounded-pill px-4 py-2 fw-bold">
+                                    <i class="fas fa-comment me-1"></i> Chat
+                                </a>
+                                {% endif %}
+                                <a href="{% url 'service_detail' order.id %}" class="btn btn-modern btn-outline-info rounded-pill px-4 py-2 fw-bold">
+                                    <i class="fas fa-receipt me-1"></i> Detalhes
+                                </a>
+                                {% if order.status == 'pending' %}
+                                <form method="post" action="/cancel-order/{{ order.id }}/" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-modern btn-outline-danger rounded-pill px-4 py-2 fw-bold" onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">
+                                        <i class="fas fa-times me-1"></i> Cancelar
+                                    </button>
+                                </form>
+                                {% elif order.status == 'completed' and not order.review %}
+                                <a href="{% url 'submit_review' order.id %}" class="btn btn-modern btn-outline-warning rounded-pill px-4 py-2 fw-bold">
+                                    <i class="fas fa-star me-1"></i> Avaliar
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- Pagination -->
+            {% if user_orders.has_other_pages %}
+            <div class="col-12 mt-4">
+                <nav aria-label="Navegação da página">
+                    <ul class="pagination justify-content-center">
+                        {% if user_orders.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link rounded-pill" href="?page={{ user_orders.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in user_orders.paginator.page_range %}
+                            {% if user_orders.number == num %}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link rounded-pill bg-primary border-primary">{{ num }}</span>
+                                </li>
+                            {% elif num > user_orders.number|add:'-3' and num < user_orders.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link rounded-pill" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if user_orders.has_next %}
+                            <li class="page-item">
+                                <a class="page-link rounded-pill" href="?page={{ user_orders.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Próximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                    <h4 class="mb-2">Nenhum serviço encontrado</h4>
+                    <p class="text-muted mb-4">Você ainda não solicitou nenhum serviço.</p>
+                    <!-- REMOVED: Service scheduling functionality has been removed as per requirements -->
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Payment Methods Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="filter-card shadow border-0 overflow-hidden">
+                <div class="filter-header bg-white border-bottom py-3">
+                    <h5 class="mb-0 d-flex align-items-center fw-bold text-success">
+                        <i class="fas fa-credit-card me-2"></i>
+                        <span>Métodos de Pagamento</span>
+                    </h5>
+                </div>
+                <div class="filter-body">
+                    <div class="row g-4">
+                        {% for payment_method in payment_methods %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="payment-method-card border" id="payment-method-{{ payment_method.id }}">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary text-white rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 30px;">
+                                            <span class="small fw-bold">
+                                                {% if payment_method.payment_type == 'credit_card' %}VISA{% elif payment_method.payment_type == 'debit_card' %}DEBIT{% elif payment_method.payment_type == 'pix' %}PIX{% else %}BANK{% endif %}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">
+                                                {% if payment_method.card_number_last4 %}
+                                                    •••• •••• •••• {{ payment_method.card_number_last4 }}
+                                                {% else %}
+                                                    {{ payment_method.get_payment_type_display }}
+                                                {% endif %}
+                                            </div>
+                                            {% if payment_method.expiry_date %}
+                                            <div class="small text-muted">Expira em {{ payment_method.expiry_date|date:"m/y" }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if payment_method.is_default %}
+                                    <span class="badge bg-success">Padrão</span>
+                                    {% endif %}
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-sm edit-payment-btn me-2" data-id="{{ payment_method.id }}">
+                                        <i class="fas fa-edit me-1"></i> Editar
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm delete-payment-btn" data-id="{{ payment_method.id }}">
+                                        <i class="fas fa-trash me-1"></i> Excluir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <i class="fas fa-credit-card fa-3x text-muted mb-3"></i>
+                                <h5 class="mb-2">Nenhum método de pagamento cadastrado</h5>
+                                <p class="text-muted mb-4">Adicione um método de pagamento para facilitar suas compras</p>
+                                <a href="{% url 'add_payment_method' %}" class="btn btn-modern btn-success">
+                                    <i class="fas fa-plus me-2"></i> Adicionar Cartão
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'add_payment_method' %}" class="btn btn-modern btn-outline-success w-100">
+                            <i class="fas fa-plus me-2"></i> Adicionar Novo Cartão
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Count up animation for stats
+    const countUpElements = document.querySelectorAll('.count-up');
+    countUpElements.forEach(element => {
+        const target = parseInt(element.getAttribute('data-target'));
+        if (!isNaN(target)) {
+            const duration = 2000; // ms
+            const increment = target / (duration / 16); // 60fps
+            let current = 0;
+            
+            const updateCount = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current);
+                    requestAnimationFrame(updateCount);
+                } else {
+                    element.textContent = target;
+                }
+            };
+            
+            // Start animation when element is in viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCount();
+                        observer.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(element);
+        }
+    });
+    
+    // Form submission with AJAX for better user feedback
+    const filterForm = document.getElementById('filter-form');
+    if (filterForm) {
+        filterForm.addEventListener('submit', function(e) {
+            // Add loading state to button
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Filtrando...';
+            submitBtn.disabled = true;
+            
+            // In a real implementation, you would handle the AJAX submission here
+            // For now, we'll just simulate a delay and then let the form submit normally
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 500);
+        });
+    }
+});
+</script>
+{% endblock %}

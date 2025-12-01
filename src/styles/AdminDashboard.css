@@ -1,0 +1,371 @@
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Apply Inter font to the entire component */
+.admin-dashboard {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Ensure proper spacing and responsiveness */
+.admin-dashboard-container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .admin-dashboard-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .admin-dashboard-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Custom animations for stat counters */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Smooth transitions for interactive elements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+/* Hover effects for cards */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Progress bar styling */
+.progress-bar-container {
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #e5e7eb;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* Toggle switch styling */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: .3s;
+  border-radius: 28px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #7e22ce;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(28px);
+}
+
+/* Icon animation */
+.animated-icon {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.animated-icon:hover {
+  transform: scale(1.18) rotate(6deg);
+  box-shadow: 0 6px 18px rgba(111, 66, 193, 0.35);
+}
+
+/* Additional spacing utilities */
+.py-extra {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.px-extra {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.gap-extra {
+  gap: 2.5rem;
+}
+
+/* Modal improvements */
+.modal-container {
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal-container {
+    padding: 2rem;
+  }
+}
+
+/* Card enhancements */
+.card-enhanced {
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-enhanced:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+
+/* Text spacing improvements */
+.text-spaced {
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.tight-spacing {
+  letter-spacing: -0.02em;
+}
+
+/* Section spacing */
+.section-spacing {
+  margin-bottom: 2.5rem;
+}
+
+.section-spacing-last {
+  margin-bottom: 0;
+}
+
+/* Dark mode support */
+.dark .bg-white {
+  background-color: #1f2937 !important;
+}
+
+.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.dark .text-gray-800 {
+  color: #d1d5db !important;
+}
+
+.dark .border-gray-100 {
+  border-color: #374151 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #4b5563 !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1f2937 !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: #374151 !important;
+}
+
+.dark .text-gray-600 {
+  color: #9ca3af !important;
+}
+
+.dark .text-gray-700 {
+  color: #6b7280 !important;
+}
+
+.dark .text-gray-900 {
+  color: #f3f4f6 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #4b5563 !important;
+}
+
+.dark .bg-gray-300 {
+  background-color: #4b5563 !important;
+}
+
+.dark .text-white {
+  color: #f9fafb !important;
+}
+
+.dark .bg-black {
+  background-color: #111827 !important;
+}
+
+.dark .text-black {
+  color: #f9fafb !important;
+}
+
+.dark .bg-purple-600 {
+  background-color: #7e22ce !important;
+}
+
+.dark .text-purple-600 {
+  color: #c084fc !important;
+}
+
+.dark .bg-green-500 {
+  background-color: #10b981 !important;
+}
+
+.dark .text-green-500 {
+  color: #34d399 !important;
+}
+
+.dark .bg-cyan-500 {
+  background-color: #06b6d4 !important;
+}
+
+.dark .text-cyan-500 {
+  color: #22d3ee !important;
+}
+
+.dark .bg-yellow-500 {
+  background-color: #f59e0b !important;
+}
+
+.dark .text-yellow-500 {
+  color: #fbbf24 !important;
+}
+
+.dark .bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+.dark .text-red-500 {
+  color: #f87171 !important;
+}
+
+.dark .bg-purple-100 {
+  background-color: #c084fc !important;
+}
+
+.dark .text-purple-100 {
+  color: #c084fc !important;
+}
+
+.dark .bg-green-100 {
+  background-color: #34d399 !important;
+}
+
+.dark .text-green-100 {
+  color: #34d399 !important;
+}
+
+.dark .bg-cyan-100 {
+  background-color: #22d3ee !important;
+}
+
+.dark .text-cyan-100 {
+  color: #22d3ee !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: #fbbf24 !important;
+}
+
+.dark .text-yellow-100 {
+  color: #fbbf24 !important;
+}
+
+.dark .bg-red-100 {
+  background-color: #f87171 !important;
+}
+
+.dark .text-red-100 {
+  color: #f87171 !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: #dbeafe !important;
+}
+
+.dark .bg-purple-50 {
+  background-color: #f3e8ff !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1f2937 !important;
+}
+
+.dark .bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+.dark .bg-gray-600 {
+  background-color: #4b5563 !important;
+}
+
+.dark .text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+.dark .text-gray-300 {
+  color: #d1d5db !important;
+}
+
+.dark .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+.dark .border-gray-700 {
+  border-color: #374151 !important;
+}
+
+.dark .hover\:bg-gray-750:hover {
+  background-color: #1f2937 !important;
+}

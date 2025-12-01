@@ -1,0 +1,1477 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buscar Profissionais - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #6f42c1;
+        --primary-light: #8a6ece;
+        --primary-dark: #5a32a3;
+        --secondary-color: #4e73df;
+        --success-color: #1cc88a;
+        --info-color: #36b9cc;
+        --warning-color: #f6c23e;
+        --danger-color: #e74a3b;
+        --dark-color: #5a5c69;
+        --light-color: #f8f9fc;
+        --border-radius: 16px;
+        --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --box-shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --gradient-primary: linear-gradient(135deg, #6f42c1, #4e73df);
+        --gradient-secondary: linear-gradient(135deg, #4e73df, #36b9cc);
+        --gradient-success: linear-gradient(135deg, #1cc88a, #36b9cc);
+        --gradient-warning: linear-gradient(135deg, #f6c23e, #f6c23e);
+        --gradient-danger: linear-gradient(135deg, #e74a3b, #e74a3b);
+        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    /* Enhanced Header */
+    .category-header {
+        background: var(--gradient-primary);
+        border-radius: var(--border-radius);
+        color: white;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+    }
+
+    .category-header:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow-hover);
+    }
+
+    .category-header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        transform: rotate(30deg);
+    }
+
+    /* Improved Filter Card */
+    .filter-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        background: white;
+        position: sticky;
+        top: 80px;
+    }
+
+    .filter-card:hover {
+        box-shadow: var(--box-shadow-hover);
+    }
+
+    .filter-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e3e6f0;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        color: white;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .filter-section {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .filter-section:last-child {
+        border-bottom: none;
+    }
+
+    .filter-section-title {
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-light);
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+
+    /* Enhanced Provider Cards */
+    .provider-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .provider-card {
+        border-radius: var(--border-radius);
+        border: none;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        background: white;
+        border-top: 4px solid var(--primary-color);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .provider-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .provider-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .provider-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .provider-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .provider-card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .provider-card:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+
+    .provider-card:nth-child(7) {
+        animation-delay: 0.7s;
+    }
+
+    .provider-card:nth-child(8) {
+        animation-delay: 0.8s;
+    }
+
+    .provider-card:nth-child(9) {
+        animation-delay: 0.9s;
+    }
+
+    .provider-card:nth-child(10) {
+        animation-delay: 1.0s;
+    }
+
+    .provider-card:nth-child(11) {
+        animation-delay: 1.1s;
+    }
+
+    .provider-card:nth-child(12) {
+        animation-delay: 1.2s;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .provider-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--box-shadow-hover);
+        border-top: 4px solid var(--primary-light);
+    }
+
+    .card-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e3e6f0;
+        background-color: #f8f9fc;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .card-footer {
+        padding: 1.5rem;
+        border-top: 1px solid #e3e6f0;
+        background-color: #f8f9fc;
+    }
+
+    /* Enhanced Profile Image */
+    .profile-image-container {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-primary);
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    /* Enhanced Rating Display */
+    .rating-display {
+        display: flex;
+        align-items: center;
+        margin-top: 0.25rem;
+    }
+
+    .star-rating-full {
+        color: #f6c23e;
+    }
+
+    .star-rating-empty {
+        color: #d1d3e2;
+    }
+
+    /* Service Info */
+    .service-info {
+        background: rgba(111, 66, 193, 0.05);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-title {
+        font-weight: 700;
+        color: var(--primary-dark);
+        margin-bottom: 0.25rem;
+    }
+
+    .service-description {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .service-price {
+        font-weight: 800;
+        color: var(--primary-color);
+        font-size: 1.25rem;
+    }
+
+    .service-category {
+        background: rgba(78, 115, 223, 0.1);
+        color: var(--secondary-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    /* Features Badges */
+    .features-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-badge {
+        background: rgba(28, 200, 138, 0.1);
+        color: var(--success-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* Location Info */
+    .location-info {
+        display: flex;
+        align-items: center;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    /* Enhanced Buttons */
+    .btn-modern {
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-modern-primary {
+        background: var(--gradient-primary);
+        color: white;
+    }
+
+    .btn-modern-primary:hover {
+        background: var(--primary-dark);
+        color: white;
+    }
+
+    .btn-modern-outline {
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
+    }
+
+    .btn-modern-outline:hover {
+        background: var(--gradient-primary);
+        color: white;
+    }
+
+    /* Filter Options */
+    .filter-option {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        transition: var(--transition);
+        cursor: pointer;
+        border: 2px solid #e3e6f0;
+        position: relative;
+    }
+
+    .filter-option:hover {
+        background-color: #f8f9fc;
+        border-color: var(--primary-light);
+    }
+
+    .filter-option input:checked+.filter-option-label {
+        background-color: rgba(111, 66, 193, 0.1);
+        border-color: var(--primary-color);
+    }
+
+    .filter-option input:checked+.filter-option-label::after {
+        content: "✓";
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    /* Search Filter */
+    .search-container {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+        border-radius: 50px;
+        border: 2px solid #e3e6f0;
+        transition: var(--transition);
+        font-family: var(--font-primary);
+    }
+
+    .search-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        outline: none;
+    }
+
+    /* Location Filter */
+    .location-container {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .location-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+    }
+
+    .location-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+        border-radius: 50px;
+        border: 2px solid #e3e6f0;
+        transition: var(--transition);
+        font-family: var(--font-primary);
+    }
+
+    .location-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        outline: none;
+    }
+
+    /* Price Range Filter */
+    .price-range-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .price-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        border: 2px solid #e3e6f0;
+        transition: var(--transition);
+        font-family: var(--font-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .price-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        outline: none;
+    }
+
+    /* Nearby Toggle */
+    .nearby-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        border-radius: 12px;
+        background-color: #f8f9fc;
+        margin-top: 0.5rem;
+        border: 2px solid #e3e6f0;
+    }
+
+    /* Sorting */
+    .sort-container {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 50px;
+        padding: 0.5rem 1rem;
+        box-shadow: var(--box-shadow);
+        border: 2px solid #e3e6f0;
+    }
+
+    .sort-label {
+        margin-right: 0.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .sort-select {
+        border: none;
+        background: transparent;
+        font-weight: 600;
+        color: var(--dark-color);
+        padding: 0.25rem 0.5rem;
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+        display: none;
+        text-align: center;
+        padding: 3rem;
+    }
+
+    .loading-spinner.show {
+        display: block;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        border-width: 0.25em;
+    }
+
+    /* No Results */
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+    }
+
+    /* Pagination */
+    .pagination {
+        margin-top: 2rem;
+    }
+
+    .page-link {
+        border-radius: 50% !important;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0.25rem;
+        border: none;
+        font-weight: 600;
+    }
+
+    .page-item.active .page-link {
+        background: var(--gradient-primary);
+        border-color: var(--primary-color);
+    }
+
+    /* Responsive Improvements */
+    @media (max-width: 992px) {
+        .filter-card {
+            position: static;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .category-header {
+            padding: 1.5rem;
+        }
+
+        .provider-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .btn-modern {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .card-header,
+        .card-body,
+        .card-footer {
+            padding: 1.25rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .provider-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .category-header {
+            padding: 1.25rem;
+        }
+
+        .sort-container {
+            padding: 0.5rem;
+        }
+
+        .sort-label {
+            display: none;
+        }
+    }
+
+    /* Accessibility Improvements */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Focus Styles */
+    a:focus,
+    button:focus,
+    input:focus,
+    select:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+
+    /* Badge Styles */
+    .badge.bg-light {
+        background-color: #f8f9fc !important;
+        color: #5a5c69 !important;
+        border: 1px solid #e3e6f0;
+    }
+
+    .badge.bg-success {
+        background: var(--gradient-success) !important;
+    }
+
+    .badge.bg-warning {
+        background: var(--gradient-warning) !important;
+    }
+
+    /* Results Header */
+    .results-header {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--box-shadow);
+    }
+
+    /* Professional Info Enhancements */
+    .professional-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .professional-stats .stat-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .professional-stats .stat-item i {
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    /* Verification Badge */
+    .fas.fa-badge-check {
+        color: var(--primary-color) !important;
+        font-size: 1.1rem;
+    }
+
+    /* Dark Mode Support */
+    html[data-theme='dark'] .filter-card,
+    html[data-theme='dark'] .provider-card,
+    html[data-theme='dark'] .card-header,
+    html[data-theme='dark'] .card-footer {
+        background: var(--dark-bg-card);
+        border-color: var(--dark-border);
+    }
+
+    html[data-theme='dark'] .filter-option {
+        border-color: var(--dark-border);
+        background: var(--dark-bg-tertiary);
+    }
+
+    html[data-theme='dark'] .filter-option:hover {
+        background: var(--dark-bg-hover);
+    }
+
+    html[data-theme='dark'] .search-input,
+    html[data-theme='dark'] .location-input,
+    html[data-theme='dark'] .price-input {
+        background: var(--dark-bg-input);
+        border-color: var(--dark-border);
+        color: var(--dark-text-primary);
+    }
+
+    html[data-theme='dark'] .service-info {
+        background: rgba(111, 66, 193, 0.1);
+    }
+
+    html[data-theme='dark'] .sort-container {
+        background: var(--dark-bg-card);
+        border-color: var(--dark-border);
+    }
+
+    html[data-theme='dark'] .nearby-toggle {
+        background: var(--dark-bg-tertiary);
+        border-color: var(--dark-border);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Início</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Buscar Profissionais</li>
+                </ol>
+            </nav>
+
+            <div class="category-header mb-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4 position-relative">
+                    <div class="position-relative z-1">
+                        <div class="d-flex align-items-center mb-3">
+                            <a href="{% url 'home' %}" class="btn btn-light rounded-circle me-3 shadow" aria-label="Voltar para a página inicial">
+                                <i class="fas fa-arrow-left text-primary"></i>
+                            </a>
+                            <div>
+                                <h1 class="mb-0 fw-bold">
+                                    <i class="fas fa-search me-2"></i>
+                                    Buscar Profissionais
+                                </h1>
+                                <p class="mb-0 opacity-90">{{ providers.paginator.count }} profissionais encontrados</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-4">
+            <div class="filter-card shadow border-0" role="region" aria-label="Filtros de busca">
+                <div class="filter-header">
+                    <div>
+                        <i class="fas fa-filter me-2"></i>
+                        <span>Filtros</span>
+                    </div>
+                    <button class="btn btn-sm btn-light rounded-circle" id="clear-filters" aria-label="Limpar todos os filtros">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="filter-body">
+                    <!-- Search Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-search me-2"></i>
+                            <span>Buscar</span>
+                        </h6>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Buscar por nome..." id="search-filter" value="{{ search_filter|default:'' }}" aria-label="Buscar profissionais">
+                        </div>
+                    </div>
+
+                    <!-- Location Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>Localização</span>
+                        </h6>
+                        <div class="location-container">
+                            <i class="fas fa-map-marker-alt location-icon"></i>
+                            <input type="text" class="location-input" placeholder="CEP ou cidade" id="location-filter" value="{{ location_filter|default:'' }}" aria-label="CEP ou cidade">
+                        </div>
+                        <div class="nearby-toggle">
+                            <span>Próximos a mim</span>
+                            <input type="checkbox" id="nearby" aria-label="Mostrar profissionais próximos">
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-th-large me-2"></i>
+                            <span>Categoria</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="category" id="any-category" value="" {% if not category_filter %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="any-category">
+                                Todas as categorias
+                            </label>
+                        </div>
+                        {% for category_key, category_name in categories %}
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="category" id="category-{{ category_key }}" value="{{ category_key }}" {% if category_filter == category_key %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="category-{{ category_key }}">
+                                {{ category_name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Availability Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-clock me-2"></i>
+                            <span>Disponibilidade</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="availability" id="any-availability" value="" {% if not availability_filter %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="any-availability">
+                                Todos os profissionais
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="availability" id="available-only" value="available" {% if availability_filter == 'available' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="available-only">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Disponíveis agora ({{ available_count }})
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Verification Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            <span>Verificação</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="verification" id="any-verification" value="" {% if not verification_filter %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="any-verification">
+                                Todos os profissionais
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="verification" id="verified-only" value="verified" {% if verification_filter == 'verified' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="verified-only">
+                                <i class="fas fa-badge-check text-primary me-2"></i>
+                                Verificados ({{ verified_count }})
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Experience Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-medal me-2"></i>
+                            <span>Experiência</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="experience" id="any-experience" value="" {% if not experience_filter %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="any-experience">
+                                Qualquer experiência
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="experience" id="experience-1" value="1" {% if experience_filter == '1' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="experience-1">
+                                1+ anos de experiência
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="experience" id="experience-3" value="3" {% if experience_filter == '3' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="experience-3">
+                                3+ anos de experiência
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="experience" id="experience-5" value="5" {% if experience_filter == '5' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="experience-5">
+                                5+ anos de experiência
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="experience" id="experience-10" value="10" {% if experience_filter == '10' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="experience-10">
+                                10+ anos de experiência
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-star me-2"></i>
+                            <span>Avaliação</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="rating" id="any-rating" value="" {% if not rating_filter %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="any-rating">
+                                Qualquer avaliação
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="rating" id="rating-5" value="5" {% if rating_filter == '5' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="rating-5">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <span class="ms-2">5 estrelas</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="rating" id="rating-4" value="4" {% if rating_filter == '4' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="rating-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-empty me-1"></i>
+                                    <span class="ms-2">4+ estrelas</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="rating" id="rating-3" value="3" {% if rating_filter == '3' %}checked{% endif %}>
+                            <label class="filter-option-label w-100" for="rating-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-full me-1"></i>
+                                    <i class="fas fa-star star-rating-empty me-1"></i>
+                                    <i class="fas fa-star star-rating-empty me-1"></i>
+                                    <span class="ms-2">3+ estrelas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">
+                            <i class="fas fa-money-bill-wave me-2"></i>
+                            <span>Faixa de Preço</span>
+                        </h6>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="price" id="any-price" value="" checked>
+                            <label class="filter-option-label w-100" for="any-price">
+                                Qualquer preço
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="price" id="price-1" value="0-100">
+                            <label class="filter-option-label w-100" for="price-1">
+                                Até R$ 100
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="price" id="price-2" value="100-300">
+                            <label class="filter-option-label w-100" for="price-2">
+                                R$ 100 - R$ 300
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <input class="filter-option-input d-none" type="radio" name="price" id="price-3" value="300+">
+                            <label class="filter-option-label w-100" for="price-3">
+                                Acima de R$ 300
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Apply Filters Button -->
+                    <div class="filter-section">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-modern btn-modern-outline" id="reset-filters">
+                                <i class="fas fa-undo me-2"></i> Resetar Filtros
+                            </button>
+                            <button class="btn btn-modern btn-modern-primary" id="apply-filters">
+                                <i class="fas fa-filter me-2"></i> Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="col-lg-8">
+            <!-- Results Header with Sorting -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h5 class="mb-1">{{ providers.paginator.count }} profissionais encontrados</h5>
+                    {% if search_filter or category_filter or rating_filter or location_filter %}
+                    <p class="text-muted mb-0">
+                        <small>
+                            Filtros ativos:
+                            {% if search_filter %}<span class="badge bg-light text-dark me-1">Busca: "{{ search_filter }}"</span>{% endif %}
+                            {% if category_filter %}<span class="badge bg-light text-dark me-1">{{ category_filter|title }}</span>{% endif %}
+                            {% if rating_filter %}<span class="badge bg-light text-dark me-1">{{ rating_filter }}+ estrelas</span>{% endif %}
+                            {% if location_filter %}<span class="badge bg-light text-dark me-1">{{ location_filter }}</span>{% endif %}
+                        </small>
+                    </p>
+                    {% endif %}
+                </div>
+                <div class="sort-container">
+                    <label class="sort-label" for="sort-select">Ordenar por:</label>
+                    <select class="sort-select" id="sort-select" name="sort">
+                        <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Melhor avaliados</option>
+                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Menor preço</option>
+                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Maior preço</option>
+                        <option value="experience" {% if sort_by == 'experience' %}selected{% endif %}>Mais experientes</option>
+                        <option value="reviews" {% if sort_by == 'reviews' %}selected{% endif %}>Mais avaliações</option>
+                        <option value="response_time" {% if sort_by == 'response_time' %}selected{% endif %}>Resposta mais rápida</option>
+                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Mais recentes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="loading-spinner" id="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <p class="mt-3 fw-medium">Carregando profissionais...</p>
+            </div>
+
+            {% if providers %}
+            <div class="provider-grid" id="providers-container">
+                {% for provider in providers %}
+                {% with provider.custom_services.first as sample_service %}
+                <div class="provider-card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex align-items-center">
+                                <div class="profile-image-container">
+                                    {% if provider.userprofile.avatar %}
+                                    <img src="{{ provider.userprofile.avatar.url }}" alt="Foto de perfil de {{ provider.get_full_name|default:provider.username }}" class="profile-image">
+                                    {% else %}
+                                    <div class="profile-placeholder">
+                                        {{ provider.first_name|slice:":1"|default:"U" }}{{ provider.last_name|slice:":1"|default:"U" }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h5 class="card-title mb-0 fw-bold me-2">
+                                            {% if provider.userprofile.business_name %}
+                                            {{ provider.userprofile.business_name }}
+                                            {% else %}
+                                            {{ provider.get_full_name|default:provider.username }}
+                                            {% endif %}
+                                        </h5>
+                                        {% if provider.userprofile.is_verified %}
+                                        <i class="fas fa-badge-check text-primary" title="Profissional Verificado"></i>
+                                        {% endif %}
+                                    </div>
+                                    {% if provider.userprofile.business_name and provider.get_full_name %}
+                                    <p class="text-muted mb-1 small">{{ provider.get_full_name }}</p>
+                                    {% endif %}
+                                    <div class="rating-display">
+                                        {% for i in "12345" %}
+                                        {% if forloop.counter <= provider.userprofile.rating|floatformat:0|add:0 %}
+                                        <i class="fas fa-star star-rating-full"></i>
+                                        {% else %}
+                                        <i class="fas fa-star star-rating-empty"></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <span class="fw-medium ms-2">
+                                            {{ provider.userprofile.rating|floatformat:1|default:"4.5" }}
+                                            <span class="text-muted">({{ provider.userprofile.review_count|default:"12" }} avaliações)</span>
+                                        </span>
+                                    </div>
+                                    {% if provider.userprofile.experience_years > 0 %}
+                                    <div class="text-muted small mt-1">
+                                        <i class="fas fa-medal me-1"></i>
+                                        {{ provider.userprofile.experience_years }} anos de experiência
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                {% if provider.userprofile.is_available %}
+                                <span class="badge bg-success rounded-pill mb-1">Disponível</span>
+                                {% else %}
+                                <span class="badge bg-secondary rounded-pill mb-1">Ocupado</span>
+                                {% endif %}
+                                {% if provider.userprofile.is_premium %}
+                                <span class="badge bg-warning text-dark rounded-pill">Premium</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Professional Bio -->
+                        {% if provider.userprofile.bio %}
+                        <div class="mb-3">
+                            <p class="text-muted mb-2">{{ provider.userprofile.bio|truncatewords:20 }}</p>
+                        </div>
+                        {% endif %}
+
+                        <!-- Specialties -->
+                        {% if provider.userprofile.specialties %}
+                        <div class="mb-3">
+                            <h6 class="small fw-bold text-muted mb-2">ESPECIALIDADES</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for specialty in provider.userprofile.specialties_list|slice:":3" %}
+                                <span class="badge bg-light text-dark">{{ specialty }}</span>
+                                {% endfor %}
+                                {% if provider.userprofile.specialties_list|length > 3 %}
+                                <span class="badge bg-light text-muted">+{{ provider.userprofile.specialties_list|length|add:"-3" }} mais</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Sample Service -->
+                        {% if sample_service %}
+                        <div class="service-info">
+                            <h6 class="service-title mb-1">{{ sample_service.name }}</h6>
+                            <p class="service-description mb-2">{{ sample_service.description|truncatewords:12 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">R$ {{ sample_service.estimated_price|floatformat:2 }}</span>
+                                <span class="service-category">{{ sample_service.get_category_display }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Professional Features -->
+                        <div class="features-container">
+                            {% if provider.userprofile.is_verified %}
+                            <span class="feature-badge">
+                                <i class="fas fa-shield-alt me-1"></i>Verificado
+                            </span>
+                            {% endif %}
+                            {% if provider.userprofile.response_time_hours <= 2 %}
+                            <span class="feature-badge">
+                                <i class="fas fa-clock me-1"></i>Resposta rápida
+                            </span>
+                            {% endif %}
+                            {% if provider.userprofile.service_radius >= 20 %}
+                            <span class="feature-badge">
+                                <i class="fas fa-map me-1"></i>Atende região ampla
+                            </span>
+                            {% endif %}
+                            <span class="feature-badge">
+                                <i class="fas fa-tools me-1"></i>Orçamento grátis
+                            </span>
+                        </div>
+
+                        <!-- Location and Service Info -->
+                        <div class="row g-2 mt-2">
+                            <div class="col-6">
+                                <div class="location-info">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    <span>{{ provider.userprofile.city|default:"São Paulo" }}, {{ provider.userprofile.state|default:"SP" }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="location-info">
+                                    <i class="fas fa-route me-2"></i>
+                                    <span>{{ provider.userprofile.service_radius|default:"10" }}km de raio</span>
+                                </div>
+                            </div>
+                            {% if provider.userprofile.response_time_hours %}
+                            <div class="col-6">
+                                <div class="location-info">
+                                    <i class="fas fa-reply me-2"></i>
+                                    <span>Responde em {{ provider.userprofile.response_time_hours }}h</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="col-6">
+                                <div class="location-info">
+                                    <i class="fas fa-briefcase me-2"></i>
+                                    <span>{{ provider.custom_services.count }} serviços</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'solicitar_servico_completo' %}?id={{ sample_service.id }}&nome={{ sample_service.name|urlencode }}&descricao={{ sample_service.description|urlencode }}&preco={{ sample_service.estimated_price }}" class="btn btn-modern btn-modern-primary service-request-btn">
+                                <i class="fas fa-concierge-bell me-2"></i> Solicitar Serviço
+                            </a>
+                            <a href="{% url 'provider_profile' provider.id %}" class="btn btn-modern btn-modern-outline">
+                                <i class="fas fa-user me-2"></i> Ver Perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if providers.has_other_pages %}
+            <div class="mt-5">
+                <nav aria-label="Navegação da página">
+                    <ul class="pagination justify-content-center">
+                        {% if providers.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ providers.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in providers.paginator.page_range %}
+                        {% if providers.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > providers.number|add:'-3' and num < providers.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if providers.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ providers.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Próximo">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="no-results">
+                <i class="fas fa-user-tie fa-3x text-muted mb-3"></i>
+                <h5 class="mb-3">Nenhum prestador encontrado</h5>
+                <p class="text-muted mb-4">Não há prestadores disponíveis com os filtros selecionados.</p>
+                <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+                    <button class="btn btn-modern btn-modern-primary" id="clear-filters-btn">
+                        <i class="fas fa-undo me-1"></i> Limpar Filtros
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-modern btn-modern-outline">
+                        <i class="fas fa-arrow-left me-1"></i> Voltar aos Serviços
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        const clearFiltersPageBtn = document.getElementById('clear-filters-btn');
+
+        // Loading spinner
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const providersContainer = document.getElementById('providers-container');
+
+        function showLoading() {
+            loadingSpinner.classList.add('show');
+            if (providersContainer) {
+                providersContainer.style.opacity = '0.5';
+            }
+        }
+
+        function hideLoading() {
+            loadingSpinner.classList.remove('show');
+            if (providersContainer) {
+                providersContainer.style.opacity = '1';
+            }
+        }
+
+        function applyFilters() {
+            console.log('Aplicando filtros...'); // Debug
+            showLoading();
+
+            // Get selected filters
+            const categoryElement = document.querySelector('input[name="category"]:checked');
+            const ratingElement = document.querySelector('input[name="rating"]:checked');
+            const searchElement = document.getElementById('search-filter');
+            const locationElement = document.getElementById('location-filter');
+            const priceElement = document.querySelector('input[name="price"]:checked');
+            const availabilityElement = document.querySelector('input[name="availability"]:checked');
+            const verificationElement = document.querySelector('input[name="verification"]:checked');
+            const experienceElement = document.querySelector('input[name="experience"]:checked');
+            const sortElement = document.getElementById('sort-select');
+
+            const category = categoryElement ? categoryElement.value : '';
+            const rating = ratingElement ? ratingElement.value : '';
+            const search = searchElement ? searchElement.value.trim() : '';
+            const location = locationElement ? locationElement.value.trim() : '';
+            const price = priceElement ? priceElement.value : '';
+            const availability = availabilityElement ? availabilityElement.value : '';
+            const verification = verificationElement ? verificationElement.value : '';
+            const experience = experienceElement ? experienceElement.value : '';
+            const sort = sortElement ? sortElement.value : 'rating';
+
+            console.log('Filtros:', {
+                category,
+                rating,
+                search,
+                location,
+                price,
+                availability,
+                verification,
+                experience,
+                sort
+            }); // Debug
+
+            // Build query string
+            const params = new URLSearchParams();
+
+            if (category) {
+                params.set('category', category);
+            }
+
+            if (rating) {
+                params.set('rating', rating);
+            }
+
+            if (search) {
+                params.set('search', search);
+            }
+
+            if (location) {
+                params.set('location', location);
+            }
+
+            if (availability) {
+                params.set('availability', availability);
+            }
+
+            if (verification) {
+                params.set('verification', verification);
+            }
+
+            if (experience) {
+                params.set('experience', experience);
+            }
+
+            if (sort && sort !== 'rating') {
+                params.set('sort', sort);
+            }
+
+            if (price) {
+                if (price === '0-100') {
+                    params.set('price_min', '0');
+                    params.set('price_max', '100');
+                } else if (price === '100-300') {
+                    params.set('price_min', '100');
+                    params.set('price_max', '300');
+                } else if (price === '300+') {
+                    params.set('price_min', '300');
+                } else {
+                    // Handle other price ranges
+                    const priceRange = price.split('-');
+                    if (priceRange.length === 2) {
+                        params.set('price_min', priceRange[0]);
+                        params.set('price_max', priceRange[1]);
+                    }
+                }
+            }
+
+            // Redirect with filters
+            const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            console.log('Redirecionando para:', newUrl); // Debug
+            window.location.href = newUrl;
+        }
+
+        if (applyFiltersBtn) {
+            console.log('Botão de aplicar filtros encontrado'); // Debug
+            applyFiltersBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Botão clicado'); // Debug
+                applyFilters();
+            });
+        } else {
+            console.error('Botão de aplicar filtros não encontrado'); // Debug
+        }
+
+        // Reset filters
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', function() {
+                // Reset all filters
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = radio.value === '';
+                });
+                document.getElementById('search-filter').value = '';
+                document.getElementById('location-filter').value = '';
+
+                // Reset sort to default
+                const sortSelect = document.getElementById('sort-select');
+                if (sortSelect) {
+                    sortSelect.value = 'rating';
+                }
+            });
+        }
+
+        // Clear filters
+        function clearFilters() {
+            // Reset all filters and redirect without filters
+            window.location.search = '';
+        }
+
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', clearFilters);
+        }
+
+        if (clearFiltersPageBtn) {
+            clearFiltersPageBtn.addEventListener('click', clearFilters);
+        }
+
+        // Handle Enter key in search field
+        const searchFilter = document.getElementById('search-filter');
+        if (searchFilter) {
+            searchFilter.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+        }
+
+        // Add change event to filter options for auto-apply
+        const filterInputs = document.querySelectorAll('input[name="category"], input[name="rating"], input[name="price"], input[name="availability"], input[name="verification"], input[name="experience"]');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                console.log('Filtro alterado:', this.name, this.value); // Debug
+                // Auto-apply filters when selection changes
+                setTimeout(applyFilters, 100);
+            });
+        });
+
+        // Add sorting functionality
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                console.log('Ordenação alterada:', this.value); // Debug
+                applyFilters();
+            });
+        }
+
+        // Add input event to search and location for real-time filtering
+        const searchElement = document.getElementById('search-filter');
+        const locationElement = document.getElementById('location-filter');
+
+        if (searchElement) {
+            let searchTimeout;
+            searchElement.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    console.log('Busca alterada:', this.value); // Debug
+                    applyFilters();
+                }, 1200); // Wait 1.2 seconds after user stops typing
+            });
+        }
+
+        if (locationElement) {
+            let locationTimeout;
+            locationElement.addEventListener('input', function() {
+                clearTimeout(locationTimeout);
+                locationTimeout = setTimeout(() => {
+                    console.log('Localização alterada:', this.value); // Debug
+                    applyFilters();
+                }, 1200); // Wait 1.2 seconds after user stops typing
+            });
+        }
+
+        // Modal functionality removed - now using dedicated page approach
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Termos de Serviço - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold mb-4">Termos de Serviço</h1>
+            <p class="lead text-muted">Última atualização: 06 de outubro de 2025</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Table of Contents -->
+        <div class="col-lg-3 mb-5 mb-lg-0">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 d-flex align-items-center">
+                        <i class="fas fa-list me-2"></i>
+                        <span>Índice</span>
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#aceitacao" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-check-circle me-2 text-primary"></i>1. Aceitação dos Termos
+                    </a>
+                    <a href="#descricao" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-info-circle me-2 text-primary"></i>2. Descrição do Serviço
+                    </a>
+                    <a href="#cadastro" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-user me-2 text-primary"></i>3. Cadastro e Conta
+                    </a>
+                    <a href="#direitos" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-balance-scale me-2 text-primary"></i>4. Direitos e Obrigações
+                    </a>
+                    <a href="#pagamentos" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-credit-card me-2 text-primary"></i>5. Pagamentos
+                    </a>
+                    <a href="#cancelamentos" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-times-circle me-2 text-primary"></i>6. Cancelamentos
+                    </a>
+                    <a href="#responsabilidades" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-2 text-primary"></i>7. Responsabilidades
+                    </a>
+                    <a href="#privacidade" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-lock me-2 text-primary"></i>8. Privacidade
+                    </a>
+                    <a href="#propriedade" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-copyright me-2 text-primary"></i>9. Propriedade Intelectual
+                    </a>
+                    <a href="#modificacoes" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-edit me-2 text-primary"></i>10. Modificações
+                    </a>
+                    <a href="#disposicoes" class="list-group-item list-group-item-action d-flex align-items-center">
+                        <i class="fas fa-gavel me-2 text-primary"></i>11. Disposições Gerais
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms Content -->
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <!-- Acceptance -->
+                    <div id="aceitacao" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-check-circle fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">1. Aceitação dos Termos</h2>
+                        </div>
+                        <p>Ao acessar ou utilizar a plataforma Job Finder, você concorda em cumprir estes Termos de Serviço e todas as leis e regulamentos aplicáveis. Se você não concordar com algum desses termos, não poderá acessar ou utilizar o serviço.</p>
+                        <p>Estes termos se aplicam a todos os visitantes, usuários e outros que acessam ou utilizam o serviço.</p>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Importante:</strong> Recomendamos que você leia atentamente todos os termos antes de utilizar nossos serviços.
+                        </div>
+                    </div>
+
+                    <!-- Service Description -->
+                    <div id="descricao" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-info-circle fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">2. Descrição do Serviço</h2>
+                        </div>
+                        <p>O Job Finder é uma plataforma online que conecta clientes que buscam serviços domésticos com profissionais qualificados para realizar esses serviços.</p>
+                        <p>O serviço inclui:</p>
+                        <ul>
+                            <li>Busca e comparação de profissionais</li>
+                            <li>Agendamento de serviços</li>
+                            <li>Sistema de pagamento seguro</li>
+                            <li>Avaliação de serviços</li>
+                            <li>Sistema de suporte ao cliente</li>
+                        </ul>
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Observação:</strong> O Job Finder atua como intermediário entre clientes e profissionais, não sendo responsável pela execução direta dos serviços.
+                        </div>
+                    </div>
+
+                    <!-- Registration and Account -->
+                    <div id="cadastro" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-user fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">3. Cadastro e Conta</h2>
+                        </div>
+                        <p>Para utilizar certas funcionalidades da plataforma, você precisará criar uma conta fornecendo informações verdadeiras, precisas e atualizadas.</p>
+                        <p>Você é responsável por manter a confidencialidade da sua senha e por todas as atividades que ocorrem em sua conta.</p>
+                        <p>Você concorda em notificar imediatamente o Job Finder sobre qualquer uso não autorizado de sua conta.</p>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">Dicas para manter sua conta segura:</h5>
+                                <ul class="mb-0">
+                                    <li>Use uma senha forte com letras, números e caracteres especiais</li>
+                                    <li>Não compartilhe sua senha com ninguém</li>
+                                    <li>Altere sua senha regularmente</li>
+                                    <li>Ative a autenticação de dois fatores, se disponível</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rights and Obligations -->
+                    <div id="direitos" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-balance-scale fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">4. Direitos e Obrigações</h2>
+                        </div>
+
+                        <h5 class="mt-4">4.1. Direitos do Job Finder</h5>
+                        <p>O Job Finder reserva-se o direito de:</p>
+                        <ul>
+                            <li>Modificar ou descontinuar, temporária ou permanentemente, o serviço</li>
+                            <li>Recusar ou cancelar o registro de qualquer usuário</li>
+                            <li>Remover conteúdo que viole estes termos</li>
+                            <li>Suspender ou encerrar contas de usuários</li>
+                        </ul>
+
+                        <h5 class="mt-4">4.2. Obrigações dos Usuários</h5>
+                        <p>Ao utilizar o serviço, você concorda em:</p>
+                        <ul>
+                            <li>Fornecer informações verdadeiras e atualizadas</li>
+                            <li>Não utilizar o serviço para fins ilegais</li>
+                            <li>Respeitar os direitos de outros usuários</li>
+                            <li>Cumprir todas as leis aplicáveis</li>
+                            <li>Não interferir no funcionamento do serviço</li>
+                        </ul>
+                    </div>
+
+                    <!-- Payments -->
+                    <div id="pagamentos" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">5. Pagamentos</h2>
+                        </div>
+                        <p>Todos os pagamentos são processados através da plataforma segura do Job Finder.</p>
+                        <p>Taxas aplicáveis:</p>
+                        <ul>
+                            <li><strong>Para Clientes:</strong> Nenhuma taxa adicional além do valor do serviço</li>
+                            <li><strong>Para Profissionais:</strong> 15% sobre o valor total do serviço</li>
+                        </ul>
+                        <p>Os pagamentos para profissionais são realizados mensalmente, até o 5º dia útil do mês seguinte.</p>
+                        <div class="alert alert-success">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            <strong>Segurança:</strong> Todos os pagamentos são protegidos por criptografia e só são liberados após a confirmação da conclusão do serviço.
+                        </div>
+                    </div>
+
+                    <!-- Cancellations -->
+                    <div id="cancelamentos" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-times-circle fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">6. Cancelamentos</h2>
+                        </div>
+
+                        <h5 class="mt-4">6.1. Por Clientes</h5>
+                        <ul>
+                            <li><strong>Mais de 48h antes:</strong> Reembolso integral</li>
+                            <li><strong>Entre 24h e 48h antes:</strong> Reembolso de 50%</li>
+                            <li><strong>Menos de 24h antes:</strong> Sem reembolso</li>
+                        </ul>
+
+                        <h5 class="mt-4">6.2. Por Profissionais</h5>
+                        <ul>
+                            <li><strong>Mais de 48h antes:</strong> Sem penalidades</li>
+                            <li><strong>Entre 24h e 48h antes:</strong> Cobrança de 50% do valor</li>
+                            <li><strong>Menos de 24h antes:</strong> Cobrança de 100% do valor</li>
+                        </ul>
+                    </div>
+
+                    <!-- Responsibilities -->
+                    <div id="responsabilidades" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-exclamation-triangle fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">7. Responsabilidades</h2>
+                        </div>
+
+                        <h5 class="mt-4">7.1. Limitação de Responsabilidade</h5>
+                        <p>O Job Finder não será responsável por:</p>
+                        <ul>
+                            <li>Quaisquer danos diretos, indiretos, incidentais ou consequenciais</li>
+                            <li>Perda de lucros ou receitas</li>
+                            <li>Interrupção de negócios</li>
+                            <li>Perda de dados ou informações</li>
+                        </ul>
+
+                        <h5 class="mt-4">7.2. Conteúdo de Usuários</h5>
+                        <p>O Job Finder não é responsável pelo conteúdo fornecido pelos usuários e não verifica previamente tal conteúdo.</p>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <strong>Aviso Legal:</strong> Os usuários são exclusivamente responsáveis pelo conteúdo que publicam na plataforma.
+                        </div>
+                    </div>
+
+                    <!-- Privacy -->
+                    <div id="privacidade" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-lock fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">8. Privacidade</h2>
+                        </div>
+                        <p>Sua privacidade é importante para nós. Nossa Política de Privacidade explica como coletamos, usamos e protegemos suas informações pessoais.</p>
+                        <p>Ao utilizar nosso serviço, você concorda com a coleta e uso de informações de acordo com nossa Política de Privacidade.</p>
+                        <a href="{% url 'privacy' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-book me-2"></i>Ler Política de Privacidade
+                        </a>
+                    </div>
+
+                    <!-- Intellectual Property -->
+                    <div id="propriedade" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-copyright fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">9. Propriedade Intelectual</h2>
+                        </div>
+                        <p>O serviço e seu conteúdo original, recursos e funcionalidades são propriedade exclusiva do Job Finder e são protegidos por leis de direitos autorais, marcas registradas e outras leis.</p>
+                        <p>Você não pode modificar, publicar, transmitir, participar na transferência ou venda, reproduzir, criar trabalhos derivados, exibir ou de outra forma explorar qualquer parte do serviço.</p>
+                    </div>
+
+                    <!-- Modifications -->
+                    <div id="modificacoes" class="mb-5">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-edit fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">10. Modificações</h2>
+                        </div>
+                        <p>Reservamo-nos o direito, a nosso exclusivo critério, de modificar estes termos a qualquer momento.</p>
+                        <p>Quando fizermos alterações, publicaremos os termos revisados nesta página e atualizaremos a data de "Última atualização".</p>
+                        <p>Seu uso continuado do serviço após a publicação das alterações constitui aceitação dessas alterações.</p>
+                    </div>
+
+                    <!-- General Provisions -->
+                    <div id="disposicoes">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <i class="fas fa-gavel fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">11. Disposições Gerais</h2>
+                        </div>
+                        <p>Estes termos constituem o acordo completo entre você e o Job Finder em relação ao serviço.</p>
+                        <p>Se qualquer disposição destes termos for considerada inválida ou inexequível, essa disposição será limitada ou eliminada na medida mínima necessária.</p>
+                        <p>Nossa falha em exercer ou aplicar qualquer direito ou disposição destes termos não constituirá uma renúncia a tal direito ou disposição.</p>
+                        <div class="card bg-light mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Contato</h5>
+                                <p>Se você tiver alguma dúvida sobre estes Termos de Serviço, entre em contato conosco:</p>
+                                <ul class="mb-0">
+                                    <li>Por e-mail: <a href="mailto:contato@jobfinder.com.br" class="text-decoration-none">contato@jobfinder.com.br</a></li>
+                                    <li>Por telefone: (61) 98196-1144</li>
+                                    <li>Por correio: SCS Quadra 02, Bloco C, Edifício Toufic, Sala 1040 - Brasília, DF - CEP: 70318-900</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active class in sidebar
+                    document.querySelectorAll('.list-group-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active category on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('#aceitacao, #descricao, #cadastro, #direitos, #pagamentos, #cancelamentos, #responsabilidades, #privacidade, #propriedade, #modificacoes, #disposicoes');
+            const scrollPosition = window.scrollY + 200;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.list-group-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

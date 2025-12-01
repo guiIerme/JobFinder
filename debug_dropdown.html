@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dropdown - Job Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .debug-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            z-index: 9999;
+        }
+
+        .debug-button {
+            margin: 5px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-toolbox me-2 text-primary"></i>
+                <span class="fw-bold">Job Finder</span>
+            </a>
+
+            <div class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                        <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            U
+                        </div>
+                        <span>Usuário Teste</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-toolbox me-2"></i>Painel do Prestador</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Debug do Menu Dropdown</h1>
+        <div class="alert alert-info">
+            <h5>Instruções de Teste:</h5>
+            <ol>
+                <li>Clique no avatar/nome do usuário no canto superior direito</li>
+                <li>O menu dropdown deve aparecer</li>
+                <li>Clique fora para fechar o menu</li>
+                <li>Use os botões de debug no canto inferior direito para diagnosticar problemas</li>
+            </ol>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Status do Bootstrap</h3>
+                <div id="bootstrap-status" class="alert alert-secondary">
+                    Verificando...
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Status do Dropdown</h3>
+                <div id="dropdown-status" class="alert alert-secondary">
+                    Verificando...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug Panel -->
+    <div class="debug-panel">
+        <h6>Debug Panel</h6>
+        <button class="btn btn-sm btn-primary debug-button" onclick="checkBootstrap()">Check Bootstrap</button>
+        <button class="btn btn-sm btn-success debug-button" onclick="checkDropdown()">Check Dropdown</button>
+        <button class="btn btn-sm btn-warning debug-button" onclick="forceInit()">Force Init</button>
+        <button class="btn btn-sm btn-danger debug-button" onclick="manualToggle()">Manual Toggle</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Debug functions
+        function checkBootstrap() {
+            const status = document.getElementById('bootstrap-status');
+            if (typeof bootstrap !== 'undefined') {
+                status.className = 'alert alert-success';
+                status.innerHTML = `✅ Bootstrap carregado (v${bootstrap.Tooltip.VERSION || 'unknown'})`;
+            } else {
+                status.className = 'alert alert-danger';
+                status.innerHTML = '❌ Bootstrap não encontrado';
+            }
+        }
+
+        function checkDropdown() {
+            const status = document.getElementById('dropdown-status');
+            const dropdown = document.getElementById('userDropdown');
+
+            if (!dropdown) {
+                status.className = 'alert alert-danger';
+                status.innerHTML = '❌ Elemento dropdown não encontrado';
+                return;
+            }
+
+            const instance = bootstrap.Dropdown.getInstance(dropdown);
+            const menu = dropdown.nextElementSibling;
+
+            status.className = 'alert alert-info';
+            status.innerHTML = `
+                <strong>Dropdown Status:</strong><br>
+                • Elemento: ${dropdown ? '✅' : '❌'}<br>
+                • Menu: ${menu ? '✅' : '❌'}<br>
+                • Bootstrap Instance: ${instance ? '✅' : '❌'}<br>
+                • Data Attribute: ${dropdown.getAttribute('data-bs-toggle')}<br>
+                • Aria Expanded: ${dropdown.getAttribute('aria-expanded')}
+            `;
+        }
+
+        function forceInit() {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                // Dispose existing instance
+                const existing = bootstrap.Dropdown.getInstance(dropdown);
+                if (existing) existing.dispose();
+
+                // Create new instance
+                new bootstrap.Dropdown(dropdown);
+                console.log('Dropdown reinicializado');
+                checkDropdown();
+            }
+        }
+
+        function manualToggle() {
+            const dropdown = document.getElementById('userDropdown');
+            const menu = dropdown.nextElementSibling;
+
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+                dropdown.setAttribute('aria-expanded', 'false');
+            } else {
+                menu.classList.add('show');
+                dropdown.setAttribute('aria-expanded', 'true');
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                checkBootstrap();
+                checkDropdown();
+            }, 100);
+
+            // Initialize dropdown
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                new bootstrap.Dropdown(dropdown);
+            }
+        });
+
+        // Click handler for debugging
+        document.getElementById('userDropdown').addEventListener('click', function(e) {
+            console.log('Dropdown clicked:', e);
+            console.log('Target:', e.target);
+            console.log('Current target:', e.currentTarget);
+        });
+    </script>
+</body>
+
+</html>

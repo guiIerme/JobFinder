@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Método de Pagamento - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <i class="fas fa-credit-card fa-3x mb-3"></i>
+                    <h2 class="mb-0">Editar Método de Pagamento</h2>
+                    <p class="mb-0">Atualize as informações do seu cartão</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" id="edit-payment-form" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="payment_method_id" value="{{ payment_method.id }}">
+                        
+                        <div class="mb-4">
+                            <label for="payment_type" class="form-label fw-bold">Tipo de Pagamento</label>
+                            <select class="form-select form-control-lg rounded-pill" id="payment_type" name="payment_type" required>
+                                <option value="credit_card" {% if payment_method.payment_type == 'credit_card' %}selected{% endif %}>Cartão de Crédito</option>
+                                <option value="debit_card" {% if payment_method.payment_type == 'debit_card' %}selected{% endif %}>Cartão de Débito</option>
+                                <option value="pix" {% if payment_method.payment_type == 'pix' %}selected{% endif %}>PIX</option>
+                                <option value="bank_transfer" {% if payment_method.payment_type == 'bank_transfer' %}selected{% endif %}>Transferência Bancária</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4" id="card-fields">
+                            <label for="card_number" class="form-label fw-bold">Número do Cartão</label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill">
+                                    <i class="fas fa-credit-card"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-lg rounded-end-pill" id="card_number" name="card_number" maxlength="19" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-text">Digite o número completo do cartão</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="cardholder_name" class="form-label fw-bold">Nome do Titular</label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-lg rounded-end-pill" id="cardholder_name" name="cardholder_name" value="{{ payment_method.cardholder_name }}" placeholder="Nome como aparece no cartão" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="expiry_date" class="form-label fw-bold">Data de Expiração</label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-lg rounded-end-pill" id="expiry_date" name="expiry_date" value="{% if payment_method.expiry_date %}{{ payment_method.expiry_date|date:'m/y' }}{% endif %}" placeholder="MM/AA">
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-5">
+                            <a href="{% url 'profile_new' %}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+                                <i class="fas fa-arrow-left me-2"></i> Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">
+                                <i class="fas fa-save me-2"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Show/hide card fields based on payment type
+    function updatePaymentFields() {
+        const paymentType = document.getElementById('payment_type').value;
+        const cardFields = document.getElementById('card-fields');
+        
+        if (paymentType.includes('card')) {
+            cardFields.style.display = 'block';
+        } else {
+            cardFields.style.display = 'none';
+        }
+    }
+    
+    // Initialize on page load
+    updatePaymentFields();
+    
+    // Update when payment type changes
+    const paymentTypeSelect = document.getElementById('payment_type');
+    if (paymentTypeSelect) {
+        paymentTypeSelect.addEventListener('change', updatePaymentFields);
+    }
+    
+    // Format card number input (add spaces every 4 digits)
+    const cardNumberInput = document.getElementById('card_number');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            // Add spaces every 4 digits
+            value = value.replace(/(\d{4})/g, '$1 ').trim();
+            // Limit to 19 characters (16 digits + 3 spaces)
+            if (value.length > 19) {
+                value = value.substring(0, 19);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    // Format expiry date input
+    const expiryDateInput = document.getElementById('expiry_date');
+    if (expiryDateInput) {
+        expiryDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    // Form validation
+    const form = document.getElementById('edit-payment-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Validate card number (if applicable)
+            const paymentType = document.getElementById('payment_type').value;
+            const cardNumber = document.getElementById('card_number').value;
+            
+            if ((paymentType === 'credit_card' || paymentType === 'debit_card') && !cardNumber) {
+                e.preventDefault();
+                alert('Por favor, informe o número do cartão.');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Salvando...';
+            submitButton.disabled = true;
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,494 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chat - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Chat Header -->
+            <div class="modern-card mb-4 shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <a href="{% url 'chat_list' %}" class="modern-btn modern-btn-outline me-3 rounded-circle">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-4 stats-icon modern-hover-lift" style="width: 60px; height: 60px; color: white; font-weight: bold;">
+                                {% if chat.professional == request.user %}
+                                {{ chat.customer.first_name|slice:":1"|default:"C" }}{{ chat.customer.last_name|slice:":1"|default:"U" }}
+                                {% else %}
+                                {{ chat.professional.first_name|slice:":1"|default:"P" }}{{ chat.professional.last_name|slice:":1"|default:"U" }}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold">
+                                    {% if chat.professional == request.user %}
+                                    {{ chat.customer.get_full_name|default:chat.customer.username }}
+                                    {% else %}
+                                    {{ chat.professional.get_full_name|default:chat.professional.username }}
+                                    {% endif %}
+                                </h5>
+                                <p class="text-muted mb-2">
+                                    {% if chat.order %}
+                                    {{ chat.order.service.name|default:"Serviço personalizado" }}
+                                    {% endif %}
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <span class="modern-badge bg-success me-2 rounded-pill px-3 py-1">Online</span>
+                                    <small class="text-muted">Visto por último há 2 minutos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            {% if chat.order %}
+                            <!-- REMOVED: Order confirmation functionality has been removed as per requirements -->
+                            {% endif %}
+                            <div class="dropdown">
+                                <button class="modern-btn modern-btn-outline" type="button" id="chatOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="chatOptionsDropdown">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Ver perfil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-phone me-2"></i>Ligar</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-video me-2"></i>Vídeo chamada</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-bell-slash me-2"></i>Silenciar conversa</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-archive me-2"></i>Arquivar</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Excluir conversa</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="modern-card mb-4 shadow">
+                <div class="card-body p-0">
+                    <div class="p-4 border-bottom bg-light bg-opacity-50">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3 stats-icon modern-hover-lift" style="width: 30px; height: 30px;">
+                                <i class="fas fa-info-circle text-primary" aria-hidden="true"></i>
+                            </div>
+                            <small class="text-muted fw-medium">
+                                {% if chat.professional == request.user %}
+                                Você está conversando com o cliente
+                                {% else %}
+                                Você está conversando com o profissional
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="p-4" style="height: 60vh; overflow-y: auto;" id="chat-messages" role="log" aria-live="polite">
+                        {% for message in chat.messages.all %}
+                        {% if message.is_ai_message %}
+                        <!-- AI Assistant message - appears as professional -->
+                        <div class="d-flex justify-content-start mb-4 message-item" data-message-id="{{ message.id }}">
+                            <div class="bg-light rounded-3 p-4" style="max-width: 70%;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2 stats-icon modern-hover-lift" style="width: 30px; height: 30px;">
+                                        <i class="fas fa-user-tie text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <strong class="fw-bold">Profissional</strong>
+                                </div>
+                                <p class="mb-3">{{ message.content }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted" aria-label="Enviado às {{ message.timestamp|date:'H:i' }}">
+                                        {{ message.timestamp|date:"H:i" }}
+                                    </small>
+                                    <div class="message-actions d-flex gap-1">
+                                        <button class="modern-btn modern-btn-outline-secondary py-1 px-2" title="Copiar mensagem">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="modern-btn modern-btn-outline-secondary py-1 px-2" title="Responder">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% elif message.sender == request.user %}
+                        <!-- My message -->
+                        <div class="d-flex justify-content-end mb-4 message-item" data-message-id="{{ message.id }}">
+                            <div class="bg-primary text-white rounded-3 p-4" style="max-width: 70%;">
+                                <p class="mb-3">{{ message.content }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-white-50" aria-label="Enviado às {{ message.timestamp|date:'H:i' }}">
+                                        {{ message.timestamp|date:"H:i" }}
+                                        {% if message.status == 'read' %}
+                                        <i class="fas fa-check-double text-white ms-1" aria-label="Lida"></i>
+                                        {% elif message.status == 'delivered' %}
+                                        <i class="fas fa-check text-white ms-1" aria-label="Entregue"></i>
+                                        {% endif %}
+                                    </small>
+                                    <div class="message-actions d-flex gap-1">
+                                        <button class="modern-btn modern-btn-outline-light py-1 px-2" title="Copiar mensagem">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="modern-btn modern-btn-outline-light py-1 px-2" title="Responder">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <!-- Other person's message -->
+                        <div class="d-flex justify-content-start mb-4 message-item" data-message-id="{{ message.id }}">
+                            <div class="bg-light rounded-3 p-4" style="max-width: 70%;">
+                                <div class="d-flex align-items-center mb-2">
+                                    {% if message.sender == chat.professional %}
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2 stats-icon modern-hover-lift" style="width: 30px; height: 30px;">
+                                        <i class="fas fa-user-tie text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <strong class="fw-bold">Profissional</strong>
+                                    {% elif message.sender == chat.customer %}
+                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2 stats-icon modern-hover-lift" style="width: 30px; height: 30px;">
+                                        <i class="fas fa-user text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <strong class="fw-bold">Cliente</strong>
+                                    {% endif %}
+                                </div>
+                                <p class="mb-3">{{ message.content }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted" aria-label="Enviado às {{ message.timestamp|date:'H:i' }}">
+                                        {{ message.timestamp|date:"H:i" }}
+                                    </small>
+                                    <div class="message-actions d-flex gap-1">
+                                        <button class="modern-btn modern-btn-outline-secondary py-1 px-2" title="Copiar mensagem">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="modern-btn modern-btn-outline-secondary py-1 px-2" title="Responder">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <div class="text-center text-muted py-5" role="status" aria-live="polite">
+                            <div class="bg-light bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center p-4 mb-4 stats-icon modern-hover-lift mx-auto" style="width: 80px; height: 80px;">
+                                <i class="fas fa-comments fa-2x" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">Ainda não há mensagens nesta conversa</h5>
+                            <p class="small mb-0">Seja o primeiro a enviar uma mensagem!</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="modern-card shadow">
+                <div class="card-body">
+                    <form method="post" id="message-form" aria-label="Formulário de envio de mensagem">
+                        {% csrf_token %}
+                        <div class="input-group modern-input-group rounded-pill overflow-hidden shadow-sm">
+                            <button class="modern-btn modern-btn-outline-secondary rounded-pill rounded-end border-end-0" type="button" id="attachmentBtn" title="Anexar arquivo">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" name="content" class="modern-form-control form-control border-end-0 ps-3" placeholder="Digite sua mensagem..." required aria-label="Digite sua mensagem">
+                            <button class="modern-btn modern-btn-outline-secondary border-end-0" type="button" id="emojiBtn" title="Inserir emoji">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                            <button class="modern-btn modern-btn-primary rounded-pill rounded-start border-start-0 px-4" type="submit" aria-label="Enviar mensagem">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                <span class="d-none d-md-inline ms-2">Enviar</span>
+                            </button>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-between">
+                            <small class="text-muted">
+                                <i class="fas fa-lock me-1" aria-hidden="true"></i>
+                                Suas mensagens são criptografadas e seguras
+                            </small>
+                            <small class="text-muted">
+                                Pressione Enter para enviar
+                            </small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Emoji Picker Modal -->
+<div class="modal fade" id="emojiPickerModal" tabindex="-1" aria-labelledby="emojiPickerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emojiPickerModalLabel">Escolha um emoji</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    {% for emoji in emojis %}
+                    <div class="col-2 text-center mb-3">
+                        <button class="btn btn-outline-light btn-lg emoji-btn" data-emoji="{{ emoji }}" style="font-size: 1.5rem;">
+                            {{ emoji }}
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attachment Options Modal -->
+<div class="modal fade" id="attachmentModal" tabindex="-1" aria-labelledby="attachmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="attachmentModalLabel">Anexar arquivo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-3">
+                    <button class="btn btn-outline-primary btn-lg" type="button">
+                        <i class="fas fa-image fa-2x mb-2"></i>
+                        <div>Foto ou Vídeo</div>
+                    </button>
+                    <button class="btn btn-outline-success btn-lg" type="button">
+                        <i class="fas fa-file fa-2x mb-2"></i>
+                        <div>Documento</div>
+                    </button>
+                    <button class="btn btn-outline-info btn-lg" type="button">
+                        <i class="fas fa-map-marker-alt fa-2x mb-2"></i>
+                        <div>Localização</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .message-item:hover .message-actions {
+        display: flex !important;
+    }
+
+    .message-actions {
+        display: none;
+    }
+
+    .message-item {
+        transition: background-color 0.2s ease;
+    }
+
+    .message-item:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+        border-radius: 5px;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #f0f0f0;
+        border-radius: 15px;
+        margin-bottom: 10px;
+    }
+
+    .typing-indicator span {
+        height: 8px;
+        width: 8px;
+        float: left;
+        margin: 0 1px;
+        background-color: #9E9EA1;
+        display: block;
+        border-radius: 50%;
+        opacity: 0.4;
+    }
+
+    .typing-indicator span:nth-of-type(1) {
+        animation: typing 1s infinite;
+    }
+
+    .typing-indicator span:nth-of-type(2) {
+        animation: typing 1s infinite 0.2s;
+    }
+
+    .typing-indicator span:nth-of-type(3) {
+        animation: typing 1s infinite 0.4s;
+    }
+
+    @keyframes typing {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Scroll to bottom of chat
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Auto-focus on message input
+        const messageInput = document.querySelector('input[name="content"]');
+        if (messageInput) {
+            messageInput.focus();
+        }
+
+        // Submit form on Enter key (without Shift)
+        if (messageInput) {
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const form = this.closest('form');
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+        }
+
+        // Emoji picker
+        document.getElementById('emojiBtn').addEventListener('click', function() {
+            const modal = new bootstrap.Modal(document.getElementById('emojiPickerModal'));
+            modal.show();
+        });
+
+        // Attachment button
+        document.getElementById('attachmentBtn').addEventListener('click', function() {
+            const modal = new bootstrap.Modal(document.getElementById('attachmentModal'));
+            modal.show();
+        });
+
+        // Insert emoji into message input
+        document.querySelectorAll('.emoji-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const emoji = this.getAttribute('data-emoji');
+                const messageInput = document.querySelector('input[name="content"]');
+                if (messageInput) {
+                    messageInput.value += emoji;
+                    messageInput.focus();
+                }
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('emojiPickerModal'));
+                modal.hide();
+            });
+        });
+
+        // Copy message functionality
+        document.querySelectorAll('.message-item').forEach(item => {
+            const copyBtn = item.querySelector('[title="Copiar mensagem"]');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const messageText = item.querySelector('p').textContent;
+                    navigator.clipboard.writeText(messageText).then(() => {
+                        // Show feedback
+                        const originalIcon = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalIcon;
+                        }, 2000);
+                    });
+                });
+            }
+        });
+
+        // Add announcement when new messages arrive
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    // Announce new messages to screen readers
+                    const newMessages = mutation.addedNodes;
+                    newMessages.forEach(function(node) {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const messageText = node.textContent;
+                            // Create an announcement for screen readers
+                            const announcement = document.createElement('div');
+                            announcement.setAttribute('aria-live', 'assertive');
+                            announcement.setAttribute('aria-atomic', 'true');
+                            announcement.className = 'sr-only';
+                            announcement.textContent = `Nova mensagem: ${messageText}`;
+                            document.body.appendChild(announcement);
+
+                            // Remove announcement after it's been read
+                            setTimeout(() => {
+                                if (announcement.parentNode) {
+                                    announcement.parentNode.removeChild(announcement);
+                                }
+                            }, 1000);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Observe chat messages container for new messages
+        if (chatMessages) {
+            observer.observe(chatMessages, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // Add typing indicator
+        const form = document.getElementById('message-form');
+        if (form && messageInput) {
+            let typingTimeout;
+
+            messageInput.addEventListener('input', function() {
+                // Clear previous timeout
+                clearTimeout(typingTimeout);
+
+                // Set new timeout to send "stopped typing" event
+                typingTimeout = setTimeout(function() {
+                    // In a real implementation, this would send a typing indicator to the other user
+                    console.log('User stopped typing');
+                }, 1000);
+            });
+        }
+
+        // Simulate receiving a message (for demo purposes)
+        setTimeout(() => {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                chatMessages.removeChild(typingIndicator);
+
+                // Add a new message
+                const newMessage = document.createElement('div');
+                newMessage.className = 'd-flex justify-content-start mb-3';
+                newMessage.innerHTML = `
+                <div class="bg-light rounded p-3" style="max-width: 70%;">
+                    <div class="d-flex align-items-center mb-1">
+                        <i class="fas fa-user-tie text-primary me-2" aria-hidden="true"></i>
+                        <strong>Profissional</strong>
+                    </div>
+                    <p class="mb-1">Olá! Estou disponível para ajudar com o seu serviço. Quando você prefere agendar?</p>
+                    <div class="d-flex justify-content-start">
+                        <small class="text-muted" aria-label="Enviado às 14:30">
+                            14:30
+                        </small>
+                    </div>
+                </div>
+            `;
+                chatMessages.appendChild(newMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 2000);
+        }, 5000);
+    });
+</script>
+{% endblock %}

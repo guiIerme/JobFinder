@@ -1,0 +1,614 @@
+/* ============================================
+   Visual Effects - Particles, Cursor Follow, Skeleton
+   ============================================ */
+
+/* ============================================
+   Particle System Styles
+   ============================================ */
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Float animation for particles */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+/* ============================================
+   Cursor Follow Effect Styles
+   ============================================ */
+
+.cursor-follow-active {
+    position: relative;
+    overflow: hidden;
+}
+
+.cursor-follow-active::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.1) 30%,
+            transparent 70%);
+    left: var(--mouse-x, 50%);
+    top: var(--mouse-y, 50%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.cur sor-follow-active:hover::before {
+    opacity: 1;
+}
+
+/* Alternative glow effect using box-shadow */
+.cursor-follow-glow {
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.cursor-follow-glow:hover {
+    box-shadow:
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Skeleton Loader Styles
+   ============================================ */
+
+/* Base skeleton styles */
+.skeleton {
+    background: linear-gradient(90deg,
+            #f0f0f0 0%,
+            #e0e0e0 20%,
+            #f0f0f0 40%,
+            #f0f0f0 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    color: transparent !important;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Skeleton loading animation */
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Skeleton shimmer overlay */
+.skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.6) 50%,
+            transparent 100%);
+    animation: skeleton-shimmer 2s infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        left: -150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+/* ============================================
+   Skeleton Card Styles
+   ============================================ */
+
+.skeleton-card {
+    padding: 2rem;
+    min-height: 150px;
+}
+
+.skeleton-icon {
+    width: 60px;
+    height: 60px;
+    background: #e0e0e0;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+    height: 16px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text-lg {
+    height: 32px;
+    width: 60%;
+    margin-bottom: 1rem;
+}
+
+.skeleton-text-sm {
+    height: 14px;
+    width: 40%;
+}
+
+@keyframes skeleton-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* ============================================
+   Skeleton Table Row Styles
+   ============================================ */
+
+.skeleton-table-row td {
+    padding: 1rem;
+}
+
+.skeleton-table-row .skeleton-text {
+    height: 14px;
+    width: 80%;
+}
+
+/* ============================================
+   Dark Mode Support
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .skeleton {
+        background: linear-gradient(90deg,
+                #2a2a2a 0%,
+                #3a3a3a 20%,
+                #2a2a2a 40%,
+                #2a2a2a 100%);
+    }
+
+    .skeleton-icon,
+    .skeleton-text {
+        background: #3a3a3a;
+    }
+
+    .skeleton::after {
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%);
+    }
+}
+
+/* ============================================
+   Performance Mode Adjustments
+   ============================================ */
+
+.performance-mode .skeleton::after {
+    animation: none;
+}
+
+.performance-mode .particle {
+    display: none;
+}
+
+.performance-mode .cursor-follow-active::before {
+    display: none;
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .particle {
+        animation: none;
+        opacity: 0.2;
+    }
+
+    .skeleton,
+    .skeleton::after,
+    .skeleton-icon,
+    .skeleton-text {
+        animation: none;
+    }
+
+    .cursor-follow-active::before {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Mobile Optimizations
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Reduce particle size on mobile */
+    .particle {
+        width: 8px !important;
+        height: 8px !important;
+    }
+
+    /* Simplify cursor follow effect on mobile */
+    .cursor-follow-active::before {
+        display: none;
+    }
+
+    /* Faster skeleton animations on mobile */
+    .skeleton {
+        animation-duration: 1s;
+    }
+
+    .skeleton::after {
+        animation-duration: 1.5s;
+    }
+}
+
+/* Touch devices - disable cursor follow */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-follow-active::before {
+        display: none;
+    }
+}
+
+/ *============================================Content Transition Styles============================================*/
+/* Fade transition base */
+.content-fade-out {
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+}
+
+.content-fade-in {
+    opacity: 1;
+    transition: opacity 400ms ease-in;
+}
+
+/* Data highlight pulse animation */
+.data-highlight {
+    animation: dataHighlightPulse 2000ms ease-in-out;
+    animation-iteration-count: 2;
+}
+
+@keyframes dataHighlightPulse {
+
+    0%,
+    100% {
+        background: transparent;
+        transform: scale(1);
+    }
+
+    50% {
+        background: rgba(102, 126, 234, 0.2);
+        transform: scale(1.02);
+    }
+}
+
+/* Filter badge styles */
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.filter-badge .fa-times {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.filter-badge .fa-times:hover {
+    transform: scale(1.2) rotate(90deg);
+}
+
+/* Filter badge slide animations */
+.filter-badge-slide-in {
+    animation: filterSlideIn 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filter-badge-slide-out {
+    animation: filterSlideOut 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes filterSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes filterSlideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+}
+
+/* Content transition overlay */
+.content-transition-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.content-transition-overlay.active {
+    opacity: 1;
+}
+
+/* Table row transition animations */
+.table-row-fade-out {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.table-row-fade-in {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* Smooth content swap */
+.content-swapping {
+    position: relative;
+    min-height: 200px;
+}
+
+.content-swapping::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+}
+
+.content-swapping.transitioning::after {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Updated data indicator */
+.data-updated {
+    position: relative;
+}
+
+.data-updated::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    border-radius: inherit;
+    opacity: 0;
+    animation: dataUpdatedGlow 2000ms ease-in-out;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes dataUpdatedGlow {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Filter container */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    min-height: 40px;
+    align-items: center;
+}
+
+.filter-container:empty {
+    display: none;
+}
+
+/* Clear all filters button */
+.clear-filters-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 20px;
+    background: transparent;
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.clear-filters-btn:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ============================================
+   Dark Mode Support for Transitions
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .content-transition-overlay {
+        background: rgba(30, 30, 30, 0.8);
+    }
+
+    .filter-badge {
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+    }
+
+    .data-highlight {
+        animation: dataHighlightPulseDark 2000ms ease-in-out;
+        animation-iteration-count: 2;
+    }
+
+    @keyframes dataHighlightPulseDark {
+
+        0%,
+        100% {
+            background: transparent;
+            transform: scale(1);
+        }
+
+        50% {
+            background: rgba(102, 126, 234, 0.4);
+            transform: scale(1.02);
+        }
+    }
+}
+
+/* ============================================
+   Reduced Motion Support for Transitions
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .data-highlight,
+    .data-updated::before,
+    .filter-badge-slide-in,
+    .filter-badge-slide-out {
+        animation: none !important;
+    }
+
+    .content-fade-out,
+    .content-fade-in,
+    .table-row-fade-out,
+    .table-row-fade-in {
+        transition: none !important;
+    }
+
+    .filter-badge:hover,
+    .clear-filters-btn:hover {
+        transform: none !important;
+    }
+}
+
+/* ============================================
+   Mobile Optimizations for Transitions
+   ============================================ */
+
+@media (max-width: 768px) {
+    .filter-badge {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .filter-container {
+        gap: 0.25rem;
+    }
+
+    /* Faster transitions on mobile */
+    .content-fade-out,
+    .content-fade-in {
+        transition-duration: 280ms;
+    }
+
+    .table-row-fade-out,
+    .table-row-fade-in {
+        transition-duration: 210ms;
+    }
+
+    @keyframes dataHighlightPulse {
+
+        0%,
+        100% {
+            background: transparent;
+            transform: scale(1);
+        }
+
+        50% {
+            background: rgba(102, 126, 234, 0.15);
+            transform: scale(1.01);
+        }
+    }
+}

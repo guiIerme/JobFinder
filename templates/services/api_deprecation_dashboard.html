@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}API Deprecation Management{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                API Deprecation Management
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400">
+                Manage API version lifecycle and deprecation schedule
+            </p>
+        </div>
+
+        <!-- Active Warnings Alert -->
+        {% if warnings %}
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                        Active Deprecation Warnings
+                    </h3>
+                    <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
+                        <ul class="list-disc list-inside space-y-1">
+                            {% for warning in warnings %}
+                            <li>
+                                <strong>{{ warning.version }}</strong>: {{ warning.message }}
+                                ({{ warning.days_remaining }} days remaining)
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Version Status Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% for version_status in version_statuses %}
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        {{ version_status.version }}
+                    </h3>
+                    {% if version_status.status.status == 'active' %}
+                    <span class="px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-200 rounded-full">
+                        Active
+                    </span>
+                    {% elif version_status.status.status == 'active_with_warning' %}
+                    <span class="px-3 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200 rounded-full">
+                        Scheduled
+                    </span>
+                    {% else %}
+                    <span class="px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 dark:bg-red-900 dark:text-red-200 rounded-full">
+                        Deprecated
+                    </span>
+                    {% endif %}
+                </div>
+
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    {{ version_status.status.message }}
+                </p>
+
+                {% if version_status.deprecation_info %}
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Deprecation Date:</span>
+                        <span class="font-medium text-gray-900 dark:text-white">
+                            {{ version_status.deprecation_info.deprecation_date }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Days Remaining:</span>
+                        <span class="font-medium text-gray-900 dark:text-white">
+                            {{ version_status.deprecation_info.days_remaining }}
+                        </span>
+                    </div>
+                    <div class="mt-4">
+                        <button onclick="cancelDeprecation('{{ version_status.version }}')" class="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors">
+                            Cancel Deprecation
+                        </button>
+                    </div>
+                </div>
+                {% else %} ass="mt-4">
+                <button onclick="showScheduleModal('{{ version_status.version }}')" class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors">
+                    Schedule Deprecation
+                </button>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Policy Information -->
+    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Deprecation Policy
+        </h2>
+        <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <p>
+                <strong>Minimum Support Period:</strong> {{ minimum_support_days }} days (6 months)
+            </p>
+            <p>
+                <strong>Advance Notice:</strong> All deprecations must be announced at least 6 months in advance
+            </p>
+            <p>
+                <strong>Warning Headers:</strong> Deprecated versions include X-API-Deprecated headers in responses
+            </p>
+            <p>
+                <strong>Migration Support:</strong> Migration guides are provided for all version transitions
+            </p>
+        </div>
+    </div>
+
+    <!-- Documentation Links -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Documentation
+        </h2>
+        <div class="space-y-2">
+            <a href="/static/services/api/CHANGELOG.md" target="_blank" class="block text-blue-600 dark:text-blue-400 hover:underline">
+                📄 API Changelog
+            </a>
+            <a href="/api/v1/version/" target="_blank" class="block text-blue-600 dark:text-blue-400 hover:underline">
+                🔍 Public Version Info API
+            </a>
+            <a href="/admin/api-deprecation/status/" target="_blank" class="block text-blue-600 dark:text-blue-400 hover:underline">
+                📊 Deprecation Status API
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Schedule Deprecation Modal -->
+<div id="scheduleModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                Schedule Deprecation
+            </h3>
+            <form id="scheduleForm" class="space-y-4">
+                <input type="hidden" id="scheduleVersion" name="version">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Deprecation Date
+                    </label>
+                    <input type="date" id="deprecationDate" name="deprecation_date" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white">
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        Must be at least {{ minimum_support_days }} days in the future
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Reason (Optional)
+                    </label>
+                    <textarea id="deprecationReason" name="reason" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white" placeholder="e.g., Version superseded by v2 with improved features"></textarea>
+                </div>
+
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors">
+                        Schedule
+                    </button>
+                    <button type="button" onclick="closeScheduleModal()" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showScheduleModal(version) {
+        document.getElementById('scheduleVersion').value = version;
+        document.getElementById('scheduleModal').classList.remove('hidden');
+
+        // Set minimum date to 180 days from now
+        const minDate = new Date();
+        minDate.setDate(minDate.getDate() + {
+            {
+                minimum_support_days
+            }
+        });
+        document.getElementById('deprecationDate').min = minDate.toISOString().split('T')[0];
+    }
+
+    function closeScheduleModal() {
+        document.getElementById('scheduleModal').classList.add('hidden');
+        document.getElementById('scheduleForm').reset();
+    }
+
+    document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            version: document.getElementById('scheduleVersion').value,
+            deprecation_date: document.getElementById('deprecationDate').value,
+            reason: document.getElementById('deprecationReason').value
+        };
+
+        try {
+            const response = await fetch('/admin/api-deprecation/schedule/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Deprecation scheduled successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + (data.error || 'Failed to schedule deprecation'));
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    });
+
+    async function cancelDeprecation(version) {
+        if (!confirm(`Are you sure you want to cancel deprecation for ${version}?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/admin/api-deprecation/cancel/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    version
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Deprecation cancelled successfully!');
+                location.reload();
+            } else {
+                alert('Error: ' + (data.error || 'Failed to cancel deprecation'));
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

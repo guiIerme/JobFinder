@@ -1,0 +1,6730 @@
+{
+  "/services/electrical": {
+    "views": 1,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "test_user",
+        "type": "view",
+        "timestamp": "2025-10-14T15:00:30.463254"
+      }
+    ]
+  },
+  "/": {
+    "views": 862,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T15:08:17.191084"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:10:26.160405"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:12:55.915909"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:12:58.353463"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:12:59.077891"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:12:59.418512"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:12:59.622378"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:13:05.470190"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:13:58.960238"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:13:59.654533"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:00.114404"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:00.430106"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:00.811544"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:01.150262"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:01.450811"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:01.749763"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:21.030805"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:21.587739"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:21.828366"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:22.013889"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:14:22.182199"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:16.676412"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:18.594563"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:18.927521"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:19.180384"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:19.396331"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:19.610635"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:19.894494"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:20.094754"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:20.310223"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:20.542099"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:15:54.603546"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:16:38.873007"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:18:02.274892"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:19:06.035803"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:19:06.543658"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:19:06.743659"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:19:06.943095"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:19:07.354812"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:20:11.325121"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:22:25.563671"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-14T17:42:22.249012"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T14:04:12.563241"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T14:04:12.679577"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T14:14:29.198121"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T14:16:19.111944"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T14:27:05.277493"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T15:11:50.113788"
+      },
+      {
+        "user_id": "32",
+        "type": "view",
+        "timestamp": "2025-10-15T15:16:24.156859"
+      },
+      {
+        "user_id": "32",
+        "type": "view",
+        "timestamp": "2025-10-15T15:16:55.858226"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T16:58:34.675421"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-15T17:26:00.919446"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:07:00.076741"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:16:21.649377"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:22:52.533815"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:34:38.905208"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:36:07.246267"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:40:32.683087"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:10.229728"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:18.232919"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:18.878646"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:19.133742"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:19.307937"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:19.462118"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:19.615813"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:27.463260"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.068159"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.225552"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.409792"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.599563"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.780880"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:41:28.966875"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:42:01.941507"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:42:49.485350"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:46:22.172430"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-16T15:46:47.865984"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:48:43.795813"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:49:32.073607"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:50:13.074605"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:50:13.683073"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:50:13.847570"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:50:14.047296"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:50:14.209130"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:54:56.253098"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:55:23.650725"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:56:54.578301"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T15:57:10.457587"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:03:49.991795"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:19:18.436268"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:31:10.357016"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:35:38.237571"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:36:52.208186"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:37:07.172582"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:37:21.439528"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:39:07.411837"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:40:39.357477"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:43:33.452129"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:44:00.725563"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:44:40.816010"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:45:57.072766"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:48:26.048933"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:50:37.576193"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:52:23.830205"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:54:25.921850"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T16:55:51.914809"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:00:50.874179"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:01:30.740530"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:05:22.535576"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:09.071460"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:10.582180"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:11.072661"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:11.274583"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:27.008342"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:06:31.149360"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:34:31.544024"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:34:31.855903"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:36:17.750828"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-16T17:42:01.510100"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T14:07:35.024202"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T14:08:01.340211"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:10:03.397313"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T14:13:29.228795"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T14:16:25.445039"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:23:31.893550"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:49:37.236377"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:50:13.291339"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:50:14.030519"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:50:14.184179"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:50:14.331745"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T14:50:36.060506"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-20T14:54:08.112934"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T15:20:02.946150"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T15:23:25.018907"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T15:23:35.095590"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T15:27:29.341778"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:05:01.767002"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:05:13.908165"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:09:34.236947"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:14:33.259032"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:14.686607"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:20.335585"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:22.161471"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:22.613389"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:22.951496"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:23.187386"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:23.513339"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:23.686778"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:23.907018"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:24.146286"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:24.367083"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:24.763343"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:24.980784"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:25.229367"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:25.477623"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:25.888723"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:26.085114"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:26.245964"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:26.387426"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:26.578882"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:15:26.710921"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:16:19.028252"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:09.098513"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:09.510999"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:10.577617"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:10.794992"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:10.991569"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:18:11.163090"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:23:33.575111"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:27:43.585126"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:30:31.318181"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:30:34.281002"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:31:47.304624"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:31:47.892623"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T16:31:48.042338"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-20T17:03:56.575443"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T14:17:32.128807"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T14:24:32.813463"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T14:35:53.453338"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T14:46:04.497514"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T15:05:36.210599"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T15:05:36.976311"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:38:51.932296"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:44:11.025381"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:44:47.920602"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:44:49.336563"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:44:53.151574"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-21T16:52:25.095442"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T14:22:37.705405"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T14:22:39.221987"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:29:34.916041"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:36:11.176960"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:36:11.611649"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:36:11.778061"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:36:12.633258"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T15:49:35.522018"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:10:37.020549"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:13:01.311533"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:14:01.423690"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:14:02.107903"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:14:02.614595"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:15:03.556225"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:15:51.250568"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:16:43.836517"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:16:44.508952"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:16:44.876565"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:17:53.916035"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:20:15.014808"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:21:12.956509"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:22:34.769292"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:23:40.813565"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:24:08.128367"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:24:27.545644"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T16:59:03.811057"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T17:10:45.675436"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-22T17:11:03.113975"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-22T17:19:16.571111"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T14:53:30.985656"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:02:41.742832"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:51.881365"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:52.982269"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:53.159422"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:53.465013"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:53.665772"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:53.840683"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:03:54.019775"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:06:10.483419"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:06:11.678631"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:06:33.824417"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:10:25.859999"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:14:34.320222"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:15:26.428681"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:15:45.854280"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:15:51.237112"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-23T15:18:27.298612"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:23:24.589005"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:24:45.966497"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:28:09.049210"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:28:14.017791"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-23T15:29:44.672480"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:35:23.859887"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:31.207409"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:35.303722"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:53.541573"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:54.369032"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:54.542701"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:54.702842"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:54.885672"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.050971"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.188424"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.336241"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.493825"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.653189"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.802885"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:55.970519"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:56.121086"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:57.257114"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:58.001115"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:58.656500"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.004669"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.219497"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.404308"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.605486"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.756466"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:37:59.936887"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.135030"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.286260"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.462305"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.619899"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.786040"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:00.953753"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:01.096699"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:01.221466"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:01.390553"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:01.540128"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:01.658951"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.087595"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.337337"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.502253"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.638007"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.804283"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:02.936303"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.103593"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.260000"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.404380"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.562172"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.706403"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.851067"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:03.986386"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:04.159245"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:04.320519"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:04.436159"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:04.690998"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:04.853010"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.002769"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.121798"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.269480"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.428785"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.568969"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.702635"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:05.858506"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.001071"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.136053"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.289175"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.436614"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.574381"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.737205"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:06.854521"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:07.007556"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:07.151769"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:07.285472"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:38:20.553410"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:39:21.901085"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:39:39.623188"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:39:40.299359"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:40:24.482470"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:40:24.720577"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:40:24.926083"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:41:56.963579"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:42:51.443563"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:44:51.279425"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-23T15:47:41.631371"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T15:52:51.442151"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T15:55:48.116616"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:05:22.846861"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:10:08.013863"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:10:16.310489"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:11:33.272119"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:11:35.906799"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:11:56.894530"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:11:58.983355"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:37.402440"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:52.259987"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:52.444876"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:52.612021"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:52.767152"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:52.903577"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:53.078911"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:53.205026"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:53.346500"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:53.497196"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:53.677606"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:54.157434"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:54.768927"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:55.143399"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:55.398735"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:55.676065"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:55.905004"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:56.127924"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:56.341195"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:56.533500"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:56.754909"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:56.973656"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:57.168548"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:57.452499"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:57.699700"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:57.927009"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:58.127169"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:58.635590"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:58.902431"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:59.183589"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:59.469555"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:59.732907"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:12:59.971190"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:13:00.817011"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:13:01.074123"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:17:27.135535"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:17:35.428776"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:18:27.991168"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:18:31.423767"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:18:31.853986"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:18:37.268926"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:20:24.459945"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:21:19.802940"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:22:29.272185"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:27:09.701656"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:27:11.831619"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:27:25.823789"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:28:11.222636"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:28:38.422252"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:42:31.751372"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:43:26.446127"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:49:02.324628"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:52:54.408230"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T16:53:06.003391"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:53:51.838482"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T16:54:12.123977"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:03:21.528874"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:04:29.296152"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:06:09.385434"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:06:12.727217"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:06:12.977869"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:06:13.208856"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:07:25.167255"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:09:15.478921"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:09:39.750086"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:11:14.460898"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:11:18.558364"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:15:30.390758"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:22:37.740698"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:23:34.474835"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:23:44.772914"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:24:07.157453"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:24:41.997664"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:25:08.172366"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:25:29.162076"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:24.960967"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:29.383862"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:30.070798"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:30.570792"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:31.072143"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:31.572291"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:32.036495"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:32.537594"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:33.010332"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:33.548242"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:35.868758"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:36.314915"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:36.727529"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:37.081341"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:37.474648"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:38.057688"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:38.992383"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:39.392305"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:39.758960"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:40.175022"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:40.565594"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:40.962917"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:41.378353"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:41.810365"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:42.190872"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:42.602505"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:42.998322"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:43.389842"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:43.773136"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:44.156452"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:44.511950"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:44.904963"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:45.466974"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:46.865020"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:47.215271"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:47.931854"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:48.330799"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:48.688510"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:49.262970"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:49.587294"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:50.043819"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:50.379198"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:50.863353"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:51.236398"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:51.574693"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:51.930225"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:52.291910"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:52.629710"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:52.993240"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:53.346159"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:53.707306"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:54.067572"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:54.401363"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:54.716157"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:55.035076"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:55.358889"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:55.713241"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:56.065341"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:56.415905"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:56.738861"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:57.066516"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:57.366435"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:26:57.686303"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-10-23T17:27:44.943230"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-23T17:29:06.439768"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T15:30:10.021077"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:02:45.563616"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:28:28.782196"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:28:33.278756"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:28:33.931018"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:28:34.163628"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:38:38.295198"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:38:39.614516"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:40:21.570558"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:42:10.747338"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:58:55.006692"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T16:58:57.328069"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T17:26:36.899145"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T17:33:14.196541"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-28T17:36:45.444852"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-29T14:07:46.294301"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-29T14:08:08.009918"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-10-29T14:08:24.315432"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-29T14:08:56.014001"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:29:49.235752"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:39:14.892786"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:51:00.301247"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:51:56.474226"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:58:28.217377"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T15:58:28.557541"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:03:03.106462"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:03:15.913226"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:10:55.556242"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:13:56.412727"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:22:19.122016"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:23:06.358381"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:45:17.072679"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:45:17.272152"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-10-30T16:45:21.590035"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-03T17:07:37.588931"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-03T17:07:51.675486"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-04T14:08:34.531586"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-04T14:13:23.256221"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-04T14:21:22.243376"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-04T14:26:44.645795"
+      },
+      {
+        "user_id": "52",
+        "type": "view",
+        "timestamp": "2025-11-04T14:30:15.057940"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:30:30.397021"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:32:04.096979"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:32:10.172755"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:37:25.776260"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:37:26.468198"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:38:38.341839"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:41:42.340973"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:41:42.589843"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:41:42.806797"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:42:17.663446"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:48:15.795615"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T14:54:48.308656"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T15:19:46.079682"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-04T15:31:15.111640"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T15:32:58.128798"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T15:35:51.200759"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:01:00.823007"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:06:04.827908"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:06:54.310359"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:07:55.617878"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:08:47.648631"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T16:09:59.933727"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:00:09.762730"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:00:28.131578"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:02:24.400478"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:03:23.342524"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:20:14.512258"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-04T17:27:01.657520"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-04T17:29:24.312532"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-05T14:12:44.174733"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-05T14:17:18.059100"
+      },
+      {
+        "user_id": "55",
+        "type": "view",
+        "timestamp": "2025-11-05T14:22:54.876030"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-05T14:25:05.216824"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T14:32:01.792322"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T14:40:14.188130"
+      },
+      {
+        "user_id": "55",
+        "type": "view",
+        "timestamp": "2025-11-05T14:48:19.640728"
+      },
+      {
+        "user_id": "55",
+        "type": "view",
+        "timestamp": "2025-11-05T14:49:40.060692"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T14:51:48.473472"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-05T14:52:41.167797"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:03:05.990384"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:03:18.140266"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:03:20.070566"
+      },
+      {
+        "user_id": "55",
+        "type": "view",
+        "timestamp": "2025-11-05T15:15:42.420155"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:27:37.797011"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:43:19.123343"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T15:50:10.803227"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T16:08:01.644382"
+      },
+      {
+        "user_id": "55",
+        "type": "view",
+        "timestamp": "2025-11-05T16:26:43.377193"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-05T16:31:38.632249"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-05T17:07:13.727404"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T14:23:31.444123"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T14:27:21.785093"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T14:32:52.587052"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T14:44:00.886782"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:47:15.177340"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:48:26.761727"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:52:07.697353"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T14:55:11.251833"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:57:25.566474"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:57:33.931910"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:57:36.616975"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:58:10.503385"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T14:58:48.162719"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:02:34.452558"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T15:05:06.394987"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:06:04.369592"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:08:07.060905"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:08:11.178107"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:08:12.213247"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:08:12.894667"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T15:11:15.644481"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T15:29:53.682287"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:03:35.223229"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:04:19.581908"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:05:17.206620"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:05:24.028941"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:06:56.814960"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:07.383030"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:12.007770"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:36.097338"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:36.323234"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:39.131333"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:07:39.702385"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T16:08:02.741689"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:10:38.221062"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:11:08.444426"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T16:16:18.831899"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T16:16:21.783106"
+      },
+      {
+        "user_id": "53",
+        "type": "view",
+        "timestamp": "2025-11-06T16:18:40.004542"
+      },
+      {
+        "user_id": "23",
+        "type": "view",
+        "timestamp": "2025-11-06T16:18:51.162025"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T16:23:38.759384"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:26:16.955323"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:27:29.584745"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:27:58.296270"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:28:02.699786"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:31:01.166389"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:31:05.672580"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T16:31:51.298590"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:34:36.431651"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:37:56.053800"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:41:12.224556"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:45:17.053347"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-06T16:46:02.836592"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:03:47.507347"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:04:01.483261"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:04:10.628543"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T17:10:48.997151"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T17:15:46.760416"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T17:16:24.921232"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-06T17:16:39.620038"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-06T17:22:33.740330"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:23:10.263748"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-06T17:23:14.905406"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:24:41.502795"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:25:18.386962"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:25:24.067596"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:25:35.505730"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-06T17:25:36.504937"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:26:00.651040"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:26:02.558131"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:26:03.898058"
+      },
+      {
+        "user_id": "59",
+        "type": "view",
+        "timestamp": "2025-11-06T17:26:31.389845"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T13:58:46.157900"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:27:43.746799"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:38:07.236562"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T14:38:58.603694"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:40:46.184061"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:41:58.883557"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:49:20.735621"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:49:28.412490"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:49:36.864978"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T14:49:44.963171"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:50:13.811458"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:50:20.515974"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:50:33.278025"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:51:03.864186"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:51:58.681351"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:53:11.684738"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T14:53:13.515472"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T15:14:09.010012"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T15:14:49.019176"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T15:16:47.867210"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-10T15:18:59.233320"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-10T15:19:11.937222"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T15:24:17.554265"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T15:36:53.044218"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:04:57.700479"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:05:06.892627"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:05:47.666078"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:08:03.379547"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:08:11.343262"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:08:13.710949"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:14:52.401267"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:26:48.385019"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:26:59.975252"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:27:31.123298"
+      },
+      {
+        "user_id": "61",
+        "type": "view",
+        "timestamp": "2025-11-10T16:29:12.168330"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:29:48.360147"
+      },
+      {
+        "user_id": "63",
+        "type": "view",
+        "timestamp": "2025-11-10T16:30:15.184135"
+      },
+      {
+        "user_id": "63",
+        "type": "view",
+        "timestamp": "2025-11-10T16:31:52.839889"
+      },
+      {
+        "user_id": "63",
+        "type": "view",
+        "timestamp": "2025-11-10T16:31:54.132470"
+      },
+      {
+        "user_id": "63",
+        "type": "view",
+        "timestamp": "2025-11-10T16:31:55.196786"
+      },
+      {
+        "user_id": "66",
+        "type": "view",
+        "timestamp": "2025-11-10T16:32:02.109070"
+      },
+      {
+        "user_id": "66",
+        "type": "view",
+        "timestamp": "2025-11-10T16:32:54.350689"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:33:20.511932"
+      },
+      {
+        "user_id": "67",
+        "type": "view",
+        "timestamp": "2025-11-10T16:33:46.564201"
+      },
+      {
+        "user_id": "67",
+        "type": "view",
+        "timestamp": "2025-11-10T16:33:51.683231"
+      },
+      {
+        "user_id": "69",
+        "type": "view",
+        "timestamp": "2025-11-10T16:34:49.047303"
+      },
+      {
+        "user_id": "68",
+        "type": "view",
+        "timestamp": "2025-11-10T16:34:55.465488"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:36:16.109814"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T16:40:57.726873"
+      },
+      {
+        "user_id": "68",
+        "type": "view",
+        "timestamp": "2025-11-10T16:41:23.193613"
+      },
+      {
+        "user_id": "68",
+        "type": "view",
+        "timestamp": "2025-11-10T16:42:35.435683"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:43:43.987916"
+      },
+      {
+        "user_id": "67",
+        "type": "view",
+        "timestamp": "2025-11-10T16:44:00.992113"
+      },
+      {
+        "user_id": "67",
+        "type": "view",
+        "timestamp": "2025-11-10T16:44:02.973168"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:44:44.289911"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:48:00.811412"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-10T16:49:49.335903"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-10T16:51:08.839484"
+      },
+      {
+        "user_id": "69",
+        "type": "view",
+        "timestamp": "2025-11-10T17:07:14.803528"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-10T17:17:27.966519"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-10T17:19:53.506430"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-10T17:21:07.064635"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-10T17:21:32.282115"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T14:10:17.032764"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:12:37.281386"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:15:47.060065"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:19:27.181940"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:22:35.086817"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:22:46.124312"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:22:47.524963"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:22:52.891954"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:22:53.707948"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:23:08.740197"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:23:24.304119"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:23:50.233821"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:36:56.694491"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:39:31.766894"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-11T14:40:10.973253"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-11T14:40:32.291868"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-11T14:42:31.345283"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-11T14:42:38.276419"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:44:54.400277"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T14:44:58.095627"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-11T14:48:35.660147"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T14:51:20.671714"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:11:20.350402"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:16:46.720507"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:18:33.823758"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:19:25.295035"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:19:42.595387"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T15:20:30.747777"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T15:20:37.617347"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T15:20:45.705706"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T15:21:17.416868"
+      },
+      {
+        "user_id": "71",
+        "type": "view",
+        "timestamp": "2025-11-11T15:29:50.088895"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T15:31:43.738755"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T15:33:19.203863"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T15:35:07.176441"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-11T15:35:36.405629"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T15:50:02.273124"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T15:57:53.977215"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:04:29.017683"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:04:54.665307"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-11T16:12:38.426602"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-11T16:18:00.218110"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:18:38.404346"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T16:22:18.210062"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T16:23:25.026132"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:24:22.268153"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T16:29:12.060046"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-11T16:33:14.664823"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:54:10.533029"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-11T16:54:15.456392"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:55:07.387440"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:56:43.132395"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T16:58:59.196263"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T17:00:00.469566"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T17:00:35.722036"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:00:38.353901"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:00:45.761953"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:03:07.259858"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:03:18.256832"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:03:20.251766"
+      },
+      {
+        "user_id": "76",
+        "type": "view",
+        "timestamp": "2025-11-11T17:03:50.162837"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:04:05.600308"
+      },
+      {
+        "user_id": "77",
+        "type": "view",
+        "timestamp": "2025-11-11T17:04:45.542333"
+      },
+      {
+        "user_id": "77",
+        "type": "view",
+        "timestamp": "2025-11-11T17:05:06.002693"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:05:29.451839"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T17:05:58.084181"
+      },
+      {
+        "user_id": "72",
+        "type": "view",
+        "timestamp": "2025-11-11T17:07:08.218042"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:08:25.650453"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:09:07.370939"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:14:40.073067"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:15:04.818389"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:16:59.038237"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:18:17.309387"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:18:17.870937"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:18:18.288359"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:19:39.409811"
+      },
+      {
+        "user_id": "74",
+        "type": "view",
+        "timestamp": "2025-11-11T17:22:56.207433"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-12T14:40:42.140353"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:41:49.669441"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:42:52.181747"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-12T14:43:04.824157"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:43:36.862406"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-12T14:45:47.184537"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:46:05.935717"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:46:18.737997"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:47:20.380625"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:48:40.103204"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T14:50:25.988966"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T14:56:22.395634"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T14:57:03.160991"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T14:59:27.587047"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T15:01:12.502961"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T15:04:00.774147"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T15:07:37.298519"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T15:07:50.539143"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T15:11:53.267606"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-11-12T15:12:09.372229"
+      },
+      {
+        "user_id": "56",
+        "type": "view",
+        "timestamp": "2025-11-12T15:14:45.337048"
+      },
+      {
+        "user_id": "79",
+        "type": "view",
+        "timestamp": "2025-11-12T15:34:45.570187"
+      },
+      {
+        "user_id": "79",
+        "type": "view",
+        "timestamp": "2025-11-12T15:34:50.743070"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-12T15:56:03.410963"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-13T14:16:42.084802"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-13T15:02:31.344644"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-17T14:28:46.720422"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-17T16:06:14.391747"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-17T17:09:12.197721"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-17T17:30:05.037825"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-17T17:34:41.254028"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-19T14:44:02.343100"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-26T16:38:04.221837"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-26T16:45:23.669263"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-26T16:58:56.249630"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:05:34.098439"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:10:07.937458"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:10:50.431352"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:11:21.958860"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:12:32.740986"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:12:59.900960"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:13:01.505169"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:13:19.159344"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:13:51.650837"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:15:28.701145"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:17:34.051007"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:20:21.332646"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:21:00.506576"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:24:34.534609"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:26:40.898596"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:29:32.729890"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:29:37.869517"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:31:15.646861"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:34:45.736687"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:35:12.969896"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:40:03.716822"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:41:33.707829"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:43:08.114392"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:46:00.554324"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:51:46.325771"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:51:52.980351"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T14:52:00.013564"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:06:13.468157"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:09:31.075948"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:10:32.255162"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:12:42.255825"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:12:45.913445"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:14:47.334203"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:19:12.858458"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:23:44.020629"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:27:48.790570"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-11-27T15:30:53.943154"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-11-27T15:32:25.150126"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:38:18.526249"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-12-01T14:38:46.060529"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:39:34.567048"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:43:35.348314"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:47:29.701617"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:54:41.599664"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T14:54:51.404030"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:02:23.926931"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-12-01T15:02:38.817638"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:10:13.258673"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:21:54.886174"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:22:52.452855"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:23:22.607483"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:24:33.516350"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-01T15:27:14.761212"
+      },
+      {
+        "user_id": "24",
+        "type": "view",
+        "timestamp": "2025-12-01T15:38:06.504278"
+      }
+    ]
+  },
+  "/provider-dashboard": {
+    "views": 47,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:53.553993"
+      },
+      {
+        "user_id": "3",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:53.765661"
+      },
+      {
+        "user_id": "4",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:53.897806"
+      },
+      {
+        "user_id": "5",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:54.105580"
+      },
+      {
+        "user_id": "6",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:54.402750"
+      },
+      {
+        "user_id": "7",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:54.594781"
+      },
+      {
+        "user_id": "8",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:54.791819"
+      },
+      {
+        "user_id": "9",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:54.979428"
+      },
+      {
+        "user_id": "10",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:55.183105"
+      },
+      {
+        "user_id": "11",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:55.398248"
+      },
+      {
+        "user_id": "23",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:55.725443"
+      },
+      {
+        "user_id": "25",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:55.963389"
+      },
+      {
+        "user_id": "26",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:56.163986"
+      },
+      {
+        "user_id": "27",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:56.385953"
+      },
+      {
+        "user_id": "28",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:56.624269"
+      },
+      {
+        "user_id": "29",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:56.902083"
+      },
+      {
+        "user_id": "30",
+        "type": "view",
+        "timestamp": "2025-10-23T14:38:57.123108"
+      },
+      {
+        "user_id": "2",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:39.299597"
+      },
+      {
+        "user_id": "3",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:39.503741"
+      },
+      {
+        "user_id": "4",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:39.637353"
+      },
+      {
+        "user_id": "5",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:39.815951"
+      },
+      {
+        "user_id": "6",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:40.067557"
+      },
+      {
+        "user_id": "7",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:40.258863"
+      },
+      {
+        "user_id": "8",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:40.417458"
+      },
+      {
+        "user_id": "9",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:40.636064"
+      },
+      {
+        "user_id": "10",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:40.822101"
+      },
+      {
+        "user_id": "11",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:41.043005"
+      },
+      {
+        "user_id": "23",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:41.317004"
+      },
+      {
+        "user_id": "25",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:41.517243"
+      },
+      {
+        "user_id": "26",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:41.688054"
+      },
+      {
+        "user_id": "27",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:41.853746"
+      },
+      {
+        "user_id": "28",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:42.065914"
+      },
+      {
+        "user_id": "29",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:42.274064"
+      },
+      {
+        "user_id": "30",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:42.490148"
+      },
+      {
+        "user_id": "31",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:42.683026"
+      },
+      {
+        "user_id": "35",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:42.885169"
+      },
+      {
+        "user_id": "36",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.070481"
+      },
+      {
+        "user_id": "37",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.223602"
+      },
+      {
+        "user_id": "38",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.355944"
+      },
+      {
+        "user_id": "39",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.515959"
+      },
+      {
+        "user_id": "40",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.705964"
+      },
+      {
+        "user_id": "41",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:43.887036"
+      },
+      {
+        "user_id": "42",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:44.083417"
+      },
+      {
+        "user_id": "43",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:44.256866"
+      },
+      {
+        "user_id": "44",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:44.456128"
+      },
+      {
+        "user_id": "45",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:44.633521"
+      },
+      {
+        "user_id": "47",
+        "type": "view",
+        "timestamp": "2025-10-23T14:39:44.800777"
+      }
+    ]
+  },
+  "/add-custom-service:service_11": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.592522"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.337687"
+      }
+    ]
+  },
+  "/add-custom-service:service_12": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.612948"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.350946"
+      }
+    ]
+  },
+  "/add-custom-service:service_41": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.629967"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.370174"
+      }
+    ]
+  },
+  "/add-custom-service:service_42": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.651686"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.385258"
+      }
+    ]
+  },
+  "/add-custom-service:service_43": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.667773"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.401519"
+      }
+    ]
+  },
+  "/add-custom-service:service_44": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.686031"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.420040"
+      }
+    ]
+  },
+  "/add-custom-service:service_45": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.694603"
+      },
+      {
+        "user_id": "2",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.449910"
+      }
+    ]
+  },
+  "/add-custom-service:service_46": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.800101"
+      },
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.549518"
+      }
+    ]
+  },
+  "/add-custom-service:service_47": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.820769"
+      },
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.564947"
+      }
+    ]
+  },
+  "/add-custom-service:service_48": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.834403"
+      },
+      {
+        "user_id": "3",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.581867"
+      }
+    ]
+  },
+  "/add-custom-service:service_5": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.939480"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.672051"
+      }
+    ]
+  },
+  "/add-custom-service:service_7": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.957230"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.689570"
+      }
+    ]
+  },
+  "/add-custom-service:service_22": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.976255"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.699508"
+      }
+    ]
+  },
+  "/add-custom-service:service_49": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:53.994275"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.727066"
+      }
+    ]
+  },
+  "/add-custom-service:service_50": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.009918"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.732879"
+      }
+    ]
+  },
+  "/add-custom-service:service_51": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.026347"
+      },
+      {
+        "user_id": "4",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.748961"
+      }
+    ]
+  },
+  "/add-custom-service:service_3": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.146582"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.850925"
+      }
+    ]
+  },
+  "/add-custom-service:service_6": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.169426"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.866702"
+      }
+    ]
+  },
+  "/add-custom-service:service_14": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.180722"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.885170"
+      }
+    ]
+  },
+  "/add-custom-service:service_19": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.221230"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.904040"
+      }
+    ]
+  },
+  "/add-custom-service:service_52": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.247758"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.932136"
+      }
+    ]
+  },
+  "/add-custom-service:service_53": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.266893"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.949687"
+      }
+    ]
+  },
+  "/add-custom-service:service_54": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.281871"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.966402"
+      }
+    ]
+  },
+  "/add-custom-service:service_55": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.325588"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:39.993930"
+      }
+    ]
+  },
+  "/add-custom-service:service_56": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.338176"
+      },
+      {
+        "user_id": "5",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.014891"
+      }
+    ]
+  },
+  "/add-custom-service:service_9": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.447449"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.104957"
+      }
+    ]
+  },
+  "/add-custom-service:service_13": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.466316"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.136053"
+      }
+    ]
+  },
+  "/add-custom-service:service_16": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.479719"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.153116"
+      }
+    ]
+  },
+  "/add-custom-service:service_57": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.495723"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.174176"
+      }
+    ]
+  },
+  "/add-custom-service:service_58": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.523903"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.189207"
+      }
+    ]
+  },
+  "/add-custom-service:service_59": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.543469"
+      },
+      {
+        "user_id": "6",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.204307"
+      }
+    ]
+  },
+  "/add-custom-service:service_21": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.645290"
+      },
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.298413"
+      }
+    ]
+  },
+  "/add-custom-service:service_23": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.664037"
+      },
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.315842"
+      }
+    ]
+  },
+  "/add-custom-service:service_60": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.666037"
+      },
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.333354"
+      }
+    ]
+  },
+  "/add-custom-service:service_61": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.700855"
+      },
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.349592"
+      }
+    ]
+  },
+  "/add-custom-service:service_62": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.730075"
+      },
+      {
+        "user_id": "7",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.372249"
+      }
+    ]
+  },
+  "/add-custom-service:service_4": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.824106"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.466150"
+      }
+    ]
+  },
+  "/add-custom-service:service_8": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.840013"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.484056"
+      }
+    ]
+  },
+  "/add-custom-service:service_63": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.855929"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.501876"
+      }
+    ]
+  },
+  "/add-custom-service:service_64": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.884846"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.516164"
+      }
+    ]
+  },
+  "/add-custom-service:service_65": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.900544"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.542462"
+      }
+    ]
+  },
+  "/add-custom-service:service_66": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.916702"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.566636"
+      }
+    ]
+  },
+  "/add-custom-service:service_67": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:54.940409"
+      },
+      {
+        "user_id": "8",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.587580"
+      }
+    ]
+  },
+  "/add-custom-service:service_68": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.035052"
+      },
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.683646"
+      }
+    ]
+  },
+  "/add-custom-service:service_69": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.052459"
+      },
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.701468"
+      }
+    ]
+  },
+  "/add-custom-service:service_70": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.063240"
+      },
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.716000"
+      }
+    ]
+  },
+  "/add-custom-service:service_71": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.092553"
+      },
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.735025"
+      }
+    ]
+  },
+  "/add-custom-service:service_72": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.113837"
+      },
+      {
+        "user_id": "9",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.766745"
+      }
+    ]
+  },
+  "/add-custom-service:service_15": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.216651"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.862107"
+      }
+    ]
+  },
+  "/add-custom-service:service_20": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.247765"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.883001"
+      }
+    ]
+  },
+  "/add-custom-service:service_24": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.267109"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.910959"
+      }
+    ]
+  },
+  "/add-custom-service:service_73": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.279816"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.933664"
+      }
+    ]
+  },
+  "/add-custom-service:service_74": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.307911"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.966458"
+      }
+    ]
+  },
+  "/add-custom-service:service_75": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.330342"
+      },
+      {
+        "user_id": "10",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:40.982467"
+      }
+    ]
+  },
+  "/add-custom-service:service_2": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.447307"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.087979"
+      }
+    ]
+  },
+  "/add-custom-service:service_10": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.463649"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.102638"
+      }
+    ]
+  },
+  "/add-custom-service:service_17": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.499239"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.131284"
+      }
+    ]
+  },
+  "/add-custom-service:service_18": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.513702"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.154746"
+      }
+    ]
+  },
+  "/add-custom-service:service_76": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.546210"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.174729"
+      }
+    ]
+  },
+  "/add-custom-service:service_77": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.558554"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.198047"
+      }
+    ]
+  },
+  "/add-custom-service:service_78": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.598143"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.216007"
+      }
+    ]
+  },
+  "/add-custom-service:service_79": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.622137"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.232102"
+      }
+    ]
+  },
+  "/add-custom-service:service_80": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.646659"
+      },
+      {
+        "user_id": "11",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.257115"
+      }
+    ]
+  },
+  "/add-custom-service:service_40": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.772513"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.351313"
+      }
+    ]
+  },
+  "/add-custom-service:service_81": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.788388"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.384117"
+      }
+    ]
+  },
+  "/add-custom-service:service_82": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.820312"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.400344"
+      }
+    ]
+  },
+  "/add-custom-service:service_83": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.845500"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.427841"
+      }
+    ]
+  },
+  "/add-custom-service:service_84": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.868198"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.449461"
+      }
+    ]
+  },
+  "/add-custom-service:service_85": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:55.886542"
+      },
+      {
+        "user_id": "23",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.465877"
+      }
+    ]
+  },
+  "/add-custom-service:service_33": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.001813"
+      },
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.566979"
+      }
+    ]
+  },
+  "/add-custom-service:service_86": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.027642"
+      },
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.586877"
+      }
+    ]
+  },
+  "/add-custom-service:service_87": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.051135"
+      },
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.599988"
+      }
+    ]
+  },
+  "/add-custom-service:service_88": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.073160"
+      },
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.619245"
+      }
+    ]
+  },
+  "/add-custom-service:service_89": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.092925"
+      },
+      {
+        "user_id": "25",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.647454"
+      }
+    ]
+  },
+  "/add-custom-service:service_34": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.211897"
+      },
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.731969"
+      }
+    ]
+  },
+  "/add-custom-service:service_90": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.244046"
+      },
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.749447"
+      }
+    ]
+  },
+  "/add-custom-service:service_91": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.271150"
+      },
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.765724"
+      }
+    ]
+  },
+  "/add-custom-service:service_92": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.289861"
+      },
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.782961"
+      }
+    ]
+  },
+  "/add-custom-service:service_93": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.311322"
+      },
+      {
+        "user_id": "26",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.799093"
+      }
+    ]
+  },
+  "/add-custom-service:service_35": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.432113"
+      },
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.900541"
+      }
+    ]
+  },
+  "/add-custom-service:service_94": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.463891"
+      },
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.931149"
+      }
+    ]
+  },
+  "/add-custom-service:service_95": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.490480"
+      },
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.950367"
+      }
+    ]
+  },
+  "/add-custom-service:service_96": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.515108"
+      },
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:41.982999"
+      }
+    ]
+  },
+  "/add-custom-service:service_97": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.541633"
+      },
+      {
+        "user_id": "27",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.005692"
+      }
+    ]
+  },
+  "/add-custom-service:service_36": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.680549"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.102361"
+      }
+    ]
+  },
+  "/add-custom-service:service_98": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.706212"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.131941"
+      }
+    ]
+  },
+  "/add-custom-service:service_99": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.735550"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.153449"
+      }
+    ]
+  },
+  "/add-custom-service:service_100": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.758883"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.182876"
+      }
+    ]
+  },
+  "/add-custom-service:service_101": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.783988"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.201691"
+      }
+    ]
+  },
+  "/add-custom-service:service_102": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.809452"
+      },
+      {
+        "user_id": "28",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.219146"
+      }
+    ]
+  },
+  "/add-custom-service:service_37": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.947133"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.316060"
+      }
+    ]
+  },
+  "/add-custom-service:service_103": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.965527"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.332881"
+      }
+    ]
+  },
+  "/add-custom-service:service_104": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:56.995117"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.354664"
+      }
+    ]
+  },
+  "/add-custom-service:service_105": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.010759"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.383735"
+      }
+    ]
+  },
+  "/add-custom-service:service_106": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.042711"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.407689"
+      }
+    ]
+  },
+  "/add-custom-service:service_107": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.056143"
+      },
+      {
+        "user_id": "29",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.434153"
+      }
+    ]
+  },
+  "/add-custom-service:service_38": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.174505"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.534382"
+      }
+    ]
+  },
+  "/add-custom-service:service_108": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.201603"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.553093"
+      }
+    ]
+  },
+  "/add-custom-service:service_109": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.229334"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.573870"
+      }
+    ]
+  },
+  "/add-custom-service:service_110": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.251048"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.592532"
+      }
+    ]
+  },
+  "/add-custom-service:service_111": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.271619"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.613688"
+      }
+    ]
+  },
+  "/add-custom-service:service_112": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:38:57.292101"
+      },
+      {
+        "user_id": "30",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.632468"
+      }
+    ]
+  },
+  "/add-custom-service:service_39": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.715748"
+      }
+    ]
+  },
+  "/add-custom-service:service_113": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.750270"
+      }
+    ]
+  },
+  "/add-custom-service:service_114": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.766146"
+      }
+    ]
+  },
+  "/add-custom-service:service_115": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.783762"
+      }
+    ]
+  },
+  "/add-custom-service:service_116": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.814518"
+      }
+    ]
+  },
+  "/add-custom-service:service_117": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "31",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.832104"
+      }
+    ]
+  },
+  "/add-custom-service:service_118": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "35",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.932090"
+      }
+    ]
+  },
+  "/add-custom-service:service_119": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "35",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.950350"
+      }
+    ]
+  },
+  "/add-custom-service:service_120": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "35",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.966571"
+      }
+    ]
+  },
+  "/add-custom-service:service_121": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "35",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:42.982864"
+      }
+    ]
+  },
+  "/add-custom-service:service_122": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "35",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.014234"
+      }
+    ]
+  },
+  "/add-custom-service:service_123": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "36",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.116646"
+      }
+    ]
+  },
+  "/add-custom-service:service_124": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "36",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.135486"
+      }
+    ]
+  },
+  "/add-custom-service:service_125": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "36",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.150219"
+      }
+    ]
+  },
+  "/add-custom-service:service_126": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "37",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.264619"
+      }
+    ]
+  },
+  "/add-custom-service:service_127": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "37",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.285351"
+      }
+    ]
+  },
+  "/add-custom-service:service_128": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "37",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.299611"
+      }
+    ]
+  },
+  "/add-custom-service:service_129": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "38",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.404511"
+      }
+    ]
+  },
+  "/add-custom-service:service_130": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "38",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.420117"
+      }
+    ]
+  },
+  "/add-custom-service:service_131": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "38",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.448546"
+      }
+    ]
+  },
+  "/add-custom-service:service_132": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "38",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.465695"
+      }
+    ]
+  },
+  "/add-custom-service:service_133": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "39",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.566987"
+      }
+    ]
+  },
+  "/add-custom-service:service_134": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "39",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.581920"
+      }
+    ]
+  },
+  "/add-custom-service:service_135": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "39",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.607649"
+      }
+    ]
+  },
+  "/add-custom-service:service_136": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "39",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.633066"
+      }
+    ]
+  },
+  "/add-custom-service:service_137": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "39",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.649344"
+      }
+    ]
+  },
+  "/add-custom-service:service_138": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "40",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.751616"
+      }
+    ]
+  },
+  "/add-custom-service:service_139": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "40",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.780762"
+      }
+    ]
+  },
+  "/add-custom-service:service_140": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "40",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.801527"
+      }
+    ]
+  },
+  "/add-custom-service:service_141": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "40",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.816719"
+      }
+    ]
+  },
+  "/add-custom-service:service_142": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "41",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.951789"
+      }
+    ]
+  },
+  "/add-custom-service:service_143": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "41",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.969669"
+      }
+    ]
+  },
+  "/add-custom-service:service_144": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "41",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:43.999430"
+      }
+    ]
+  },
+  "/add-custom-service:service_145": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "41",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.017156"
+      }
+    ]
+  },
+  "/add-custom-service:service_146": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "42",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.152378"
+      }
+    ]
+  },
+  "/add-custom-service:service_147": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "42",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.170000"
+      }
+    ]
+  },
+  "/add-custom-service:service_148": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "42",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.200179"
+      }
+    ]
+  },
+  "/add-custom-service:service_150": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "43",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.307833"
+      }
+    ]
+  },
+  "/add-custom-service:service_153": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "43",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.333049"
+      }
+    ]
+  },
+  "/add-custom-service:service_155": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "43",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.350075"
+      }
+    ]
+  },
+  "/add-custom-service:service_158": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "43",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.385703"
+      }
+    ]
+  },
+  "/add-custom-service:service_149": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "44",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.502567"
+      }
+    ]
+  },
+  "/add-custom-service:service_151": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "44",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.535266"
+      }
+    ]
+  },
+  "/add-custom-service:service_152": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "44",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.558241"
+      }
+    ]
+  },
+  "/add-custom-service:service_156": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "44",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.581051"
+      }
+    ]
+  },
+  "/add-custom-service:service_154": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "45",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.683117"
+      }
+    ]
+  },
+  "/add-custom-service:service_157": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "45",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.705229"
+      }
+    ]
+  },
+  "/add-custom-service:service_159": {
+    "views": 0,
+    "clicks": 0,
+    "interactions": [
+      {
+        "user_id": "45",
+        "type": "create",
+        "timestamp": "2025-10-23T14:39:44.732540"
+      }
+    ]
+  }
+}

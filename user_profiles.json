@@ -1,0 +1,5308 @@
+{
+  "2": {
+    "user_id": "2",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:39.299597"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_11",
+        "timestamp": "2025-10-23T14:39:39.337687"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_12",
+        "timestamp": "2025-10-23T14:39:39.350946"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_41",
+        "timestamp": "2025-10-23T14:39:39.370174"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_42",
+        "timestamp": "2025-10-23T14:39:39.385258"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_43",
+        "timestamp": "2025-10-23T14:39:39.401519"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_44",
+        "timestamp": "2025-10-23T14:39:39.420040"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_45",
+        "timestamp": "2025-10-23T14:39:39.449910"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:39.449910"
+  },
+  "3": {
+    "user_id": "3",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:39.503741"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_46",
+        "timestamp": "2025-10-23T14:39:39.549518"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_47",
+        "timestamp": "2025-10-23T14:39:39.564947"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_48",
+        "timestamp": "2025-10-23T14:39:39.581867"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:39.581867"
+  },
+  "4": {
+    "user_id": "4",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:39.637353"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_5",
+        "timestamp": "2025-10-23T14:39:39.672051"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_7",
+        "timestamp": "2025-10-23T14:39:39.689570"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_22",
+        "timestamp": "2025-10-23T14:39:39.699508"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_49",
+        "timestamp": "2025-10-23T14:39:39.727066"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_50",
+        "timestamp": "2025-10-23T14:39:39.732879"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_51",
+        "timestamp": "2025-10-23T14:39:39.748961"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:39.748961"
+  },
+  "5": {
+    "user_id": "5",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:39.815951"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_3",
+        "timestamp": "2025-10-23T14:39:39.850925"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_6",
+        "timestamp": "2025-10-23T14:39:39.866702"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_14",
+        "timestamp": "2025-10-23T14:39:39.885170"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_19",
+        "timestamp": "2025-10-23T14:39:39.904040"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_52",
+        "timestamp": "2025-10-23T14:39:39.932136"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_53",
+        "timestamp": "2025-10-23T14:39:39.949687"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_54",
+        "timestamp": "2025-10-23T14:39:39.966402"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_55",
+        "timestamp": "2025-10-23T14:39:39.993930"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_56",
+        "timestamp": "2025-10-23T14:39:40.014891"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.014891"
+  },
+  "6": {
+    "user_id": "6",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:40.067557"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_9",
+        "timestamp": "2025-10-23T14:39:40.104957"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_13",
+        "timestamp": "2025-10-23T14:39:40.136053"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_16",
+        "timestamp": "2025-10-23T14:39:40.153116"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_57",
+        "timestamp": "2025-10-23T14:39:40.174176"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_58",
+        "timestamp": "2025-10-23T14:39:40.189207"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_59",
+        "timestamp": "2025-10-23T14:39:40.204307"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.204307"
+  },
+  "7": {
+    "user_id": "7",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:40.258863"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_21",
+        "timestamp": "2025-10-23T14:39:40.298413"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_23",
+        "timestamp": "2025-10-23T14:39:40.315842"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_60",
+        "timestamp": "2025-10-23T14:39:40.333354"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_61",
+        "timestamp": "2025-10-23T14:39:40.349592"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_62",
+        "timestamp": "2025-10-23T14:39:40.372249"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.372249"
+  },
+  "8": {
+    "user_id": "8",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:40.417458"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_4",
+        "timestamp": "2025-10-23T14:39:40.466150"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_8",
+        "timestamp": "2025-10-23T14:39:40.484056"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_63",
+        "timestamp": "2025-10-23T14:39:40.501876"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_64",
+        "timestamp": "2025-10-23T14:39:40.516164"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_65",
+        "timestamp": "2025-10-23T14:39:40.542462"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_66",
+        "timestamp": "2025-10-23T14:39:40.566636"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_67",
+        "timestamp": "2025-10-23T14:39:40.587580"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.587580"
+  },
+  "9": {
+    "user_id": "9",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:40.636064"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_68",
+        "timestamp": "2025-10-23T14:39:40.683646"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_69",
+        "timestamp": "2025-10-23T14:39:40.701468"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_70",
+        "timestamp": "2025-10-23T14:39:40.716000"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_71",
+        "timestamp": "2025-10-23T14:39:40.735025"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_72",
+        "timestamp": "2025-10-23T14:39:40.766745"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.766745"
+  },
+  "10": {
+    "user_id": "10",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:40.822101"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_15",
+        "timestamp": "2025-10-23T14:39:40.862107"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_20",
+        "timestamp": "2025-10-23T14:39:40.883001"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_24",
+        "timestamp": "2025-10-23T14:39:40.910959"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_73",
+        "timestamp": "2025-10-23T14:39:40.933664"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_74",
+        "timestamp": "2025-10-23T14:39:40.966458"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_75",
+        "timestamp": "2025-10-23T14:39:40.982467"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:40.982467"
+  },
+  "11": {
+    "user_id": "11",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:41.043005"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_2",
+        "timestamp": "2025-10-23T14:39:41.087979"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_10",
+        "timestamp": "2025-10-23T14:39:41.102638"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_17",
+        "timestamp": "2025-10-23T14:39:41.131284"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_18",
+        "timestamp": "2025-10-23T14:39:41.154746"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_76",
+        "timestamp": "2025-10-23T14:39:41.174729"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_77",
+        "timestamp": "2025-10-23T14:39:41.198047"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_78",
+        "timestamp": "2025-10-23T14:39:41.216007"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_79",
+        "timestamp": "2025-10-23T14:39:41.232102"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_80",
+        "timestamp": "2025-10-23T14:39:41.257115"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:41.257115"
+  },
+  "23": {
+    "user_id": "23",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:41.317004"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_40",
+        "timestamp": "2025-10-23T14:39:41.351313"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_81",
+        "timestamp": "2025-10-23T14:39:41.384117"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_82",
+        "timestamp": "2025-10-23T14:39:41.400344"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_83",
+        "timestamp": "2025-10-23T14:39:41.427841"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_84",
+        "timestamp": "2025-10-23T14:39:41.449461"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_85",
+        "timestamp": "2025-10-23T14:39:41.465877"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:18:51.162025"
+      }
+    ],
+    "last_updated": "2025-11-06T16:18:51.162025"
+  },
+  "25": {
+    "user_id": "25",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:41.517243"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_33",
+        "timestamp": "2025-10-23T14:39:41.566979"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_86",
+        "timestamp": "2025-10-23T14:39:41.586877"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_87",
+        "timestamp": "2025-10-23T14:39:41.599988"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_88",
+        "timestamp": "2025-10-23T14:39:41.619245"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_89",
+        "timestamp": "2025-10-23T14:39:41.647454"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:41.647454"
+  },
+  "26": {
+    "user_id": "26",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:41.688054"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_34",
+        "timestamp": "2025-10-23T14:39:41.731969"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_90",
+        "timestamp": "2025-10-23T14:39:41.749447"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_91",
+        "timestamp": "2025-10-23T14:39:41.765724"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_92",
+        "timestamp": "2025-10-23T14:39:41.782961"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_93",
+        "timestamp": "2025-10-23T14:39:41.799093"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:41.799093"
+  },
+  "27": {
+    "user_id": "27",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:41.853746"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_35",
+        "timestamp": "2025-10-23T14:39:41.900541"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_94",
+        "timestamp": "2025-10-23T14:39:41.931149"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_95",
+        "timestamp": "2025-10-23T14:39:41.950367"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_96",
+        "timestamp": "2025-10-23T14:39:41.982999"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_97",
+        "timestamp": "2025-10-23T14:39:42.005692"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:42.005692"
+  },
+  "28": {
+    "user_id": "28",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:42.065914"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_36",
+        "timestamp": "2025-10-23T14:39:42.102361"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_98",
+        "timestamp": "2025-10-23T14:39:42.131941"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_99",
+        "timestamp": "2025-10-23T14:39:42.153449"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_100",
+        "timestamp": "2025-10-23T14:39:42.182876"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_101",
+        "timestamp": "2025-10-23T14:39:42.201691"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_102",
+        "timestamp": "2025-10-23T14:39:42.219146"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:42.219146"
+  },
+  "29": {
+    "user_id": "29",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:42.274064"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_37",
+        "timestamp": "2025-10-23T14:39:42.316060"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_103",
+        "timestamp": "2025-10-23T14:39:42.332881"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_104",
+        "timestamp": "2025-10-23T14:39:42.354664"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_105",
+        "timestamp": "2025-10-23T14:39:42.383735"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_106",
+        "timestamp": "2025-10-23T14:39:42.407689"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_107",
+        "timestamp": "2025-10-23T14:39:42.434153"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:42.434153"
+  },
+  "30": {
+    "user_id": "30",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:42.490148"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_38",
+        "timestamp": "2025-10-23T14:39:42.534382"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_108",
+        "timestamp": "2025-10-23T14:39:42.553093"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_109",
+        "timestamp": "2025-10-23T14:39:42.573870"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_110",
+        "timestamp": "2025-10-23T14:39:42.592532"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_111",
+        "timestamp": "2025-10-23T14:39:42.613688"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_112",
+        "timestamp": "2025-10-23T14:39:42.632468"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:42.632468"
+  },
+  "31": {
+    "user_id": "31",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:42.683026"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_39",
+        "timestamp": "2025-10-23T14:39:42.715748"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_113",
+        "timestamp": "2025-10-23T14:39:42.750270"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_114",
+        "timestamp": "2025-10-23T14:39:42.766146"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_115",
+        "timestamp": "2025-10-23T14:39:42.783762"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_116",
+        "timestamp": "2025-10-23T14:39:42.814518"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_117",
+        "timestamp": "2025-10-23T14:39:42.832104"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:42.832104"
+  },
+  "35": {
+    "user_id": "35",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:42.885169"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_118",
+        "timestamp": "2025-10-23T14:39:42.932090"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_119",
+        "timestamp": "2025-10-23T14:39:42.950350"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_120",
+        "timestamp": "2025-10-23T14:39:42.966571"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_121",
+        "timestamp": "2025-10-23T14:39:42.982864"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_122",
+        "timestamp": "2025-10-23T14:39:43.014234"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.014234"
+  },
+  "36": {
+    "user_id": "36",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.070481"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_123",
+        "timestamp": "2025-10-23T14:39:43.116646"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_124",
+        "timestamp": "2025-10-23T14:39:43.135486"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_125",
+        "timestamp": "2025-10-23T14:39:43.150219"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.150219"
+  },
+  "37": {
+    "user_id": "37",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.223602"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_126",
+        "timestamp": "2025-10-23T14:39:43.264619"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_127",
+        "timestamp": "2025-10-23T14:39:43.285351"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_128",
+        "timestamp": "2025-10-23T14:39:43.299611"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.299611"
+  },
+  "38": {
+    "user_id": "38",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.355944"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_129",
+        "timestamp": "2025-10-23T14:39:43.404511"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_130",
+        "timestamp": "2025-10-23T14:39:43.420117"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_131",
+        "timestamp": "2025-10-23T14:39:43.448546"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_132",
+        "timestamp": "2025-10-23T14:39:43.465695"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.465695"
+  },
+  "39": {
+    "user_id": "39",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.515959"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_133",
+        "timestamp": "2025-10-23T14:39:43.566987"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_134",
+        "timestamp": "2025-10-23T14:39:43.581920"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_135",
+        "timestamp": "2025-10-23T14:39:43.607649"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_136",
+        "timestamp": "2025-10-23T14:39:43.633066"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_137",
+        "timestamp": "2025-10-23T14:39:43.649344"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.649344"
+  },
+  "40": {
+    "user_id": "40",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.705964"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_138",
+        "timestamp": "2025-10-23T14:39:43.751616"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_139",
+        "timestamp": "2025-10-23T14:39:43.780762"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_140",
+        "timestamp": "2025-10-23T14:39:43.801527"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_141",
+        "timestamp": "2025-10-23T14:39:43.816719"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:43.816719"
+  },
+  "41": {
+    "user_id": "41",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:43.887036"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_142",
+        "timestamp": "2025-10-23T14:39:43.951789"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_143",
+        "timestamp": "2025-10-23T14:39:43.969669"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_144",
+        "timestamp": "2025-10-23T14:39:43.999430"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_145",
+        "timestamp": "2025-10-23T14:39:44.017156"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.017156"
+  },
+  "42": {
+    "user_id": "42",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:44.083417"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_146",
+        "timestamp": "2025-10-23T14:39:44.152378"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_147",
+        "timestamp": "2025-10-23T14:39:44.170000"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_148",
+        "timestamp": "2025-10-23T14:39:44.200179"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.200179"
+  },
+  "43": {
+    "user_id": "43",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:44.256866"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_150",
+        "timestamp": "2025-10-23T14:39:44.307833"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_153",
+        "timestamp": "2025-10-23T14:39:44.333049"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_155",
+        "timestamp": "2025-10-23T14:39:44.350075"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_158",
+        "timestamp": "2025-10-23T14:39:44.385703"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.385703"
+  },
+  "44": {
+    "user_id": "44",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:44.456128"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_149",
+        "timestamp": "2025-10-23T14:39:44.502567"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_151",
+        "timestamp": "2025-10-23T14:39:44.535266"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_152",
+        "timestamp": "2025-10-23T14:39:44.558241"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_156",
+        "timestamp": "2025-10-23T14:39:44.581051"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.581051"
+  },
+  "45": {
+    "user_id": "45",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:44.633521"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_154",
+        "timestamp": "2025-10-23T14:39:44.683117"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_157",
+        "timestamp": "2025-10-23T14:39:44.705229"
+      },
+      {
+        "page": "/add-custom-service",
+        "type": "create",
+        "content_id": "service_159",
+        "timestamp": "2025-10-23T14:39:44.732540"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.732540"
+  },
+  "47": {
+    "user_id": "47",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/provider-dashboard",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:39:44.800777"
+      }
+    ],
+    "last_updated": "2025-10-23T14:39:44.800777"
+  },
+  "49": {
+    "user_id": "49",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T14:53:30.985656"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:02:41.742832"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:51.881365"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:52.982269"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:53.159422"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:53.465013"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:53.665772"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:53.840683"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:03:54.019775"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:06:10.483419"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:06:11.678631"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:06:33.824417"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:10:25.859999"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:14:34.320222"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:15:26.428681"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:15:45.854280"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:15:51.237112"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:23:24.589005"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:24:45.966497"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:28:09.049210"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:28:14.017791"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:52:51.442151"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:05:22.846861"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:10:08.013863"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:11:33.272119"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:11:35.906799"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:11:56.894530"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:11:58.983355"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:52.259987"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:52.444876"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:52.612021"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:52.767152"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:52.903577"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:53.078911"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:53.205026"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:53.346500"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:53.497196"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:53.677606"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:54.157434"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:54.768927"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:55.143399"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:55.398735"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:55.676065"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:55.905004"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:56.127924"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:56.341195"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:56.533500"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:56.754909"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:56.973656"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:57.168548"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:57.452499"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:57.699700"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:57.927009"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:58.127169"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:58.635590"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:58.902431"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:59.183589"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:59.469555"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:59.732907"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:59.971190"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:13:00.817011"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:13:01.074123"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:17:27.135535"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:17:35.428776"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:18:27.991168"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:18:31.423767"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:18:31.853986"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:18:37.268926"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:21:19.802940"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:22:29.272185"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:27:09.701656"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:27:11.831619"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:28:11.222636"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:28:38.422252"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:43:26.446127"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:53:51.838482"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:54:12.123977"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:15:30.390758"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:22:37.740698"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:23:34.474835"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:23:44.772914"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:24:07.157453"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:24:41.997664"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:25:08.172366"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:25:29.162076"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:24.960967"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:29.383862"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:30.070798"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:30.570792"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:31.072143"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:31.572291"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:32.036495"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:32.537594"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:33.010332"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:33.548242"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:35.868758"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:36.314915"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:36.727529"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:37.081341"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:37.474648"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:38.057688"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:38.992383"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:39.392305"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:39.758960"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:40.175022"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:40.565594"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:40.962917"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:41.378353"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:41.810365"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:42.190872"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:42.602505"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:42.998322"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:43.389842"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:43.773136"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:44.156452"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:44.511950"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:44.904963"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:45.466974"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:46.865020"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:47.215271"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:47.931854"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:48.330799"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:48.688510"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:49.262970"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:49.587294"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:50.043819"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:50.379198"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:50.863353"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:51.236398"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:51.574693"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:51.930225"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:52.291910"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:52.629710"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:52.993240"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:53.346159"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:53.707306"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:54.067572"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:54.401363"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:54.716157"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:55.035076"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:55.358889"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:55.713241"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:56.065341"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:56.415905"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:56.738861"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:57.066516"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:57.366435"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:26:57.686303"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:27:44.943230"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T15:19:46.079682"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T15:35:51.200759"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:01:00.823007"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:06:04.827908"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:06:54.310359"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:07:55.617878"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:08:47.648631"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T16:09:59.933727"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:00:09.762730"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:00:28.131578"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:02:24.400478"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:03:23.342524"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:20:14.512258"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:29:24.312532"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:47:15.177340"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:48:26.761727"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:52:07.697353"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:57:25.566474"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:57:33.931910"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:57:36.616975"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:58:10.503385"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:58:48.162719"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:02:34.452558"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:06:04.369592"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:08:07.060905"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:08:11.178107"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:08:12.213247"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:08:12.894667"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:11:15.644481"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:12.007770"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:08:02.741689"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:16:18.831899"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:16:21.783106"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:23:38.759384"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:10:48.997151"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:15:46.760416"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:16:24.921232"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:16:39.620038"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:14:09.010012"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:24:17.554265"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:36:53.044218"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:08:03.379547"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:08:11.343262"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:08:13.710949"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:43:43.987916"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:44:44.289911"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:49:49.335903"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:40:10.973253"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:40:32.291868"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:42:31.345283"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:42:38.276419"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:48:35.660147"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:41:49.669441"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:42:52.181747"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:43:36.862406"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:46:05.935717"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:46:18.737997"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:47:20.380625"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:48:40.103204"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:50:25.988966"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:07:37.298519"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:11:53.267606"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:12:09.372229"
+      }
+    ],
+    "last_updated": "2025-11-12T15:12:09.372229"
+  },
+  "24": {
+    "user_id": "24",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:18:27.298612"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:29:44.672480"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:47:41.631371"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-29T14:08:24.315432"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T15:31:15.111640"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:22:33.740330"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:23:14.905406"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:18:59.233320"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:19:11.937222"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:12:38.426602"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:18:00.218110"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:54:15.456392"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:56:03.410963"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-17T17:34:41.254028"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-19T14:44:02.343100"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:32:25.150126"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:38:46.060529"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:02:38.817638"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:38:06.504278"
+      }
+    ],
+    "last_updated": "2025-12-01T15:38:06.504278"
+  },
+  "1": {
+    "user_id": "1",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:35:23.859887"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:31.207409"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:35.303722"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:53.541573"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:54.369032"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:54.542701"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:54.702842"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:54.885672"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.050971"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.188424"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.336241"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.493825"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.653189"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.802885"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:55.970519"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:56.121086"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:57.257114"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:58.001115"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:58.656500"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.004669"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.219497"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.404308"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.605486"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.756466"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:37:59.936887"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.135030"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.286260"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.462305"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.619899"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.786040"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:00.953753"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:01.096699"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:01.221466"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:01.390553"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:01.540128"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:01.658951"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.087595"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.337337"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.502253"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.638007"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.804283"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:02.936303"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.103593"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.260000"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.404380"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.562172"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.706403"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.851067"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:03.986386"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:04.159245"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:04.320519"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:04.436159"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:04.690998"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:04.853010"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.002769"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.121798"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.269480"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.428785"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.568969"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.702635"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:05.858506"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.001071"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.136053"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.289175"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.436614"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.574381"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.737205"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:06.854521"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:07.007556"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:07.151769"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:07.285472"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:38:20.553410"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:39:21.901085"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:39:39.623188"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:39:40.299359"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:40:24.482470"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:40:24.720577"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:40:24.926083"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:41:56.963579"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:42:51.443563"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:44:51.279425"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T15:55:48.116616"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:10:16.310489"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:12:37.402440"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:20:24.459945"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:27:25.823789"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:42:31.751372"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:49:02.324628"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:52:54.408230"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T16:53:06.003391"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:03:21.528874"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:04:29.296152"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:06:09.385434"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:06:12.727217"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:06:12.977869"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:06:13.208856"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:07:25.167255"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:09:15.478921"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:09:39.750086"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:11:14.460898"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:11:18.558364"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-23T17:29:06.439768"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T15:30:10.021077"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:02:45.563616"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:28:28.782196"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:28:33.278756"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:28:33.931018"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:28:34.163628"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:38:38.295198"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:38:39.614516"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:40:21.570558"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:42:10.747338"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:58:55.006692"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T16:58:57.328069"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T17:26:36.899145"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T17:33:14.196541"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-28T17:36:45.444852"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-29T14:07:46.294301"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-29T14:08:08.009918"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-29T14:08:56.014001"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:29:49.235752"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:39:14.892786"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:51:00.301247"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:51:56.474226"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:58:28.217377"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T15:58:28.557541"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:03:03.106462"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:03:15.913226"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:10:55.556242"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:13:56.412727"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:22:19.122016"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:23:06.358381"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:45:17.072679"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:45:17.272152"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-10-30T16:45:21.590035"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:30:30.397021"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:32:04.096979"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:32:10.172755"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:37:25.776260"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:37:26.468198"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:38:38.341839"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:41:42.340973"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:41:42.589843"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:41:42.806797"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:42:17.663446"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:48:15.795615"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:54:48.308656"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T15:32:58.128798"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T17:27:01.657520"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:12:44.174733"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:17:18.059100"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:25:05.216824"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:52:41.167797"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T17:07:13.727404"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:23:31.444123"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:27:21.785093"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:32:52.587052"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:55:11.251833"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:05:06.394987"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:03:35.223229"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:04:19.581908"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:05:17.206620"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:05:24.028941"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:06:56.814960"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:36.097338"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:36.323234"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:39.131333"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:39.702385"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:10:38.221062"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:11:08.444426"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:26:16.955323"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:34:36.431651"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:37:56.053800"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:41:12.224556"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:45:17.053347"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:46:02.836592"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T13:58:46.157900"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:27:43.746799"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:38:07.236562"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:40:46.184061"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:41:58.883557"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:49:20.735621"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:49:28.412490"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:49:36.864978"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:50:13.811458"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:50:20.515974"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:50:33.278025"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:51:03.864186"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:51:58.681351"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:53:11.684738"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:53:13.515472"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:16:47.867210"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:05:47.666078"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:26:48.385019"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:27:31.123298"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:29:48.360147"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:33:20.511932"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:36:16.109814"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:40:57.726873"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T17:17:27.966519"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:10:17.032764"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:11:20.350402"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:16:46.720507"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:18:33.823758"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:19:25.295035"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:19:42.595387"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:20:45.705706"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:22:18.210062"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:23:25.026132"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:29:12.060046"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:33:14.664823"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:40:42.140353"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:43:04.824157"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:45:47.184537"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-13T14:16:42.084802"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-13T15:02:31.344644"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-17T14:28:46.720422"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-17T16:06:14.391747"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-17T17:09:12.197721"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-17T17:30:05.037825"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-26T16:38:04.221837"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-26T16:45:23.669263"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-26T16:58:56.249630"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:05:34.098439"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:10:07.937458"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:10:50.431352"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:11:21.958860"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:12:32.740986"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:12:59.900960"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:13:01.505169"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:13:19.159344"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:13:51.650837"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:15:28.701145"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:17:34.051007"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:20:21.332646"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:21:00.506576"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:24:34.534609"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:26:40.898596"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:29:32.729890"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:29:37.869517"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:31:15.646861"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:34:45.736687"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:35:12.969896"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:40:03.716822"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:41:33.707829"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:43:08.114392"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:46:00.554324"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:51:46.325771"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:51:52.980351"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T14:52:00.013564"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:06:13.468157"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:09:31.075948"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:10:32.255162"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:12:42.255825"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:12:45.913445"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:14:47.334203"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:19:12.858458"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:23:44.020629"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:27:48.790570"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-27T15:30:53.943154"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:38:18.526249"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:39:34.567048"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:43:35.348314"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:47:29.701617"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:54:41.599664"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T14:54:51.404030"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:02:23.926931"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:10:13.258673"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:21:54.886174"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:22:52.452855"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:23:22.607483"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:24:33.516350"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-01T15:27:14.761212"
+      }
+    ],
+    "last_updated": "2025-12-01T15:27:14.761212"
+  },
+  "52": {
+    "user_id": "52",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-03T17:07:37.588931"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-03T17:07:51.675486"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:08:34.531586"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:13:23.256221"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:21:22.243376"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:26:44.645795"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-04T14:30:15.057940"
+      }
+    ],
+    "last_updated": "2025-11-04T14:30:15.057940"
+  },
+  "55": {
+    "user_id": "55",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:22:54.876030"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:48:19.640728"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:49:40.060692"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:15:42.420155"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T16:26:43.377193"
+      }
+    ],
+    "last_updated": "2025-11-05T16:26:43.377193"
+  },
+  "56": {
+    "user_id": "56",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:32:01.792322"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:40:14.188130"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T14:51:48.473472"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:03:05.990384"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:03:18.140266"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:03:20.070566"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:27:37.797011"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:43:19.123343"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T15:50:10.803227"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T16:08:01.644382"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-05T16:31:38.632249"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T14:44:00.886782"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T15:29:53.682287"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:07:07.383030"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:27:29.584745"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:27:58.296270"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:28:02.699786"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:31:01.166389"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:31:05.672580"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:31:51.298590"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:23:10.263748"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:24:41.502795"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:25:18.386962"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:25:24.067596"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:25:35.505730"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:25:36.504937"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:38:58.603694"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T14:49:44.963171"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T15:14:49.019176"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:04:57.700479"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:05:06.892627"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:14:52.401267"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:26:59.975252"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:48:00.811412"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:51:08.839484"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:12:37.281386"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:15:47.060065"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:19:27.181940"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:22:53.707948"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:23:24.304119"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:36:56.694491"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:51:20.671714"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:21:17.416868"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:31:43.738755"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:33:19.203863"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:35:07.176441"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:35:36.405629"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:56:22.395634"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:57:03.160991"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T14:59:27.587047"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:01:12.502961"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:04:00.774147"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:07:50.539143"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:14:45.337048"
+      }
+    ],
+    "last_updated": "2025-11-12T15:14:45.337048"
+  },
+  "53": {
+    "user_id": "53",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T16:18:40.004542"
+      }
+    ],
+    "last_updated": "2025-11-06T16:18:40.004542"
+  },
+  "59": {
+    "user_id": "59",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:03:47.507347"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:04:01.483261"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:04:10.628543"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:26:00.651040"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:26:02.558131"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:26:03.898058"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-06T17:26:31.389845"
+      }
+    ],
+    "last_updated": "2025-11-06T17:26:31.389845"
+  },
+  "61": {
+    "user_id": "61",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:29:12.168330"
+      }
+    ],
+    "last_updated": "2025-11-10T16:29:12.168330"
+  },
+  "63": {
+    "user_id": "63",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:30:15.184135"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:31:52.839889"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:31:54.132470"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:31:55.196786"
+      }
+    ],
+    "last_updated": "2025-11-10T16:31:55.196786"
+  },
+  "66": {
+    "user_id": "66",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:32:02.109070"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:32:54.350689"
+      }
+    ],
+    "last_updated": "2025-11-10T16:32:54.350689"
+  },
+  "67": {
+    "user_id": "67",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:33:46.564201"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:33:51.683231"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:44:00.992113"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:44:02.973168"
+      }
+    ],
+    "last_updated": "2025-11-10T16:44:02.973168"
+  },
+  "69": {
+    "user_id": "69",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:34:49.047303"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T17:07:14.803528"
+      }
+    ],
+    "last_updated": "2025-11-10T17:07:14.803528"
+  },
+  "68": {
+    "user_id": "68",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:34:55.465488"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:41:23.193613"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T16:42:35.435683"
+      }
+    ],
+    "last_updated": "2025-11-10T16:42:35.435683"
+  },
+  "71": {
+    "user_id": "71",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T17:19:53.506430"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T17:21:07.064635"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-10T17:21:32.282115"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:22:35.086817"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:22:46.124312"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:22:47.524963"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:22:52.891954"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:23:08.740197"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:23:50.233821"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:39:31.766894"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:44:54.400277"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T14:44:58.095627"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:20:30.747777"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:20:37.617347"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:29:50.088895"
+      }
+    ],
+    "last_updated": "2025-11-11T15:29:50.088895"
+  },
+  "72": {
+    "user_id": "72",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:50:02.273124"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T15:57:53.977215"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:04:29.017683"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:04:54.665307"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:18:38.404346"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:24:22.268153"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:54:10.533029"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:55:07.387440"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:56:43.132395"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T16:58:59.196263"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:00:00.469566"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:00:35.722036"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:05:58.084181"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:07:08.218042"
+      }
+    ],
+    "last_updated": "2025-11-11T17:07:08.218042"
+  },
+  "74": {
+    "user_id": "74",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:00:38.353901"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:00:45.761953"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:03:07.259858"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:03:18.256832"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:03:20.251766"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:04:05.600308"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:05:29.451839"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:08:25.650453"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:09:07.370939"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:14:40.073067"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:15:04.818389"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:16:59.038237"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:18:17.309387"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:18:17.870937"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:18:18.288359"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:19:39.409811"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:22:56.207433"
+      }
+    ],
+    "last_updated": "2025-11-11T17:22:56.207433"
+  },
+  "76": {
+    "user_id": "76",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:03:50.162837"
+      }
+    ],
+    "last_updated": "2025-11-11T17:03:50.162837"
+  },
+  "77": {
+    "user_id": "77",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:04:45.542333"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-11T17:05:06.002693"
+      }
+    ],
+    "last_updated": "2025-11-11T17:05:06.002693"
+  },
+  "79": {
+    "user_id": "79",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:34:45.570187"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-11-12T15:34:50.743070"
+      }
+    ],
+    "last_updated": "2025-11-12T15:34:50.743070"
+  }
+}

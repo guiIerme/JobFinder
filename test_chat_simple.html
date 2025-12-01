@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chat Widget</title>
+    <link rel="stylesheet" href="/static/css/chat-widget.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .status {
+            padding: 10px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="instructions">
+        <h1>🧪 Test Chat Widget</h1>
+        <p>Esta é uma página de teste para o widget de chat.</p>
+        <div class="status" id="status">
+            Carregando...
+        </div>
+        <p><strong>Instruções:</strong></p>
+        <ol>
+            <li>Procure o botão roxo no canto inferior direito</li>
+            <li>Clique no botão para abrir o chat</li>
+            <li>Digite uma mensagem e pressione Enter</li>
+        </ol>
+    </div>
+
+    <!-- Chat Widget Container -->
+    <div id="chat-widget-container">
+        <!-- Floating Chat Button -->
+        <button id="chat-widget-toggle" class="chat-widget-toggle" aria-label="Abrir chat com Sophie" title="Chat com Sophie - Assistente Virtual">
+            <i class="fas fa-comments chat-widget-icon"></i>
+            <span id="chat-unread-badge" class="chat-unread-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window" style="display: none;" role="dialog" aria-labelledby="chat-window-title" aria-modal="true">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="chat-title-container">
+                        <h3 id="chat-window-title" class="chat-title">Sophie</h3>
+                        <span class="chat-subtitle">Assistente Virtual</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-minimize" class="chat-action-btn" aria-label="Minimizar chat" title="Minimizar">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="chat-close" class="chat-action-btn" aria-label="Fechar chat" title="Fechar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chat-messages" class="chat-messages" role="log" aria-live="polite" aria-atomic="false">
+                <!-- Welcome message -->
+                <div class="chat-message assistant-message welcome-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>Olá! 👋 Eu sou a Sophie, sua assistente virtual.</p>
+                            <p>Como posso ajudá-lo hoje?</p>
+                        </div>
+                        <span class="message-time">Agora</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="chat-typing-indicator" class="chat-typing-indicator" style="display: none;">
+                <div class="typing-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-container">
+                <form id="chat-form" class="chat-form">
+                    <textarea id="chat-input" class="chat-input" placeholder="Digite sua mensagem..." rows="1" maxlength="2000" aria-label="Digite sua mensagem" required></textarea>
+                    <button id="chat-send" type="submit" class="chat-send-btn" aria-label="Enviar mensagem" title="Enviar (Enter)">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="chat-input-footer">
+                    <span class="chat-char-count">
+                        <span id="chat-char-current">0</span>/<span id="chat-char-max">2000</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div id="chat-connection-status" class="chat-connection-status" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="chat-status-text">Conectando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chat Scripts -->
+    <script src="/static/js/chat-message.js"></script>
+    <script src="/static/js/chat-widget.js"></script>
+    <script src="/static/js/chat-window.js"></script>
+
+    <script>
+        // Update status
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.getElementById('status');
+
+            setTimeout(() => {
+                if (window.chatWidget && window.chatWindow) {
+                    status.innerHTML = '✅ Chat carregado com sucesso! Clique no botão roxo no canto inferior direito.';
+                    status.style.background = '#c8e6c9';
+                    status.style.borderColor = '#4caf50';
+                } else {
+                    status.innerHTML = '❌ Erro ao carregar chat. Verifique o console (F12).';
+                    status.style.background = '#ffcdd2';
+                    status.style.borderColor = '#f44336';
+                }
+            }, 1000);
+
+            // Log events
+            document.addEventListener('chat:opened', () => {
+                console.log('✅ Chat aberto!');
+            });
+
+            document.addEventListener('chat:closed', () => {
+                console.log('✅ Chat fechado!');
+            });
+
+            document.addEventListener('chat:widget-toggle', () => {
+                console.log('✅ Widget toggle!');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chat Rating UI</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chat Widget CSS -->
+    <link rel="stylesheet" href="static/css/chat-widget.css">
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            ;
+            color: #2d3748;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .test-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .test-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .test-button:hover {
+            opacity: 0.9;
+        }
+
+        .rating-preview {
+            position: relative;
+            width: 380px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .rating-preview-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .info-box {
+            padding: 15px;
+            background: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #0050b3;
+        }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+            color: #096dd9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>🌟 Chat Satisfaction Rating UI Test</h1>
+
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <button class="test-button" onclick="showRating()">Show Rating Prompt</button>
+            <button class="test-button" onclick="hideRating()">Hide Rating Prompt</button>
+            <button class="test-button" onclick="resetRating()">Reset Rating</button>
+            <button class="test-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Rating UI Preview</h2>
+            <div class="rating-preview">
+                <div class="rating-preview-header">
+                    Sophie - Assistente Virtual
+                </div>
+
+                <!-- Satisfaction Rating -->
+                <div id="test-rating-container" class="chat-rating-container" style="display: block; position: relative;">
+                    <div class="rating-header">
+                        <h4 class="rating-title">Como foi sua experiência?</h4>
+                        <p class="rating-subtitle">Sua opinião nos ajuda a melhorar</p>
+                    </div>
+                    <div class="rating-stars" role="radiogroup" aria-label="Avaliação de satisfação de 1 a 5 estrelas">
+                        <button type="button" class="rating-star" data-rating="1" aria-label="1 estrela" role="radio" aria-checked="false">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button" class="rating-star" data-rating="2" aria-label="2 estrelas" role="radio" aria-checked="false">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button" class="rating-star" data-rating="3" aria-label="3 estrelas" role="radio" aria-checked="false">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button" class="rating-star" data-rating="4" aria-label="4 estrelas" role="radio" aria-checked="false">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button type="button" class="rating-star" data-rating="5" aria-label="5 estrelas" role="radio" aria-checked="false">
+                            <i class="fas fa-star"></i>
+                        </button>
+                    </div>
+                    <div class="rating-actions">
+                        <button type="button" id="test-rating-submit" class="rating-btn rating-btn-submit" disabled>
+                            Enviar Avaliação
+                        </button>
+                        <button type="button" id="test-rating-skip" class="rating-btn rating-btn-skip">
+                            Pular
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>✅ Features Implemented</h3>
+                <ul>
+                    <li>1-5 star rating interface with hover effects</li>
+                    <li>Visual feedback on star selection</li>
+                    <li>Submit and Skip buttons</li>
+                    <li>Thank you message after submission</li>
+                    <li>Accessibility support (ARIA labels, keyboard navigation)</li>
+                    <li>Dark mode support</li>
+                    <li>Mobile responsive design</li>
+                    <li>Smooth animations</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Results</h2>
+            <div id="test-results" style="font-family: monospace; background: #2d3748; color: #48bb78; padding: 15px; border-radius: 8px; min-height: 100px;">
+                <div>Ready to test...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = 0;
+        const ratingContainer = document.getElementById('test-rating-container');
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const submitBtn = document.getElementById('test-rating-submit');
+        const skipBtn = document.getElementById('test-rating-skip');
+        const resultsDiv = document.getElementById('test-results');
+
+        // Initialize star event listeners
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.dataset.rating);
+                handleRatingSelect(rating);
+            });
+
+            star.addEventListener('mouseenter', () => {
+                const rating = parseInt(star.dataset.rating);
+                updateStars(rating);
+            });
+        });
+
+        // Reset on mouse leave
+        document.querySelector('.rating-stars').addEventListener('mouseleave', () => {
+            updateStars(selectedRating);
+        });
+
+        // Submit button
+        submitBtn.addEventListener('click', () => {
+            handleSubmit();
+        });
+
+        // Skip button
+        skipBtn.addEventListener('click', () => {
+            handleSkip();
+        });
+
+        function handleRatingSelect(rating) {
+            selectedRating = rating;
+            updateStars(rating);
+            submitBtn.disabled = false;
+
+            ratingStars.forEach(star => {
+                const starRating = parseInt(star.dataset.rating);
+                star.setAttribute('aria-checked', starRating <= rating ? 'true' : 'false');
+            });
+
+            logResult(`⭐ Rating selected: ${rating} stars`);
+        }
+
+        function updateStars(rating) {
+            ratingStars.forEach(star => {
+                const starRating = parseInt(star.dataset.rating);
+                if (starRating <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function handleSubmit() {
+            if (selectedRating === 0) return;
+
+            logResult(`✅ Rating submitted: ${selectedRating} stars`);
+            showThankYou();
+        }
+
+        function handleSkip() {
+            logResult('⏭️ Rating skipped');
+            setTimeout(() => {
+                hideRating();
+            }, 500);
+        }
+
+        function showThankYou() {
+            ratingContainer.innerHTML = `
+                <div class="rating-thank-you">
+                    <div class="rating-thank-you-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4 class="rating-thank-you-title">Obrigado pelo feedback!</h4>
+                    <p class="rating-thank-you-message">Sua avaliação nos ajuda a melhorar continuamente.</p>
+                </div>
+            `;
+
+            logResult('💚 Thank you message displayed');
+        }
+
+        function showRating() {
+            ratingContainer.style.display = 'block';
+            logResult('👁️ Rating prompt shown');
+        }
+
+        function hideRating() {
+            ratingContainer.style.display = 'none';
+            logResult('🙈 Rating prompt hidden');
+        }
+
+        function resetRating() {
+            selectedRating = 0;
+            updateStars(0);
+            submitBtn.disabled = true;
+
+            // Restore original HTML
+            ratingContainer.innerHTML = `
+                <div class="rating-header">
+                    <h4 class="rating-title">Como foi sua experiência?</h4>
+                    <p class="rating-subtitle">Sua opinião nos ajuda a melhorar</p>
+                </div>
+                <div class="rating-stars" role="radiogroup" aria-label="Avaliação de satisfação de 1 a 5 estrelas">
+                    <button type="button" class="rating-star" data-rating="1" aria-label="1 estrela" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="2" aria-label="2 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="3" aria-label="3 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="4" aria-label="4 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button type="button" class="rating-star" data-rating="5" aria-label="5 estrelas" role="radio" aria-checked="false">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+                <div class="rating-actions">
+                    <button type="button" id="test-rating-submit" class="rating-btn rating-btn-submit" disabled>
+                        Enviar Avaliação
+                    </button>
+                    <button type="button" id="test-rating-skip" class="rating-btn rating-btn-skip">
+                        Pular
+                    </button>
+                </div>
+            `;
+
+            // Re-initialize
+            location.reload();
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.toggleAttribute('data-theme');
+            const isDark = document.documentElement.hasAttribute('data-theme');
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                logResult('🌙 Dark mode enabled');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                logResult('☀️ Light mode enabled');
+            }
+        }
+
+        function logResult(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            resultsDiv.appendChild(logEntry);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Initial log
+        logResult('🚀 Test page loaded successfully');
+        logResult('📝 Click on stars to test rating selection');
+    </script>
+</body>
+
+</html>
+
+margin-bottom

@@ -1,0 +1,23 @@
+{
+    "include": [
+        "services",
+        "home_services"
+    ],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__",
+        "venv",
+        ".venv"
+    ],
+    "ignore": [
+        "services/migrations"
+    ],
+    "defineConstant": {
+        "DEBUG": true
+    },
+    "stubPath": "typings",
+    "reportMissingImports": false,
+    "reportMissingTypeStubs": false,
+    "pythonVersion": "3.8",
+    "pythonPlatform": "Linux"
+}

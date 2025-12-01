@@ -1,0 +1,364 @@
+{% extends 'services/solicitar_base.html' %}
+
+{% block step_content %}
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="fas fa-calendar-alt me-2"></i>
+        Agendamento do Serviço
+    </h4>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" id="step2Form">
+        {% csrf_token %}
+
+        <!-- Data e Horário -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="preferred_date" class="form-label">
+                    <i class="fas fa-calendar me-1"></i>
+                    Data Preferida *
+                </label>
+                <input type="date" class="form-control" id="preferred_date" name="preferred_date" value="{{ form_data.preferred_date }}" min="{{ today }}" required>
+                <div class="form-text">A data não pode ser no passado</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="preferred_time" class="form-label">
+                    <i class="fas fa-clock me-1"></i>
+                    Horário Preferido
+                </label>
+                <input type="time" class="form-control" id="preferred_time" name="preferred_time" value="{{ form_data.preferred_time }}">
+            </div>
+        </div>
+
+        <!-- Período Alternativo -->
+        <div class="mb-4">
+            <label for="preferred_period" class="form-label">
+                <i class="fas fa-sun me-1"></i>
+                Período Alternativo (caso o horário específico não esteja disponível)
+            </label>
+            <select class="form-select" id="preferred_period" name="preferred_period">
+                <option value="">Selecione um período</option>
+                <option value="manha" {% if form_data.preferred_period == 'manha' %}selected{% endif %}>
+                    Manhã (06:00 - 11:59)
+                </option>
+                <option value="tarde" {% if form_data.preferred_period == 'tarde' %}selected{% endif %}>
+                    Tarde (12:00 - 17:59)
+                </option>
+                <option value="noite" {% if form_data.preferred_period == 'noite' %}selected{% endif %}>
+                    Noite (18:00 - 23:59)
+                </option>
+                <option value="flexivel" {% if form_data.preferred_period == 'flexivel' %}selected{% endif %}>
+                    Flexível (qualquer horário)
+                </option>
+            </select>
+        </div>
+
+        <!-- Endereço -->
+        <h5 class="mb-3">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            Endereço do Serviço
+        </h5>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="address_cep" class="form-label">
+                    <i class="fas fa-mail-bulk me-1"></i>
+                    CEP *
+                </label>
+                <input type="text" class="form-control" id="address_cep" name="address_cep" value="{{ form_data.address_cep }}" placeholder="00000-000" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="address_street" class="form-label">
+                    <i class="fas fa-road me-1"></i>
+                    Rua/Avenida *
+                </label>
+                <input type="text" class="form-control" id="address_street" name="address_street" value="{{ form_data.address_street }}" required>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="address_number" class="form-label">
+                    <i class="fas fa-hashtag me-1"></i>
+                    Número *
+                </label>
+                <input type="text" class="form-control" id="address_number" name="address_number" value="{{ form_data.address_number }}" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="address_complement" class="form-label">
+                    <i class="fas fa-building me-1"></i>
+                    Complemento
+                </label>
+                <input type="text" class="form-control" id="address_complement" name="address_complement" value="{{ form_data.address_complement }}" placeholder="Apto, Bloco, etc.">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="address_neighborhood" class="form-label">
+                    <i class="fas fa-map me-1"></i>
+                    Bairro *
+                </label>
+                <input type="text" class="form-control" id="address_neighborhood" name="address_neighborhood" value="{{ form_data.address_neighborhood }}" required>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="address_city" class="form-label">
+                    <i class="fas fa-city me-1"></i>
+                    Cidade *
+                </label>
+                <input type="text" class="form-control" id="address_city" name="address_city" value="{{ form_data.address_city }}" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="address_state" class="form-label">
+                    <i class="fas fa-flag me-1"></i>
+                    Estado *
+                </label>
+                <select class="form-select" id="address_state" name="address_state" required>
+                    <option value="">Selecione o estado</option>
+                    <option value="AC" {% if form_data.address_state == 'AC' %}selected{% endif %}>Acre</option>
+                    <option value="AL" {% if form_data.address_state == 'AL' %}selected{% endif %}>Alagoas</option>
+                    <option value="AP" {% if form_data.address_state == 'AP' %}selected{% endif %}>Amapá</option>
+                    <option value="AM" {% if form_data.address_state == 'AM' %}selected{% endif %}>Amazonas</option>
+                    <option value="BA" {% if form_data.address_state == 'BA' %}selected{% endif %}>Bahia</option>
+                    <option value="CE" {% if form_data.address_state == 'CE' %}selected{% endif %}>Ceará</option>
+                    <option value="DF" {% if form_data.address_state == 'DF' %}selected{% endif %}>Distrito Federal</option>
+                    <option value="ES" {% if form_data.address_state == 'ES' %}selected{% endif %}>Espírito Santo</option>
+                    <option value="GO" {% if form_data.address_state == 'GO' %}selected{% endif %}>Goiás</option>
+                    <option value="MA" {% if form_data.address_state == 'MA' %}selected{% endif %}>Maranhão</option>
+                    <option value="MT" {% if form_data.address_state == 'MT' %}selected{% endif %}>Mato Grosso</option>
+                    <option value="MS" {% if form_data.address_state == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
+                    <option value="MG" {% if form_data.address_state == 'MG' %}selected{% endif %}>Minas Gerais</option>
+                    <option value="PA" {% if form_data.address_state == 'PA' %}selected{% endif %}>Pará</option>
+                    <option value="PB" {% if form_data.address_state == 'PB' %}selected{% endif %}>Paraíba</option>
+                    <option value="PR" {% if form_data.address_state == 'PR' %}selected{% endif %}>Paraná</option>
+                    <option value="PE" {% if form_data.address_state == 'PE' %}selected{% endif %}>Pernambuco</option>
+                    <option value="PI" {% if form_data.address_state == 'PI' %}selected{% endif %}>Piauí</option>
+                    <option value="RJ" {% if form_data.address_state == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                    <option value="RN" {% if form_data.address_state == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
+                    <option value="RS" {% if form_data.address_state == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
+                    <option value="RO" {% if form_data.address_state == 'RO' %}selected{% endif %}>Rondônia</option>
+                    <option value="RR" {% if form_data.address_state == 'RR' %}selected{% endif %}>Roraima</option>
+                    <option value="SC" {% if form_data.address_state == 'SC' %}selected{% endif %}>Santa Catarina</option>
+                    <option value="SP" {% if form_data.address_state == 'SP' %}selected{% endif %}>São Paulo</option>
+                    <option value="SE" {% if form_data.address_state == 'SE' %}selected{% endif %}>Sergipe</option>
+                    <option value="TO" {% if form_data.address_state == 'TO' %}selected{% endif %}>Tocantins</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Ponto de Referência -->
+        <div class="mb-4">
+            <label for="reference_point" class="form-label">
+                <i class="fas fa-location-arrow me-1"></i>
+                Ponto de Referência
+            </label>
+            <input type="text" class="form-control" id="reference_point" name="reference_point" value="{{ form_data.reference_point }}" placeholder="Ex: Próximo ao shopping, em frente à padaria...">
+            <div class="form-text">
+                Ajude o prestador a encontrar o local mais facilmente
+            </div>
+        </div>
+
+        <!-- Observações do Agendamento -->
+        <div class="mb-4">
+            <label for="schedule_notes" class="form-label">
+                <i class="fas fa-sticky-note me-1"></i>
+                Observações sobre o Agendamento
+            </label>
+            <textarea class="form-control" id="schedule_notes" name="schedule_notes" rows="3" placeholder="Informações adicionais sobre horário, acesso, etc...">{{ form_data.schedule_notes }}</textarea>
+        </div>
+
+        <!-- Navegação -->
+        <div class="navigation-buttons">
+            <div>
+                <a href="{% url 'solicitar_step1_post' %}" class="btn btn-outline-secondary btn-navigation">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar: Dados
+                </a>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-navigation">
+                    Próximo: Pagamento
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Dicas de Agendamento -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card border-warning">
+            <div class="card-body">
+                <h6 class="card-title text-warning">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Dicas de Agendamento
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-check text-success me-2"></i>Escolha horários com folga</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Considere o trânsito</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Tenha flexibilidade</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Confirme disponibilidade</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-info">
+            <div class="card-body">
+                <h6 class="card-title text-info">
+                    <i class="fas fa-map-marked-alt me-2"></i>
+                    Endereço Preciso
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-check text-success me-2"></i>CEP correto</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Número da casa/prédio</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Complemento se necessário</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Ponto de referência</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    // Máscara para CEP
+    function applyCepMask(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length <= 8) {
+                value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    // Busca CEP via API
+    function searchCep(cep) {
+        const cleanCep = cep.replace(/\D/g, '');
+
+        if (cleanCep.length === 8) {
+            fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById('address_street').value = data.logradouro || '';
+                        document.getElementById('address_neighborhood').value = data.bairro || '';
+                        document.getElementById('address_city').value = data.localidade || '';
+                        document.getElementById('address_state').value = data.uf || '';
+
+                        // Focar no campo número
+                        document.getElementById('address_number').focus();
+                    }
+                })
+                .catch(error => {
+                    console.log('Erro ao buscar CEP:', error);
+                });
+        }
+    }
+
+    // Função para selecionar período automaticamente baseado no horário
+    function autoSelectPeriod(time) {
+        if (!time) return;
+
+        const periodSelect = document.getElementById('preferred_period');
+        if (!periodSelect) return;
+
+        // Extrair hora do formato HH:MM
+        const hour = parseInt(time.split(':')[0]);
+
+        // Determinar período baseado na hora
+        if (hour >= 6 && hour < 12) {
+            // Manhã: 06:00 - 11:59
+            periodSelect.value = 'manha';
+            console.log('✅ Período selecionado automaticamente: Manhã');
+        } else if (hour >= 12 && hour < 18) {
+            // Tarde: 12:00 - 17:59
+            periodSelect.value = 'tarde';
+            console.log('✅ Período selecionado automaticamente: Tarde');
+        } else if (hour >= 18 && hour < 24) {
+            // Noite: 18:00 - 23:59
+            periodSelect.value = 'noite';
+            console.log('✅ Período selecionado automaticamente: Noite');
+        } else {
+            // Madrugada ou horário inválido: deixar flexível
+            periodSelect.value = 'flexivel';
+            console.log('✅ Período selecionado automaticamente: Flexível');
+        }
+
+        // Adicionar feedback visual
+        periodSelect.classList.add('border-success');
+        setTimeout(() => {
+            periodSelect.classList.remove('border-success');
+        }, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cepInput = document.getElementById('address_cep');
+        if (cepInput) {
+            applyCepMask(cepInput);
+
+            cepInput.addEventListener('blur', function() {
+                searchCep(this.value);
+            });
+        }
+
+        // Validação de data
+        const dateInput = document.getElementById('preferred_date');
+        if (dateInput) {
+            dateInput.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (selectedDate < today) {
+                    alert('A data não pode ser no passado.');
+                    this.value = '';
+                }
+            });
+        }
+
+        // Auto-seleção de período baseado no horário
+        const timeInput = document.getElementById('preferred_time');
+        if (timeInput) {
+            // Selecionar período ao carregar se já houver horário
+            if (timeInput.value) {
+                autoSelectPeriod(timeInput.value);
+            }
+
+            // Selecionar período quando o usuário escolher um horário
+            timeInput.addEventListener('change', function() {
+                autoSelectPeriod(this.value);
+            });
+
+            // Também funciona quando o usuário sai do campo
+            timeInput.addEventListener('blur', function() {
+                if (this.value) {
+                    autoSelectPeriod(this.value);
+                }
+            });
+        }
+
+        console.log('✅ Sistema de auto-seleção de período ativado');
+    });
+</script>
+{% endblock %}

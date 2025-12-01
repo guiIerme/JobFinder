@@ -1,0 +1,202 @@
+/**
+ * WebSocket Notification Styles
+ * 
+ * Styles for real-time notification toasts and UI elements
+ */
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-left: 4px solid #4CAF50;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 16px 20px;
+    min-width: 300px;
+    max-width: 400px;
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-toast strong {
+    display: block;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.notification-toast p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.notification-toast.fade-out {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+/* Dark mode support */
+body.dark-mode .notification-toast {
+    background: #2d2d2d;
+    border-left-color: #4CAF50;
+}
+
+body.dark-mode .notification-toast strong {
+    color: #f0f0f0;
+}
+
+body.dark-mode .notification-toast p {
+    color: #b0b0b0;
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #f44336;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+
+/* Notification List */
+.notification-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+    background-color: #f5f5f5;
+}
+
+.notification-item.unread {
+    background-color: #e3f2fd;
+}
+
+body.dark-mode .notification-item {
+    border-bottom-color: #444;
+}
+
+body.dark-mode .notification-item:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .notification-item.unread {
+    background-color: #1a3a52;
+}
+
+.notification-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+body.dark-mode .notification-content h4 {
+    color: #f0f0f0;
+}
+
+.notification-content p {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+body.dark-mode .notification-content p {
+    color: #b0b0b0;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: #999;
+}
+
+body.dark-mode .notification-time {
+    color: #888;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Connection Status Indicator */
+.ws-connection-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 9999;
+    display: none;
+}
+
+.ws-connection-status.connected {
+    background: #4CAF50;
+    color: white;
+}
+
+.ws-connection-status.disconnected {
+    background: #f44336;
+    color: white;
+}
+
+.ws-connection-status.connecting {
+    background: #FF9800;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .notification-toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+
+    .ws-connection-status {
+        bottom: 10px;
+        right: 10px;
+    }
+}

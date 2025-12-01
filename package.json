@@ -1,0 +1,27 @@
+{
+  "name": "admin-dashboard-react",
+  "version": "1.0.0",
+  "description": "React implementation of the Admin Dashboard with Tailwind CSS",
+  "main": "src/index.jsx",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^4.3.9"
+  },
+  "keywords": [
+    "react",
+    "tailwindcss",
+    "admin-dashboard",
+    "component"
+  ],
+  "author": "Job Finder Team",
+  "license": "MIT"
+}

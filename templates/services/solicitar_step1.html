@@ -1,0 +1,226 @@
+{% extends 'services/solicitar_base.html' %}
+
+{% block step_content %}
+<div class="form-section">
+    <h4 class="mb-4">
+        <i class="fas fa-user-edit me-2"></i>
+        Dados da Solicitação
+    </h4>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" id="step1Form">
+        {% csrf_token %}
+
+        <!-- Informações do Serviço -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <i class="fas fa-concierge-bell me-2"></i>
+                            Serviço Solicitado
+                        </h6>
+                        <p class="card-text mb-1"><strong>{{ service.name }}</strong></p>
+                        <p class="card-text text-muted small">{{ service.description|truncatewords:20 }}</p>
+                        <p class="card-text">
+                            <span class="badge bg-primary">R$ {{ service.price }}</span>
+                            <span class="text-muted ms-2">Prestador: {{ service.provider.user.get_full_name }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados Pessoais -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="contact_name" class="form-label">
+                    <i class="fas fa-user me-1"></i>
+                    Nome Completo *
+                </label>
+                <input type="text" class="form-control" id="contact_name" name="contact_name" value="{{ form_data.contact_name|default:user.get_full_name }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="contact_email" class="form-label">
+                    <i class="fas fa-envelope me-1"></i>
+                    Email *
+                </label>
+                <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ form_data.contact_email|default:user.email }}" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="contact_phone" class="form-label">
+                    <i class="fas fa-phone me-1"></i>
+                    Telefone *
+                </label>
+                <input type="tel" class="form-control" id="contact_phone" name="contact_phone" value="{{ form_data.contact_phone }}" placeholder="(11) 99999-9999" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="contact_cpf" class="form-label">
+                    <i class="fas fa-id-card me-1"></i>
+                    CPF (opcional)
+                </label>
+                <input type="text" class="form-control" id="contact_cpf" name="contact_cpf" value="{{ form_data.contact_cpf }}" placeholder="000.000.000-00">
+            </div>
+        </div>
+
+        <!-- Descrição Detalhada -->
+        <div class="mb-4">
+            <label for="service_description" class="form-label">
+                <i class="fas fa-clipboard-list me-1"></i>
+                Descrição Detalhada do Serviço *
+            </label>
+            <textarea class="form-control" id="service_description" name="service_description" rows="4" placeholder="Descreva detalhadamente o que você precisa..." required>{{ form_data.service_description }}</textarea>
+            <div class="form-text">
+                Seja específico sobre suas necessidades para que o prestador possa entender melhor sua sicitação.
+            </div>
+        </div>
+
+        <!-- Observações Especiais -->
+        <div class="mb-4">
+            <label for="notes" class="form-label">
+                <i class="fas fa-sticky-note me-1"></i>
+                Observações Especiais
+            </label>
+            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Alguma informação adicional importante...">{{ form_data.notes }}</textarea>
+        </div>
+
+        <!-- Urgência -->
+        <div class="mb-4">
+            <label for="urgency" class="form-label">
+                <i class="fas fa-clock me-1"></i>
+                Nível de Urgência
+            </label>
+            <select class="form-select" id="urgency" name="urgency">
+                <option value="low" {% if form_data.urgency == 'low' %}selected{% endif %}>
+                    Baixa - Posso aguardar alguns dias
+                </option>
+                <option value="medium" {% if form_data.urgency == 'medium' or not form_data.urgency %}selected{% endif %}>
+                    Média - Gostaria de resolver em breve
+                </option>
+                <option value="high" {% if form_data.urgency == 'high' %}selected{% endif %}>
+                    Alta - Preciso resolver logo
+                </option>
+                <option value="urgent" {% if form_data.urgency == 'urgent' %}selected{% endif %}>
+                    Urgente - É uma emergência
+                </option>
+            </select>
+        </div>
+
+        <!-- Navegação -->
+        <div class="navigation-buttons">
+            <div>
+                <a href="{% url 'provider_profile' service.provider.id %}" class="btn btn-outline-secondary btn-navigation">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar ao Perfil
+                </a>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-navigation">
+                    Próximo: Agendamento
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Informações Adicionais -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card border-info">
+            <div class="card-body">
+                <h6 class="card-title text-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Como Funciona
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-check text-success me-2"></i>Preencha seus dados</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Escolha data e horário</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Defina forma de pagamento</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Confirme sua solicitação</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-success">
+            <div class="card-body">
+                <h6 class="card-title text-success">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Segurança
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                    <li><i class="fas fa-lock text-success me-2"></i>Dados protegidos</li>
+                    <li><i class="fas fa-user-check text-success me-2"></i>Prestadores verificados</li>
+                    <li><i class="fas fa-headset text-success me-2"></i>Suporte disponível</li>
+                    <li><i class="fas fa-star text-success me-2"></i>Sistema de avaliações</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    // Máscara para CPF
+    function applyCpfMask(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cpfInput = document.getElementById('contact_cpf');
+        if (cpfInput) {
+            applyCpfMask(cpfInput);
+        }
+
+        // Contador de caracteres para textarea
+        const textarea = document.getElementById('service_description');
+        if (textarea) {
+            const counter = document.createElement('div');
+            counter.className = 'form-text text-end';
+            counter.id = 'char-counter';
+            textarea.parentNode.appendChild(counter);
+
+            function updateCounter() {
+                const length = textarea.value.length;
+                counter.textContent = `${length} caracteres`;
+
+                if (length < 10) {
+                    counter.className = 'form-text text-end text-danger';
+                } else if (length < 50) {
+                    counter.className = 'form-text text-end text-warning';
+                } else {
+                    counter.className = 'form-text text-end text-success';
+                }
+            }
+
+            textarea.addEventListener('input', updateCounter);
+            updateCounter();
+        }
+    });
+</script>
+{% endblock %}

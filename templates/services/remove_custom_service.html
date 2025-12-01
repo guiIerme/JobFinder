@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Remover Serviço Personalizado - Job Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow rounded-3">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Remoção de Serviço</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-info-circle me-2"></i>Atenção</h5>
+                        <p class="mb-0">Você está prestes a remover permanentemente o serviço personalizado abaixo. Esta ação não pode ser desfeita.</p>
+                    </div>
+                    
+                    <div class="modern-card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h4 class="card-title mb-1">{{ custom_service.name }}</h4>
+                                    <p class="text-muted mb-0">{{ custom_service.description }}</p>
+                                </div>
+                                <span class="badge {% if custom_service.is_active %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {% if custom_service.is_active %}Ativo{% else %}Inativo{% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Categoria:</strong> {{ custom_service.get_category_display }}</p>
+                                    <p class="mb-1"><strong>Preço Estimado:</strong> R$ {{ custom_service.estimated_price|floatformat:2 }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Duração Estimada:</strong> {{ custom_service.estimated_duration|date:"H:i" }} horas</p>
+                                    <p class="mb-1"><strong>Criado em:</strong> {{ custom_service.created_at|date:"d/m/Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            {% if is_admin %}
+                                <a href="{% url 'admin_provider_services' custom_service.provider.id %}" class="btn btn-secondary rounded-pill">
+                                    <i class="fas fa-arrow-left me-1"></i> Cancelar
+                                </a>
+                            {% else %}
+                                <a href="{% url 'provider_dashboard' %}" class="btn btn-secondary rounded-pill">
+                                    <i class="fas fa-arrow-left me-1"></i> Cancelar
+                                </a>
+                            {% endif %}
+                            <button type="submit" class="btn btn-danger rounded-pill">
+                                <i class="fas fa-trash me-1"></i> Confirmar Remoção
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

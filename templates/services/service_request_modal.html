@@ -1,0 +1,808 @@
+{% load static %}
+
+<!-- Service Request Modal -->
+<div class="modal fade" id="serviceRequestModal" tabindex="-1" aria-labelledby="serviceRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceRequestModalLabel">Solicitar Serviço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="service-request-form">
+                    {% csrf_token %}
+
+                    <!-- Service Information -->
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <h5 id="modal-service-name">Serviço</h5>
+                        <p id="modal-service-description" class="mb-1"></p>
+                        <p class="mb-0"><strong>Preço estimado:</strong> <span id="modal-service-price">R$ 0,00</span></p>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4">
+                        <div id="request-progress" class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5">20%</div>
+                    </div>
+
+                    <!-- Step 1: Address -->
+                    <div class="step" id="step-1">
+                        <h5>Endereço</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="modal-zip_code" class="form-label">CEP *</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="modal-zip_code" name="cep" placeholder="00000-000" maxlength="9" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="modal-searchZipCode">Buscar</button>
+                                </div>
+                                <div class="invalid-feedback">Por favor, informe um CEP válido.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="modal-address" class="form-label">Endereço *</label>
+                                <input type="text" class="form-control" id="modal-address" name="address" placeholder="Rua, Avenida, etc." required>
+                                <div class="invalid-feedback">Por favor, informe o endereço.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="modal-number" class="form-label">Número *</label>
+                                <input type="text" class="form-control" id="modal-number" name="number" placeholder="Número" required>
+                                <div class="invalid-feedback">Por favor, informe o número.</div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modal-complement" class="form-label">Complemento</label>
+                                <input type="text" class="form-control" id="modal-complement" name="complement" placeholder="Complemento">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="modal-city" class="form-label">Cidade *</label>
+                                <input type="text" class="form-control" id="modal-city" name="city" placeholder="Cidade" required>
+                                <div class="invalid-feedback">Por favor, informe a cidade.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="modal-state" class="form-label">Estado *</label>
+                                <select class="form-select" id="modal-state" name="state" required>
+                                    <option value="">Selecione</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                                <div class="invalid-feedback">Por favor, selecione o estado.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Schedule -->
+                    <div class="step d-none" id="step-2">
+                        <h5>Data e Hora</h5>
+                        <div class="mb-3">
+                            <label for="modal-scheduled_date" class="form-label">Data e Hora Desejada *</label>
+                            <input type="datetime-local" class="form-control" id="modal-scheduled_date" name="scheduled_datetime" required>
+                            <div class="invalid-feedback">Por favor, selecione uma data e hora futura.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contact -->
+                    <div class="step d-none" id="step-3">
+                        <h5>Informações de Contato</h5>
+                        <div class="mb-3">
+                            <label for="modal-contact-name" class="form-label">Nome Completo *</label>
+                            <input type="text" class="form-control" id="modal-contact-name" name="contact_name" placeholder="Seu nome completo" required>
+                            <div class="invalid-feedback">Por favor, informe seu nome completo.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modal-contact-email" class="form-label">E-mail *</label>
+                            <input type="email" class="form-control" id="modal-contact-email" name="contact_email" placeholder="seu@email.com" required>
+                            <div class="invalid-feedback">Por favor, informe um e-mail válido.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modal-contact-phone" class="form-label">Telefone *</label>
+                            <input type="tel" class="form-control" id="modal-contact-phone" name="contact_phone" placeholder="(61) 98196-1144" required>
+                            <div class="invalid-feedback">Por favor, informe um telefone válido.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Additional Notes -->
+                    <div class="step d-none" id="step-4">
+                        <h5>Observações Adicionais</h5>
+                        <div class="mb-3">
+                            <label for="modal-notes" class="form-label">Notas (Opcional)</label>
+                            <textarea class="form-control" id="modal-notes" name="notes" rows="3" placeholder="Detalhes adicionais sobre o serviço..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="modal-accessibility-needs" name="accessibility_needs">
+                                <label class="form-check-label" for="modal-accessibility-needs">
+                                    Precisa de profissional com experiência em acessibilidade
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="modal-insurance-required" name="insurance_required">
+                                <label class="form-check-label" for="modal-insurance-required">
+                                    Precisa de profissional com seguro de responsabilidade civil
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Terms -->
+                    <div class="step d-none" id="step-5">
+                        <h5>Termos e Condições</h5>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="modal-terms" name="terms_accepted" required>
+                                <label class="form-check-label" for="modal-terms">
+                                    Li e aceito os <a href="#" target="_blank">termos e condições</a> *
+                                </label>
+                                <div class="invalid-feedback">Você deve aceitar os termos e condições para continuar.</div>
+                            </div>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="border rounded-3 p-3 mt-4">
+                            <h6>Resumo do Pedido</h6>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span id="summary-service-name">Serviço</span>
+                                <span id="summary-base-price">R$ 0,00</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>Total</span>
+                                <span id="summary-total-price">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-secondary" id="prev-step" style="display: none;">Anterior</button>
+                        <button type="button" class="btn btn-primary ms-auto" id="next-step">Próximo</button>
+                        <button type="button" class="btn btn-success ms-auto d-none" id="submit-service-request">Enviar Solicitação</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .step {
+        transition: opacity 0.3s ease;
+    }
+</style>
+
+<script>
+    // Helper function to get cookie value
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Function to open the service request modal with service data
+    function openServiceRequestModal(serviceId, serviceName, serviceDescription, servicePrice, serviceCategory) {
+        console.log('Opening service request modal with:', {
+            serviceId,
+            serviceName,
+            serviceDescription,
+            servicePrice,
+            serviceCategory
+        });
+
+        // Set the service details in the modal
+        document.getElementById('modal-service-name').textContent = serviceName || 'Serviço Personalizado';
+        document.getElementById('modal-service-description').textContent = serviceDescription || 'Descreva suas necessidades específicas';
+        document.getElementById('modal-service-price').textContent = 'R$ ' + (servicePrice || '0,00');
+
+        // Set service ID in a data attribute for form submission
+        const modal = document.getElementById('serviceRequestModal');
+        if (serviceId) {
+            modal.setAttribute('data-service-id', serviceId);
+        } else {
+            modal.removeAttribute('data-service-id');
+        }
+
+        // Set minimum date to today
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        const scheduledDateInput = document.getElementById('modal-scheduled_date');
+        if (scheduledDateInput) {
+            scheduledDateInput.min = minDateTime;
+        }
+
+        // Clear form fields
+        const form = document.getElementById('service-request-form');
+        if (form) {
+            form.reset();
+            // Remove validation classes
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            form.querySelectorAll('.was-validated').forEach(el => el.classList.remove('was-validated'));
+        }
+
+        // Auto-populate user contact information if available
+        if (typeof window.userProfile !== 'undefined') {
+            console.log('Populating user profile data');
+            if (window.userProfile.name) {
+                document.getElementById('modal-contact-name').value = window.userProfile.name;
+            }
+            if (window.userProfile.email) {
+                document.getElementById('modal-contact-email').value = window.userProfile.email;
+            }
+            if (window.userProfile.phone) {
+                document.getElementById('modal-contact-phone').value = window.userProfile.phone;
+            }
+            if (window.userProfile.address) {
+                document.getElementById('modal-address').value = window.userProfile.address;
+            }
+            if (window.userProfile.number) {
+                document.getElementById('modal-number').value = window.userProfile.number;
+            }
+            if (window.userProfile.complement) {
+                document.getElementById('modal-complement').value = window.userProfile.complement;
+            }
+            if (window.userProfile.city) {
+                document.getElementById('modal-city').value = window.userProfile.city;
+            }
+            if (window.userProfile.state) {
+                document.getElementById('modal-state').value = window.userProfile.state;
+            }
+            if (window.userProfile.zipCode) {
+                document.getElementById('modal-zip_code').value = window.userProfile.zipCode;
+            }
+        } else {
+            console.log('No user profile data available');
+        }
+
+        // Show the modal
+        console.log('Showing modal');
+        var modalInstance = new bootstrap.Modal(document.getElementById('serviceRequestModal'));
+        modalInstance.show();
+
+        // Initialize multi-step form after a small delay to ensure modal is fully shown
+        setTimeout(function() {
+            console.log('Initializing multi-step form');
+            initializeMultiStepForm();
+        }, 100);
+    }
+
+    // Initialize multi-step form when modal is shown
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('serviceRequestModal');
+        if (modal) {
+            modal.addEventListener('shown.bs.modal', function() {
+                console.log('Modal shown, initializing multi-step form');
+
+                // Small delay to ensure elements are fully loaded
+                setTimeout(function() {
+                    initializeMultiStepForm();
+                }, 100);
+            });
+        }
+    });
+
+    function initializeMultiStepForm() {
+        const modal = document.getElementById('serviceRequestModal');
+        if (!modal) return;
+
+        // Get all step elements
+        const steps = modal.querySelectorAll('.step');
+        const prevBtn = document.getElementById('prev-step');
+        const nextBtn = document.getElementById('next-step');
+        const submitBtn = document.getElementById('submit-service-request');
+        const progressBar = document.getElementById('request-progress');
+
+        if (!steps.length || !prevBtn || !nextBtn || !submitBtn || !progressBar) return;
+
+        let currentStep = 1;
+        const totalSteps = steps.length;
+
+        // Show the first step
+        showStep(currentStep);
+
+        // Previous button event
+        prevBtn.addEventListener('click', function() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        // Next button event
+        nextBtn.addEventListener('click', function() {
+            // Validate current step before proceeding
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            } else {
+                // Show validation error notification
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Por favor, corrija os erros no formulário antes de continuar');
+                }
+            }
+        });
+
+        // Submit button event
+        submitBtn.addEventListener('click', function() {
+            // Validate last step before submitting
+            if (validateStep(currentStep)) {
+                // Get form data
+                const form = document.getElementById('service-request-form');
+                const formData = new FormData(form);
+
+                // Get service ID from modal data attribute
+                const modal = document.getElementById('serviceRequestModal');
+                const serviceId = modal.getAttribute('data-service-id');
+
+                // Add CSRF token
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]') ? .value ||
+                    document.querySelector('meta[name="csrf-token"]') ? .getAttribute('content') ||
+                    getCookie('csrftoken');
+                if (csrfToken) {
+                    formData.append('csrfmiddlewaretoken', csrfToken);
+                }
+
+                // Show loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processando...';
+                this.disabled = true;
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+
+                // Submit form via AJAX
+                const submitUrl = serviceId ? `/request-service-from-search/${serviceId}/` : '/submit-service-request/';
+                fetch(submitUrl, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success animation
+                            showSuccessAnimation();
+
+                            // Show success notification
+                            showAlert(data.message, 'success');
+
+                            // Close the modal after a short delay
+                            setTimeout(function() {
+                                var modal = bootstrap.Modal.getInstance(document.getElementById('serviceRequestModal'));
+                                modal.hide();
+
+                                // Optionally redirect to confirmation page
+                                if (data.redirect_url) {
+                                    window.location.href = data.redirect_url;
+                                }
+                            }, 2000);
+                        } else {
+                            // Show error notification
+                            showAlert(data.message, 'danger');
+
+                            // Highlight error fields if provided
+                            if (data.errors) {
+                                // Clear previous error highlights
+                                document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+                                // Highlight fields with errors
+                                Object.keys(data.errors).forEach(fieldName => {
+                                    const field = document.getElementById(`modal-${fieldName}`) || document.querySelector(`[name="${fieldName}"]`);
+                                    if (field) {
+                                        field.classList.add('is-invalid');
+
+                                        // Add specific error message if available
+                                        const feedback = field.parentNode.querySelector('.invalid-feedback');
+                                        if (feedback) {
+                                            feedback.textContent = data.errors[fieldName];
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error notification
+                        showAlert('Erro ao enviar solicitação de serviço. Por favor, verifique sua conexão e tente novamente.', 'danger');
+                    })
+                    .finally(() => {
+                        // Restore button state
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        prevBtn.disabled = false;
+                        nextBtn.disabled = false;
+                    });
+            } else {
+                // Show validation error notification
+                if (typeof window.notifications !== 'undefined') {
+                    window.notifications.error('Por favor, preencha todos os campos obrigatórios corretamente.');
+                } else {
+                    alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+                }
+            }
+        });
+
+        // Function to show a specific step
+        function showStep(stepNumber) {
+            // Hide all steps
+            steps.forEach(step => {
+                step.classList.add('d-none');
+            });
+
+            // Show current step
+            document.getElementById(`step-${stepNumber}`).classList.remove('d-none');
+
+            // Update progress bar
+            const progressPercentage = (stepNumber / totalSteps) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressBar.setAttribute('aria-valuenow', stepNumber);
+
+            // Update button visibility
+            if (stepNumber === 1) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'inline-block';
+            }
+
+            if (stepNumber === totalSteps) {
+                nextBtn.classList.add('d-none');
+                submitBtn.classList.remove('d-none');
+            } else {
+                nextBtn.classList.remove('d-none');
+                submitBtn.classList.add('d-none');
+            }
+
+            // Update payment amount if on payment step
+            if (stepNumber === 5) {
+                const servicePrice = document.getElementById('modal-service-price').textContent;
+                document.getElementById('summary-service-name').textContent = document.getElementById('modal-service-name').textContent;
+                document.getElementById('summary-base-price').textContent = servicePrice;
+                document.getElementById('summary-total-price').textContent = servicePrice;
+            }
+        }
+
+        // Function to validate a step
+        function validateStep(stepNumber) {
+            const currentStepElement = document.getElementById(`step-${stepNumber}`);
+            const inputs = currentStepElement.querySelectorAll('input[required], select[required], textarea[required]');
+
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            // Special validation for step 1 (address)
+            if (stepNumber === 1) {
+                const zipCode = document.getElementById('modal-zip_code');
+
+                // Validate CEP format (8 digits with optional hyphen)
+                const zipCodeValue = zipCode.value.replace(/\D/g, '');
+                if (zipCode.value && zipCodeValue.length !== 8) {
+                    zipCode.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    zipCode.classList.remove('is-invalid');
+                }
+            }
+
+            // Special validation for step 2 (schedule)
+            if (stepNumber === 2) {
+                const scheduledDate = document.getElementById('modal-scheduled_date');
+                const now = new Date();
+                const selectedDate = new Date(scheduledDate.value);
+
+                if (scheduledDate.value && selectedDate < now) {
+                    scheduledDate.setCustomValidity('A data deve ser futura');
+                    scheduledDate.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    scheduledDate.setCustomValidity('');
+                    scheduledDate.classList.remove('is-invalid');
+                }
+            }
+
+            // Special validation for step 3 (contact)
+            if (stepNumber === 3) {
+                const email = document.getElementById('modal-contact-email');
+                const phone = document.getElementById('modal-contact-phone');
+
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email.value && !emailRegex.test(email.value)) {
+                    email.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    email.classList.remove('is-invalid');
+                }
+
+                // Validate phone format (Brazilian format: (61) 98196-1144 or (61) 8196-1144)
+                const phoneRegex = /^\(?[0-9]{2}\)? [0-9]{4,5}-[0-9]{4}$/;
+                if (phone.value && !phoneRegex.test(phone.value)) {
+                    phone.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    phone.classList.remove('is-invalid');
+                }
+            }
+
+            // Special validation for step 5 (terms)
+            if (stepNumber === 5) {
+                const terms = document.getElementById('modal-terms');
+                if (!terms.checked) {
+                    terms.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    terms.classList.remove('is-invalid');
+                }
+            }
+
+            return isValid;
+        }
+
+        // Add real-time validation for inputs
+        modal.addEventListener('input', function(e) {
+            if (e.target.hasAttribute('required') || e.target.type === 'email' || e.target.type === 'tel') {
+                if (e.target.checkValidity()) {
+                    e.target.classList.remove('is-invalid');
+                }
+            }
+        });
+
+        // Add validation for CEP input
+        const zipCodeInput = document.getElementById('modal-zip_code');
+        if (zipCodeInput) {
+            zipCodeInput.addEventListener('input', function() {
+                // Remove any existing invalid class when user types
+                this.classList.remove('is-invalid');
+
+                // Format CEP as user types (XXXXX-XXX)
+                let value = this.value.replace(/\D/g, '');
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5, 8);
+                }
+                this.value = value;
+            });
+
+            // Add blur event to search CEP when user finishes typing
+            zipCodeInput.addEventListener('blur', function() {
+                const cep = this.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    searchCEP(cep);
+                }
+            });
+        }
+
+        // Search CEP button click event
+        const searchCEPButton = document.getElementById('modal-searchZipCode');
+        if (searchCEPButton) {
+            searchCEPButton.addEventListener('click', function() {
+                const cep = zipCodeInput.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    searchCEP(cep);
+                }
+            });
+        }
+
+        // Function to search CEP using ViaCEP API
+        function searchCEP(cep) {
+            // Show loading state
+            const searchButton = document.getElementById('modal-searchZipCode');
+            const originalButtonText = searchButton.innerHTML;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Buscando...';
+            searchButton.disabled = true;
+
+            // Make API call to ViaCEP
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.erro) {
+                        throw new Error('CEP não encontrado');
+                    }
+
+                    // Populate fields with returned data
+                    if (data.logradouro) {
+                        document.getElementById('modal-address').value = data.logradouro;
+                    }
+                    if (data.bairro) {
+                        // We don't have a bairro field in the form, but we could add one
+                    }
+                    if (data.localidade) {
+                        document.getElementById('modal-city').value = data.localidade;
+                    }
+                    if (data.uf) {
+                        document.getElementById('modal-state').value = data.uf;
+                    }
+
+                    // Show success notification
+                    showAlert('CEP encontrado com sucesso!', 'success');
+                })
+                .catch(error => {
+                    console.error('Error fetching CEP:', error);
+                    showAlert('Erro ao buscar CEP. Por favor, verifique o número e tente novamente.', 'danger');
+                })
+                .finally(() => {
+                    // Restore button
+                    searchButton.innerHTML = originalButtonText;
+                    searchButton.disabled = false;
+                });
+        }
+    }
+
+    // Function to show success animation
+    function showSuccessAnimation() {
+        const modalContent = document.querySelector('#serviceRequestModal .modal-content');
+        if (modalContent) {
+            // Add a temporary success animation class
+            modalContent.classList.add('success-animation');
+
+            // Remove the class after animation completes
+            setTimeout(() => {
+                modalContent.classList.remove('success-animation');
+            }, 2000);
+        }
+    }
+
+    // Function to show alerts
+    function showAlert(message, type) {
+        // Use the notification system if available
+        if (typeof window.notifications !== 'undefined') {
+            switch (type) {
+                case 'success':
+                    window.notifications.success(message, 5000);
+                    break;
+                case 'danger':
+                    window.notifications.error(message, 0); // Error messages should stay until manually dismissed
+                    break;
+                case 'warning':
+                    window.notifications.warning(message, 7000);
+                    break;
+                case 'info':
+                    window.notifications.info(message, 5000);
+                    break;
+                default:
+                    window.notifications.info(message, 5000);
+            }
+            return;
+        }
+
+        // Fallback to old alert system if notifications are not available
+        // Remove existing alerts
+        const existingAlert = document.querySelector('.alert-fixed');
+        if (existingAlert) {
+            existingAlert.remove();
+        }
+
+        // Create alert element
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type} alert-fixed position-fixed`;
+        alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+        alert.innerHTML = `
+    <div class="d-flex align-items-center">
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'danger' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} me-2"></i>
+      <div>${message}</div>
+      <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  `;
+
+        // Add to body
+        document.body.appendChild(alert);
+
+        // Auto dismiss after 5 seconds (except for danger/error messages)
+        if (type !== 'danger') {
+            setTimeout(function() {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+    }
+
+    // Helper function to get CSRF token
+    function getCSRFToken() {
+        // First try to get from meta tag
+        const metaTag = document.querySelector('meta[name="csrf-token"]');
+        if (metaTag) {
+            return metaTag.getAttribute('content');
+        }
+
+        // Fallback: try to get from cookie
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') {
+                return decodeURIComponent(value);
+            }
+        }
+
+        // Final fallback: try to get from hidden input in forms
+        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        if (csrfInput) {
+            return csrfInput.value;
+        }
+
+        console.warn('CSRF token not found');
+        return null;
+    }
+
+    // Format phone number input
+    document.addEventListener('input', function(e) {
+        if (e.target.id === 'modal-contact-phone') {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) {
+                value = value.substring(0, 11);
+            }
+
+            // Format as (XX) XXXXX-XXXX or (XX) XXXX-XXXX
+            if (value.length >= 7) {
+                if (value.length >= 11) {
+                    // Mobile: (XX) XXXXX-XXXX
+                    value = `(${value.substring(0, 2)}) ${value.substring(2, 7)}-${value.substring(7, 11)}`;
+                } else {
+                    // Landline: (XX) XXXX-XXXX
+                    value = `(${value.substring(0, 2)}) ${value.substring(2, 6)}-${value.substring(6, 10)}`;
+                }
+            } else if (value.length >= 3) {
+                value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+            } else if (value.length >= 1) {
+                value = `(${value}`;
+            }
+
+            e.target.value = value;
+        }
+    });

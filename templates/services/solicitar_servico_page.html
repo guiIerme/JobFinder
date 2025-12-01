@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitar Serviço - Job Finder{% endblock %}
+
+{% block extra_css %}
+<style>
+    .solicitar-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .service-info-card {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-bottom: 2rem;
+    }
+
+    .form-control-modern {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e3e6f0;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+
+    .form-control-modern:focus {
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    }
+
+    .btn-solicitar {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-solicitar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(111, 66, 193, 0.3);
+        color: white;
+    }
+
+    .btn-voltar {
+        background: #6c757d;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-voltar:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-proximo {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-proximo:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(28, 200, 138, 0.3);
+        color: white;
+    }
+
+    .btn-anterior {
+        background: #f8f9fc;
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        color: #5a5c69;
+        transition: all 0.3s ease;
+    }
+
+    .btn-anterior:hover {
+        background: #e3e6f0;
+        transform: translateY(-2px);
+        color: #5a5c69;
+    }
+
+    .required-field {
+        color: #e74a3b;
+    }
+
+    .success-message {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        color: white;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .error-message {
+        background: linear-gradient(135deg, #e74a3b, #f6c23e);
+        color: white;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #e3e6f0;
+        z-index: 1;
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        transition: width 0.3s ease;
+        z-index: 2;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 3;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e3e6f0;
+        color: #5a5c69;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .step.active .step-circle {
+        background: linear-gradient(135deg, #6f42c1, #4e73df);
+        color: white;
+    }
+
+    .step.completed .step-circle {
+        background: linear-gradient(135deg, #1cc88a, #36b9cc);
+        color: white;
+    }
+
+    .step-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #5a5c69;
+        text-align: center;
+    }
+
+    .step.active .step-label {
+        color: #6f42c1;
+    }
+
+    .step.completed .step-label {
+        color: #1cc88a;
+    }
+
+    /* Form Steps */
+    .form-step {
+        display: none;
+    }
+
+    .form-step.active {
+        display: block;
+    }
+
+    /* Payment Methods */
+    .payment-method {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+        border-color: #6f42c1;
+        background: rgba(111, 66, 193, 0.05);
+    }
+
+    .payment-method.selected {
+        border-color: #6f42c1;
+        background: rgba(111, 66, 193, 0.1);
+    }
+
+    .payment-method input[type="radio"] {
+        display: none;
+    }
+
+    /* Schedule Options */
+    .schedule-option {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .schedule-option:hover {
+        border-color: #1cc88a;
+        background: rgba(28, 200, 138, 0.05);
+    }
+
+    .schedule-option.selected {
+        border-color: #1cc88a;
+        background: rgba(28, 200, 138, 0.1);
+    }
+
+    .schedule-option input[type="radio"] {
+        display: none;
+    }
+
+    /* Summary */
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #6f42c1;
+    }
+
+    @media (max-width: 768px) {
+        .solicitar-container {
+            padding: 15px;
+        }
+
+        .progress-steps {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="solicitar-container">
+    <!-- Header -->
+    <div class="d-flex align-items-center mb-4">
+        <a href="javascript:history.back()" class="btn btn-voltar me-3">
+            <i class="fas fa-arrow-left me-2"></i>
+            Voltar
+        </a>
+        <h1 class="mb-0">Solicitar Serviço</h1>
+    </div>
+
+    <!-- Mensagens -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-2"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Informações do Serviço -->
+    <div class="service-info-card">
+        <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-concierge-bell fa-2x me-3"></i>
+            <div>
+                <h3 class="mb-0">{{ service_name|default:"Serviço Personalizado" }}</h3>
+                <p class="mb-0 opacity-90">{{ service_description|default:"Descreva suas necessidades" }}</p>
+            </div>
+        </div>
+
+        {% if service_price and service_price != "0" %}
+        <div class="d-flex align-items-center">
+            <i class="fas fa-money-bill-wave me-2"></i>
+            <span class="h5 mb-0">Preço Estimado: R$ {{ service_price }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Formulário -->
+    <div class="form-card">
+        <h4 class="mb-4">
+            <i class="fas fa-user-edit me-2 text-primary"></i>
+            Seus Dados de Contato
+        </h4>
+
+        <form method="post" action="{% url 'solicitar_servico_pagina' %}">
+            {% csrf_token %}
+
+            <!-- Dados do serviço (hidden) -->
+            <input type="hidden" name="servico_id" value="{{ service_id|default:'0' }}">
+            <input type="hidden" name="service_name" value="{{ service_name|default:'Serviço Personalizado' }}">
+            <input type="hidden" name="service_description" value="{{ service_description|default:'Serviço solicitado pelo cliente' }}">
+            <input type="hidden" name="service_price" value="{{ service_price|default:'0' }}">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Nome Completo <span class="required-field">*</span>
+                    </label>
+                    <input type="text" class="form-control form-control-modern" name="nome" value="{% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% endif %}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Telefone <span class="required-field">*</span>
+                    </label>
+                    <input type="tel" class="form-control form-control-modern" name="telefone" placeholder="(11) 99999-9999" value="{% if user.is_authenticated %}{{ user.userprofile.phone }}{% endif %}" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Email <span class="required-field">*</span>
+                    </label>
+                    <input type="email" class="form-control form-control-modern" name="email" value="{% if user.is_authenticated %}{{ user.email }}{% endif %}" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">
+                        Observações
+                    </label>
+                    <textarea class="form-control form-control-modern" name="observacoes" rows="4" placeholder="Descreva detalhes específicos do serviço que você precisa..."></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="javascript:history.back()" class="btn btn-voltar me-md-2">
+                            <i class="fas fa-times me-2"></i>
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-solicitar">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Enviar Solicitação
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Informações Adicionais -->
+    <div class="mt-4 text-center text-muted">
+        <small>
+            <i class="fas fa-info-circle me-1"></i>
+            Após enviar sua solicitação, entraremos em contato em até 24 horas.
+        </small>
+    </div>
+</div>
+
+<script>
+    // Formatação automática de telefone
+    document.addEventListener('DOMContentLoaded', function() {
+        const telefoneInput = document.querySelector('input[name="telefone"]');
+
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+
+                if (value.length <= 11) {
+                    if (value.length <= 10) {
+                        value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                    } else {
+                        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    }
+                }
+
+                e.target.value = value;
+            });
+        }
+    });
+</script>
+{% endblock %}

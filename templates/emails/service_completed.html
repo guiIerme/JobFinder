@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Serviço Concluído</title>
+</head>
+<body>
+    <h2>Olá {{ user.username }},</h2>
+    
+    <p>Seu serviço foi concluído com sucesso!</p>
+    
+    <h3>Detalhes do Pedido #{{ order.id }}:</h3>
+    <ul>
+        <li><strong>Serviço:</strong> {{ order.service.name if order.service else 'Serviço Personalizado' }}</li>
+        <li><strong>Data de Conclusão:</strong> {{ order.updated_at|date:"d/m/Y H:i" }}</li>
+        <li><strong>Valor Pago:</strong> R$ {{ order.total_price }}</li>
+    </ul>
+    
+    <p>Gostaríamos de saber sua opinião sobre o serviço prestado. Por favor, <a href="{{ request.build_absolute_uri }}">clique aqui</a> para deixar sua avaliação.</p>
+    
+    <p>Atenciosamente,<br>
+    Equipe Job Finder</p>
+</body>
+</html>
