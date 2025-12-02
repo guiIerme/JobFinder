@@ -1,0 +1,148 @@
+{% extends 'services/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard de Suporte - JobFinder{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-headset"></i> Dashboard de Suporte
+            </h1>
+        </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h3>{{ stats.my_open }}</h3>
+                    <p class="mb-0">Meus Tickets Abertos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-info text-white">
+                <div class="card-body">
+                    <h3>{{ stats.waiting_response }}</h3>
+                    <p class="mb-0">Aguardando Resposta</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-warning text-white">
+                <div class="card-body">
+                    <h3>{{ stats.unassigned }}</h3>
+                    <p class="mb-0">Não Atribuídos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <h3>{{ stats.my_total }}</h3>
+                    <p class="mb-0">Total Atribuídos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações Rápidas -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'agent_ticket_list' %}" class="btn btn-primary">
+                <i class="fas fa-list"></i> Ver Todos os Tickets
+            </a>
+            <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn btn-info">
+                <i class="fas fa-user"></i> Meus Tickets
+            </a>
+            <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="btn btn-warning">
+                <i class="fas fa-inbox"></i> Não Atribuídos
+            </a>
+            <a href="{% url 'agent_statistics' %}" class="btn btn-success">
+                <i class="fas fa-chart-bar"></i> Minhas Estatísticas
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Tickets Não Atribuídos -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-inbox"></i> Tickets Não Atribuídos</h5>
+                </div>
+                <div class="card-body">
+                    {% if unassigned_tickets %}
+                    <div class="list-group">
+                        {% for ticket in unassigned_tickets %}
+                        <a href="{% url 'support_ticket_detail' ticket.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">#{{ ticket.ticket_number }} - {{ ticket.subject }}</h6>
+                                {% if ticket.priority == 'urgent' %}
+                                <span class="badge bg-danger">{{ ticket.get_priority_display }}</span>
+                                {% elif ticket.priority == 'high' %}
+                                <span class="badge bg-warning">{{ ticket.get_priority_display }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="mb-1 text-muted small">{{ ticket.description|truncatewords:15 }}</p>
+                            <small class="text-muted">
+                                {{ ticket.get_category_display }} | {{ ticket.created_at|timesince }} atrás
+                            </small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="btn btn-sm btn-outline-primary">
+                            Ver Todos
+                        </a>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">Nenhum ticket não atribuído</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Meus Tickets Recentes -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-clock"></i> Meus Tickets Recentes</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_tickets %}
+                    <div class="list-group">
+                        {% for ticket in recent_tickets %}
+                        <a href="{% url 'support_ticket_detail' ticket.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">#{{ ticket.ticket_number }} - {{ ticket.subject }}</h6>
+                                {% if ticket.status == 'waiting_support' %}
+                                <span class="badge bg-warning">Aguardando</span>
+                                {% else %}
+                                <span class="badge bg-info">{{ ticket.get_status_display }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="mb-1 text-muted small">{{ ticket.customer.get_full_name|default:ticket.customer.username }}</p>
+                            <small class="text-muted">
+                                Atualizado {{ ticket.updated_at|timesince }} atrás
+                            </small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn btn-sm btn-outline-primary">
+                            Ver Todos
+                        </a>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">Nenhum ticket atribuído a você</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

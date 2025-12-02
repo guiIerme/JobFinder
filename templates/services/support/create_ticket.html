@@ -1,0 +1,87 @@
+{% extends 'services/base.html' %}
+{% load static %}
+
+{% block title %}Criar Ticket de Suporte - JobFinder{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-ticket-alt"></i> Criar Novo Ticket de Suporte
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Assunto *</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required maxlength="200">
+                            <small class="text-muted">Descreva brevemente o problema</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Categoria *</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Selecione uma categoria</option>
+                                {% for value, label in categories %}
+                                <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Prioridade *</label>
+                            <select class="form-select" id="priority" name="priority" required>
+                                {% for value, label in priorities %}
+                                <option value="{{ value }}" {% if value == 'medium' %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição *</label>
+                            <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
+                            <small class="text-muted">Descreva o problema em detalhes</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="attachment" class="form-label">Anexo (opcional)</label>
+                            <input type="file" class="form-control" id="attachment" name="attachment">
+                            <small class="text-muted">Você pode anexar screenshots ou documentos (máx. 10MB)</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar Ticket
+                            </button>
+                            <a href="{% url 'customer_support_dashboard' %}" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dicas -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Dicas para um atendimento mais rápido</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Seja claro e específico sobre o problema</li>
+                        <li>Inclua screenshots se possível</li>
+                        <li>Mencione quando o problema começou</li>
+                        <li>Descreva os passos para reproduzir o problema</li>
+                        <li>Verifique a <a href="{% url 'knowledge_base_list' %}">Base de Conhecimento</a> primeiro</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -40,6 +40,7 @@ class UserProfile(models.Model):
         ('customer', 'Cliente'),
         ('professional', 'Profissional'),
         ('admin', 'Administrador'),
+        ('support', 'Suporte'),
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -1254,3 +1255,435 @@ class BatchOperation(models.Model):
         }
 
 
+
+
+# ============================================================================
+# SUPPORT SYSTEM MODELS
+# ============================================================================
+
+class SupportTicket(models.Model):
+    """
+    Modelo para tickets de suporte.
+    Gerencia solicitações de suporte dos clientes.
+    """
+    STATUS_CHOICES = [
+        ('open', 'Aberto'),
+        ('in_progress', 'Em Andamento'),
+        ('waiting_customer', 'Aguardando Cliente'),
+        ('waiting_support', 'Aguardando Suporte'),
+        ('resolved', 'Resolvido'),
+        ('closed', 'Fechado'),
+    ]
+    
+    PRIORITY_CHOICES = [
+        ('low', 'Baixa'),
+        ('medium', 'Média'),
+        ('high', 'Alta'),
+        ('urgent', 'Urgente'),
+    ]
+    
+    CATEGORY_CHOICES = [
+        ('technical', 'Problema Técnico'),
+        ('account', 'Conta e Perfil'),
+        ('payment', 'Pagamento'),
+        ('service', 'Serviços'),
+        ('complaint', 'Reclamação'),
+        ('suggestion', 'Sugestão'),
+        ('other', 'Outro'),
+    ]
+    
+    # Identificação
+    ticket_number = models.CharField(max_length=20, unique=True, editable=False)
+    
+    # Relacionamentos
+    customer = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='support_tickets',
+        help_text="Cliente que abriu o ticket"
+    )
+    assigned_to = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='assigned_support_tickets',
+        help_text="Agente de suporte responsável"
+    )
+    
+    # Informações do ticket
+    subject = models.CharField(max_length=200, verbose_name="Assunto")
+    description = models.TextField(verbose_name="Descrição")
+    category = models.CharField(
+        max_length=20, 
+        choices=CATEGORY_CHOICES,
+        default='other',
+        verbose_name="Categoria"
+    )
+    priority = models.CharField(
+        max_length=10, 
+        choices=PRIORITY_CHOICES,
+        default='medium',
+        verbose_name="Prioridade"
+    )
+    status = models.CharField(
+        max_length=20, 
+        choices=STATUS_CHOICES,
+        default='open',
+        db_index=True,
+        verbose_name="Status"
+    )
+    
+    # Anexos
+    attachment = models.FileField(
+        upload_to='support_attachments/',
+        null=True,
+        blank=True,
+        help_text="Arquivo anexo (screenshot, documento, etc)"
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
+    resolved_at = models.DateTimeField(null=True, blank=True, verbose_name="Resolvido em")
+    closed_at = models.DateTimeField(null=True, blank=True, verbose_name="Fechado em")
+    
+    # Avaliação
+    customer_rating = models.IntegerField(
+        null=True, 
+        blank=True,
+        choices=[(i, f"{i} estrelas") for i in range(1, 6)],
+        help_text="Avaliação do cliente (1-5)"
+    )
+    customer_feedback = models.TextField(blank=True, help_text="Feedback do cliente")
+    
+    # Metadados
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Ticket de Suporte'
+        verbose_name_plural = 'Tickets de Suporte'
+        indexes = [
+            models.Index(fields=['customer', '-created_at']),
+            models.Index(fields=['assigned_to', 'status']),
+            models.Index(fields=['status', '-created_at']),
+            models.Index(fields=['priority', '-created_at']),
+        ]
+    
+    def __str__(self):
+        return f"#{self.ticket_number} - {self.subject}"
+    
+    def save(self, *args, **kwargs):
+        # Gerar número do ticket automaticamente
+        if not self.ticket_number:
+            from django.utils import timezone
+            timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+            random_suffix = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+            self.ticket_number = f"TK{timestamp}{random_suffix}"
+        
+        # Atualizar timestamps baseado no status
+        from django.utils import timezone
+        if self.status == 'resolved' and not self.resolved_at:
+            self.resolved_at = timezone.now()
+        elif self.status == 'closed' and not self.closed_at:
+            self.closed_at = timezone.now()
+        
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_open(self):
+        """Verifica se o ticket está aberto"""
+        return self.status in ['open', 'in_progress', 'waiting_customer', 'waiting_support']
+    
+    @property
+    def response_time(self):
+        """Calcula o tempo de primeira resposta"""
+        first_response = self.messages.filter(sender__userprofile__user_type='support').first()
+        if first_response:
+            return (first_response.created_at - self.created_at).total_seconds() / 60  # em minutos
+        return None
+    
+    @property
+    def resolution_time(self):
+        """Calcula o tempo de resolução"""
+        if self.resolved_at:
+            return (self.resolved_at - self.created_at).total_seconds() / 3600  # em horas
+        return None
+    
+    def assign_to_agent(self, agent):
+        """Atribui o ticket a um agente de suporte"""
+        self.assigned_to = agent
+        self.status = 'in_progress'
+        self.save()
+        
+        # Criar notificação para o agente
+        Notification.objects.create(
+            user=agent,
+            notification_type='system',
+            title='Novo Ticket Atribuído',
+            message=f'O ticket #{self.ticket_number} foi atribuído a você.'
+        )
+    
+    def mark_as_resolved(self):
+        """Marca o ticket como resolvido"""
+        from django.utils import timezone
+        self.status = 'resolved'
+        self.resolved_at = timezone.now()
+        self.save()
+        
+        # Notificar cliente
+        Notification.objects.create(
+            user=self.customer,
+            notification_type='system',
+            title='Ticket Resolvido',
+            message=f'Seu ticket #{self.ticket_number} foi resolvido. Por favor, avalie o atendimento.'
+        )
+
+
+class SupportMessage(models.Model):
+    """
+    Modelo para mensagens dentro de um ticket de suporte.
+    Permite comunicação entre cliente e equipe de suporte.
+    """
+    MESSAGE_TYPE_CHOICES = [
+        ('message', 'Mensagem'),
+        ('note', 'Nota Interna'),
+        ('system', 'Sistema'),
+    ]
+    
+    ticket = models.ForeignKey(
+        SupportTicket,
+        on_delete=models.CASCADE,
+        related_name='messages',
+        verbose_name="Ticket"
+    )
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='support_messages',
+        verbose_name="Remetente"
+    )
+    message_type = models.CharField(
+        max_length=10,
+        choices=MESSAGE_TYPE_CHOICES,
+        default='message',
+        verbose_name="Tipo"
+    )
+    content = models.TextField(verbose_name="Conteúdo")
+    attachment = models.FileField(
+        upload_to='support_message_attachments/',
+        null=True,
+        blank=True,
+        verbose_name="Anexo"
+    )
+    is_read = models.BooleanField(default=False, verbose_name="Lida")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Enviada em")
+    
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Mensagem de Suporte'
+        verbose_name_plural = 'Mensagens de Suporte'
+    
+    def __str__(self):
+        return f"Mensagem de {self.sender.username} em {self.ticket.ticket_number}"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        # Atualizar status do ticket baseado em quem enviou
+        if self.message_type == 'message':
+            if self.sender == self.ticket.customer:
+                # Cliente respondeu
+                if self.ticket.status == 'waiting_customer':
+                    self.ticket.status = 'waiting_support'
+                    self.ticket.save()
+            else:
+                # Suporte respondeu
+                if self.ticket.status in ['open', 'waiting_support']:
+                    self.ticket.status = 'waiting_customer'
+                    self.ticket.save()
+                
+                # Notificar cliente
+                Notification.objects.create(
+                    user=self.ticket.customer,
+                    sender=self.sender,
+                    notification_type='message',
+                    title=f'Nova resposta no ticket #{self.ticket.ticket_number}',
+                    message=self.content[:100] + ('...' if len(self.content) > 100 else ''),
+                    related_object_id=self.ticket.id,
+                    related_object_type='support_ticket'
+                )
+
+
+class SupportAgent(models.Model):
+    """
+    Modelo para agentes de suporte.
+    Estende o perfil do usuário com informações específicas de suporte.
+    """
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='support_agent_profile'
+    )
+    
+    # Informações do agente
+    employee_id = models.CharField(max_length=20, unique=True, blank=True)
+    department = models.CharField(
+        max_length=50,
+        choices=[
+            ('technical', 'Suporte Técnico'),
+            ('billing', 'Financeiro'),
+            ('general', 'Geral'),
+        ],
+        default='general'
+    )
+    
+    # Status
+    is_active = models.BooleanField(default=True, verbose_name="Ativo")
+    is_available = models.BooleanField(default=True, verbose_name="Disponível")
+    max_concurrent_tickets = models.IntegerField(default=10, verbose_name="Máximo de tickets simultâneos")
+    
+    # Estatísticas
+    total_tickets_handled = models.IntegerField(default=0)
+    average_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    average_response_time_minutes = models.IntegerField(default=0, help_text="Tempo médio de resposta em minutos")
+    average_resolution_time_hours = models.DecimalField(
+        max_digits=5, 
+        decimal_places=2, 
+        default=0.00,
+        help_text="Tempo médio de resolução em horas"
+    )
+    
+    # Timestamps
+    joined_at = models.DateTimeField(auto_now_add=True)
+    last_active = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Agente de Suporte'
+        verbose_name_plural = 'Agentes de Suporte'
+    
+    def __str__(self):
+        return f"{self.user.get_full_name() or self.user.username} - {self.get_department_display()}"
+    
+    def save(self, *args, **kwargs):
+        # Gerar employee_id automaticamente
+        if not self.employee_id:
+            last_agent = SupportAgent.objects.order_by('-id').first()
+            next_id = 1 if not last_agent else int(last_agent.employee_id.replace('SUP', '')) + 1
+            self.employee_id = f"SUP{next_id:04d}"
+        
+        super().save(*args, **kwargs)
+        
+        # Atualizar user_type no UserProfile
+        profile, created = UserProfile.objects.get_or_create(user=self.user)
+        if profile.user_type != 'support':
+            profile.user_type = 'support'
+            profile.save()
+    
+    @property
+    def current_ticket_count(self):
+        """Retorna o número de tickets atualmente atribuídos"""
+        return SupportTicket.objects.filter(
+            assigned_to=self.user,
+            status__in=['open', 'in_progress', 'waiting_customer', 'waiting_support']
+        ).count()
+    
+    @property
+    def can_accept_tickets(self):
+        """Verifica se o agente pode aceitar mais tickets"""
+        return self.is_active and self.is_available and self.current_ticket_count < self.max_concurrent_tickets
+    
+    def update_statistics(self):
+        """Atualiza as estatísticas do agente"""
+        from django.db.models import Avg, Count
+        
+        tickets = SupportTicket.objects.filter(assigned_to=self.user)
+        
+        # Total de tickets
+        self.total_tickets_handled = tickets.count()
+        
+        # Avaliação média
+        avg_rating = tickets.filter(customer_rating__isnull=False).aggregate(
+            avg=Avg('customer_rating')
+        )['avg']
+        self.average_rating = avg_rating or 0.00
+        
+        # Tempo médio de resposta (em minutos)
+        response_times = []
+        for ticket in tickets:
+            if ticket.response_time:
+                response_times.append(ticket.response_time)
+        
+        if response_times:
+            self.average_response_time_minutes = int(sum(response_times) / len(response_times))
+        
+        # Tempo médio de resolução (em horas)
+        resolution_times = []
+        for ticket in tickets.filter(resolved_at__isnull=False):
+            if ticket.resolution_time:
+                resolution_times.append(ticket.resolution_time)
+        
+        if resolution_times:
+            self.average_resolution_time_hours = sum(resolution_times) / len(resolution_times)
+        
+        self.save()
+
+
+class SupportKnowledgeBase(models.Model):
+    """
+    Base de conhecimento para suporte.
+    Artigos e FAQs para ajudar clientes e agentes.
+    """
+    CATEGORY_CHOICES = [
+        ('getting_started', 'Primeiros Passos'),
+        ('account', 'Conta e Perfil'),
+        ('services', 'Serviços'),
+        ('payments', 'Pagamentos'),
+        ('technical', 'Problemas Técnicos'),
+        ('policies', 'Políticas'),
+        ('faq', 'Perguntas Frequentes'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="Título")
+    slug = models.SlugField(unique=True, max_length=200)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, verbose_name="Categoria")
+    content = models.TextField(verbose_name="Conteúdo")
+    summary = models.TextField(max_length=500, verbose_name="Resumo")
+    
+    # SEO e busca
+    keywords = models.CharField(max_length=200, blank=True, help_text="Palavras-chave separadas por vírgula")
+    
+    # Metadados
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='kb_articles')
+    is_published = models.BooleanField(default=True, verbose_name="Publicado")
+    view_count = models.IntegerField(default=0, verbose_name="Visualizações")
+    helpful_count = models.IntegerField(default=0, verbose_name="Útil")
+    not_helpful_count = models.IntegerField(default=0, verbose_name="Não útil")
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Artigo da Base de Conhecimento'
+        verbose_name_plural = 'Base de Conhecimento'
+    
+    def __str__(self):
+        return self.title
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+    
+    @property
+    def helpfulness_ratio(self):
+        """Calcula a taxa de utilidade do artigo"""
+        total = self.helpful_count + self.not_helpful_count
+        if total == 0:
+            return 0
+        return round((self.helpful_count / total) * 100, 1)

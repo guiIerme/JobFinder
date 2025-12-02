@@ -7,7 +7,7 @@ from datetime import timedelta
 from .models import (
     Service, UserProfile, PaymentMethod, Order, Sponsor, 
     CustomService, Chat, Message, Review, ProfileChange, ServiceRequestModal, ServiceRequestSession,
-    ContactMessage, RateLimitRecord
+    ContactMessage, RateLimitRecord, SupportTicket, SupportMessage, SupportAgent, SupportKnowledgeBase
 )
 from .chat_models import ChatSession, ChatMessage, KnowledgeBaseEntry, ChatAnalytics
 
@@ -411,3 +411,113 @@ class ChatAnalyticsAdmin(admin.ModelAdmin):
     def engagement_score(self, obj):
         return obj.engagement_score
     engagement_score.short_description = 'Engagement Score'
+
+
+# ============================================================================
+# SUPPORT SYSTEM ADMIN
+# ============================================================================
+
+@admin.register(SupportTicket)
+class SupportTicketAdmin(admin.ModelAdmin):
+    list_display = ('ticket_number', 'subject', 'customer', 'assigned_to', 'category', 'priority', 'status', 'created_at')
+    list_filter = ('status', 'priority', 'category', 'created_at')
+    search_fields = ('ticket_number', 'subject', 'description', 'customer__username', 'customer__email')
+    readonly_fields = ('ticket_number', 'created_at', 'updated_at', 'resolved_at', 'closed_at')
+    date_hierarchy = 'created_at'
+    
+    fieldsets = (
+        ('Informações do Ticket', {
+            'fields': ('ticket_number', 'customer', 'assigned_to', 'subject', 'description')
+        }),
+        ('Classificação', {
+            'fields': ('category', 'priority', 'status')
+        }),
+        ('Anexo', {
+            'fields': ('attachment',)
+        }),
+        ('Avaliação', {
+            'fields': ('customer_rating', 'customer_feedback')
+        }),
+        ('Datas', {
+            'fields': ('created_at', 'updated_at', 'resolved_at', 'closed_at')
+        }),
+        ('Metadados', {
+            'fields': ('ip_address', 'user_agent'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(SupportMessage)
+class SupportMessageAdmin(admin.ModelAdmin):
+    list_display = ('ticket', 'sender', 'message_type', 'content_preview', 'is_read', 'created_at')
+    list_filter = ('message_type', 'is_read', 'created_at')
+    search_fields = ('ticket__ticket_number', 'sender__username', 'content')
+    readonly_fields = ('created_at',)
+    date_hierarchy = 'created_at'
+    
+    def content_preview(self, obj):
+        return obj.content[:50] + '...' if len(obj.content) > 50 else obj.content
+    content_preview.short_description = 'Conteúdo'
+
+
+@admin.register(SupportAgent)
+class SupportAgentAdmin(admin.ModelAdmin):
+    list_display = ('employee_id', 'user', 'department', 'is_active', 'is_available', 'total_tickets_handled', 'average_rating')
+    list_filter = ('department', 'is_active', 'is_available')
+    search_fields = ('employee_id', 'user__username', 'user__email', 'user__first_name', 'user__last_name')
+    readonly_fields = ('employee_id', 'total_tickets_handled', 'average_rating', 'average_response_time_minutes', 'average_resolution_time_hours', 'joined_at', 'last_active')
+    
+    fieldsets = (
+        ('Informações do Agente', {
+            'fields': ('employee_id', 'user', 'department')
+        }),
+        ('Status', {
+            'fields': ('is_active', 'is_available', 'max_concurrent_tickets')
+        }),
+        ('Estatísticas', {
+            'fields': ('total_tickets_handled', 'average_rating', 'average_response_time_minutes', 'average_resolution_time_hours')
+        }),
+        ('Datas', {
+            'fields': ('joined_at', 'last_active')
+        }),
+    )
+    
+    actions = ['update_statistics']
+    
+    def update_statistics(self, request, queryset):
+        for agent in queryset:
+            agent.update_statistics()
+        self.message_user(request, f'{queryset.count()} agente(s) tiveram suas estatísticas atualizadas.')
+    update_statistics.short_description = 'Atualizar estatísticas dos agentes selecionados'
+
+
+@admin.register(SupportKnowledgeBase)
+class SupportKnowledgeBaseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'category', 'author', 'is_published', 'view_count', 'helpfulness_ratio', 'created_at')
+    list_filter = ('category', 'is_published', 'created_at')
+    search_fields = ('title', 'content', 'keywords')
+    prepopulated_fields = {'slug': ('title',)}
+    readonly_fields = ('view_count', 'helpful_count', 'not_helpful_count', 'helpfulness_ratio', 'created_at', 'updated_at')
+    date_hierarchy = 'created_at'
+    
+    fieldsets = (
+        ('Informações do Artigo', {
+            'fields': ('title', 'slug', 'category', 'author')
+        }),
+        ('Conteúdo', {
+            'fields': ('summary', 'content')
+        }),
+        ('SEO e Busca', {
+            'fields': ('keywords',)
+        }),
+        ('Publicação', {
+            'fields': ('is_published',)
+        }),
+        ('Estatísticas', {
+            'fields': ('view_count', 'helpful_count', 'not_helpful_count', 'helpfulness_ratio')
+        }),
+        ('Datas', {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )

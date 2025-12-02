@@ -23,6 +23,7 @@ from django.urls import path, include
 from . import views
 from . import chat_views
 from . import rate_limit_views
+from . import support_views
 from .api import admin_bulk_views, admin_export_views, admin_async_views
 
 urlpatterns = [
@@ -251,6 +252,30 @@ urlpatterns = [
     path('api/chat-ai/', views.chat_ai_response, name='chat_ai_response'),
     path('api/chat/message/', chat_views.chat_message, name='chat_message'),
     path('api/chat/rating/', chat_views.chat_rating, name='chat_rating'),
+    
+    # ============================================================================
+    # SUPPORT SYSTEM
+    # ============================================================================
+    # Customer Support
+    path('support/', support_views.customer_support_dashboard, name='customer_support_dashboard'),
+    path('support/create/', support_views.create_support_ticket, name='create_support_ticket'),
+    path('support/ticket/<int:ticket_id>/', support_views.support_ticket_detail, name='support_ticket_detail'),
+    path('support/ticket/<int:ticket_id>/rate/', support_views.rate_support_ticket, name='rate_support_ticket'),
+    
+    # Agent Support
+    path('support/agent/', support_views.agent_support_dashboard, name='agent_support_dashboard'),
+    path('support/agent/tickets/', support_views.agent_ticket_list, name='agent_ticket_list'),
+    path('support/agent/ticket/<int:ticket_id>/assign/', support_views.assign_ticket, name='assign_ticket'),
+    path('support/agent/ticket/<int:ticket_id>/status/', support_views.update_ticket_status, name='update_ticket_status'),
+    path('support/agent/statistics/', support_views.agent_statistics, name='agent_statistics'),
+    
+    # Knowledge Base
+    path('support/kb/', support_views.knowledge_base_list, name='knowledge_base_list'),
+    path('support/kb/<slug:slug>/', support_views.knowledge_base_article, name='knowledge_base_article'),
+    path('support/kb/<slug:slug>/rate/', support_views.rate_article, name='rate_article'),
+    
+    # Support API
+    path('api/support/unread-count/', support_views.get_unread_messages_count, name='support_unread_count'),
     
     # ============================================================================
     # API v1 - RESTful API Endpoints
