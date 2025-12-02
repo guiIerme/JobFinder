@@ -4290,92 +4290,9 @@ def help_support(request):
     return render(request, 'services/help_support.html')
 
 def contact(request):
-    """Contact page with form processing"""
-    if request.method == 'POST':
-        # Process contact form
-        name = request.POST.get('name', '').strip()
-        email = request.POST.get('email', '').strip()
-        phone = request.POST.get('phone', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        message = request.POST.get('message', '').strip()
-        privacy = request.POST.get('privacy') == 'on'
-        
-        # Validation
-        errors = {}
-        
-        if not name or len(name) < 2:
-            errors['name'] = 'Por favor, insira seu nome completo'
-        
-        if not email:
-            errors['email'] = 'Por favor, insira seu e-mail'
-        else:
-            import re
-            email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
-            if not re.match(email_regex, email):
-                errors['email'] = 'Por favor, insira um e-mail válido'
-        
-        if phone:
-            # Validate phone format (Brazilian format)
-            phone_clean = re.sub(r'\D', '', phone)
-            if len(phone_clean) < 10:
-                errors['phone'] = 'Por favor, insira um telefone válido'
-        
-        if not subject or subject == 'Selecione um assunto':
-            errors['subject'] = 'Por favor, selecione um assunto'
-        
-        if not message or len(message) < 10:
-            errors['message'] = 'Por favor, insira uma mensagem com pelo menos 10 caracteres'
-        
-        if not privacy:
-            errors['privacy'] = 'Você precisa concordar com a Política de Privacidade'
-        
-        # If AJAX request, return JSON response
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            if errors:
-                return JsonResponse({
-                    'success': False,
-                    'errors': errors,
-                    'message': 'Por favor, corrija os erros no formulário'
-                })
-            else:
-                # Save to database
-                try:
-                    from .models import ContactMessage
-                    
-                    contact_message = ContactMessage.objects.create(
-                        name=name,
-                        email=email,
-                        phone=phone,
-                        subject=subject,
-                        message=message
-                    )
-                    
-                    # Log the contact form submission
-                    logger.info(f"Contact form submitted by {name} ({email}): {subject} - ID: {contact_message.id}")
-                    
-                    # You can add email sending logic here
-                    # send_contact_email(name, email, phone, subject, message)
-                    
-                    return JsonResponse({
-                        'success': True,
-                        'message': 'Mensagem enviada com sucesso! Entraremos em contato em breve.'
-                    })
-                except Exception as e:
-                    logger.error(f"Error processing contact form: {e}")
-                    return JsonResponse({
-                        'success': False,
-                        'message': 'Erro interno do servidor. Tente novamente mais tarde.'
-                    })
-        
-        # For non-AJAX requests
-        if errors:
-            for field, error in errors.items():
-                messages.error(request, error)
-        else:
-            messages.success(request, 'Mensagem enviada com sucesso! Entraremos em contato em breve.')
-            return redirect('contact')
-    
-    return render(request, 'services/contact.html')
+    """Redirect contact page to support system"""
+    messages.info(request, 'Agora usamos um sistema de suporte mais completo! Crie um ticket para entrar em contato.')
+    return redirect('create_support_ticket')
 
 
 def faq(request):

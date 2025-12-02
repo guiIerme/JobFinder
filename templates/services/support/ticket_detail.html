@@ -1,4 +1,4 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Ticket #{{ ticket.ticket_number }} - JobFinder{% endblock %}
@@ -248,6 +248,140 @@
     document.addEventListener('DOMContentLoaded', function() {
         const chatContainer = document.getElementById('chatContainer');
         chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+
+    // Auto-refresh inteligente a cada 10 segundos
+    let lastMessageCount = {
+        {
+            messages | length
+        }
+    };
+    let isTyping = false;
+    let refreshInterval;
+
+    // Detectar se o usuário está digitando
+    const messageInput = document.querySelector('textarea[name="content"]');
+    if (messageInput) {
+        messageInput.addEventListener('focus', function() {
+            isTyping = true;
+        });
+        messageInput.addEventListener('blur', function() {
+            isTyping = false;
+        });
+    }
+
+    // Função para recarregar apenas as mensagens
+    function refreshMessages() {
+        // Não atualizar se o usuário estiver digitando
+        if (isTyping) {
+            console.log('Usuário digitando, pulando atualização...');
+            return;
+        }
+
+        // Fazer requisição AJAX para verificar novas mensagens
+        fetch(window.location.href, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Criar um elemento temporário para parsear o HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newChatContainer = doc.getElementById('chatContainer');
+
+                if (newChatContainer) {
+                    const currentChatContainer = document.getElementById('chatContainer');
+                    const currentScrollPos = currentChatContainer.scrollTop;
+                    const isAtBottom = currentChatContainer.scrollHeight - currentChatContainer.scrollTop <= currentChatContainer.clientHeight + 50;
+
+                    // Atualizar o conteúdo
+                    currentChatContainer.innerHTML = newChatContainer.innerHTML;
+
+                    // Manter scroll na posição ou ir para o final se estava no final
+                    if (isAtBottom) {
+                        currentChatContainer.scrollTop = currentChatContainer.scrollHeight;
+                    } else {
+                        currentChatContainer.scrollTop = currentScrollPos;
+                    }
+
+                    // Contar novas mensagens
+                    const newMessageCount = newChatContainer.querySelectorAll('.message').length;
+                    if (newMessageCount > lastMessageCount) {
+                        console.log(`${newMessageCount - lastMessageCount} nova(s) mensagem(ns)!`);
+
+                        // Mostrar notificação visual
+                        showNotification('Nova mensagem recebida!');
+
+                        lastMessageCount = newMessageCount;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar mensagens:', error);
+            });
+    }
+
+    // Função para mostrar notificação
+    function showNotification(message) {
+        // Criar elemento de notificação
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-info alert-dismissible fade show position-fixed';
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 250px;';
+        notification.innerHTML = `
+            <i class="fas fa-bell me-2"></i>${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Remover após 3 segundos
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Iniciar auto-refresh apenas se o ticket estiver aberto
+    {
+        %
+        if ticket.is_open %
+    }
+    refreshInterval = setInterval(refreshMessages, 10000); // 10 segundos
+    console.log('Auto-refresh ativado (10 segundos)'); {
+        %
+        else %
+    }
+    console.log('Ticket fechado, auto-refresh desativado'); {
+        % endif %
+    }
+
+    // Parar refresh quando sair da página
+    window.addEventListener('beforeunload', function() {
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+    });
+
+    // Pausar refresh quando a aba não está visível
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                console.log('Aba oculta, pausando auto-refresh');
+            }
+        } else {
+            {
+                %
+                if ticket.is_open %
+            }
+            if (!refreshInterval) {
+                refreshInterval = setInterval(refreshMessages, 10000);
+                console.log('Aba visível, retomando auto-refresh');
+            } {
+                % endif %
+            }
+        }
     });
 </script>
 {% endblock %}

@@ -18,19 +18,19 @@
             <p class="text-muted mb-5 animate__animated animate__fadeInUp animate__delay-2s">
                 Nossa equipe já foi notificada e está trabalhando para resolver o problema.
             </p>
-            
+
             <div class="d-flex justify-content-center gap-3 flex-wrap animate__animated animate__fadeInUp animate__delay-3s">
                 <a href="{% url 'home' %}" class="btn btn-primary btn-lg shadow-sm">
                     <i class="fas fa-home me-2"></i>Ir para a Página Inicial
                 </a>
-                <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg shadow-sm">
-                    <i class="fas fa-envelope me-2"></i>Entrar em Contato
+                <a href="{% url 'create_support_ticket' %}" class="btn btn-outline-primary btn-lg shadow-sm">
+                    <i class="fas fa-headset me-2"></i>Abrir Ticket de Suporte
                 </a>
                 <button class="btn btn-outline-danger btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#errorAlertModal">
                     <i class="fas fa-exclamation-circle me-2"></i>Reportar Problema
                 </button>
             </div>
-            
+
             <!-- Additional Help Section -->
             <div class="mt-5 p-4 bg-light rounded-3 animate__animated animate__fadeInUp animate__delay-4s">
                 <h5 class="mb-3"><i class="fas fa-life-ring me-2 text-primary"></i>Precisa de Ajuda Imediata?</h5>
@@ -51,16 +51,19 @@
     .animate__animated.animate__delay-1s {
         animation-delay: 0.5s;
     }
+
     .animate__animated.animate__delay-2s {
         animation-delay: 1s;
     }
+
     .animate__animated.animate__delay-3s {
         animation-delay: 1.5s;
     }
+
     .animate__animated.animate__delay-4s {
         animation-delay: 2s;
     }
-    
+
     .display-1 {
         font-weight: 800;
         background: linear-gradient(45deg, #dc3545, #fd7e14);
@@ -68,22 +71,22 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    
+
     .btn-lg {
         padding: 0.75rem 1.5rem;
         font-size: 1.1rem;
         border-radius: 50px;
         transition: all 0.3s ease;
     }
-    
+
     .btn-lg:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
     }
-    
+
     .bg-light {
-        background-color: rgba(0,0,0,0.03) !important;
-        border: 1px solid rgba(0,0,0,0.05);
+        background-color: rgba(0, 0, 0, 0.03) !important;
+        border: 1px solid rgba(0, 0, 0, 0.05);
     }
 </style>
 
@@ -92,24 +95,24 @@
 
 <!-- Add micro-interaction script -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add hover effect to buttons
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px)';
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effect to buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
+
+        // Add pulse animation to the 500 number
+        const number500 = document.querySelector('.display-1');
+        setInterval(() => {
+            number500.classList.toggle('animate__pulse');
+        }, 3000);
     });
-    
-    // Add pulse animation to the 500 number
-    const number500 = document.querySelector('.display-1');
-    setInterval(() => {
-        number500.classList.toggle('animate__pulse');
-    }, 3000);
-});
 </script>
 {% endblock %}

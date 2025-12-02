@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import timedelta
+import random
 
 # Helper function for default duration
 def get_default_duration():

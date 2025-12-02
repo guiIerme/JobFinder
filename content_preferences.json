@@ -11,7 +11,7 @@
     ]
   },
   "/": {
-    "views": 866,
+    "views": 875,
     "clicks": 0,
     "interactions": [
       {
@@ -4343,6 +4343,51 @@
         "user_id": "1",
         "type": "view",
         "timestamp": "2025-12-02T14:37:10.050069"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T14:39:51.919529"
+      },
+      {
+        "user_id": "181",
+        "type": "view",
+        "timestamp": "2025-12-02T14:42:09.958155"
+      },
+      {
+        "user_id": "181",
+        "type": "view",
+        "timestamp": "2025-12-02T14:48:42.131448"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T14:52:03.387508"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T14:52:55.644039"
+      },
+      {
+        "user_id": "49",
+        "type": "view",
+        "timestamp": "2025-12-02T15:03:59.027027"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T15:09:10.578641"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T16:28:42.058085"
+      },
+      {
+        "user_id": "181",
+        "type": "view",
+        "timestamp": "2025-12-02T16:38:11.121227"
       }
     ]
   },

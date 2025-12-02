@@ -2570,9 +2570,15 @@
         "type": "view",
         "content_id": null,
         "timestamp": "2025-11-12T15:12:09.372229"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T15:03:59.027027"
       }
     ],
-    "last_updated": "2025-11-12T15:12:09.372229"
+    "last_updated": "2025-12-02T15:03:59.027027"
   },
   "24": {
     "user_id": "24",
@@ -4360,9 +4366,39 @@
         "type": "view",
         "content_id": null,
         "timestamp": "2025-12-02T14:37:10.050069"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T14:39:51.919529"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T14:52:03.387508"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T14:52:55.644039"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T15:09:10.578641"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T16:28:42.058085"
       }
     ],
-    "last_updated": "2025-12-02T14:37:10.050069"
+    "last_updated": "2025-12-02T16:28:42.058085"
   },
   "52": {
     "user_id": "52",
@@ -5328,5 +5364,30 @@
       }
     ],
     "last_updated": "2025-11-12T15:34:50.743070"
+  },
+  "181": {
+    "user_id": "181",
+    "preferences": {},
+    "behavior_history": [
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T14:42:09.958155"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T14:48:42.131448"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T16:38:11.121227"
+      }
+    ],
+    "last_updated": "2025-12-02T16:38:11.121227"
   }
 }

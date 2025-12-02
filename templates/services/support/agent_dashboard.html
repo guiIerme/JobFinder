@@ -1,148 +1,901 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Dashboard de Suporte - JobFinder{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css">
+<style>
+    :root {
+        --primary: #667eea;
+        --primary-dark: #5568d3;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --glass-bg: rgba(255, 255, 255, 0.95);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.3) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .container-fluid {
+        position: relative;
+        z-index: 1;
+    }
+
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: var(--shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 25px;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(180deg);
+        }
+    }
+
+    .stat-box {
+        background: white;
+        border-radius: 18px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        border-left: 4px solid var(--primary);
+        transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+        transform: translateX(5px);
+        box-shadow: -5px 5px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .stat-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .progress-ring {
+        width: 120px;
+        height: 120px;
+        position: relative;
+    }
+
+    .progress-ring svg {
+        transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+        fill: none;
+        stroke-width: 8;
+        stroke-linecap: round;
+    }
+
+    .btn-modern {
+        background: white;
+        color: var(--primary);
+        border: 2px solid transparent;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-modern::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-modern:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        border-color: var(--primary);
+        color: var(--primary-dark);
+    }
+
+    .ticket-item {
+        background: white;
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .ticket-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left-color: var(--primary);
+    }
+
+    .ticket-item.urgent {
+        border-left-color: #dc3545;
+        background: linear-gradient(90deg, rgba(220, 53, 69, 0.05), white);
+    }
+
+    .ticket-item.high {
+        border-left-color: #ffc107;
+        background: linear-gradient(90deg, rgba(255, 193, 7, 0.05), white);
+    }
+
+    .badge-modern {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        padding: 1rem;
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+    }
+
+    .activity-item {
+        padding: 1rem;
+        border-left: 3px solid var(--primary);
+        margin-left: 1rem;
+        position: relative;
+    }
+
+    .activity-item::before {
+        content: '';
+        position: absolute;
+        left: -7px;
+        top: 1.2rem;
+        width: 12px;
+        height: 12px;
+        background: var(--primary);
+        border-radius: 50%;
+        border: 3px solid white;
+    }
+
+    .skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-in {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-in:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .animate-in:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .animate-in:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .animate-in:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    /* Performance Metrics */
+    .performance-ring {
+        width: 80px;
+        height: 80px;
+        position: relative;
+    }
+
+    .performance-ring svg {
+        transform: rotate(-90deg);
+    }
+
+    .performance-ring circle {
+        fill: none;
+        stroke-width: 6;
+        stroke-linecap: round;
+    }
+
+    .performance-ring .bg-circle {
+        stroke: rgba(102, 126, 234, 0.1);
+    }
+
+    .performance-ring .progress-circle {
+        stroke: var(--primary);
+        stroke-dasharray: 251.2;
+        stroke-dashoffset: 251.2;
+        transition: stroke-dashoffset 1s ease;
+    }
+
+    .performance-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    /* Quick Stats Mini Cards */
+    .mini-stat {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .mini-stat:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .mini-stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .mini-stat-icon.success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+
+    .mini-stat-icon.warning {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+    }
+
+    .mini-stat-icon.info {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+    }
+
+    /* Ticket Priority Indicators */
+    .priority-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 0.5rem;
+        animation: pulse-dot 2s infinite;
+    }
+
+    .priority-dot.urgent {
+        background: #ef4444;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+
+    .priority-dot.high {
+        background: #f59e0b;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    }
+
+    @keyframes pulse-dot {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Scrollbar Styling */
+    .glass-card::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .glass-card::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+    }
+
+    .glass-card::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 10px;
+    }
+
+    .glass-card::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+    /* Ticket List Max Height */
+    .ticket-list-container {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    /* Empty State Improvements */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        opacity: 0.2;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .empty-state p {
+        color: #6b7280;
+        font-size: 1rem;
+    }
+
+    /* Refresh Indicator */
+    .refresh-indicator {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 1000;
+        animation: slideInUp 0.3s ease;
+    }
+
+    .refresh-indicator.show {
+        display: flex;
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--primary);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-4">
-                <i class="fas fa-headset"></i> Dashboard de Suporte
-            </h1>
-        </div>
-    </div>
-
-    <!-- Estatísticas -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-center bg-primary text-white">
-                <div class="card-body">
-                    <h3>{{ stats.my_open }}</h3>
-                    <p class="mb-0">Meus Tickets Abertos</p>
-                </div>
+<div class="container-fluid py-4">
+    <!-- Hero Header -->
+    <div class="hero-header animate-in">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold mb-2">
+                    <i class="fas fa-headset me-3"></i>Dashboard de Suporte
+                </h1>
+                <p class="lead mb-0 opacity-90">Bem-vindo de volta, {{ user.get_full_name|default:user.username }}!</p>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-info text-white">
-                <div class="card-body">
-                    <h3>{{ stats.waiting_response }}</h3>
-                    <p class="mb-0">Aguardando Resposta</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-warning text-white">
-                <div class="card-body">
-                    <h3>{{ stats.unassigned }}</h3>
-                    <p class="mb-0">Não Atribuídos</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center bg-success text-white">
-                <div class="card-body">
-                    <h3>{{ stats.my_total }}</h3>
-                    <p class="mb-0">Total Atribuídos</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ações Rápidas -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <a href="{% url 'agent_ticket_list' %}" class="btn btn-primary">
-                <i class="fas fa-list"></i> Ver Todos os Tickets
-            </a>
-            <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn btn-info">
-                <i class="fas fa-user"></i> Meus Tickets
-            </a>
-            <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="btn btn-warning">
-                <i class="fas fa-inbox"></i> Não Atribuídos
-            </a>
-            <a href="{% url 'agent_statistics' %}" class="btn btn-success">
-                <i class="fas fa-chart-bar"></i> Minhas Estatísticas
-            </a>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Tickets Não Atribuídos -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-inbox"></i> Tickets Não Atribuídos</h5>
-                </div>
-                <div class="card-body">
-                    {% if unassigned_tickets %}
-                    <div class="list-group">
-                        {% for ticket in unassigned_tickets %}
-                        <a href="{% url 'support_ticket_detail' ticket.id %}" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1">#{{ ticket.ticket_number }} - {{ ticket.subject }}</h6>
-                                {% if ticket.priority == 'urgent' %}
-                                <span class="badge bg-danger">{{ ticket.get_priority_display }}</span>
-                                {% elif ticket.priority == 'high' %}
-                                <span class="badge bg-warning">{{ ticket.get_priority_display }}</span>
-                                {% endif %}
+            <div class="col-md-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="mini-stat">
+                            <div class="mini-stat-icon success">
+                                <i class="fas fa-check"></i>
                             </div>
-                            <p class="mb-1 text-muted small">{{ ticket.description|truncatewords:15 }}</p>
-                            <small class="text-muted">
-                                {{ ticket.get_category_display }} | {{ ticket.created_at|timesince }} atrás
-                            </small>
-                        </a>
-                        {% endfor %}
+                            <div>
+                                <div class="small text-muted">Resolvidos Hoje</div>
+                                <div class="fw-bold fs-5">{{ stats.resolved_today|default:0 }}</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="btn btn-sm btn-outline-primary">
-                            Ver Todos
-                        </a>
+                    <div class="col-6">
+                        <div class="mini-stat">
+                            <div class="mini-stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="small text-muted">Tempo Médio</div>
+                                <div class="fw-bold fs-5">{{ stats.avg_response_time|default:"--" }}</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="text-end mt-3">
+                    <div class="fs-5 fw-bold" id="clock"></div>
+                    <div class="small opacity-75" id="date"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="stat-box animate-in">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    {% if stats.waiting_response > 0 %}
+                    <div class="notification-badge">{{ stats.waiting_response }}</div>
+                    {% endif %}
+                </div>
+                <div class="stat-number">{{ stats.my_open }}</div>
+                <div class="text-muted small fw-semibold text-uppercase">Tickets Abertos</div>
+                <div class="progress mt-3" style="height: 4px;">
+                    <div class="progress-bar" style="width: {% widthratio stats.my_open 20 100 %}%; background: var(--primary);"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box animate-in">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">{{ stats.waiting_response }}</div>
+                <div class="text-muted small fw-semibold text-uppercase">Aguardando Resposta</div>
+                <div class="mt-2">
+                    <span class="badge bg-warning text-dark">Ação Necessária</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box animate-in">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-number">{{ stats.unassigned }}</div>
+                <div class="text-muted small fw-semibold text-uppercase">Não Atribuídos</div>
+                <div class="mt-2">
+                    <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="text-primary text-decoration-none small fw-bold">
+                        Ver todos <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-box animate-in">
+                <div class="stat-icon mb-3">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number">{{ stats.my_total }}</div>
+                <div class="text-muted small fw-semibold text-uppercase">Total Atribuídos</div>
+                <div class="progress mt-3" style="height: 4px;">
+                    <div class="progress-bar bg-success" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-3">
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'agent_ticket_list' %}" class="btn-modern">
+                        <i class="fas fa-list me-2"></i>Todos os Tickets
+                    </a>
+                    <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn-modern">
+                        <i class="fas fa-user me-2"></i>Meus Tickets
+                    </a>
+                    <a href="{% url 'agent_ticket_list' %}?assigned=unassigned" class="btn-modern">
+                        <i class="fas fa-inbox me-2"></i>Não Atribuídos
+                    </a>
+                    <a href="{% url 'agent_statistics' %}" class="btn-modern">
+                        <i class="fas fa-chart-bar me-2"></i>Estatísticas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets Grid -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-fire text-danger me-2"></i>
+                        Tickets Urgentes
+                    </h5>
+                    <span class="badge bg-danger">{{ unassigned_tickets|length }}</span>
+                </div>
+                <div class="ticket-list-container">
+                    {% if unassigned_tickets %}
+                    {% for ticket in unassigned_tickets %}
+                    <a href="{% url 'support_ticket_detail' ticket.id %}" class="ticket-item {% if ticket.priority == 'urgent' %}urgent{% elif ticket.priority == 'high' %}high{% endif %} text-decoration-none">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-1">
+                                    {% if ticket.priority == 'urgent' %}
+                                    <span class="priority-dot urgent"></span>
+                                    {% elif ticket.priority == 'high' %}
+                                    <span class="priority-dot high"></span>
+                                    {% endif %}
+                                    <h6 class="fw-bold mb-0">#{{ ticket.ticket_number }}</h6>
+                                </div>
+                                <p class="mb-2 text-dark">{{ ticket.subject|truncatewords:10 }}</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <span class="badge-modern bg-light text-dark">
+                                        <i class="fas fa-tag me-1"></i>{{ ticket.get_category_display }}
+                                    </span>
+                                    <span class="badge-modern bg-light text-dark">
+                                        <i class="fas fa-clock me-1"></i>{{ ticket.created_at|timesince }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% if ticket.priority == 'urgent' %}
+                            <span class="badge-modern bg-danger text-white">
+                                <i class="fas fa-fire me-1"></i>URGENTE
+                            </span>
+                            {% elif ticket.priority == 'high' %}
+                            <span class="badge-modern bg-warning text-dark">
+                                <i class="fas fa-exclamation me-1"></i>ALTA
+                            </span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
                     {% else %}
-                    <p class="text-muted text-center">Nenhum ticket não atribuído</p>
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Nenhum ticket urgente no momento</p>
+                        <small class="text-muted">Ótimo trabalho! 🎉</small>
+                    </div>
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        <!-- Meus Tickets Recentes -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-clock"></i> Meus Tickets Recentes</h5>
+        <div class="col-lg-6 mb-4">
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">
+                        <i class="fas fa-history text-primary me-2"></i>
+                        Atividade Recente
+                    </h5>
+                    <span class="badge bg-primary">{{ recent_tickets|length }}</span>
                 </div>
-                <div class="card-body">
+                <div class="ticket-list-container">
                     {% if recent_tickets %}
-                    <div class="list-group">
-                        {% for ticket in recent_tickets %}
-                        <a href="{% url 'support_ticket_detail' ticket.id %}" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1">#{{ ticket.ticket_number }} - {{ ticket.subject }}</h6>
-                                {% if ticket.status == 'waiting_support' %}
-                                <span class="badge bg-warning">Aguardando</span>
-                                {% else %}
-                                <span class="badge bg-info">{{ ticket.get_status_display }}</span>
-                                {% endif %}
+                    {% for ticket in recent_tickets %}
+                    <a href="{% url 'support_ticket_detail' ticket.id %}" class="ticket-item text-decoration-none">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="fw-bold mb-1">#{{ ticket.ticket_number }}</h6>
+                                <p class="mb-2 text-dark">{{ ticket.subject|truncatewords:10 }}</p>
+                                <div class="small text-muted">
+                                    <i class="fas fa-user me-1"></i>
+                                    {{ ticket.customer.get_full_name|default:ticket.customer.username }}
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-sync me-1"></i>
+                                    {{ ticket.updated_at|timesince }} atrás
+                                </div>
                             </div>
-                            <p class="mb-1 text-muted small">{{ ticket.customer.get_full_name|default:ticket.customer.username }}</p>
-                            <small class="text-muted">
-                                Atualizado {{ ticket.updated_at|timesince }} atrás
-                            </small>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn btn-sm btn-outline-primary">
-                            Ver Todos
-                        </a>
-                    </div>
+                            {% if ticket.status == 'waiting_support' %}
+                            <span class="badge-modern bg-warning text-dark">
+                                <i class="fas fa-bell me-1"></i>AGUARDANDO
+                            </span>
+                            {% else %}
+                            <span class="badge-modern bg-primary text-white">
+                                {{ ticket.get_status_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
                     {% else %}
-                    <p class="text-muted text-center">Nenhum ticket atribuído a você</p>
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Nenhum ticket atribuído</p>
+                        <small class="text-muted">Comece atribuindo tickets a você</small>
+                    </div>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Refresh Indicator -->
+<div class="refresh-indicator" id="refreshIndicator">
+    <div class="spinner"></div>
+    <span class="small fw-semibold">Atualizando...</span>
+</div>
+
+<script>
+    // Relógio em tempo real
+    function updateClock() {
+        const now = new Date();
+        const clockEl = document.getElementById('clock');
+        const dateEl = document.getElementById('date');
+
+        if (clockEl) {
+            clockEl.textContent = now.toLocaleTimeString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        if (dateEl) {
+            dateEl.textContent = now.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long'
+            });
+        }
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Auto-refresh com indicador visual
+    let refreshTimer;
+    const refreshInterval = 60000; // 60 segundos
+
+    function showRefreshIndicator() {
+        const indicator = document.getElementById('refreshIndicator');
+        if (indicator) {
+            indicator.classList.add('show');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+    }
+
+    function resetRefreshTimer() {
+        clearTimeout(refreshTimer);
+        refreshTimer = setTimeout(showRefreshIndicator, refreshInterval);
+    }
+
+    // Reset timer on user activity
+    ['click', 'scroll', 'keypress'].forEach(event => {
+        document.addEventListener(event, resetRefreshTimer, {
+            passive: true
+        });
+    });
+
+    resetRefreshTimer();
+
+    // Animação de progresso circular
+    document.querySelectorAll('.progress-ring .progress').forEach(el => {
+        const percent = el.dataset.percent || 0;
+        const offset = 283 - (283 * percent) / 100;
+        setTimeout(() => el.style.strokeDashoffset = offset, 100);
+    });
+
+    // Animação dos números das estatísticas
+    function animateValue(element, start, end, duration) {
+        if (!element) return;
+
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            element.textContent = value;
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Animar números ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.stat-number').forEach(el => {
+            const finalValue = parseInt(el.textContent) || 0;
+            animateValue(el, 0, finalValue, 1000);
+        });
+    });
+
+    // Smooth scroll para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Adicionar efeito de hover nos cards de ticket
+    document.querySelectorAll('.ticket-item').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(8px)';
+        });
+
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0)';
+        });
+    });
+
+    // Performance ring animation
+    document.querySelectorAll('.performance-ring .progress-circle').forEach(circle => {
+        const percent = circle.dataset.percent || 0;
+        const circumference = 251.2;
+        const offset = circumference - (circumference * percent) / 100;
+        setTimeout(() => {
+            circle.style.strokeDashoffset = offset;
+        }, 500);
+    });
+</script>
 {% endblock %}

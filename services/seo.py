@@ -111,7 +111,7 @@ class SEOService:
             {'location': '/register/', 'priority': 0.8, 'changefreq': 'monthly'},
             {'location': '/search/', 'priority': 0.9, 'changefreq': 'daily'},
             {'location': '/about/', 'priority': 0.7, 'changefreq': 'monthly'},
-            {'location': '/contact/', 'priority': 0.7, 'changefreq': 'monthly'},
+            {'location': '/support/', 'priority': 0.8, 'changefreq': 'weekly'},
             {'location': '/faq/', 'priority': 0.6, 'changefreq': 'monthly'},
             {'location': '/terms/', 'priority': 0.5, 'changefreq': 'yearly'},
             {'location': '/privacy/', 'priority': 0.5, 'changefreq': 'yearly'},

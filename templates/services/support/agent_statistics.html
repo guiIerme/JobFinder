@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Minhas Estatísticas - JobFinder{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-chart-bar"></i> Minhas Estatísticas
+            </h1>
+        </div>
+    </div>
+
+    <!-- Estatísticas Gerais -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-primary">{{ agent_profile.total_tickets_handled }}</h3>
+                    <p class="mb-0">Total de Tickets</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-warning">{{ agent_profile.average_rating }} ⭐</h3>
+                    <p class="mb-0">Avaliação Média</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-info">{{ agent_profile.average_response_time_minutes }} min</h3>
+                    <p class="mb-0">Tempo Médio de Resposta</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-success">{{ agent_profile.average_resolution_time_hours }} h</h3>
+                    <p class="mb-0">Tempo Médio de Resolução</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Agente -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-user"></i> Informações do Agente</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>ID do Funcionário:</th>
+                            <td>{{ agent_profile.employee_id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Departamento:</th>
+                            <td>{{ agent_profile.get_department_display }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status:</th>
+                            <td>
+                                {% if agent_profile.is_active %}
+                                <span class="badge bg-success">Ativo</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Inativo</span>
+                                {% endif %}
+                                {% if agent_profile.is_available %}
+                                <span class="badge bg-info">Disponível</span>
+                                {% else %}
+                                <span class="badge bg-warning">Indisponível</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Máx. Tickets Simultâneos:</th>
+                            <td>{{ agent_profile.max_concurrent_tickets }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tickets Atuais:</th>
+                            <td>{{ agent_profile.current_ticket_count }}</td>
+                        </tr>
+                        <tr>
+                            <th>Membro desde:</th>
+                            <td>{{ agent_profile.joined_at|date:"d/m/Y" }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-trophy"></i> Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Avaliação Média</label>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ agent_profile.average_rating|floatformat:0|add:'0' }}%">
+                                {{ agent_profile.average_rating }} / 5.0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Capacidade Atual</label>
+                        <div class="progress" style="height: 25px;">
+                            {% widthratio agent_profile.current_ticket_count agent_profile.max_concurrent_tickets 100 as capacity %}
+                            <div class="progress-bar {% if capacity >= 80 %}bg-danger{% elif capacity >= 50 %}bg-warning{% else %}bg-success{% endif %}" role="progressbar" style="width: {{ capacity }}%">
+                                {{ agent_profile.current_ticket_count }} / {{ agent_profile.max_concurrent_tickets }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets por Status -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Tickets por Status</h5>
+                </div>
+                <div class="card-body">
+                    {% if tickets_by_status %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in tickets_by_status %}
+                            <tr>
+                                <td>{{ item.status }}</td>
+                                <td><strong>{{ item.count }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted text-center">Nenhum dado disponível</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-tags"></i> Tickets por Categoria</h5>
+                </div>
+                <div class="card-body">
+                    {% if tickets_by_category %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Categoria</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in tickets_by_category %}
+                            <tr>
+                                <td>{{ item.category }}</td>
+                                <td><strong>{{ item.count }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted text-center">Nenhum dado disponível</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="{% url 'agent_support_dashboard' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+            </a>
+            <a href="{% url 'agent_ticket_list' %}?assigned=me" class="btn btn-info">
+                <i class="fas fa-list"></i> Ver Meus Tickets
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

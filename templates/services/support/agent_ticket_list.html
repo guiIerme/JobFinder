@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lista de Tickets - JobFinder{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-list"></i> Todos os Tickets
+            </h1>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>Todos</option>
+                                <option value="open" {% if status_filter == 'open' %}selected{% endif %}>Aberto</option>
+                                <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>Em Andamento</option>
+                                <option value="waiting_customer" {% if status_filter == 'waiting_customer' %}selected{% endif %}>Aguardando Cliente</option>
+                                <option value="waiting_support" {% if status_filter == 'waiting_support' %}selected{% endif %}>Aguardando Suporte</option>
+                                <option value="resolved" {% if status_filter == 'resolved' %}selected{% endif %}>Resolvido</option>
+                                <option value="closed" {% if status_filter == 'closed' %}selected{% endif %}>Fechado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Atribuição</label>
+                            <select name="assigned" class="form-select">
+                                <option value="all" {% if assigned_filter == 'all' %}selected{% endif %}>Todos</option>
+                                <option value="me" {% if assigned_filter == 'me' %}selected{% endif %}>Meus Tickets</option>
+                                <option value="unassigned" {% if assigned_filter == 'unassigned' %}selected{% endif %}>Não Atribuídos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Prioridade</label>
+                            <select name="priority" class="form-select">
+                                <option value="all" {% if priority_filter == 'all' %}selected{% endif %}>Todas</option>
+                                <option value="urgent" {% if priority_filter == 'urgent' %}selected{% endif %}>Urgente</option>
+                                <option value="high" {% if priority_filter == 'high' %}selected{% endif %}>Alta</option>
+                                <option value="medium" {% if priority_filter == 'medium' %}selected{% endif %}>Média</option>
+                                <option value="low" {% if priority_filter == 'low' %}selected{% endif %}>Baixa</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Buscar</label>
+                            <input type="text" name="search" class="form-control" placeholder="Número, assunto..." value="{{ search }}">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button> <a href="{% url 'agent_ticket_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Limpar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Tickets -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if tickets %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Assunto</th>
+                                    <th>Cliente</th>
+                                    <th>Categoria</th>
+                                    <th>Prioridade</th>
+                                    <th>Status</th>
+                                    <th>Atribuído</th>
+                                    <th>Criado</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ticket in tickets %}
+                                <tr>
+                                    <td><strong>#{{ ticket.ticket_number }}</strong></td>
+                                    <td>{{ ticket.subject|truncatewords:5 }}</td>
+                                    <td>{{ ticket.customer.get_full_name|default:ticket.customer.username }}</td>
+                                    <td><span class="badge bg-info">{{ ticket.get_category_display }}</span></td>
+                                    <td>
+                                        {% if ticket.priority == 'urgent' %}
+                                        <span class="badge bg-danger">{{ ticket.get_priority_display }}</span>
+                                        {% elif ticket.priority == 'high' %}
+                                        <span class="badge bg-warning">{{ ticket.get_priority_display }}</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ ticket.get_priority_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if ticket.status == 'open' %}
+                                        <span class="badge bg-primary">{{ ticket.get_status_display }}</span>
+                                        {% elif ticket.status == 'in_progress' %}
+                                        <span class="badge bg-info">{{ ticket.get_status_display }}</span>
+                                        {% elif ticket.status == 'waiting_support' %}
+                                        <span class="badge bg-warning">{{ ticket.get_status_display }}</span>
+                                        {% elif ticket.status == 'resolved' %}
+                                        <span class="badge bg-success">{{ ticket.get_status_display }}</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ ticket.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if ticket.assigned_to %}
+                                        {{ ticket.assigned_to.get_full_name|default:ticket.assigned_to.username }}
+                                        {% else %}
+                                        <span class="text-muted">Não atribuído</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ ticket.created_at|timesince }} atrás</td>
+                                    <td>
+                                        <a href="{% url 'support_ticket_detail' ticket.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginação -->
+                    {% if tickets.has_other_pages %}
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            {% if tickets.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tickets.previous_page_number }}&status={{ status_filter }}&assigned={{ assigned_filter }}&priority={{ priority_filter }}&search={{ search }}">Anterior</a>
+                            </li>
+                            {% endif %}
+
+                            {% for num in tickets.paginator.page_range %}
+                            <li class="page-item {% if tickets.number == num %}active{% endif %}">
+                                <a class="page-link" href="?page={{ num }}&status={{ status_filter }}&assigned={{ assigned_filter }}&priority={{ priority_filter }}&search={{ search }}">{{ num }}</a>
+                            </li>
+                            {% endfor %}
+
+                            {% if tickets.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ tickets.next_page_number }}&status={{ status_filter }}&assigned={{ assigned_filter }}&priority={{ priority_filter }}&search={{ search }}">Próximo</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Nenhum ticket encontrado com os filtros aplicados.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

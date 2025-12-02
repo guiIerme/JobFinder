@@ -1,87 +1,2150 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Criar Ticket de Suporte - JobFinder{% endblock %}
 
+{% block extra_css %}
+<style>
+    :root {
+        --primary: #667eea;
+        --primary-dark: #5568d3;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --info: #3b82f6;
+    }
+
+    /* Reset específico para esta página */
+    .support-container * {
+        box-sizing: border-box;
+    }
+
+    .support-container input,
+    .support-container textarea,
+    .support-container select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+    }
+
+    .support-container input:focus,
+    .support-container textarea:focus,
+    .support-container select:focus {
+        outline: none;
+    }
+
+    /* Animated Background Particles */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        animation: float-particle 15s infinite;
+    }
+
+    @keyframes float-particle {
+
+        0%,
+        100% {
+            transform: translateY(0) translateX(0) scale(1);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-100vh) translateX(100px) scale(0);
+            opacity: 0;
+        }
+    }
+
+    .support-container {
+        padding: 3rem 0;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 25px;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(180deg);
+        }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .glass-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        padding: 1.5rem;
+        border: none;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-label i {
+        color: var(--primary);
+    }
+
+    .form-control,
+    .form-select {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background: white;
+        outline: none;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        outline: none;
+    }
+
+    .priority-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .priority-option {
+        position: relative;
+    }
+
+    .priority-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .priority-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    .priority-option input[type="radio"]:checked+.priority-label {
+        border-color: var(--primary);
+        background: rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .priority-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .priority-label.low .priority-icon {
+        color: var(--info);
+    }
+
+    .priority-label.medium .priority-icon {
+        color: var(--warning);
+    }
+
+    .priority-label.high .priority-icon {
+        color: var(--danger);
+    }
+
+    .priority-label.urgent .priority-icon {
+        color: var(--danger);
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .file-upload-area {
+        border: 2px dashed #d1d5db;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        background: #f9fafb;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    .file-upload-area:hover {
+        border-color: var(--primary);
+        background: rgba(102, 126, 234, 0.05);
+    }
+
+    .file-upload-area.dragover {
+        border-color: var(--primary);
+        background: rgba(102, 126, 234, 0.1);
+        transform: scale(1.02);
+    }
+
+    .file-upload-icon {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-submit:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .tips-card {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .tips-card .card-header {
+        background: linear-gradient(135deg, var(--info), #2563eb);
+        color: white;
+        border: none;
+        padding: 1.5rem;
+    }
+
+    .tips-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .tip-item {
+        padding: 1rem 1.25rem;
+        border-left: 4px solid var(--info);
+        margin-bottom: 1rem;
+        background: white;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .tip-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .tip-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .tip-item i {
+        color: var(--info);
+        margin-right: 0.5rem;
+    }
+
+    .char-counter {
+        text-align: right;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.25rem;
+    }
+
+    .char-counter.warning {
+        color: var(--warning);
+    }
+
+    .char-counter.danger {
+        color: var(--danger);
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .quick-action-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+
+    .quick-action-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-action-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+
+    .animate-in {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-in:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .animate-in:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .animate-in:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .selected-file {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        margin-top: 1rem;
+        border: 1px solid #e5e7eb;
+    }
+
+    .selected-file i {
+        font-size: 2rem;
+        color: var(--primary);
+    }
+
+    .remove-file {
+        margin-left: auto;
+        color: var(--danger);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .remove-file:hover {
+        transform: scale(1.2);
+    }
+
+
+
+    /* Category Icons */
+    .category-option {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .category-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    /* Response Time Indicator */
+    .response-time-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+
+    .response-time-badge i {
+        animation: pulse-icon 2s infinite;
+    }
+
+    @keyframes pulse-icon {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    /* Template Suggestions */
+    .template-card {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .template-card:last-child {
+        margin-bottom: 0;
+    }
+
+    .template-card:hover {
+        border-color: var(--primary);
+        background: rgba(102, 126, 234, 0.05);
+        transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .template-card:active {
+        transform: translateX(3px) scale(0.98);
+    }
+
+    .template-card.selected {
+        border-color: var(--success);
+        background: rgba(16, 185, 129, 0.1);
+        animation: successPulse 0.6s ease;
+    }
+
+    .template-card.selected .template-title {
+        color: var(--success);
+    }
+
+    .template-title {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .template-preview {
+        font-size: 0.875rem;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    /* Quick Actions Buttons */
+    .support-container .btn-outline-primary {
+        padding: 0.75rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .support-container .btn-outline-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    /* Success Animation */
+    @keyframes successPulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .success-animation {
+        animation: successPulse 0.5s ease;
+    }
+
+    /* Validation Feedback */
+    .form-control.is-valid,
+    .form-select.is-valid {
+        border-color: var(--success);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b981' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .form-control.is-invalid,
+    .form-select.is-invalid {
+        border-color: var(--danger);
+    }
+
+    /* Tooltip */
+    .info-tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: help;
+        color: var(--info);
+        margin-left: 0.25rem;
+    }
+
+    .info-tooltip:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.5rem 1rem;
+        background: #1f2937;
+        color: white;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        z-index: 1000;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Mobile Optimizations */
+    /* AI Suggestion Box */
+    .ai-suggestion {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        display: none;
+        animation: slideInDown 0.5s ease;
+    }
+
+    .ai-suggestion.show {
+        display: block;
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .ai-suggestion-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .ai-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+        }
+
+        50% {
+            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+        }
+    }
+
+    .ai-suggestions-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .ai-suggestion-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .ai-suggestion-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
+    }
+
+    /* Live Preview */
+    .live-preview {
+        background: #f9fafb;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        display: none;
+    }
+
+    .live-preview.show {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .preview-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .preview-badge {
+        background: var(--primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* Confetti Effect */
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: var(--primary);
+        position: absolute;
+        animation: confetti-fall 3s linear;
+        pointer-events: none;
+    }
+
+    @keyframes confetti-fall {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+        display: inline-flex;
+        gap: 4px;
+        padding: 0.5rem;
+    }
+
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        animation: typing-bounce 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes typing-bounce {
+
+        0%,
+        60%,
+        100% {
+            transform: translateY(0);
+        }
+
+        30% {
+            transform: translateY(-10px);
+        }
+    }
+
+    /* Smart Suggestions Popup */
+    .smart-popup {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        max-width: 350px;
+        display: none;
+        z-index: 1000;
+        animation: slideInUp 0.5s ease;
+    }
+
+    .smart-popup.show {
+        display: block;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .popup-close {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .popup-close:hover {
+        color: var(--danger);
+        transform: rotate(90deg);
+    }
+
+    /* Success Modal */
+    .success-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .success-modal.show {
+        display: flex;
+    }
+
+    .success-content {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .success-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, var(--success), #059669);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 3rem;
+        color: white;
+        animation: successPulse 0.6s ease;
+    }
+
+    /* Keyboard Shortcuts Hint */
+    .keyboard-hint {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        display: none;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .keyboard-hint.show {
+        display: block;
+    }
+
+    .kbd {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-family: monospace;
+        margin: 0 0.25rem;
+    }
+
+    /* Enhanced Form Controls */
+    .support-container .form-control:focus,
+    .support-container .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+        outline: none;
+    }
+
+    /* Smooth Transitions - Only for specific elements */
+    .support-container .glass-card,
+    .support-container .btn,
+    .support-container .priority-label,
+    .support-container .template-card,
+    .support-container .tip-item,
+    .support-container .stat-card,
+    .support-container .file-upload-area {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Remove default outline and fix borders */
+    .support-container .form-control,
+    .support-container .form-select,
+    .support-container textarea {
+        outline: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .support-container .form-control::-webkit-inner-spin-button,
+    .support-container .form-control::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Garantir que ícones do Font Awesome funcionem */
+    .support-container i.fas,
+    .support-container i.far,
+    .support-container i.fab {
+        -webkit-appearance: initial;
+        -moz-appearance: initial;
+        appearance: initial;
+    }
+
+    /* Ícones em fundos coloridos ficam brancos */
+    .hero-section i,
+    .card-header-custom i,
+    .stat-icon i,
+    .ai-icon i,
+    .btn-submit i,
+    .tips-card .card-header i {
+        color: white !important;
+    }
+
+    .hero-section .response-time-badge i {
+        color: white !important;
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 2rem 1rem;
+        }
+
+        .priority-selector {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+
+
+        .smart-popup {
+            bottom: 1rem;
+            right: 1rem;
+            left: 1rem;
+            max-width: none;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="fas fa-ticket-alt"></i> Criar Novo Ticket de Suporte
-                    </h4>
+<!-- Animated Background Particles -->
+<div class="particles" id="particles"></div>
+
+<div class="support-container">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section animate-in">
+            <div class="hero-content">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="display-4 fw-bold mb-3">
+                            <i class="fas fa-headset me-3"></i>
+                            Como podemos ajudar?
+                        </h1>
+                        <p class="lead mb-0">
+                            Descreva seu problema e nossa equipe responderá em breve
+                        </p>
+                        <div class="response-time-badge">
+                            <i class="fas fa-clock"></i>
+                            <span>Tempo médio de resposta: 2 horas</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">Satisfação</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Disponível</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+            </div>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Assunto *</label>
-                            <input type="text" class="form-control" id="subject" name="subject" required maxlength="200">
-                            <small class="text-muted">Descreva brevemente o problema</small>
+        <div class="row">
+            <!-- Form Column -->
+            <div class="col-lg-8 mb-4">
+                <div class="glass-card animate-in">
+                    <div class="card-header-custom">
+                        <h4 class="mb-0">
+                            <i class="fas fa-ticket-alt me-2"></i>
+                            Criar Novo Ticket
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- AI Suggestions -->
+                        <div class="ai-suggestion" id="aiSuggestion">
+                            <div class="ai-suggestion-header">
+                                <div class="ai-icon">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Assistente IA</h6>
+                                    <small>Encontramos soluções que podem ajudar</small>
+                                </div>
+                            </div>
+                            <div class="ai-suggestions-list" id="aiSuggestionsList">
+                                <!-- Suggestions will be inserted here -->
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Categoria *</label>
-                            <select class="form-select" id="category" name="category" required>
-                                <option value="">Selecione uma categoria</option>
-                                {% for value, label in categories %}
-                                <option value="{{ value }}">{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                        <form method="post" enctype="multipart/form-data" id="ticketForm">
+                            {% csrf_token %}
 
-                        <div class="mb-3">
-                            <label for="priority" class="form-label">Prioridade *</label>
-                            <select class="form-select" id="priority" name="priority" required>
-                                {% for value, label in priorities %}
-                                <option value="{{ value }}" {% if value == 'medium' %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                            <!-- Subject -->
+                            <div class="mb-4">
+                                <label for="subject" class="form-label">
+                                    <i class="fas fa-heading"></i>
+                                    Assunto
+                                    <span class="info-tooltip" data-tooltip="Seja claro e específico sobre o problema">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" id="subject" name="subject" required maxlength="200" placeholder="Ex: Problema ao fazer login na plataforma">
+                                <small class="text-muted">Descreva brevemente o problema (mínimo 10 caracteres)</small>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Descrição *</label>
-                            <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
-                            <small class="text-muted">Descreva o problema em detalhes</small>
-                        </div>
+                            <!-- Category -->
+                            <div class="mb-4">
+                                <label for="category" class="form-label">
+                                    <i class="fas fa-folder"></i>
+                                    Categoria
+                                </label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Selecione uma categoria</option>
+                                    {% for value, label in categories %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="attachment" class="form-label">Anexo (opcional)</label>
-                            <input type="file" class="form-control" id="attachment" name="attachment">
-                            <small class="text-muted">Você pode anexar screenshots ou documentos (máx. 10MB)</small>
-                        </div>
+                            <!-- Priority -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    Prioridade
+                                </label>
+                                <div class="priority-selector">
+                                    {% for value, label in priorities %}
+                                    <div class="priority-option">
+                                        <input type="radio" id="priority_{{ value }}" name="priority" value="{{ value }}" {% if value == 'medium' %}checked{% endif %} required>
+                                        <label for="priority_{{ value }}" class="priority-label {{ value }}">
+                                            <i class="fas fa-{% if value == 'low' %}info-circle{% elif value == 'medium' %}exclamation-circle{% elif value == 'high' %}exclamation-triangle{% else %}fire{% endif %} priority-icon"></i>
+                                            <span class="fw-semibold">{{ label }}</span>
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Enviar Ticket
-                            </button>
-                            <a href="{% url 'customer_support_dashboard' %}" class="btn btn-outline-secondary">
-                                Cancelar
-                            </a>
-                        </div>
-                    </form>
+                            <!-- Description -->
+                            <div class="mb-4">
+                                <label for="description" class="form-label">
+                                    <i class="fas fa-align-left"></i>
+                                    Descrição Detalhada
+                                </label>
+                                <textarea class="form-control" id="description" name="description" rows="8" required maxlength="2000" placeholder="Descreva o problema em detalhes. Inclua:&#10;- O que você estava tentando fazer&#10;- O que aconteceu&#10;- Mensagens de erro (se houver)&#10;- Quando o problema começou"></textarea>
+                                <div class="char-counter">
+                                    <span id="charCount">0</span> / 2000 caracteres
+                                </div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-paperclip"></i>
+                                    Anexar Arquivo (Opcional)
+                                </label>
+                                <div class="file-upload-area" id="fileUploadArea">
+                                    <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                                    <h5>Arraste um arquivo aqui</h5>
+                                    <p class="text-muted mb-3">ou clique para selecionar</p>
+                                    <input type="file" class="d-none" id="attachment" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt">
+                                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('attachment').click()">
+                                        <i class="fas fa-folder-open me-2"></i>
+                                        Selecionar Arquivo
+                                    </button>
+                                    <small class="d-block mt-2 text-muted">
+                                        Formatos aceitos: Imagens, PDF, DOC, TXT (máx. 10MB)
+                                    </small>
+                                </div>
+                                <div id="selectedFile" class="selected-file" style="display: none;">
+                                    <i class="fas fa-file"></i>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-semibold" id="fileName"></div>
+                                        <small class="text-muted" id="fileSize"></small>
+                                    </div>
+                                    <i class="fas fa-times remove-file" onclick="removeFile()"></i>
+                                </div>
+                            </div>
+
+                            <!-- Live Preview -->
+                            <div class="live-preview" id="livePreview">
+                                <div class="preview-header">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>
+                                        Pré-visualização do Ticket
+                                    </h6>
+                                    <span class="preview-badge">PREVIEW</span>
+                                </div>
+                                <div id="previewContent">
+                                    <div class="mb-3">
+                                        <strong>Assunto:</strong>
+                                        <div id="previewSubject" class="text-muted">-</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Categoria:</strong>
+                                        <div id="previewCategory" class="text-muted">-</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Prioridade:</strong>
+                                        <div id="previewPriority" class="text-muted">-</div>
+                                    </div>
+                                    <div>
+                                        <strong>Descrição:</strong>
+                                        <div id="previewDescription" class="text-muted">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Buttons -->
+                            <div class="d-grid gap-3">
+                                <button type="submit" class="btn btn-submit">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Enviar Ticket
+                                    <span class="ms-2 kbd">Ctrl+Enter</span>
+                                </button>
+                                <a href="{% url 'customer_support_dashboard' %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    Voltar ao Dashboard
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <!-- Dicas -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Dicas para um atendimento mais rápido</h5>
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Tips Card -->
+                <div class="tips-card glass-card animate-in mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Dicas para Atendimento Rápido
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Seja específico</strong> sobre o problema
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-camera"></i>
+                            <strong>Anexe screenshots</strong> quando possível
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-clock"></i>
+                            <strong>Mencione quando</strong> o problema começou
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-list-ol"></i>
+                            <strong>Descreva os passos</strong> para reproduzir
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-book"></i>
+                            <strong>Consulte o FAQ</strong> antes de abrir ticket
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>Seja claro e específico sobre o problema</li>
-                        <li>Inclua screenshots se possível</li>
-                        <li>Mencione quando o problema começou</li>
-                        <li>Descreva os passos para reproduzir o problema</li>
-                        <li>Verifique a <a href="{% url 'knowledge_base_list' %}">Base de Conhecimento</a> primeiro</li>
-                    </ul>
+
+                <!-- Templates -->
+                <div class="glass-card animate-in mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">
+                            <i class="fas fa-file-alt me-2"></i>
+                            Modelos Rápidos
+                        </h5>
+                        <div class="template-card" data-template="bug">
+                            <div class="template-title">
+                                <i class="fas fa-bug text-danger"></i>
+                                Reportar Bug
+                            </div>
+                            <div class="template-preview">
+                                Encontrei um problema técnico que precisa ser corrigido
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="feature">
+                            <div class="template-title">
+                                <i class="fas fa-lightbulb text-warning"></i>
+                                Sugerir Funcionalidade
+                            </div>
+                            <div class="template-preview">
+                                Tenho uma ideia para melhorar a plataforma
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="account">
+                            <div class="template-title">
+                                <i class="fas fa-user text-info"></i>
+                                Problema de Conta
+                            </div>
+                            <div class="template-preview">
+                                Não consigo acessar minha conta ou perfil
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="payment">
+                            <div class="template-title">
+                                <i class="fas fa-credit-card text-success"></i>
+                                Problema de Pagamento
+                            </div>
+                            <div class="template-preview">
+                                Tive um problema ao realizar um pagamento
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="service">
+                            <div class="template-title">
+                                <i class="fas fa-tools text-primary"></i>
+                                Problema com Serviço
+                            </div>
+                            <div class="template-preview">
+                                Questão relacionada a um serviço contratado
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="other">
+                            <div class="template-title">
+                                <i class="fas fa-question-circle text-secondary"></i>
+                                Outro Assunto
+                            </div>
+                            <div class="template-preview">
+                                Dúvida ou questão geral sobre a plataforma
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass-card animate-in">
+                    <div class="card-body">
+                        <h5 class="mb-3">
+                            <i class="fas fa-bolt me-2"></i>
+                            Ações Rápidas
+                        </h5>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'help_support' %}#faq" class="btn btn-outline-primary">
+                                <i class="fas fa-question-circle me-2"></i>
+                                Perguntas Frequentes
+                            </a>
+                            <a href="{% url 'customer_support_dashboard' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-ticket-alt me-2"></i>
+                                Meus Tickets
+                            </a>
+                            <a href="{% url 'help_support' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-life-ring me-2"></i>
+                                Central de Ajuda
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Smart Popup -->
+<div class="smart-popup" id="smartPopup">
+    <button class="popup-close" onclick="closeSmartPopup()">×</button>
+    <div class="text-center mb-3">
+        <i class="fas fa-lightbulb fa-3x text-warning mb-2"></i>
+        <h5>Dica Inteligente</h5>
+    </div>
+    <p id="smartPopupContent"></p>
+</div>
+
+<!-- Success Modal -->
+<div class="success-modal" id="successModal">
+    <div class="success-content">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h3 class="mb-3">Ticket Criado com Sucesso!</h3>
+        <p class="text-muted mb-4">Sua solicitação foi recebida e será processada em breve.</p>
+        <div class="d-grid gap-2">
+            <a href="{% url 'customer_support_dashboard' %}" class="btn btn-primary">
+                Ver Meus Tickets
+            </a>
+            <button class="btn btn-outline-secondary" onclick="closeSuccessModal()">
+                Criar Outro Ticket
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Keyboard Shortcuts Hint -->
+<div class="keyboard-hint" id="keyboardHint">
+    <i class="fas fa-keyboard me-2"></i>
+    Atalhos: <span class="kbd">Ctrl+S</span> Salvar | <span class="kbd">Ctrl+Enter</span> Enviar | <span class="kbd">Esc</span> Limpar
+</div>
+
+<script>
+    // Form elements
+    const subjectInput = document.getElementById('subject');
+    const categorySelect = document.getElementById('category');
+    const descriptionInput = document.getElementById('description');
+    const fileInput = document.getElementById('attachment');
+    const form = document.getElementById('ticketForm');
+
+    // Character counter
+    const description = descriptionInput; // Alias for compatibility
+    const charCount = document.getElementById('charCount');
+    const charCounter = document.querySelector('.char-counter');
+
+    description.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count;
+
+        charCounter.classList.remove('warning', 'danger');
+        if (count > 1800) {
+            charCounter.classList.add('danger');
+        } else if (count > 1500) {
+            charCounter.classList.add('warning');
+        }
+    });
+
+    // File upload handling
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const selectedFile = document.getElementById('selectedFile');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+
+    // Drag and drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, () => {
+            fileUploadArea.classList.add('dragover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        fileUploadArea.addEventListener(eventName, () => {
+            fileUploadArea.classList.remove('dragover');
+        }, false);
+    });
+
+    fileUploadArea.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            displayFile(files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            displayFile(this.files[0]);
+        }
+    });
+
+    function displayFile(file) {
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        selectedFile.style.display = 'flex';
+        fileUploadArea.style.display = 'none';
+    }
+
+    function removeFile() {
+        fileInput.value = '';
+        selectedFile.style.display = 'none';
+        fileUploadArea.style.display = 'block';
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // Form validation and progress
+    // (variables already defined above)
+
+    // Real-time validation
+    subjectInput.addEventListener('blur', function() {
+        if (this.value.length >= 10) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+
+    categorySelect.addEventListener('change', function() {
+        if (this.value) {
+            this.classList.add('is-valid');
+        }
+    });
+
+    descriptionInput.addEventListener('blur', function() {
+        if (this.value.length >= 20) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+        }
+    });
+
+    // Progress tracking removed - simplified validation
+
+    // Template functions
+    window.useTemplate = function(type, event) {
+        console.log('🎯 useTemplate chamado com tipo:', type);
+
+        // Get form elements
+        const subjectInput = document.getElementById('subject');
+        const categorySelect = document.getElementById('category');
+        const descriptionInput = document.getElementById('description');
+
+        if (!subjectInput || !categorySelect || !descriptionInput) {
+            console.error('❌ Elementos do formulário não encontrados!');
+            return;
+        }
+
+        const templates = {
+            bug: {
+                subject: 'Reportar Bug: ',
+                category: 'technical',
+                description: `Descrição do Bug:
+[Descreva o que aconteceu]
+
+Passos para Reproduzir:
+1. 
+2. 
+3. 
+
+Comportamento Esperado:
+[O que deveria acontecer]
+
+Comportamento Atual:
+[O que está acontecendo]
+
+Informações Adicionais:
+- Navegador: 
+- Sistema Operacional: 
+- Data/Hora: ${new Date().toLocaleString('pt-BR')}`
+            },
+            feature: {
+                subject: 'Sugestão de Funcionalidade: ',
+                category: 'feature_request',
+                description: `Descrição da Funcionalidade:
+[Descreva a funcionalidade sugerida]
+
+Problema que Resolve:
+[Qual problema esta funcionalidade resolveria]
+
+Benefícios:
+[Como isso melhoraria a experiência]
+
+Exemplos de Uso:
+[Como você usaria esta funcionalidade]`
+            },
+            account: {
+                subject: 'Problema com Conta: ',
+                category: 'account',
+                description: `Descrição do Problema:
+[Descreva o problema com sua conta]
+
+O que você tentou fazer:
+[Descreva as ações que você tentou]
+
+Mensagens de Erro:
+[Cole aqui qualquer mensagem de erro]
+
+Quando começou:
+[Quando você notou o problema pela primeira vez]`
+            },
+            payment: {
+                subject: 'Problema de Pagamento: ',
+                category: 'billing',
+                description: `Descrição do Problema:
+[Descreva o problema com o pagamento]
+
+Método de Pagamento Utilizado:
+[Cartão de crédito, PIX, boleto, etc.]
+
+Valor da Transação:
+R$ [valor]
+
+Data e Hora da Tentativa:
+${new Date().toLocaleString('pt-BR')}
+
+Mensagem de Erro (se houver):
+[Cole aqui a mensagem de erro]
+
+Número do Pedido (se aplicável):
+[Número do pedido]
+
+Informações Adicionais:
+[Qualquer outra informação relevante]`
+            },
+            service: {
+                subject: 'Problema com Serviço: ',
+                category: 'service_issue',
+                description: `Descrição do Problema:
+[Descreva o problema com o serviço]
+
+Serviço Contratado:
+[Nome do serviço ou profissional]
+
+Número do Pedido:
+[Se aplicável]
+
+Data do Serviço:
+[Quando o serviço foi/será realizado]
+
+O que aconteceu:
+[Descreva detalhadamente o problema]
+
+Expectativa:
+[O que você esperava que acontecesse]
+
+Solução Desejada:
+[Como você gostaria que o problema fosse resolvido]`
+            },
+            other: {
+                subject: 'Dúvida/Questão: ',
+                category: 'general',
+                description: `Assunto:
+[Sobre o que é sua dúvida ou questão]
+
+Descrição Detalhada:
+[Descreva sua dúvida ou questão em detalhes]
+
+Contexto:
+[Forneça contexto adicional se necessário]
+
+O que você já tentou:
+[Se aplicável, descreva o que você já tentou]
+
+Informações Adicionais:
+[Qualquer outra informação que possa ajudar]`
+            }
+        };
+
+        const template = templates[type];
+        if (template) {
+            console.log('✅ Template encontrado:', template);
+
+            // Remove previous selections
+            const templateCards = document.querySelectorAll('.template-card');
+            templateCards.forEach(card => {
+                card.classList.remove('selected', 'success-animation');
+            });
+
+            // Mark current as selected
+            if (event) {
+                const currentCard = event.target.closest('.template-card');
+                if (currentCard) {
+                    currentCard.classList.add('selected');
+                }
+            }
+
+            // Fill form
+            subjectInput.value = template.subject;
+            categorySelect.value = template.category;
+            descriptionInput.value = template.description;
+
+            // Trigger validation
+            subjectInput.dispatchEvent(new Event('blur'));
+            categorySelect.dispatchEvent(new Event('change'));
+
+            // Update live preview
+            updateLivePreview();
+
+            // Show notification
+            showNotification(`Modelo "${type}" aplicado com sucesso! ✨`, 'success');
+
+            // Scroll to form smoothly
+            setTimeout(() => {
+                document.querySelector('.glass-card').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                // Focus on subject to allow user to continue typing
+                setTimeout(() => {
+                    subjectInput.focus();
+                    // Move cursor to end
+                    subjectInput.setSelectionRange(subjectInput.value.length, subjectInput.value.length);
+                }, 500);
+            }, 100);
+        }
+    };
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('.btn-submit');
+
+        // Final validation
+        if (subjectInput.value.length < 10) {
+            e.preventDefault();
+            subjectInput.classList.add('is-invalid');
+            subjectInput.focus();
+            return;
+        }
+
+        if (descriptionInput.value.length < 20) {
+            e.preventDefault();
+            descriptionInput.classList.add('is-invalid');
+            descriptionInput.focus();
+            return;
+        }
+
+        // Update UI
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando seu ticket...';
+        submitBtn.disabled = true;
+    });
+
+    // Auto-save to localStorage
+    const autoSave = () => {
+        const formData = {
+            subject: subjectInput.value,
+            category: categorySelect.value,
+            description: descriptionInput.value,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('ticketDraft', JSON.stringify(formData));
+    };
+
+    // Load draft if exists
+    const loadDraft = () => {
+        const draft = localStorage.getItem('ticketDraft');
+        if (draft) {
+            try {
+                const data = JSON.parse(draft);
+                const draftAge = new Date() - new Date(data.timestamp);
+
+                // Only load if draft is less than 24 hours old
+                if (draftAge < 24 * 60 * 60 * 1000) {
+                    if (confirm('Encontramos um rascunho salvo. Deseja carregá-lo?')) {
+                        subjectInput.value = data.subject || '';
+                        categorySelect.value = data.category || '';
+                        descriptionInput.value = data.description || '';
+                    } else {
+                        localStorage.removeItem('ticketDraft');
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading draft:', e);
+            }
+        }
+    };
+
+    // Auto-save every 30 seconds
+    setInterval(autoSave, 30000);
+
+    // Load draft on page load
+    loadDraft();
+
+    // Clear draft on successful submission
+    form.addEventListener('submit', function() {
+        localStorage.removeItem('ticketDraft');
+    });
+
+    // ============ ADVANCED FEATURES ============
+
+    // 1. Animated Background Particles
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.width = Math.random() * 5 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    // 2. AI-Powered Suggestions
+    const aiSuggestions = {
+        'login': [{
+                text: 'Verifique se seu email está correto',
+                link: '#'
+            },
+            {
+                text: 'Tente redefinir sua senha',
+                link: '#'
+            },
+            {
+                text: 'Limpe o cache do navegador',
+                link: '#'
+            }
+        ],
+        'pagamento': [{
+                text: 'Verifique os dados do cartão',
+                link: '#'
+            },
+            {
+                text: 'Confirme se há saldo disponível',
+                link: '#'
+            },
+            {
+                text: 'Tente outro método de pagamento',
+                link: '#'
+            }
+        ],
+        'erro': [{
+                text: 'Atualize a página e tente novamente',
+                link: '#'
+            },
+            {
+                text: 'Verifique sua conexão com a internet',
+                link: '#'
+            },
+            {
+                text: 'Tente usar outro navegador',
+                link: '#'
+            }
+        ]
+    };
+
+    let aiSuggestionTimeout;
+    subjectInput.addEventListener('input', function() {
+                clearTimeout(aiSuggestionTimeout);
+                const value = this.value.toLowerCase();
+
+                aiSuggestionTimeout = setTimeout(() => {
+                        let foundSuggestions = null;
+
+                        for (const [key, suggestions] of Object.entries(aiSuggestions)) {
+                            if (value.includes(key)) {
+                                foundSuggestions = suggestions;
+                                break;
+                            }
+                        }
+
+                        if (foundSuggestions && value.length > 5) {
+                            showAISuggestions(foundSuggestions);
+                            put.value || '-';
+                            document.getElementById('previewCategory').textContent =
+                                categorySelect.options[categorySelect.selectedIndex] ? .text || '-';
+
+                            const selectedPriority = document.querySelector('input[name="priority"]:checked');
+                            document.getElementById('previewPriority').textContent =
+                                selectedPriority ? .nextElementSibling.textContent.trim() || '-';
+
+                            document.getElementById('previewDescription').textContent =
+                                descriptionInput.value || '-';
+                        } else {
+                            preview.classList.remove('show');
+                        }
+                    }
+
+                    [subjectInput, categorySelect, descriptionInput].forEach(el => {
+                        el.addEventListener('input', updateLivePreview);
+                        el.addEventListener('change', updateLivePreview);
+                    });
+
+                    document.querySelectorAll('input[name="priority"]').forEach(radio => {
+                        radio.addEventListener('change', updateLivePreview);
+                    });
+
+                    // 4. Smart Popup Tips
+                    const smartTips = [
+                        'Dica: Seja específico no título para receber ajuda mais rápida!',
+                        'Dica: Anexar screenshots ajuda muito na resolução!',
+                        'Dica: Descreva os passos que levaram ao problema.',
+                        'Dica: Mencione o navegador e sistema operacional que está usando.'
+                    ];
+
+                    let tipIndex = 0;
+
+                    function showSmartTip() {
+                        const popup = document.getElementById('smartPopup');
+                        const content = document.getElementById('smartPopupContent');
+                        content.textContent = smartTips[tipIndex];
+                        popup.classList.add('show');
+                        tipIndex = (tipIndex + 1) % smartTips.length;
+
+                        setTimeout(() => {
+                            popup.classList.remove('show');
+                        }, 5000);
+                    }
+
+                    // Show first tip after 10 seconds
+                    setTimeout(showSmartTip, 10000);
+                    // Show tips every 30 seconds
+                    setInterval(showSmartTip, 30000);
+
+                    window.closeSmartPopup = function() {
+                        document.getElementById('smartPopup').classList.remove('show');
+                    };
+
+                    // 5. Keyboard Shortcuts
+                    document.addEventListener('keydown', function(e) {
+                        // Ctrl+S: Auto-save
+                        if (e.ctrlKey && e.key === 's') {
+                            e.preventDefault();
+                            autoSave();
+                            showNotification('Rascunho salvo!', 'success');
+                        }
+
+                        // Ctrl+Enter: Submit form
+                        if (e.ctrlKey && e.key === 'Enter') {
+                            e.preventDefault();
+                            form.requestSubmit();
+                        }
+
+                        // Esc: Clear form
+                        if (e.key === 'Escape') {
+                            if (confirm('Deseja limpar o formulário?')) {
+                                form.reset();
+                                updateLivePreview();
+                                localStorage.removeItem('ticketDraft');
+                            }
+                        }
+
+                        // Show keyboard hints on Ctrl press
+                        if (e.ctrlKey) {
+                            document.getElementById('keyboardHint').classList.add('show');
+                        }
+                    });
+
+                    document.addEventListener('keyup', function(e) {
+                        if (!e.ctrlKey) {
+                            document.getElementById('keyboardHint').classList.remove('show');
+                        }
+                    });
+
+                    // 6. Confetti Effect on Success
+                    function createConfetti() {
+                        const colors = ['#667eea', '#764ba2', '#10b981', '#f59e0b', '#ef4444'];
+                        for (let i = 0; i < 50; i++) {
+                            setTimeout(() => {
+                                const confetti = document.createElement('div');
+                                confetti.className = 'confetti';
+                                confetti.style.left = Math.random() * 100 + '%';
+                                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                                document.body.appendChild(confetti);
+
+                                setTimeout(() => confetti.remove(), 3000);
+                            }, i * 30);
+                        }
+                    }
+
+                    // 7. Success Modal (for demo - in production this would be triggered by server response)
+                    window.closeSuccessModal = function() {
+                        document.getElementById('successModal').classList.remove('show');
+                        form.reset();
+                        updateLivePreview();
+                    };
+
+                    // 8. Notification System
+                    function showNotification(message, type = 'info') {
+                        const notification = document.createElement('div');
+                        notification.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: ${type === 'success' ? '#10b981' : '#3b82f6'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 9999;
+            animation: slideInRight 0.5s ease;
+        `;
+                        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
+            ${message}
+        `;
+                        document.body.appendChild(notification);
+
+                        setTimeout(() => {
+                            notification.style.animation = 'slideOutRight 0.5s ease';
+                            setTimeout(() => notification.remove(), 500);
+                        }, 3000);
+                    }
+
+                    // 9. Character Count with Progress Bar
+                    const maxChars = 2000; descriptionInput.addEventListener('input', function() {
+                        const count = this.value.length;
+                        const percentage = (count / maxChars) * 100;
+
+                        // Update counter color based on usage
+                        charCounter.style.color = percentage > 90 ? '#ef4444' :
+                            percentage > 75 ? '#f59e0b' : '#6b7280';
+                    });
+
+                    // 10. Form Field Animations
+                    document.querySelectorAll('.form-control, .form-select').forEach(field => {
+                        field.addEventListener('focus', function() {
+                            this.parentElement.style.transform = 'scale(1.02)';
+                        });
+
+                        field.addEventListener('blur', function() {
+                            this.parentElement.style.transform = 'scale(1)';
+                        });
+                    });
+
+                    // 11. Priority Selection Animation
+                    document.querySelectorAll('.priority-label').forEach(label => {
+                        label.addEventListener('click', function() {
+                            // Add ripple effect
+                            const ripple = document.createElement('span');
+                            ripple.style.cssText = `
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: rgba(102, 126, 234, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+                            this.appendChild(ripple);
+                            setTimeout(() => ripple.remove(), 600);
+                        });
+                    });
+
+                    // 12. Auto-expand Textarea
+                    descriptionInput.addEventListener('input', function() {
+                        this.style.height = 'auto';
+                        this.style.height = this.scrollHeight + 'px';
+                    });
+
+                    // 13. Paste Image Detection
+                    descriptionInput.addEventListener('paste', function(e) {
+                        const items = e.clipboardData.items;
+                        for (let item of items) {
+                            if (item.type.indexOf('image') !== -1) {
+                                showNotification('Imagem detectada! Use o campo de anexo para enviar imagens.', 'info');
+                            }
+                        }
+                    });
+
+                    // 14. Session Timer
+                    let sessionStart = Date.now(); setInterval(() => {
+                        const elapsed = Math.floor((Date.now() - sessionStart) / 1000);
+                        if (elapsed > 300 && elapsed % 60 === 0) { // Every minute after 5 minutes
+                            autoSave();
+                        }
+                    }, 1000);
+
+                    // 15. Initialize everything
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Add CSS animations
+                        const style = document.createElement('style');
+                        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes ripple {
+                to { transform: scale(4); opacity: 0; }
+            }
+        `;
+                        document.head.appendChild(style);
+
+                        // Show welcome message
+                        setTimeout(() => {
+                            showNotification('Bem-vindo! Estamos aqui para ajudar 😊', 'info');
+                        }, 1000);
+
+                        // Adicionar event listeners aos template cards
+                        const templateCards = document.querySelectorAll('.template-card[data-template]');
+                        console.log('📋 Template cards encontrados:', templateCards.length);
+
+                        templateCards.forEach((card, index) => {
+                            console.log(`✅ Configurando card ${index + 1}:`, card.getAttribute('data-template'));
+
+                            card.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                const templateType = this.getAttribute('data-template');
+                                console.log('🎯 Template clicado:', templateType);
+
+                                if (templateType && typeof window.useTemplate === 'function') {
+                                    window.useTemplate(templateType, e);
+                                } else {
+                                    console.error('❌ Função useTemplate não encontrada');
+                                    console.log('Tipo:', templateType, 'Função:', typeof window.useTemplate);
+                                }
+                            });
+                        });
+
+                        console.log('✅ Event listeners dos templates configurados!');
+                        console.log('🚀 Sistema de Suporte Avançado Carregado!');
+                    });
+                });
+</script>
 {% endblock %}
+} else {
+document.getElementById('aiSuggestion').classList.remove('show');
+}
+}, 1000);
+});
+
+function showAISuggestions(suggestions) {
+const container = document.getElementById('aiSuggestionsList');
+container.innerHTML = suggestions.map(s =>
+`<div class="ai-suggestion-item" onclick="window.open('${s.link}', '_blank')">
+    <i class="fas fa-lightbulb me-2"></i>${s.text}
+</div>`
+).join('');
+document.getElementById('aiSuggestion').classList.add('show');
+}
+
+// 3. Live Preview
+function updateLivePreview() {
+const preview = document.getElementById('livePreview');
+const hasContent = subjectInput.value || categorySelect.value || descriptionInput.value;
+
+if (hasContent) {
+preview.classList.add('show');
+document.getElementById('previewSubject').textContent

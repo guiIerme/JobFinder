@@ -180,7 +180,7 @@
                         <a class="nav-link" href="{% url 'about' %}">Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contato</a>
+                        <a class="nav-link" href="{% url 'create_support_ticket' %}">Suporte</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="{% url 'help_support' %}">
@@ -216,9 +216,15 @@
                             <li><a class="dropdown-item" href="{% url 'provider_dashboard' %}"><i class="fas fa-toolbox me-2"></i>Painel do Prestador</a></li>
                             {% elif user.userprofile.user_type == 'customer' %}
                             <li><a class="dropdown-item" href="{% url 'my_orders' %}"><i class="fas fa-clipboard-list me-2"></i>Meus Pedidos</a></li>
+                            <li><a class="dropdown-item" href="{% url 'customer_support_dashboard' %}"><i class="fas fa-headset me-2"></i>Suporte</a></li>
+                            {% elif user.userprofile.user_type == 'support' %}
+                            <li><a class="dropdown-item" href="{% url 'agent_support_dashboard' %}"><i class="fas fa-headset me-2"></i>Dashboard de Suporte</a></li>
+                            <li><a class="dropdown-item" href="{% url 'agent_ticket_list' %}"><i class="fas fa-list me-2"></i>Todos os Tickets</a></li>
+                            <li><a class="dropdown-item" href="{% url 'agent_statistics' %}"><i class="fas fa-chart-bar me-2"></i>Minhas Estatísticas</a></li>
                             {% elif user.userprofile.user_type == 'admin' %}
                             <li><a class="dropdown-item" href="{% url 'admin_dashboard_new' %}"><i class="fas fa-cogs me-2"></i>Painel Administrativo</a></li>
                             <li><a class="dropdown-item" href="{% url 'ai_dashboard' %}"><i class="fas fa-brain me-2"></i>AI Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'agent_support_dashboard' %}"><i class="fas fa-headset me-2"></i>Dashboard de Suporte</a></li>
                             {% endif %}
                             <li>
                                 <hr class="dropdown-divider">
@@ -326,8 +332,13 @@
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h5 class="mb-3">Contato</h5>
+                    <h5 class="mb-3">Suporte</h5>
                     <ul class="list-unstyled text-muted">
+                        <li class="mb-2">
+                            <a href="{% url 'create_support_ticket' %}" class="text-muted text-decoration-none">
+                                <i class="fas fa-headset me-2"></i>Abrir Ticket de Suporte
+                            </a>
+                        </li>
                         <li class="mb-2"><i class="fas fa-envelope me-2"></i>contato@jobfinder.com</li>
                         <li class="mb-2"><i class="fas fa-phone me-2"></i>(61) 98196-1144</li>
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Brasília, DF</li>

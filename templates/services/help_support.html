@@ -472,7 +472,7 @@
     </div>
 
     <!-- FAQ Section -->
-    <div class="faq-section" id="account-help">
+    <div class="faq-section" id="faq">
         <div class="section-title">
             <i class="fas fa-question-circle"></i>
             <span>Perguntas Frequentes</span>
@@ -610,8 +610,21 @@
     </div>
 
     <script>
-        // Debug dos botões
+        // Scroll suave para âncoras
         document.addEventListener('DOMContentLoaded', function() {
+            // Se a URL contém #faq, rolar suavemente para a seção
+            if (window.location.hash === '#faq') {
+                setTimeout(() => {
+                    const faqSection = document.getElementById('faq');
+                    if (faqSection) {
+                        faqSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 100);
+            }
+
             console.log('🔧 Inicializando botões de suporte...');
 
             // Botão Enviar E-mail
