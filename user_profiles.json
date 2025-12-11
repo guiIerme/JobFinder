@@ -4396,9 +4396,21 @@
         "type": "view",
         "content_id": null,
         "timestamp": "2025-12-02T16:28:42.058085"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T17:13:39.402330"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T17:24:00.373783"
       }
     ],
-    "last_updated": "2025-12-02T16:28:42.058085"
+    "last_updated": "2025-12-02T17:24:00.373783"
   },
   "52": {
     "user_id": "52",
@@ -5386,8 +5398,20 @@
         "type": "view",
         "content_id": null,
         "timestamp": "2025-12-02T16:38:11.121227"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T16:52:30.312821"
+      },
+      {
+        "page": "/",
+        "type": "view",
+        "content_id": null,
+        "timestamp": "2025-12-02T16:52:39.375993"
       }
     ],
-    "last_updated": "2025-12-02T16:38:11.121227"
+    "last_updated": "2025-12-02T16:52:39.375993"
   }
 }

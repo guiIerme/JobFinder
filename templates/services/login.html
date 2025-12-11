@@ -16,19 +16,19 @@
                         <h2 class="fw-bold mb-2">Entrar</h2>
                         <p class="text-muted">Acesse sua conta para continuar</p>
                     </div>
-                    
+
                     {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas {% if message.tags == 'success' %}fa-check-circle text-success{% elif message.tags == 'danger' %}fa-exclamation-circle text-danger{% elif message.tags == 'warning' %}fa-exclamation-triangle text-warning{% else %}fa-info-circle text-info{% endif %} me-2 fa-lg"></i>
-                                    <div class="flex-grow-1">{{ message }}</div>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            </div>
-                        {% endfor %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="fas {% if message.tags == 'success' %}fa-check-circle text-success{% elif message.tags == 'danger' %}fa-exclamation-circle text-danger{% elif message.tags == 'warning' %}fa-exclamation-triangle text-warning{% else %}fa-info-circle text-info{% endif %} me-2 fa-lg"></i>
+                            <div class="flex-grow-1">{{ message }}</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    {% endfor %}
                     {% endif %}
-                    
+
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="mb-4">
@@ -41,7 +41,7 @@
                                 <div class="invalid-feedback">Por favor, informe seu e-mail ou nome de usuário.</div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label for="password" class="form-label fw-bold">Senha</label>
                             <div class="modern-input-group input-group rounded-pill overflow-hidden shadow-sm">
@@ -55,7 +55,7 @@
                                 <div class="invalid-feedback">Por favor, informe sua senha.</div>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
@@ -65,16 +65,33 @@
                             </div>
                             <a href="{% url 'password_reset' %}" class="text-decoration-none fw-bold">Esqueceu a senha?</a>
                         </div>
-                        
+
                         <div class="d-grid gap-3">
                             <button type="submit" class="modern-btn modern-btn-primary btn-lg rounded-pill fw-bold py-3">
                                 <i class="fas fa-sign-in-alt me-2"></i>Entrar
                             </button>
                         </div>
                     </form>
-                    
+
                     <div class="text-center mt-4">
                         <p class="mb-0">Não tem uma conta? <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Registre-se</a></p>
+                    </div>
+
+                    <!-- Terms and Privacy Footer -->
+                    <div class="mt-4 pt-4 border-top">
+                        <p class="text-center text-muted small mb-2">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Ao usar o Job Finder, você concorda com nossos:
+                        </p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="{% url 'terms' %}" target="_blank" class="text-decoration-none small">
+                                <i class="fas fa-file-contract me-1"></i>Termos de Serviço
+                            </a>
+                            <span class="text-muted">•</span>
+                            <a href="{% url 'privacy' %}" target="_blank" class="text-decoration-none small">
+                                <i class="fas fa-user-shield me-1"></i>Política de Privacidade
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +107,7 @@
         const passwordField = document.getElementById('password');
         const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordField.setAttribute('type', type);
-        
+
         // Toggle eye icon
         const icon = this.querySelector('i');
         if (type === 'password') {
@@ -99,20 +116,20 @@
             icon.className = 'fas fa-eye-slash';
         }
     });
-    
+
     // Form validation
     (function() {
         'use strict';
-        
+
         const forms = document.querySelectorAll('.needs-validation');
-        
+
         Array.from(forms).forEach(function(form) {
             form.addEventListener('submit', function(event) {
                 if (!form.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
-                
+
                 form.classList.add('was-validated');
             }, false);
         });

@@ -11,7 +11,7 @@
     ]
   },
   "/": {
-    "views": 875,
+    "views": 879,
     "clicks": 0,
     "interactions": [
       {
@@ -4388,6 +4388,26 @@
         "user_id": "181",
         "type": "view",
         "timestamp": "2025-12-02T16:38:11.121227"
+      },
+      {
+        "user_id": "181",
+        "type": "view",
+        "timestamp": "2025-12-02T16:52:30.312821"
+      },
+      {
+        "user_id": "181",
+        "type": "view",
+        "timestamp": "2025-12-02T16:52:39.375993"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T17:13:39.402330"
+      },
+      {
+        "user_id": "1",
+        "type": "view",
+        "timestamp": "2025-12-02T17:24:00.373783"
       }
     ]
   },

@@ -21,6 +21,12 @@ class LoginRequiredMiddleware:
             'login',
             'logout',
             'register',
+            'terms',           # Termos de Serviço
+            'privacy',         # Política de Privacidade
+            'about',           # Sobre
+            'faq',             # FAQ
+            'help_support',    # Ajuda e Suporte
+            'home',            # Página inicial
         ]
         
         # Check if the path is exempt
@@ -35,8 +41,14 @@ class LoginRequiredMiddleware:
             current_url_name = request.resolver_match.url_name if request.resolver_match else None
             if current_url_name in exempt_url_names:
                 is_exempt = True
-        except:
+        except Exception as e:
+            # Log the error for debugging
             pass
+        
+        # Also check by path for common public pages
+        public_paths = ['/terms/', '/privacy/', '/about/', '/faq/', '/help-support/', '/']
+        if request.path in public_paths:
+            is_exempt = True
         
         # Special case for register - now accessible to everyone
         if request.path == '/register/':
