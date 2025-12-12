@@ -16,6 +16,6 @@ python manage.py migrate --noinput
 echo "📁 Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
 
-# Iniciar servidor
-echo "🌐 Iniciando servidor na porta $PORT..."
-exec daphne home_services.asgi:application --port $PORT --bind 0.0.0.0 -v2
+# Iniciar servidor com Gunicorn
+echo "🌐 Iniciando servidor Gunicorn na porta $PORT..."
+exec gunicorn home_services.wsgi:application --bind 0.0.0.0:$PORT --workers 2

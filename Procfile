@@ -1,2 +1,1 @@
-web: bash start.sh
-worker: python manage.py runworker channels
+web: python manage.py runserver 0.0.0.0:$PORT
