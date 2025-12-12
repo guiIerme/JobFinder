@@ -11,8 +11,16 @@ import logging
 from typing import Dict, List, Optional, Tuple
 from django.conf import settings
 from django.core.cache import cache
-from openai import OpenAI, OpenAIError
 import time
+
+# Importação opcional do OpenAI
+try:
+    from openai import OpenAI, OpenAIError
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OpenAI = None
+    OpenAIError = Exception
+    OPENAI_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -30,12 +38,17 @@ class AIProcessor:
     
     def __init__(self):
         """Initialize OpenAI client with API key from settings"""
-        self.api_key = settings.CHAT_CONFIG.get('OPENAI_API_KEY')
-        if not self.api_key:
-            logger.warning('OpenAI API key not configured. AI responses will use fallback mode.')
+        if not OPENAI_AVAILABLE:
+            logger.warning('OpenAI library not available. AI responses will use fallback mode.')
             self.client = None
+            self.api_key = None
         else:
-            self.client = OpenAI(api_key=self.api_key)
+            self.api_key = settings.CHAT_CONFIG.get('OPENAI_API_KEY')
+            if not self.api_key:
+                logger.warning('OpenAI API key not configured. AI responses will use fallback mode.')
+                self.client = None
+            else:
+                self.client = OpenAI(api_key=self.api_key)
         
         self.model = settings.CHAT_CONFIG.get('OPENAI_MODEL', 'gpt-4')
         self.temperature = settings.CHAT_CONFIG.get('OPENAI_TEMPERATURE', 0.7)
