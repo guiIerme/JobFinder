@@ -1,0 +1,433 @@
+/* Custom Admin CSS for Job Finder */
+:root {
+    --primary-color: #7c3aed;
+    --primary-dark: #6d28d9;
+    --secondary-color: #f3f3f5;
+    --success-color: #7c3aed; /* Changed from green (#27ae60) to match primary color */
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --text-color: #2c3e50;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --light-gray: #ecf0f1;
+    --dark-gray: #7f8c8d;
+    --border-radius: 1rem;
+    --border-radius-sm: 0.5rem;
+    --border-radius-lg: 1.5rem;
+    --border-radius-xl: 2rem;
+    --border-radius-pill: 50rem;
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    --box-shadow-xl: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease-in-out;
+    --transition-fast: all 0.15s ease-in-out;
+    --transition-slow: all 0.5s ease-in-out;
+}
+
+/* Body and overall layout */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: var(--text-color);
+}
+
+/* Header */
+#header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Navigation */
+#user-tools {
+    color: var(--dark-gray);
+}
+
+#user-tools a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Buttons */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Forms */
+.form-row {
+    border-bottom: 1px solid var(--light-gray);
+    padding: 10px 0;
+}
+
+.form-row:last-child {
+    border-bottom: none;
+}
+
+/* Tables */
+th {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: var(--secondary-color);
+}
+
+/* Messages */
+ul.messagelist li {
+    border-radius: 8px;
+    border: none;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+ul.messagelist li.success {
+    background-color: var(--primary-color); /* Changed from green to primary color */
+    color: white;
+}
+
+ul.messagelist li.warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+ul.messagelist li.error {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Cards and modules */
+.module {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-sm);
+    margin-bottom: 25px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.module:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+/* Change list */
+.change-list .filtered {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 20px;
+    box-shadow: var(--box-shadow-sm);
+}
+
+/* Pagination */
+.paginator {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    padding: 1rem;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.paginator a:link, .paginator a:visited {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius-sm);
+    padding: 0.5em 0.75em;
+    text-decoration: none;
+    margin: 0 2px;
+    transition: all 0.3s ease;
+}
+
+.paginator a:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.paginator .this-page {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius-sm);
+    padding: 0.5em 0.75em;
+    box-shadow: var(--box-shadow-sm);
+}
+
+/* Object tools */
+.object-tools {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.object-tools a {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius-sm);
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.object-tools a:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.object-tools a.addlink {
+    background-color: var(--primary-color); /* Changed from green to primary color */
+}
+
+.object-tools a.addlink:hover {
+    background-color: var(--primary-dark); /* Changed from #219653 to primary-dark */
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1rem;
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow-sm);
+}
+
+/* Form fields */
+input, textarea, select {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow-sm);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.25);
+}
+
+/* Calendar and clock widgets */
+.calendarbox, .clockbox {
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.calendarbox h2, .clockbox h2 {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.calendarbox .calendar-cancel, .clockbox .calendar-cancel {
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    border-radius: var(--border-radius-sm);
+    padding: 0.5rem 1rem;
+    box-shadow: var(--box-shadow-sm);
+}
+
+/* Related widget */
+.related-widget-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Submit row */
+.submit-row {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.submit-row:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.submit-row input, .submit-row input.default {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.submit-row input:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.submit-row input.deletelink {
+    background-color: var(--danger-color);
+}
+
+.submit-row input.deletelink:hover {
+    background-color: #c0392b;
+}
+
+/* Settings page styles */
+.settings-section {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-sm);
+    margin-bottom: 25px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.settings-section:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.settings-section .card-header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-label {
+    font-weight: 500;
+}
+
+.settings-description {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 3px;
+}
+
+/* Modal styles */
+.modal-content {
+    background-color: white;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.modal-header {
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.modal-footer {
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+    background-color: #f8f9fa;
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+}
+
+/* Modern card styles for modals */
+.modern-card {
+    background-color: white;
+    border: none;
+}
+
+.modern-card-header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.25);
+}
+
+/* System information cards */
+.system-info-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: var(--border-radius-sm);
+    background-color: white;
+    box-shadow: var(--box-shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.system-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.system-info-card .fs-4 {
+    font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .submit-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .object-tools {
+        flex-direction: column;
+    }
+    
+    .settings-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

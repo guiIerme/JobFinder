@@ -2,11 +2,12 @@ services:
   - type: web
     name: jobfinder
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python manage.py runserver 0.0.0.0:$PORT
-    preDeployCommand: python manage.py collectstatic --noinput && python manage.py migrate --noinput
+    buildCommand: ./build.sh
+    startCommand: gunicorn home_services.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DEBUG
         value: False
       - key: DJANGO_SETTINGS_MODULE
-        value: home_services.settings
+        value: home_services.render_settings
+      - key: ALLOWED_HOSTS
+        value: jobfinder-b3at.onrender.com,localhost,127.0.0.1

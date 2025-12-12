@@ -1,0 +1,244 @@
+/* Modern CSS Enhancements for Job Finder */
+:root {
+    --primary-color: #6f42c1;
+    --secondary-color: #4e73df;
+    --success-color: #1cc88a;
+    --info-color: #36b9cc;
+    --warning-color: #f6c23e;
+    --danger-color: #e74a3b;
+    --dark-color: #5a5c69;
+    --light-color: #f8f9fc;
+    --border-radius: 12px;
+    --box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    --transition: all 0.3s ease-in-out;
+}
+
+/* Modern Card Styles */
+.modern-card {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.modern-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e3e6f0;
+    background-color: #f8f9fc;
+    font-weight: 700;
+}
+
+.modern-card-body {
+    padding: 2rem;
+}
+
+/* Modern Form Controls */
+.modern-form-control {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d3e2;
+    transition: var(--transition);
+}
+
+.modern-form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+/* Modern Buttons */
+.modern-btn {
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+}
+
+.modern-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.modern-btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.modern-btn-primary:hover {
+    background-color: #5a32a3;
+    color: white;
+}
+
+.modern-btn-outline {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+}
+
+.modern-btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Modern Badges */
+.modern-badge {
+    padding: 0.5em 0.75em;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* Hover Effects */
+.modern-hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Progress Bars */
+.modern-progress-container {
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #e9ecef;
+    margin-top: 1rem;
+}
+
+.modern-progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease-in-out;
+}
+
+/* Stats Icons */
+.modern-stats-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Testimonial Card Enhancements */
+.testimonial-card {
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modern-fade-in-up {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modern-card-header {
+        padding: 1.25rem;
+    }
+    
+    .modern-card-body {
+        padding: 1.5rem;
+    }
+    
+    .modern-btn {
+        padding: 0.6rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .modern-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .modern-stats-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+}
+
+/* Notification Styles */
+.modern-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modern-notification.show {
+    transform: translateX(0);
+}
+
+.modern-notification.success {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+.modern-notification.error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
+
+.modern-notification.warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.modern-notification.info {
+    background-color: #d1ecf1;
+    border-left: 4px solid #17a2b8;
+}
+
+/* Count Animation */
+.modern-count-animation {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Input Groups */
+.modern-input-group {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modern-input-group .form-control {
+    border-radius: 0;
+}
+
+.modern-input-group .btn {
+    border-radius: 0;
+}
+
+.modern-input-group .input-group-text {
+    border-radius: 0;
+}

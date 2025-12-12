@@ -34,6 +34,13 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 if ALLOWED_HOSTS == ['']:
     ALLOWED_HOSTS = ['*']
 
+# CSRF trusted origins for Render
+CSRF_TRUSTED_ORIGINS = [
+    'https://jobfinder-b3at.onrender.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
 # Make sure HTTPS is not enforced
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = 0
@@ -94,6 +101,7 @@ MIDDLEWARE = [
     
     # Security and CORS (must be first)
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise for static files
     'corsheaders.middleware.CorsMiddleware',  # CORS middleware (must be before CommonMiddleware)
     
     # Session and authentication
@@ -288,9 +296,14 @@ CDN_AVIF_ENABLED = False  # Enable when pillow-avif-plugin is installed
 
 # Static files configuration
 STATIC_URL = f"{CDN_URL}{CDN_STATIC_PATH}" if CDN_ENABLED else '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+# WhiteNoise configuration for static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Storage backends for CDN
 if CDN_ENABLED:
