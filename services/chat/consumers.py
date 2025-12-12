@@ -418,11 +418,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
             ]
             
             # Generate AI response
-            assistant_content, ai_metadata = await ai_processor.process_message(
-                content, 
-                context, 
-                history_list
-            )
+            try:
+                assistant_content, ai_metadata = await ai_processor.process_message(
+                    content, 
+                    context, 
+                    history_list
+                )
+            except Exception as ai_error:
+                logger.error(f"AI processing error: {ai_error}", exc_info=True)
+                # Fallback to simple response
+                assistant_content = "Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente."
+                ai_metadata = {
+                    'intent': 'error',
+                    'cached': False,
+                    'fallback': True,
+                    'error': str(ai_error)
+                }
             
             # Calculate response time
             end_time = time.time()

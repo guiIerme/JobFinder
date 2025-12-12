@@ -237217,6 +237217,370 @@
       "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
       "ip_address": "10.160.216.54",
       "response_status": 200
+    },
+    {
+      "user_id": "anonymous",
+      "page_visited": "/login/",
+      "time_spent": 0.037645,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:12:43.761194",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/login/",
+      "time_spent": 1.812038,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:12:52.183911",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 302
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.105405,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:12:52.335762",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.006086,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:12:52.428103",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.324247,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:12:52.963492",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.057675,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:12:58.609951",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.041279,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:13:02.236771",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "anonymous",
+      "page_visited": "/login/",
+      "time_spent": 0.008777,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:14:43.612378",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/login/",
+      "time_spent": 1.792227,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:14:52.302838",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 302
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.090559,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:14:52.426868",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/login/",
+      "time_spent": 0.010396,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:15:52.316482",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 403
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/login/",
+      "time_spent": 0.005045,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:15:54.683654",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 403
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/login/",
+      "time_spent": 0.197986,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:17.948877",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 302
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.143036,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:18.129545",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.005104,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:17:18.543374",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.205512,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:17:19.465701",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.060381,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:23.725541",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.040369,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:29.716226",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.055599,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:37.858956",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/chat/message/",
+      "time_spent": 0.039775,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": false,
+      "timestamp": "2025-12-12T02:17:48.587178",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.298724,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:27:45.674433",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.004184,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:45.865060",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.207768,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:46.141721",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.095677,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:27:48.537423",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.003706,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:49.573819",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.217444,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:49.819363",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.093882,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:27:56.357039",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.003921,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:56.431223",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.006437,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:58.923995",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.005176,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:27:58.925873",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
     }
   ],
   "page_performance": [],

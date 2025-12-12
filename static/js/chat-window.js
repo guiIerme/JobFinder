@@ -379,57 +379,48 @@ class ChatWindow {
         this.showTypingIndicator();
 
         try {
-            // Get current page context
-            const context = {
-                current_page: window.location.pathname,
-                referrer: document.referrer
-            };
-
-            // Send to API
-            const response = await fetch('/api/chat/message/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': this.getCsrfToken()
-                },
-                body: JSON.stringify({
-                    message: messageText,
-                    session_id: this.sessionId,
-                    context: context
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            // Hide typing indicator
-            this.hideTypingIndicator();
-
-            // Update session ID
-            if (data.session_id) {
-                this.sessionId = data.session_id;
-                this.saveSession();
-            }
-
-            // Add Sophie's response
-            if (data.message) {
+            // Send via WebSocket ONLY - No more REST API fallback
+            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                // Show typing indicator
+                this.showTypingIndicator();
+                
+                // Send via WebSocket
+                const success = this.sendWebSocketMessage(messageText);
+                if (!success) {
+                    this.hideTypingIndicator();
+                    this.receiveMessage({
+                        sender_type: 'assistant',
+                        content: 'Erro ao enviar mensagem. Verifique sua conexão e tente novamente.',
+                        created_at: new Date().toISOString()
+                    });
+                }
+            } else {
+                // WebSocket not connected - show error
+                this.hideTypingIndicator();
                 this.receiveMessage({
                     sender_type: 'assistant',
-                    content: data.message.content,
-                    created_at: data.message.created_at,
-                    metadata: data.message.metadata
+                    content: 'Chat não conectado. Recarregue a página para reconectar.',
+                    created_at: new Date().toISOString()
                 });
+                
+                // Try to reconnect
+                if (!this.isConnecting) {
+                    console.log('🔄 Tentando reconectar WebSocket...');
+                    this.connect();
+                }
             }
-
         } catch (error) {
             console.error('Error sending message:', error);
             this.hideTypingIndicator();
-            this.showError('Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.');
+            this.receiveMessage({
+                sender_type: 'assistant',
+                content: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.',
+                timestamp: new Date().toISOString()
+            });
         }
     }
+
+    // sendRestMessage REMOVIDO - Agora usa apenas WebSocket
 
     /**
      * Show typing indicator
@@ -449,18 +440,53 @@ class ChatWindow {
         this.isConnecting = true;
         this.showConnectionStatus('Conectando...');
 
-        // Check if WebSocket backend is available
-        // For now, use mock mode since backend is not implemented
-        console.log('⚠️ WebSocket backend not available, using mock mode');
+        try {
+            console.log('🔌 Conectando ao WebSocket:', this.websocketUrl);
+            this.ws = new WebSocket(this.websocketUrl);
 
-        // Simulate connection success
-        setTimeout(() => {
-            this.isConnected = true;
+            this.ws.onopen = () => {
+                console.log('✅ WebSocket conectado com sucesso');
+                this.isConnected = true;
+                this.isConnecting = false;
+                this.reconnectCount = 0;
+                this.hideConnectionStatus();
+                
+                // Initialize session
+                this.initializeSession();
+            };
+
+            this.ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    this.handleWebSocketMessage(data);
+                } catch (error) {
+                    console.error('Erro ao processar mensagem WebSocket:', error);
+                }
+            };
+
+            this.ws.onerror = (error) => {
+                console.error('Erro WebSocket:', error);
+                this.showConnectionStatus('Erro de conexão');
+                this.isConnecting = false;
+            };
+
+            this.ws.onclose = (event) => {
+                console.log('WebSocket desconectado:', event.code, event.reason);
+                this.isConnected = false;
+                this.isConnecting = false;
+                this.ws = null;
+
+                // Try to reconnect
+                if (this.isOpen && this.reconnectCount < this.options.reconnectAttempts) {
+                    this.reconnect();
+                }
+            };
+
+        } catch (error) {
+            console.error('Erro ao criar WebSocket:', error);
             this.isConnecting = false;
-            this.reconnectCount = 0;
-            this.hideConnectionStatus();
-            console.log('✅ Mock chat mode activated');
-        }, 500);
+            this.showConnectionStatus('Erro de conexão');
+        }
 
         /* Original WebSocket code - will be used when backend is ready
         try {
@@ -539,26 +565,126 @@ class ChatWindow {
     }
 
     /**
+     * Initialize WebSocket session
+     */
+    initializeSession() {
+        const context = {
+            current_page: window.location.pathname,
+            referrer: document.referrer,
+            user_agent: navigator.userAgent
+        };
+
+        this.sendWebSocketMessage({
+            type: 'session_init',
+            session_id: this.sessionId,
+            context: context
+        });
+    }
+
+    /**
+     * Send message via WebSocket
+     * @param {string|Object} message - Message to send
+     */
+    sendWebSocketMessage(message) {
+        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+            console.error('WebSocket não está conectado');
+            return false;
+        }
+
+        try {
+            let messageData;
+            
+            if (typeof message === 'string') {
+                messageData = {
+                    type: 'message',
+                    content: message,
+                    timestamp: new Date().toISOString()
+                };
+            } else {
+                messageData = message;
+            }
+
+            this.ws.send(JSON.stringify(messageData));
+            console.log('📤 Mensagem enviada via WebSocket:', messageData);
+            return true;
+        } catch (error) {
+            console.error('Erro ao enviar mensagem WebSocket:', error);
+            return false;
+        }
+    }
+
+    /**
      * Handle incoming WebSocket message
      * @param {Object} data - Message data
      */
     handleWebSocketMessage(data) {
-        console.log('WebSocket message received:', data);
+        console.log('📥 Mensagem WebSocket recebida:', data);
 
-        if (data.type === 'assistant_message') {
-            this.receiveMessage({
-                sender_type: 'assistant',
-                content: data.content,
-                created_at: data.timestamp || new Date().toISOString()
-            });
-        } else if (data.type === 'typing') {
-            if (data.is_typing) {
-                this.showTypingIndicator();
-            } else {
+        switch (data.type) {
+            case 'connection_established':
+                console.log('✅ Conexão estabelecida:', data.message);
+                break;
+
+            case 'session_initialized':
+                console.log('✅ Sessão inicializada:', data.session_id);
+                this.sessionId = data.session_id;
+                this.saveSession();
+                
+                // Load history if available
+                if (data.history && data.history.length > 0) {
+                    this.loadHistoryFromData(data.history);
+                }
+                break;
+
+            case 'message':
+                if (data.sender === 'assistant') {
+                    this.receiveMessage({
+                        sender_type: 'assistant',
+                        content: data.content,
+                        created_at: data.timestamp || new Date().toISOString(),
+                        metadata: data.metadata
+                    });
+                }
+                break;
+
+            case 'typing_indicator':
+                if (data.is_typing) {
+                    this.showTypingIndicator();
+                } else {
+                    this.hideTypingIndicator();
+                }
+                break;
+
+            case 'error':
+                console.error('❌ Erro WebSocket:', data.message);
                 this.hideTypingIndicator();
-            }
-        } else if (data.type === 'error') {
-            this.showError(data.message || 'Ocorreu um erro');
+                this.receiveMessage({
+                    sender_type: 'assistant',
+                    content: data.message || 'Desculpe, ocorreu um erro ao processar sua mensagem.',
+                    created_at: new Date().toISOString()
+                });
+                break;
+
+            case 'rate_limit_error':
+                console.warn('⚠️ Rate limit:', data.message);
+                this.hideTypingIndicator();
+                this.receiveMessage({
+                    sender_type: 'assistant',
+                    content: data.message,
+                    created_at: new Date().toISOString()
+                });
+                break;
+
+            case 'session_closed':
+                console.log('📝 Sessão encerrada:', data.message);
+                break;
+
+            case 'satisfaction_rating_saved':
+                console.log('⭐ Avaliação salva:', data.rating);
+                break;
+
+            default:
+                console.warn('⚠️ Tipo de mensagem desconhecido:', data.type);
         }
     }
 
@@ -794,6 +920,41 @@ class ChatWindow {
             }
         } catch (error) {
             console.error('Error loading history:', error);
+        }
+    }
+
+    /**
+     * Load message history from WebSocket data
+     * @param {Array} historyData - Array of message objects from server
+     */
+    loadHistoryFromData(historyData) {
+        try {
+            console.log('📚 Carregando histórico do servidor:', historyData.length, 'mensagens');
+            
+            // Clear current messages (except welcome)
+            if (this.messagesContainer) {
+                const messages = this.messagesContainer.querySelectorAll('.chat-message:not(.welcome-message)');
+                messages.forEach(msg => msg.remove());
+            }
+
+            // Process and display history messages
+            historyData.forEach(msgData => {
+                const message = {
+                    sender_type: msgData.sender,
+                    content: msgData.content,
+                    created_at: msgData.timestamp,
+                    metadata: msgData.metadata
+                };
+                
+                this.addMessage(message, false); // false = don't save to localStorage
+            });
+
+            // Update local history
+            this.messageHistory = historyData;
+            this.scrollToBottom();
+            
+        } catch (error) {
+            console.error('Erro ao carregar histórico:', error);
         }
     }
 

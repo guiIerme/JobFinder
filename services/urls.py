@@ -21,7 +21,7 @@ Requirements: All (comprehensive integration)
 """
 from django.urls import path, include
 from . import views
-from . import chat_views
+# from . import chat_views  # REMOVIDO: Agora usa apenas WebSocket
 from . import rate_limit_views
 from . import support_views
 from .api import admin_bulk_views, admin_export_views, admin_async_views
@@ -98,9 +98,9 @@ urlpatterns = [
     path('provider/financeiro/', views.provider_financeiro, name='provider_financeiro'),
     path('provider/relatorios/', views.provider_relatorios, name='provider_relatorios'),
     
-    # Chat API endpoints
-    path('api/chat/message/', chat_views.chat_message, name='chat_message'),
-    path('api/chat/rating/', chat_views.chat_rating, name='chat_rating'),
+    # Chat API endpoints - REMOVIDO: Agora usa apenas WebSocket
+    # path('api/chat/message/', chat_views.chat_message, name='chat_message'),
+    # path('api/chat/rating/', chat_views.chat_rating, name='chat_rating'),
     
     # Chat pages (TODO: Implement these views)
     # path('chats/', chat_views.chat_list, name='chat_list'),
@@ -248,10 +248,10 @@ urlpatterns = [
     path('prestador/alterar-status-solicitacao/<int:solicitacao_id>/', views.alterar_status_solicitacao, name='alterar_status_solicitacao'),
     path('prestador/dashboard-solicitacoes/', views.dashboard_prestador_solicitacoes, name='dashboard_prestador_solicitacoes'),
     
-    # Chat AI API
-    path('api/chat-ai/', views.chat_ai_response, name='chat_ai_response'),
-    path('api/chat/message/', chat_views.chat_message, name='chat_message'),
-    path('api/chat/rating/', chat_views.chat_rating, name='chat_rating'),
+    # Chat AI API - REMOVIDO: Agora usa apenas WebSocket
+    # path('api/chat-ai/', views.chat_ai_response, name='chat_ai_response'),
+    # path('api/chat/message/', chat_views.chat_message, name='chat_message'),
+    # path('api/chat/rating/', chat_views.chat_rating, name='chat_rating'),
     
     # ============================================================================
     # SUPPORT SYSTEM
