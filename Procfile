@@ -1,2 +1,2 @@
-web: daphne home_services.asgi:application --port $PORT --bind 0.0.0.0
+web: bash start.sh
 worker: python manage.py runworker channels
