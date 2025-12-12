@@ -395,19 +395,51 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'timestamp': datetime.now().isoformat()
             }))
             
-            # Placeholder for AI response (will be implemented in task 5)
-            assistant_content = f'Recebi sua mensagem: "{content}". Processamento de IA será implementado em tarefas futuras.'
+            # Process message with AI
+            from services.ai_processor import AIProcessor
+            ai_processor = AIProcessor()
+            
+            # Build context for AI
+            context = {
+                'user_type': 'client' if self.user else 'anonymous',
+                'current_page': self.session.context_data.get('current_page') if self.session.context_data else None,
+                'user_id': self.user.id if self.user else None
+            }
+            
+            # Get conversation history
+            history = await self.get_session_history(self.session, limit=10)
+            history_list = [
+                {
+                    'sender_type': msg.sender_type,
+                    'content': msg.content,
+                    'created_at': msg.created_at.isoformat()
+                }
+                for msg in history
+            ]
+            
+            # Generate AI response
+            assistant_content, ai_metadata = await ai_processor.process_message(
+                content, 
+                context, 
+                history_list
+            )
             
             # Calculate response time
             end_time = time.time()
             response_time_ms = int((end_time - start_time) * 1000)
             
-            # Save assistant response with processing time
+            # Save assistant response with AI metadata
             assistant_message = await self.save_chat_message(
                 self.session,
                 assistant_content,
                 'assistant',
-                {'placeholder': True, 'processing_time_ms': response_time_ms}
+                {
+                    'ai_metadata': ai_metadata,
+                    'processing_time_ms': response_time_ms,
+                    'intent': ai_metadata.get('intent'),
+                    'cached': ai_metadata.get('cached', False),
+                    'fallback': ai_metadata.get('fallback', False)
+                }
             )
             
             # Track assistant message and response time in analytics

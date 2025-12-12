@@ -243,8 +243,12 @@ Foque em:
         if any(word in message_lower for word in ['oi', 'olá', 'ola', 'hey', 'hi', 'hello', 'bom dia', 'boa tarde', 'boa noite']):
             return 'greeting'
         
+        # Thank you (check before help_request to avoid conflicts)
+        if any(word in message_lower for word in ['obrigad', 'valeu', 'thanks', 'agradeço', 'agradeco']):
+            return 'gratitude'
+        
         # Help request
-        if any(word in message_lower for word in ['ajuda', 'help', 'socorro', 'não sei', 'como']):
+        if any(word in message_lower for word in ['ajuda', 'help', 'socorro', 'não sei', 'como fazer', 'como faço']):
             return 'help_request'
         
         # Service inquiry
@@ -256,16 +260,14 @@ Foque em:
             return 'navigation_help'
         
         # Provider questions
-        if any(word in message_lower for word in ['solicitação', 'solicitacao', 'pedido', 'aceitar', 'recusar', 'disponibilidade']):
+        if any(word in message_lower for word in ['solicitação', 'solicitacao', 'pedido', 'aceitar', 'recusar', 'disponibilidade', 'aceito pedidos', 'como aceito']):
             return 'provider_question'
         
         # Payment questions
         if any(word in message_lower for word in ['pagamento', 'pagar', 'valor', 'dinheiro', 'cartão', 'cartao']):
             return 'payment_question'
         
-        # Thank you
-        if any(word in message_lower for word in ['obrigad', 'valeu', 'thanks', 'agradeço', 'agradeco']):
-            return 'gratitude'
+
         
         # Goodbye
         if any(word in message_lower for word in ['tchau', 'adeus', 'até', 'ate', 'bye', 'goodbye', 'falou']):
