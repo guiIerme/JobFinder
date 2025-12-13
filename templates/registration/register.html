@@ -4,13 +4,55 @@
 {% block title %}Registrar - Job Finder{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<!-- Mobile Header Spacer -->
+<div class="mobile-header-spacer d-block d-md-none"></div>
+
+<!-- Welcome Section -->
+<div class="register-welcome-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="welcome-content">
+                    <div class="brand-logo mb-3">
+                        <i class="fas fa-toolbox text-primary"></i>
+                        <span class="brand-name ms-2">Job Finder</span>
+                    </div>
+                    <h1 class="welcome-title">Bem-vindo!</h1>
+                    <p class="welcome-subtitle">Crie sua conta e conecte-se com os melhores profissionais</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container register-container">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
+            <!-- Progress Indicator -->
+            <div class="register-progress mb-4 d-none d-md-block">
+                <div class="progress-step active">
+                    <div class="step-circle">1</div>
+                    <span class="step-label">Informações</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">2</div>
+                    <span class="step-label">Verificação</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">3</div>
+                    <span class="step-label">Concluído</span>
+                </div>
+            </div>
+
             <div class="card register-card">
                 <div class="card-header text-center">
-                    <h3><i class="fas fa-user-plus"></i> Criar Conta</h3>
-                    <p class="text-muted">Registro restrito a administradores</p>
+                    <div class="header-icon mb-3">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Criar Conta</h3>
+                    <p class="text-muted mb-0">Preencha os dados abaixo para começar</p>
                 </div>
                 <div class="card-body">
                     {% if messages %}
@@ -117,133 +159,9 @@
     </div>
 </div>
 
-<!-- Modal Termos de Serviço -->
-<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="termsModalLabel"><i class="fas fa-file-contract"></i> Termos de Serviço</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <div class="modal-body">
-                <h6>1. Aceitação dos Termos</h6>
-                <p>Ao acessar e usar o Job Finder, você concorda em cumprir estes Termos de Serviço e todas as leis e regulamentos aplicáveis.</p>
-
-                <h6>2. Uso do Serviço</h6>
-                <p>Você concorda em usar o serviço apenas para fins legais e de acordo com estes Termos. Você não deve:</p>
-                <ul>
-                    <li>Usar o serviço de qualquer forma que viole as leis brasileiras, incluindo:
-                        <ul class="mt-2">
-                            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l12965.htm" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Marco Civil da Internet (Lei 12.965/2014) <i class="fas fa-external-link-alt fa-xs"></i></a></li>
-                            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Lei Geral de Proteção de Dados - LGPD (Lei 13.709/2018) <i class="fas fa-external-link-alt fa-xs"></i></a></li>
-                            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12737.htm" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Lei Carolina Dieckmann - Crimes Cibernéticos (Lei 12.737/2012) <i class="fas fa-external-link-alt fa-xs"></i></a></li>
-                            <li><a href="https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Código de Defesa do Consumidor (Lei 8.078/1990) <i class="fas fa-external-link-alt fa-xs"></i></a></li>
-                        </ul>
-                    </li>
-                    <li>Transmitir material que seja abusivo, difamatório ou obsceno</li>
-                    <li>Tentar obter acesso não autorizado ao sistema</li>
-                    <li>Interferir ou interromper o serviço ou servidores</li>
-                </ul>
-
-                <h6>3. Contas de Usuário</h6>
-                <p>Você é responsável por manter a confidencialidade de sua conta e senha. Você concorda em aceitar a responsabilidade por todas as atividades que ocorrem em sua conta.</p>
-
-                <h6>4. Serviços Profissionais</h6>
-                <p>O Job Finder atua como intermediário entre clientes e profissionais. Não somos responsáveis pela qualidade dos serviços prestados pelos profissionais cadastrados.</p>
-
-                <h6>5. Pagamentos</h6>
-                <p>Todos os pagamentos são processados de forma segura. As taxas de serviço e comissões serão claramente informadas antes da confirmação de qualquer transação.</p>
-
-                <h6>6. Cancelamento e Reembolso</h6>
-                <p>Políticas de cancelamento e reembolso variam de acordo com o tipo de serviço contratado e serão informadas no momento da contratação.</p>
-
-                <h6>7. Propriedade Intelectual</h6>
-                <p>Todo o conteúdo do site, incluindo textos, gráficos, logos e software, é propriedade do Job Finder e protegido por leis de direitos autorais.</p>
-
-                <h6>8. Limitação de Responsabilidade</h6>
-                <p>O Job Finder não será responsável por quaisquer danos indiretos, incidentais ou consequenciais resultantes do uso ou incapacidade de usar o serviço.</p>
-
-                <h6>9. Modificações dos Termos</h6>
-                <p>Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação.</p>
-
-                <h6>10. Contato</h6>
-                <p>Para questões sobre estes Termos de Serviço, entre em contato conosco através do nosso sistema de suporte.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Política de Privacidade -->
-<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="privacyModalLabel"><i class="fas fa-shield-alt"></i> Política de Privacidade</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <div class="modal-body">
-                <h6>1. Informações que Coletamos</h6>
-                <p>Coletamos informações que você nos fornece diretamente, incluindo:</p>
-                <ul>
-                    <li>Nome, e-mail e informações de contato</li>
-                    <li>Informações de perfil profissional</li>
-                    <li>Histórico de serviços e transações</li>
-                    <li>Comunicações com outros usuários</li>
-                </ul>
-
-                <h6>2. Como Usamos suas Informações</h6>
-                <p>Usamos as informações coletadas para:</p>
-                <ul>
-                    <li>Fornecer, manter e melhorar nossos serviços</li>
-                    <li>Processar transações e enviar notificações</li>
-                    <li>Responder a comentários e perguntas</li>
-                    <li>Enviar informações técnicas e atualizações</li>
-                    <li>Proteger contra fraudes e abusos</li>
-                </ul>
-
-                <h6>3. Compartilhamento de Informações</h6>
-                <p>Não vendemos suas informações pessoais. Podemos compartilhar informações apenas:</p>
-                <ul>
-                    <li>Com seu consentimento</li>
-                    <li>Para cumprir obrigações legais</li>
-                    <li>Com prestadores de serviços que nos auxiliam</li>
-                    <li>Em caso de fusão ou aquisição da empresa</li>
-                </ul>
-
-                <h6>4. Segurança dos Dados</h6>
-                <p>Implementamos medidas de segurança para proteger suas informações contra acesso não autorizado, alteração ou destruição.</p>
-
-                <h6>5. Cookies</h6>
-                <p>Usamos cookies e tecnologias similares para melhorar sua experiência, analisar tendências e administrar o site.</p>
-
-                <h6>6. Seus Direitos</h6>
-                <p>Você tem o direito de:</p>
-                <ul>
-                    <li>Acessar suas informações pessoais</li>
-                    <li>Corrigir dados incorretos</li>
-                    <li>Solicitar a exclusão de seus dados</li>
-                    <li>Opor-se ao processamento de seus dados</li>
-                    <li>Solicitar a portabilidade dos dados</li>
-                </ul>
-
-                <h6>7. Retenção de Dados</h6>
-                <p>Mantemos suas informações pelo tempo necessário para fornecer nossos serviços e cumprir obrigações legais.</p>
-
-                <h6>8. Alterações nesta Política</h6>
-                <p>Podemos atualizar esta política periodicamente. Notificaremos você sobre mudanças significativas.</p>
-
-                <h6>9. Contato</h6>
-                <p>Para questões sobre privacidade, entre em contato através do nosso sistema de suporte.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Modals -->
+{% include 'registration/partials/terms_modal.html' %}
+{% include 'registration/partials/privacy_modal.html' %}
 {% endblock %}
 
 {% block extra_js %}
