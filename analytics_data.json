@@ -237581,6 +237581,128 @@
       "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
       "ip_address": "127.0.0.1",
       "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.306517,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:34:59.610741",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.003889,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:34:59.823198",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.205911,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:00.124564",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.005514,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:03.121183",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.005891,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:03.122205",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/",
+      "time_spent": 0.093453,
+      "actions_taken": [],
+      "converted": false,
+      "timestamp": "2025-12-12T02:35:35.333429",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-page-view/",
+      "time_spent": 0.003829,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:36.347757",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/api/ai-suggestions/",
+      "time_spent": 0.207241,
+      "actions_taken": [],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:36.590933",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.005892,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:39.344163",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
+    },
+    {
+      "user_id": "1",
+      "page_visited": "/analytics/track-user-action/",
+      "time_spent": 0.005962,
+      "actions_taken": [
+        "form_submit"
+      ],
+      "converted": true,
+      "timestamp": "2025-12-12T02:35:39.345025",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "ip_address": "127.0.0.1",
+      "response_status": 200
     }
   ],
   "page_performance": [],

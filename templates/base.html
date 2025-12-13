@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>{% block title %}Job Finder - Encontre Profissionais Qualificados{% endblock %}</title>
 
     <!-- Favicon -->
@@ -58,6 +58,8 @@
     <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet" media="print" onload="this.media='all'">
     <link href="{% static 'css/dropdown-fix.css' %}" rel="stylesheet">
     <link href="{% static 'css/solicitar-servico.css' %}" rel="stylesheet">
+    <!-- Mobile optimization CSS - loaded immediately for better mobile experience -->
+    <link href="{% static 'css/mobile-optimization.css' %}" rel="stylesheet">
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -153,6 +155,9 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100" data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Pular para o conteúdo principal</a>
+    
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
@@ -270,7 +275,7 @@
     {% endblock %}
 
     <!-- Main Content -->
-    <main class="flex-shrink-0">
+    <main id="main-content" class="flex-shrink-0">
         {% block content %}{% endblock %}
     </main>
 
@@ -726,6 +731,9 @@
     <!-- Auto Refresh System -->
     <script src="{% static 'js/auto-refresh.js' %}"></script>
     <script src="{% static 'js/auto-refresh-control.js' %}"></script>
+
+    <!-- Mobile Optimization -->
+    <script src="{% static 'js/mobile-optimization.js' %}"></script>
 
     {% endblock %}
 </body>
