@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Teste Campo Username Mobile - Job Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #6f42c1, #5a32a3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .field-test {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+        }
+        
+        .field-test.visible {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        
+        .field-test.hidden {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        
+        .status-icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+        
+        .visible .status-icon {
+            color: #28a745;
+        }
+        
+        .hidden .status-icon {
+            color: #dc3545;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .form-control {
+                font-size: 16px !important;
+                min-height: 44px;
+                padding: 12px 15px;
+            }
+            
+            .input-group-text {
+                min-width: 44px;
+                padding: 12px;
+            }
+            
+            .btn {
+                min-height: 44px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h3><i class="fas fa-bug"></i> Teste Campo Username Mobile</h3>
+            <p class="mb-0">Verificando visibilidade dos campos no mobile</p>
+        </div>
+        
+        <div id="test-results">
+            <!-- Resultados serão inseridos aqui -->
+        </div>
+        
+        <form class="register-form">
+            <div class="mb-3">
+                <label for="username" class="form-label">Nome de Usuário</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Escolha um nome de usuário" required>
+                </div>
+                <div class="form-text">Use apenas letras, números e underscores.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Crie uma senha segura" required>
+                </div>
+            </div>
+            
+            <div class="d-grid">
+                <button type="button" class="btn btn-primary" onclick="runTest()">
+                    <i class="fas fa-play me-2"></i>Executar Teste
+                </button>
+            </div>
+        </form>
+        
+        <div class="mt-4">
+            <h5>Informações do Dispositivo:</h5>
+            <div id="device-info">
+                <!-- Informações do dispositivo serão inseridas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function checkFieldVisibility(fieldId, fieldName) {
+            const field = document.getElementById(fieldId);
+            const container = field ? field.closest('.mb-3') : null;
+            
+            if (!field) {
+                return {
+                    name: fieldName,
+                    status: 'not-found',
+                    message: 'Campo não encontrado no DOM'
+                };
+            }
+            
+            const computedStyle = window.getComputedStyle(field);
+            const containerStyle = container ? window.getComputedStyle(container) : null;
+            
+            const isVisible = (
+                computedStyle.display !== 'none' &&
+                computedStyle.visibility !== 'hidden' &&
+                computedStyle.opacity !== '0' &&
+                field.offsetWidth > 0 &&
+                field.offsetHeight > 0
+            );
+            
+            const containerVisible = container ? (
+                containerStyle.display !== 'none' &&
+                containerStyle.visibility !== 'hidden' &&
+                containerStyle.opacity !== '0'
+            ) : true;
+            
+            return {
+                name: fieldName,
+                status: isVisible && containerVisible ? 'visible' : 'hidden',
+                details: {
+                    display: computedStyle.display,
+                    visibility: computedStyle.visibility,
+                    opacity: computedStyle.opacity,
+                    width: field.offsetWidth,
+                    height: field.offsetHeight,
+                    containerDisplay: containerStyle ? containerStyle.display : 'N/A',
+                    containerVisibility: containerStyle ? containerStyle.visibility : 'N/A',
+                    containerOpacity: containerStyle ? containerStyle.opacity : 'N/A'
+                }
+            };
+        }
+        
+        function runTest() {
+            const fields = [
+                { id: 'username', name: 'Nome de Usuário' },
+                { id: 'email', name: 'E-mail' },
+                { id: 'password', name: 'Senha' }
+            ];
+            
+            const results = fields.map(field => checkFieldVisibility(field.id, field.name));
+            
+            displayResults(results);
+        }
+        
+        function displayResults(results) {
+            const container = document.getElementById('test-results');
+            
+            let html = '<h5>Resultados do Teste:</h5>';
+            
+            results.forEach(result => {
+                const statusClass = result.status === 'visible' ? 'visible' : 'hidden';
+                const icon = result.status === 'visible' ? 'fa-check-circle' : 'fa-times-circle';
+                
+                html += `
+                    <div class="field-test ${statusClass}">
+                        <h6>
+                            <i class="fas ${icon} status-icon"></i>
+                            ${result.name}
+                        </h6>
+                        <p><strong>Status:</strong> ${result.status}</p>
+                        ${result.details ? `
+                            <small>
+                                <strong>Detalhes:</strong><br>
+                                Display: ${result.details.display}<br>
+                                Visibility: ${result.details.visibility}<br>
+                                Opacity: ${result.details.opacity}<br>
+                                Dimensões: ${result.details.width}x${result.details.height}px<br>
+                                Container Display: ${result.details.containerDisplay}<br>
+                                Container Visibility: ${result.details.containerVisibility}<br>
+                                Container Opacity: ${result.details.containerOpacity}
+                            </small>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function displayDeviceInfo() {
+            const container = document.getElementById('device-info');
+            
+            const info = {
+                'User Agent': navigator.userAgent,
+                'Largura da Tela': window.screen.width + 'px',
+                'Altura da Tela': window.screen.height + 'px',
+                'Largura da Janela': window.innerWidth + 'px',
+                'Altura da Janela': window.innerHeight + 'px',
+                'Pixel Ratio': window.devicePixelRatio,
+                'Touch Support': 'ontouchstart' in window ? 'Sim' : 'Não',
+                'Orientação': window.screen.orientation ? window.screen.orientation.type : 'Desconhecida'
+            };
+            
+            let html = '<small>';
+            Object.entries(info).forEach(([key, value]) => {
+                html += `<strong>${key}:</strong> ${value}<br>`;
+            });
+            html += '</small>';
+            
+            container.innerHTML = html;
+        }
+        
+        // Executar testes automaticamente quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            displayDeviceInfo();
+            
+            // Executar teste inicial
+            setTimeout(() => {
+                runTest();
+            }, 500);
+            
+            // Executar teste novamente quando a orientação mudar
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    displayDeviceInfo();
+                    runTest();
+                }, 500);
+            });
+            
+            // Executar teste quando a janela for redimensionada
+            window.addEventListener('resize', function() {
+                setTimeout(() => {
+                    displayDeviceInfo();
+                    runTest();
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

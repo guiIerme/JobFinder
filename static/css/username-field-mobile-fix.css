@@ -1,0 +1,288 @@
+/* Username Field Mobile Fix CSS */
+/* Correção específica para o campo de nome de usuário não aparecer no mobile */
+
+/* Garantir que o campo username seja sempre visível */
+#username {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 44px !important;
+}
+
+/* Garantir que o container do campo username seja visível */
+.register-form .mb-3:has(#username),
+.register-form .mb-3:first-child {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Fallback para navegadores que não suportam :has() */
+.register-form .mb-3:nth-child(1) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Garantir que todos os campos de texto sejam visíveis no mobile */
+@media (max-width: 768px) {
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"],
+    .register-form select {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 1 !important;
+        font-size: 16px !important; /* Previne zoom no iOS */
+        min-height: 44px !important;
+        padding: 12px 15px !important;
+        border: 2px solid #e9ecef !important;
+        border-radius: 8px !important;
+        background-color: #fff !important;
+        color: #495057 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Garantir que os labels sejam visíveis */
+    .register-form .form-label {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-weight: 600 !important;
+        color: #495057 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Garantir que os input-groups sejam visíveis */
+    .register-form .input-group {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 1 !important;
+        width: 100% !important;
+    }
+    
+    .register-form .input-group-text {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 44px !important;
+        padding: 12px !important;
+        background-color: #f8f9fa !important;
+        border: 2px solid #e9ecef !important;
+        border-right: none !important;
+        border-radius: 8px 0 0 8px !important;
+        color: #6c757d !important;
+    }
+    
+    /* Ajustar o campo dentro do input-group */
+    .register-form .input-group .form-control {
+        border-left: none !important;
+        border-radius: 0 8px 8px 0 !important;
+        flex: 1 !important;
+    }
+    
+    /* Garantir que os form-text sejam visíveis */
+    .register-form .form-text {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 14px !important;
+        color: #6c757d !important;
+        margin-top: 0.25rem !important;
+    }
+    
+    /* Container do formulário */
+    .register-container {
+        padding: 20px 10px !important;
+        min-height: calc(100vh - 40px) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .register-card {
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+        max-width: 500px !important;
+        border: none !important;
+        border-radius: 15px !important;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    /* Garantir que todos os mb-3 sejam visíveis */
+    .register-form .mb-3 {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-bottom: 1rem !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Botões */
+    .register-form .btn {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        min-height: 44px !important;
+        padding: 12px 20px !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+    }
+    
+    /* Checkbox e select */
+    .register-form .form-check {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .register-form .form-select {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 16px !important;
+        min-height: 44px !important;
+        padding: 12px 15px !important;
+        border: 2px solid #e9ecef !important;
+        border-radius: 8px !important;
+        background-color: #fff !important;
+        width: 100% !important;
+    }
+}
+
+/* Correções específicas para telas muito pequenas */
+@media (max-width: 576px) {
+    .register-container {
+        padding: 10px 5px !important;
+    }
+    
+    .register-card {
+        margin: 5px !important;
+        width: calc(100% - 10px) !important;
+    }
+    
+    .card-body {
+        padding: 1rem !important;
+    }
+    
+    .register-form input,
+    .register-form select,
+    .register-form .btn {
+        font-size: 16px !important;
+        padding: 10px 12px !important;
+        min-height: 44px !important;
+    }
+    
+    .register-form .input-group-text {
+        padding: 10px !important;
+        min-width: 44px !important;
+    }
+}
+
+/* Correções para orientação paisagem */
+@media (max-height: 500px) and (orientation: landscape) {
+    .register-container {
+        min-height: auto !important;
+        padding: 10px !important;
+    }
+    
+    .register-card {
+        margin: 5px auto !important;
+        max-width: 90% !important;
+    }
+    
+    .card-body {
+        padding: 1rem !important;
+    }
+    
+    .register-form .mb-3 {
+        margin-bottom: 0.75rem !important;
+    }
+}
+
+/* Debug: Adicionar bordas vermelhas para identificar problemas (remover em produção) */
+/*
+@media (max-width: 768px) {
+    #username {
+        border: 3px solid red !important;
+    }
+    
+    .register-form .mb-3:first-child {
+        border: 2px solid blue !important;
+    }
+    
+    .register-form .input-group {
+        border: 1px solid green !important;
+    }
+}
+*/
+
+/* Garantir compatibilidade com diferentes navegadores */
+.register-form input::-webkit-input-placeholder {
+    color: #6c757d !important;
+    opacity: 1 !important;
+}
+
+.register-form input::-moz-placeholder {
+    color: #6c757d !important;
+    opacity: 1 !important;
+}
+
+.register-form input:-ms-input-placeholder {
+    color: #6c757d !important;
+    opacity: 1 !important;
+}
+
+.register-form input::placeholder {
+    color: #6c757d !important;
+    opacity: 1 !important;
+}
+
+/* Garantir que o campo não seja afetado por outros estilos */
+#username[type="text"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: none !important;
+    background-color: #fff !important;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: #e9ecef !important;
+}
+
+/* Focus states para melhor usabilidade */
+@media (max-width: 768px) {
+    .register-form input:focus,
+    .register-form select:focus {
+        border-color: #6f42c1 !important;
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25) !important;
+        outline: none !important;
+    }
+    
+    .register-form .input-group:focus-within .input-group-text {
+        border-color: #6f42c1 !important;
+        background-color: #fff !important;
+        color: #6f42c1 !important;
+    }
+}

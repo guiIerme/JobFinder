@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mobile-optimization.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register-mobile-fix.css' %}">
+    <link rel="stylesheet" href="{% static 'css/username-field-mobile-fix.css' %}">
     <style>
         body {
             background-color: #f8f9fa;
@@ -123,6 +126,228 @@
 
         .social-login-buttons .btn:hover i {
             transform: scale(1.2);
+        }
+
+        /* Mobile-specific fixes for username field */
+        @media (max-width: 768px) {
+            /* CRITICAL: Force username field visibility */
+            #username,
+            input[name="username"] {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 10 !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: 44px !important;
+                font-size: 16px !important;
+                padding: 12px 15px !important;
+                border: 2px solid #e9ecef !important;
+                border-radius: 0 8px 8px 0 !important;
+                background-color: #fff !important;
+                color: #495057 !important;
+                box-sizing: border-box !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+            }
+            
+            /* Force container visibility */
+            .register-form .mb-3,
+            .register-form .mb-3:first-child,
+            .register-form .mb-3:nth-child(1) {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 5 !important;
+                margin-bottom: 1rem !important;
+                width: 100% !important;
+            }
+            
+            /* Force input-group visibility */
+            .register-form .input-group {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 5 !important;
+                width: 100% !important;
+                flex-wrap: nowrap !important;
+            }
+            
+            /* Force label visibility */
+            .register-form .form-label,
+            .register-form label {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                font-weight: 600 !important;
+                color: #495057 !important;
+                margin-bottom: 0.5rem !important;
+                width: 100% !important;
+            }
+            
+            /* Force input-group-text visibility */
+            .register-form .input-group-text {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-width: 44px !important;
+                padding: 12px !important;
+                background-color: #f8f9fa !important;
+                border: 2px solid #e9ecef !important;
+                border-right: none !important;
+                border-radius: 8px 0 0 8px !important;
+                color: #6c757d !important;
+                flex-shrink: 0 !important;
+            }
+            
+            /* Force all form fields visibility */
+            .register-form input[type="text"],
+            .register-form input[type="email"],
+            .register-form input[type="password"],
+            .register-form select {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 1 !important;
+                font-size: 16px !important;
+                min-height: 44px !important;
+                padding: 12px 15px !important;
+                border: 2px solid #e9ecef !important;
+                background-color: #fff !important;
+                color: #495057 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Input group specific styling */
+            .register-form .input-group .form-control {
+                border-left: none !important;
+                border-radius: 0 8px 8px 0 !important;
+                flex: 1 !important;
+            }
+            
+            /* Form text visibility */
+            .register-form .form-text {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                font-size: 14px !important;
+                color: #6c757d !important;
+                margin-top: 0.25rem !important;
+            }
+            
+            /* Container adjustments */
+            .register-container {
+                padding: 20px 10px !important;
+                min-height: calc(100vh - 40px) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            .register-card {
+                margin: 10px !important;
+                width: calc(100% - 20px) !important;
+                max-width: 500px !important;
+                border: none !important;
+                border-radius: 15px !important;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            }
+            
+            .card-body {
+                padding: 1.5rem !important;
+            }
+            
+            /* Button styling */
+            .register-form .btn {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                min-height: 44px !important;
+                padding: 12px 20px !important;
+                font-size: 16px !important;
+                width: 100% !important;
+            }
+            
+            /* Checkbox styling */
+            .register-form .form-check {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            /* Select styling */
+            .register-form .form-select {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                font-size: 16px !important;
+                min-height: 44px !important;
+                padding: 12px 15px !important;
+                border: 2px solid #e9ecef !important;
+                border-radius: 8px !important;
+                background-color: #fff !important;
+                width: 100% !important;
+            }
+            
+            /* Override any Bootstrap hiding */
+            .register-form * {
+                max-width: none !important;
+            }
+            
+            /* Ensure no elements are accidentally hidden */
+            .register-form .d-none {
+                display: block !important;
+            }
+            
+            .register-form .invisible {
+                visibility: visible !important;
+            }
+            
+            .register-form [style*="display: none"] {
+                display: block !important;
+            }
+            
+            .register-form [style*="visibility: hidden"] {
+                visibility: visible !important;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 576px) {
+            .register-container {
+                padding: 10px 5px !important;
+            }
+            
+            .register-card {
+                margin: 5px !important;
+                width: calc(100% - 10px) !important;
+            }
+            
+            .card-body {
+                padding: 1rem !important;
+            }
+        }
+        
+        /* Landscape orientation */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .register-container {
+                min-height: auto !important;
+                padding: 10px !important;
+            }
+            
+            .register-card {
+                margin: 5px auto !important;
+                max-width: 90% !important;
+            }
         }
     </style>
 </head>
@@ -403,6 +628,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/mobile-optimization.js' %}"></script>
+    <script src="{% static 'js/username-field-fix.js' %}"></script>
     <script>
         // Toggle password visibility for password field
         document.getElementById('togglePassword').addEventListener('click', function() {
@@ -432,6 +659,53 @@
             } else {
                 icon.className = 'fas fa-eye-slash';
             }
+        });
+
+        // Mobile username field fix
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure username field is always visible on mobile
+            function ensureUsernameVisibility() {
+                const usernameField = document.getElementById('username');
+                const usernameContainer = usernameField ? usernameField.closest('.mb-3') : null;
+                
+                if (usernameField && usernameContainer) {
+                    // Force visibility
+                    usernameField.style.display = 'block';
+                    usernameField.style.visibility = 'visible';
+                    usernameField.style.opacity = '1';
+                    usernameField.style.position = 'relative';
+                    usernameField.style.zIndex = '1';
+                    
+                    usernameContainer.style.display = 'block';
+                    usernameContainer.style.visibility = 'visible';
+                    usernameContainer.style.opacity = '1';
+                    
+                    // Ensure proper attributes
+                    usernameField.setAttribute('type', 'text');
+                    usernameField.setAttribute('name', 'username');
+                    usernameField.setAttribute('id', 'username');
+                    
+                    console.log('Username field visibility ensured');
+                } else {
+                    console.error('Username field not found');
+                }
+            }
+            
+            // Run immediately
+            ensureUsernameVisibility();
+            
+            // Run again after a short delay to handle any dynamic changes
+            setTimeout(ensureUsernameVisibility, 100);
+            
+            // Run on window resize (orientation change)
+            window.addEventListener('resize', ensureUsernameVisibility);
+            
+            // Debug: Log all form fields
+            const allInputs = document.querySelectorAll('.register-form input');
+            console.log('All form inputs found:', allInputs.length);
+            allInputs.forEach((input, index) => {
+                console.log(`Input ${index}:`, input.id, input.name, input.type);
+            });
         });
     </script>
 </body>
